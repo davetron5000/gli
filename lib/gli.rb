@@ -1,9 +1,6 @@
 module GLI
   extend self
 
-  @@next_desc = nil
-  @@next_arg_name = nil
-  @@next_default_value = nil
 
   # describe the next switch, flag, or command
   def desc(description)
@@ -23,25 +20,38 @@ module GLI
   # Create a flag, which is a switch that takes an argument
   def flag(names)
     flag = Flag.new(names,@@next_desc,@@next_arg_name,@@next_default_value)
-    flages[flag.name] = flag
-    @@next_desc = nil
-    @@next_arg_name = nil
-    @@next_default_value = nil
+    flags[flag.name] = flag
+    clear_nexts
   end
 
   # Create a switch
   def switch(names)
     switch = Switch.new(names,@@next_desc)
-    switchs[switch.name] = switch
+    switches[switch.name] = switch
+    clear_nexts
+  end
+
+  def command(names)
+    command = Command.new(names,@@next_desc)
+    commands[command.name] = command
+    clear_nexts
+  end
+
+  def clear_nexts
     @@next_desc = nil
     @@next_arg_name = nil
     @@next_default_value = nil
   end
 
-  def flages; @@flages ||= {}; end
-  def switchs; @@switchs ||= {}; end
+  clear_nexts
+
+  def flags; @@flags ||= {}; end
+  def switches; @@switches ||= {}; end
+  def commands; @@commands ||= {}; end
 
 
+  # Logical element of a command line, mostly so that subclasses can have similar
+  # initialization and interface
   class CommandLineToken
     attr_reader :name
     attr_reader :aliases
@@ -67,7 +77,10 @@ module GLI
   class Command < CommandLineToken
     def initialize(names,description)
       super(names,description)
-      @description = description
+    end
+
+    def self.name_as_string(name)
+      name.to_s
     end
   end
 
