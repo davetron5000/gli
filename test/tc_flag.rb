@@ -6,62 +6,52 @@ include GLI
 class TC_testFlag < Test::Unit::TestCase
 
   def test_basics_simple
-    flag = Flag.new(:filename,'Use filename')
-    do_basic_asserts(flag,:filename,nil,'Use filename')
+    flag = Flag.new(:f,'Filename','file','~/.blah.rc')
+    do_basic_asserts(flag,:f,nil,'Filename','file','~/.blah.rc')
   end
 
   def test_basics_kinda_complex
-    flag = Flag.new([:f],'Use filename')
-    do_basic_asserts(flag,:f,nil,'Use filename')
+    flag = Flag.new([:f],'Filename','file','~/.blah.rc')
+    do_basic_asserts(flag,:f,nil,'Filename','file','~/.blah.rc')
   end
 
   def test_basics_complex
-    flag = Flag.new([:f,:file,:filename],'Use filename')
-    do_basic_asserts(flag,:f,[:file,:filename],'Use filename')
+    flag = Flag.new([:f,:file,:filename],'Filename','file','~/.blah.rc')
+    do_basic_asserts(flag,:f,[:file,:filename],'Filename','file','~/.blah.rc')
   end
 
-  def do_basic_asserts(flag,name,aliases,desc)
+  def do_basic_asserts(flag,name,aliases,desc,arg_name,default)
     assert_equal(name,flag.name)
     assert_equal(aliases,flag.aliases)
     assert_equal(desc,flag.description)
-    assert_equal("#{Flag.as_flag(name)} - #{desc}",flag.usage)
+    assert_equal("#{Switch.as_switch(name)} #{arg_name} - #{desc} (default #{default})",flag.usage)
   end
+
   def test_find_one_flag
-    args = %w(foo bar -f -g -h baz)
-    flag = Flag.new(:f,"Some Flag")
+    args = %w(foo bar -f crud)
+    flag = Flag.new(:f,'Filename')
     args_size = args.length
-    present = flag.get_value!(args)
-    assert(present)
-    assert_equal(args_size - 1,args.size)
+    val = flag.get_value!(args)
+    assert_equal('crud',val)
+    assert_equal(args_size - 2,args.size)
   end
 
-  def test_find_one_flag_long
-    args = %w(foo bar --file -g -h baz)
-    flag = Flag.new([:f,:file,:bar],"Some Flag")
+  def test_find_one_flag_complex
+    args = %w(foo bar --f blah -filename bleorgh --filename crud)
+    flag = Flag.new([:f,:filename],'Filename')
     args_size = args.length
-    present = flag.get_value!(args)
-    assert(present)
-    assert_equal(args_size - 1,args.size)
+    val = flag.get_value!(args)
+    assert_equal('crud',val)
+    assert_equal(args_size - 2,args.size)
   end
 
-  def test_find_many_flags
-    args = %w(foo bar -f -g --file -h baz -f -file --fileblah --f)
-    flag = Flag.new([:f,:file],"Some Flag")
+  def test_find_flag_not_present
+    args = %w(foo bar --f blah -filename bleorgh -filename crud)
+    flag = Flag.new([:f,:filename],'Filename')
     args_size = args.length
-    times = 0
-    while flag.get_value!(args)
-      times += 1
-    end
-    assert_equal(3,times)
-    assert_equal(args_size - times,args.size)
-  end
-
-  def test_find_flag_not_there
-    args = %w(foo bar -f -g -h baz)
-    flag = Flag.new(:i,"Some Flag")
-    args_size = args.length
-    present = flag.get_value!(args)
-    assert(!present)
+    val = flag.get_value!(args)
+    assert_equal(nil,val)
     assert_equal(args_size,args.size)
   end
+
 end

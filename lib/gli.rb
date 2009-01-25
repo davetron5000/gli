@@ -5,39 +5,44 @@ module GLI
   @@next_arg_name = nil
   @@next_default_value = nil
 
+  # describe the next switch, flag, or command
   def desc(description)
     @@next_desc = description
   end
 
+  # describe the argument name of the next flag
   def arg_name(name)
     @@next_arg_name = name
   end
 
+  # set the default value of the next flag
   def default_value(val)
     @@next_default_value = val
   end
 
-  def switch(names)
-    switch = Switch.new(names,@@next_desc,@@next_arg_name,@@next_default_value)
-    switches[switch.name] = switch
-    @@next_desc = nil
-    @@next_arg_name = nil
-    @@next_default_value = nil
-  end
-
+  # Create a flag, which is a switch that takes an argument
   def flag(names)
-    flag = Flag.new(names,@@next_desc)
-    flags[flag.name] = flag
+    flag = Flag.new(names,@@next_desc,@@next_arg_name,@@next_default_value)
+    flages[flag.name] = flag
     @@next_desc = nil
     @@next_arg_name = nil
     @@next_default_value = nil
   end
 
-  def switches; @@switches ||= {}; end
-  def flags; @@flags ||= {}; end
+  # Create a switch
+  def switch(names)
+    switch = Switch.new(names,@@next_desc)
+    switchs[switch.name] = switch
+    @@next_desc = nil
+    @@next_arg_name = nil
+    @@next_default_value = nil
+  end
 
-  # Defines a command line flag
-  class Flag
+  def flages; @@flages ||= {}; end
+  def switchs; @@switchs ||= {}; end
+
+  # Defines a command line switch
+  class Switch
     attr_reader :name
     attr_reader :aliases
     attr_reader :description
@@ -46,21 +51,21 @@ module GLI
       @description = description
       @names = Hash.new
       if names.is_a? Array
-        names.each { |n| @names[Flag.as_flag(n)] = true }
+        names.each { |n| @names[Switch.as_switch(n)] = true }
         @name = names.shift
         @aliases = names.length > 0 ? names : nil
       else
         @name = names
-        @names[Flag.as_flag(@name)] = true
+        @names[Switch.as_switch(@name)] = true
         @aliases = nil
       end
     end
 
     def usage
-      "#{Flag.as_flag(name)} - #{description}"
+      "#{Switch.as_switch(name)} - #{description}"
     end
 
-    # Given the argument list, scans it looking for this flag
+    # Given the argument list, scans it looking for this switch
     # returning true if it's in the argumennt list (and removing it from the argument list)
     def get_value!(args)
       idx = -1
@@ -78,15 +83,15 @@ module GLI
       end
     end
 
-    # Returns the string as a command line flag
-    def self.as_flag(symbol)
+    # Returns the string as a command line switch
+    def self.as_switch(symbol)
       string = symbol.to_s
       string.length == 1 ? "-#{string}" : "--#{string}"
     end
   end
 
-  # Defines a switch, which is to say a flag that takes an argument
-  class Switch < Flag
+  # Defines a flag, which is to say a switch that takes an argument
+  class Flag < Switch
 
     def initialize(names,description,argument_name=nil,default=nil)
       super(names,description)
@@ -104,7 +109,7 @@ module GLI
     end
 
     def usage
-      "#{Flag.as_flag(name)} #{@argument_name} - #{description} (default #{@default_value})"
+      "#{Switch.as_switch(name)} #{@argument_name} - #{description} (default #{@default_value})"
     end
   end
 end
