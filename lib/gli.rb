@@ -41,6 +41,21 @@ module GLI
   def flages; @@flages ||= {}; end
   def switchs; @@switchs ||= {}; end
 
+  def parse_names(names,switch_format=true)
+    names_hash = Hash.new
+    names = names.is_a?(Array) ? names : [names]
+    names.each { |n| names_hash[switch_format ? Switch.as_switch(n) : n.to_s] = true }
+    name = names.shift
+    aliases = names.length > 0 ? names : nil
+    [name,aliases,names_hash]
+  end
+
+  class Command
+    def initialize(names,description)
+    end
+  end
+
+
   # Defines a command line switch
   class Switch
     attr_reader :name
@@ -49,16 +64,12 @@ module GLI
 
     def initialize(names,description)
       @description = description
-      @names = Hash.new
-      if names.is_a? Array
-        names.each { |n| @names[Switch.as_switch(n)] = true }
-        @name = names.shift
-        @aliases = names.length > 0 ? names : nil
-      else
-        @name = names
-        @names[Switch.as_switch(@name)] = true
-        @aliases = nil
-      end
+      @name,@aliases,@names = parse_names(names)
+      #@names = Hash.new
+      #names = as_array(names)
+      #names.each { |n| @names[Switch.as_switch(n)] = true }
+      #@name = names.shift
+      #@aliases = names.length > 0 ? names : nil
     end
 
     def usage
