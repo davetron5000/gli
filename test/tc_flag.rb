@@ -24,7 +24,7 @@ class TC_testFlag < Test::Unit::TestCase
     assert_equal(name,flag.name)
     assert_equal(aliases,flag.aliases)
     assert_equal(desc,flag.description)
-    assert_equal("#{Switch.as_switch(name)} #{arg_name} - #{desc} (default #{default})",flag.usage)
+    assert_equal("#{Switch.name_as_string(name)} #{arg_name} - #{desc} (default #{default})",flag.usage)
   end
 
   def test_find_one_flag

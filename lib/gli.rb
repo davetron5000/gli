@@ -41,23 +41,8 @@ module GLI
   def flages; @@flages ||= {}; end
   def switchs; @@switchs ||= {}; end
 
-  def parse_names(names,switch_format=true)
-    names_hash = Hash.new
-    names = names.is_a?(Array) ? names : [names]
-    names.each { |n| names_hash[switch_format ? Switch.as_switch(n) : n.to_s] = true }
-    name = names.shift
-    aliases = names.length > 0 ? names : nil
-    [name,aliases,names_hash]
-  end
 
-  class Command
-    def initialize(names,description)
-    end
-  end
-
-
-  # Defines a command line switch
-  class Switch
+  class CommandLineToken
     attr_reader :name
     attr_reader :aliases
     attr_reader :description
@@ -65,15 +50,37 @@ module GLI
     def initialize(names,description)
       @description = description
       @name,@aliases,@names = parse_names(names)
-      #@names = Hash.new
-      #names = as_array(names)
-      #names.each { |n| @names[Switch.as_switch(n)] = true }
-      #@name = names.shift
-      #@aliases = names.length > 0 ? names : nil
+    end
+
+    private 
+
+    def parse_names(names)
+      names_hash = Hash.new
+      names = names.is_a?(Array) ? names : [names]
+      names.each { |n| names_hash[self.class.name_as_string(n)] = true }
+      name = names.shift
+      aliases = names.length > 0 ? names : nil
+      [name,aliases,names_hash]
+    end
+  end
+
+  class Command < CommandLineToken
+    def initialize(names,description)
+      super(names,description)
+      @description = description
+    end
+  end
+
+
+  # Defines a command line switch
+  class Switch < CommandLineToken
+
+    def initialize(names,description)
+      super(names,description)
     end
 
     def usage
-      "#{Switch.as_switch(name)} - #{description}"
+      "#{Switch.name_as_string(name)} - #{description}"
     end
 
     # Given the argument list, scans it looking for this switch
@@ -94,9 +101,8 @@ module GLI
       end
     end
 
-    # Returns the string as a command line switch
-    def self.as_switch(symbol)
-      string = symbol.to_s
+    def self.name_as_string(name)
+      string = name.to_s
       string.length == 1 ? "-#{string}" : "--#{string}"
     end
   end
@@ -120,7 +126,7 @@ module GLI
     end
 
     def usage
-      "#{Switch.as_switch(name)} #{@argument_name} - #{description} (default #{@default_value})"
+      "#{Switch.name_as_string(name)} #{@argument_name} - #{description} (default #{@default_value})"
     end
   end
 end

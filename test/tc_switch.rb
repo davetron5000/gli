@@ -24,7 +24,7 @@ class TC_testSwitch < Test::Unit::TestCase
     assert_equal(name,switch.name)
     assert_equal(aliases,switch.aliases)
     assert_equal(desc,switch.description)
-    assert_equal("#{Switch.as_switch(name)} - #{desc}",switch.usage)
+    assert_equal("#{Switch.name_as_string(name)} - #{desc}",switch.usage)
   end
   def test_find_one_switch
     args = %w(foo bar -f -g -h baz)
