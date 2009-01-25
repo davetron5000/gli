@@ -7,23 +7,24 @@ class TC_testSwitch < Test::Unit::TestCase
 
   def test_basics_simple
     switch = Switch.new(:f,'Filename','file','~/.blah.rc')
-    do_basic_asserts(switch,:f,nil,'Filename')
+    do_basic_asserts(switch,:f,nil,'Filename','file','~/.blah.rc')
   end
 
   def test_basics_kinda_complex
     switch = Switch.new([:f],'Filename','file','~/.blah.rc')
-    do_basic_asserts(switch,:f,nil,'Filename')
+    do_basic_asserts(switch,:f,nil,'Filename','file','~/.blah.rc')
   end
 
   def test_basics_complex
     switch = Switch.new([:f,:file,:filename],'Filename','file','~/.blah.rc')
-    do_basic_asserts(switch,:f,[:file,:filename],'Filename')
+    do_basic_asserts(switch,:f,[:file,:filename],'Filename','file','~/.blah.rc')
   end
 
-  def do_basic_asserts(switch,name,aliases,desc)
+  def do_basic_asserts(switch,name,aliases,desc,arg_name,default)
     assert_equal(name,switch.name)
     assert_equal(aliases,switch.aliases)
     assert_equal(desc,switch.description)
+    assert_equal("#{Flag.as_flag(name)} #{arg_name} - #{desc} (default #{default})",switch.usage)
   end
 
   def test_find_one_switch

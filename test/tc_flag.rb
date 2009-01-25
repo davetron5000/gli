@@ -6,8 +6,8 @@ include GLI
 class TC_testFlag < Test::Unit::TestCase
 
   def test_basics_simple
-    flag = Flag.new(:f,'Use filename')
-    do_basic_asserts(flag,:f,nil,'Use filename')
+    flag = Flag.new(:filename,'Use filename')
+    do_basic_asserts(flag,:filename,nil,'Use filename')
   end
 
   def test_basics_kinda_complex
@@ -24,6 +24,7 @@ class TC_testFlag < Test::Unit::TestCase
     assert_equal(name,flag.name)
     assert_equal(aliases,flag.aliases)
     assert_equal(desc,flag.description)
+    assert_equal("#{Flag.as_flag(name)} - #{desc}",flag.usage)
   end
   def test_find_one_flag
     args = %w(foo bar -f -g -h baz)

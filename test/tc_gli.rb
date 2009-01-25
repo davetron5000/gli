@@ -8,9 +8,12 @@ class TC_testGLI < Test::Unit::TestCase
   def test_switch_create
     description = 'this is a description'
     GLI.desc description
+    arg_name 'filename'
+    default_value '~/.blah.rc'
     switch :f
     assert (switches[:f] )
     assert_equal(description,switches[:f].description)
+    assert_equal("-f filename - #{description} (default ~/.blah.rc)",switches[:f].usage)
   end
 
   def test_flag_create

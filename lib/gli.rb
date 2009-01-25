@@ -56,6 +56,10 @@ module GLI
       end
     end
 
+    def usage
+      "#{Flag.as_flag(name)} - #{description}"
+    end
+
     # Given the argument list, scans it looking for this flag
     # returning true if it's in the argumennt list (and removing it from the argument list)
     def get_value!(args)
@@ -73,8 +77,6 @@ module GLI
         false
       end
     end
-
-    private
 
     # Returns the string as a command line flag
     def self.as_flag(symbol)
@@ -99,6 +101,10 @@ module GLI
         val = args.delete_at idx
       end
       val || @default_value
+    end
+
+    def usage
+      "#{Flag.as_flag(name)} #{@argument_name} - #{description} (default #{@default_value})"
     end
   end
 end
