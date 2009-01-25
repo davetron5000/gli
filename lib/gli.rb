@@ -1,7 +1,6 @@
 module GLI
   extend self
 
-
   # describe the next switch, flag, or command
   def desc(description)
     @@next_desc = description
@@ -36,6 +35,11 @@ module GLI
     commands[command.name] = command
     clear_nexts
   end
+
+  alias :d :desc
+  alias :f :flag
+  alias :s :switch
+  alias :c :command
 
   def clear_nexts
     @@next_desc = nil
