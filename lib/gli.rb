@@ -70,6 +70,7 @@ module GLI
     end
   end
 
+  # A command to be run, in context of global flags and switches
   class Command < CommandLineToken
     def initialize(names,description)
       super(names,description)
@@ -100,6 +101,14 @@ module GLI
     end
 
     def action
+    end
+
+    # Returns a multi-line usage statement for this command
+    def usage
+      string = "#{name} - #{description}\n"
+      flags.keys.each { |flag| string += "    #{flags[flag].usage}\n" }
+      switches.keys.each { |switch| string += "    #{switches[switch].usage}\n" }
+      string
     end
 
     def self.name_as_string(name)

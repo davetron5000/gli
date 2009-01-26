@@ -9,6 +9,7 @@ class TC_testGLI < Test::Unit::TestCase
     do_test_flag_create(GLI)
     do_test_flag_create(Command.new(:f,'Some command'))
   end
+
   def do_test_flag_create(object)
     description = 'this is a description'
     object.desc description
@@ -18,24 +19,28 @@ class TC_testGLI < Test::Unit::TestCase
     assert (object.flags[:f] )
     assert_equal(description,object.flags[:f].description)
     assert_equal("-f filename - #{description} (default ~/.blah.rc)",object.flags[:f].usage)
+    assert(object.usage != nil) if object.respond_to? :usage;
   end
 
   def test_switch_create
     do_test_switch_create(GLI)
     do_test_switch_create(Command.new(:f,'Some command'))
   end
+
   def do_test_switch_create(object)
     description = 'this is a description'
     object.desc description
     object.switch :f
     assert (object.switches[:f] )
     assert_equal(description,object.switches[:f].description)
+    assert(object.usage != nil) if object.respond_to? :usage;
   end
 
   def test_switch_create_twice
     do_test_switch_create_twice(GLI)
     do_test_switch_create_twice(Command.new(:f,'Some command'))
   end
+
   def do_test_switch_create_twice(object)
     description = 'this is a description'
     object.desc description
@@ -45,6 +50,7 @@ class TC_testGLI < Test::Unit::TestCase
     object.switch :g
     assert (object.switches[:g])
     assert_equal(nil,object.switches[:g].description)
+    assert(object.usage != nil) if object.respond_to? :usage;
   end
 
   def test_command_create
