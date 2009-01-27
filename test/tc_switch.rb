@@ -26,6 +26,20 @@ class TC_testSwitch < Test::Unit::TestCase
     assert_equal(desc,switch.description)
     assert_equal("#{Switch.name_as_string(name)} - #{desc}",switch.usage)
   end
+  def test_find_one_switch_compact
+    do_test_find_one_switch_compact( %w(foo bar -fgh baz) ,2,'-gh')
+    do_test_find_one_switch_compact( %w(foo bar -gfh baz) ,2,'-gh')
+    do_test_find_one_switch_compact( %w(foo bar -ghf baz) ,2,'-gh')
+  end
+
+  def do_test_find_one_switch_compact(args,index,remainder)
+    switch = Switch.new(:f,"Some Switch")
+    args_size = args.length
+    present = switch.get_value!(args)
+    assert(present)
+    assert_equal(args_size,args.size)
+    assert_equal(remainder,args[index])
+  end
   def test_find_one_switch
     args = %w(foo bar -f -g -h baz)
     switch = Switch.new(:f,"Some Switch")
@@ -45,7 +59,7 @@ class TC_testSwitch < Test::Unit::TestCase
   end
 
   def test_find_many_switchs
-    args = %w(foo bar -f -g --file -h baz -f -file --fileblah --f)
+    args = %w(foo bar -f -g --file -h baz -f --fileblah --f)
     switch = Switch.new([:f,:file],"Some Switch")
     args_size = args.length
     times = 0
