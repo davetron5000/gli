@@ -25,10 +25,6 @@ Flags can be specified in long or short form, and with or without an equals:
 
     git merge -s resolve
     git merge --strategy=resolve
-    git merge -s=resolve
-    git merge --strategy resolve
-
-Note that the last two forms are probably not supported by git, and may not be compliant with any command line argument spec, but I find them convienient to support and accept
 
 == Use ==
 

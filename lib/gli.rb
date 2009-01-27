@@ -28,6 +28,9 @@ module GLI
     clear_nexts
   end
 
+  def run(args)
+  end
+
   alias :d :desc
   alias :f :flag
   alias :s :switch
@@ -213,14 +216,13 @@ module GLI
 
     def find_me(arg)
       if @names[arg]
-        return [true,arg,nil]
+        return [true,arg,nil] if arg.length == 2
+        # This means we matched the long-form, but there's no argument
+        raise "#{arg} requires an argument via #{arg}=argument"
       end
       @names.keys.each() do |name|
         match_string = "^#{name}=(.*)$"
-        match_string2 = "^#{name}([^=].+)$"
         match_data = arg.match(match_string)
-        return [true,name,$1] if match_data;
-        match_data = arg.match(match_string2)
         return [true,name,$1] if match_data;
       end
       [false,nil,nil]

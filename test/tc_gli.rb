@@ -59,4 +59,8 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.command [:ls,:list] do |c|
     end
   end
+
+  def test_parse_command_line
+    line = "-v -f blah doit -v 4 --file foo bar"
+  end
 end

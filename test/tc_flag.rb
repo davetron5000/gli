@@ -36,20 +36,9 @@ class TC_testFlag < Test::Unit::TestCase
     assert_equal(args_size - 2,args.size)
   end
 
-  def test_find_one_flag_complex
-    args = %w(foo bar --f blah -lfilename bleorgh --filename crud)
-    flag = Flag.new([:f,:filename],'Filename')
-    args_size = args.length
-    val = flag.get_value!(args)
-    assert_equal('crud',val)
-    assert_equal(args_size - 2,args.size)
-  end
-
   def test_find_flag_compact
-    do_test_find_flag_compact(%w(foo bar --f blah --filename bleorgh -lfilename crud),'bleorgh',6)
     do_test_find_flag_compact(%w(foo bar --f blah --filename=bleorgh -lfilename crud),'bleorgh',6)
-    do_test_find_flag_compact(%w(foo bar --f blah -fbleorgh -lfilename crud),'bleorgh',6)
-    do_test_find_flag_compact(%w(foo bar --f blah -f=bleorgh -lfilename crud),'bleorgh',6)
+    do_test_find_flag_compact(%w(foo bar --f blah -f bleorgh -lfilename crud),'bleorgh',6)
   end
 
   def do_test_find_flag_compact(args,expected,expected_size)
@@ -73,6 +62,7 @@ class TC_testFlag < Test::Unit::TestCase
     assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah -f)) }
     assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah --filename)) }
     assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah --filename=)) }
+    assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah --filename bleorgh -lfilename crud)) }
   end
 
 end
