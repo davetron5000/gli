@@ -1,0 +1,35 @@
+This is a command line parser for a git-like command line client:
+
+*executable* <i>global options and flags</i> *command* <i>command specific options and flags</i> `arguments`
+
+  [switch]    a command line control string that takes no argument.  The <tt>-l</tt> in <tt>ls -l</tt>
+  [flag]      a switch that takes an argument.  The <tt>-d' '</tt> in <tt>cut -d' ' file</tt>
+  [command]   the command to execute.  The <tt>rebase</tt> in <tt>git rebase</tt>
+  [arguments] Anything that's not a switch, flag, or command.  The <tt>main.c</tt> in <tt>git add main.c</tt>
+
+== Switches ==
+
+Switches can be specified one at a time in either a long or short format:
+
+    git add -i
+    git add --interactive
+
+Switches can also be combined in their short form:
+
+    ls -l -a    
+    ls -la
+
+== Flags ==
+
+Flags can be specified in long or short form, and with or without an equals:
+
+    git merge -s resolve
+    git merge --strategy=resolve
+    git merge -s=resolve
+    git merge --strategy resolve
+
+Note that the last two forms are probably not supported by git, and may not be compliant with any command line argument spec, but I find them convienient to support and accept
+
+== Use ==
+
+TBD
