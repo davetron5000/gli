@@ -1,6 +1,13 @@
 module GLI
   extend self
 
+  def reset
+    switches.clear
+    flags.clear
+    commands.clear
+    clear_nexts
+  end
+
   # describe the next switch, flag, or command
   def desc(description); @@next_desc = description; end
   # describe the argument name of the next flag
@@ -25,10 +32,94 @@ module GLI
   def command(names)
     command = Command.new(names,@@next_desc)
     commands[command.name] = command
+    yield command
     clear_nexts
   end
 
   def run(args)
+  end
+
+  # Returns an array of four values:
+  #  * global options (as a Hash)
+  #  * command name (as a String)
+  #  * command options (as a Hash)
+  #  * arguments (as an Array)
+  def parse_options(args)
+    return parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
+  end
+
+  def parse_options_helper(args,global_options,command,command_options,arguments)
+    non_flag_i = find_non_flag_index(args)
+    all_flags = false
+    if non_flag_i == 0
+      # no flags
+      command_name = args.shift
+      command = commands[command_name.to_sym]
+      raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
+      return parse_options_helper(args,global_options,command,command_options,arguments)
+    elsif non_flag_i == -1
+      all_flags = true
+    end
+
+    try_me = args[0..non_flag_i]
+    rest = args[(non_flag_i+1)..args.length]
+    if all_flags
+      try_me = args 
+      rest = []
+    end
+
+    # Suck up whatever options we can
+    switch_hash = switches
+    flag_hash = flags
+    options = global_options
+    if command
+      switch_hash = command.switches
+      flag_hash = command.flags
+      options = command_options
+    end
+
+    switch_hash.each do |name,switch|
+      value = switch.get_value!(try_me)
+      options[name] = value if !options[name]
+    end
+
+    flag_hash.each do |name,flag|
+      value = flag.get_value!(try_me)
+      options[name] = value if !options[name]
+    end
+
+    if try_me.empty?
+      return [global_options,command,command_options,arguments] if rest.empty?
+      # If we have no more options we've parsed them all
+      # and rest may have more
+      return parse_options_helper(rest,global_options,command,command_options,arguments)
+    else
+      if command
+        check = rest
+        check = rest | try_me if all_flags 
+        check.each() { |arg| raise(UnknownArgumentException,"Unknown argument #{arg}") if arg =~ /^\-/ }
+        return [global_options,command,command_options,try_me | rest]
+      else
+        # Now we have our command name
+        command_name = try_me.shift
+        raise(UnknownArgumentException,"Unknown argument #{command_name}") if command_name =~ /^\-/
+
+        command = commands[command_name.to_sym]
+        raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
+
+        return parse_options_helper(rest,global_options,command,command_options,arguments)
+      end
+    end
+
+  end
+
+  # Finds the index of the first non-flag
+  # argument or -1 if there wasn't one.
+  def find_non_flag_index(args)
+    args.each_index do |i|
+      return i if args[i] =~ /^[^\-]/;
+    end
+    -1;
   end
 
   alias :d :desc
@@ -204,7 +295,7 @@ module GLI
               args.delete_at index
               return value
             else
-              raise "#{matched} requires an argument"
+              raise(MissingArgumentException,"#{matched} requires an argument")
             end
           else
             return value
@@ -218,7 +309,7 @@ module GLI
       if @names[arg]
         return [true,arg,nil] if arg.length == 2
         # This means we matched the long-form, but there's no argument
-        raise "#{arg} requires an argument via #{arg}=argument"
+        raise(MissingArgumentException,"#{arg} requires an argument via #{arg}=argument")
       end
       @names.keys.each() do |name|
         match_string = "^#{name}=(.*)$"
@@ -231,5 +322,14 @@ module GLI
     def usage
       "#{Switch.name_as_string(name)} #{@argument_name} - #{description} (default #{@default_value})"
     end
+  end
+
+  class UnknownArgumentException < Exception
+  end
+
+  class UnknownCommandException < Exception
+  end
+
+  class MissingArgumentException < Exception
   end
 end

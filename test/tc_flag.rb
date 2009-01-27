@@ -59,10 +59,10 @@ class TC_testFlag < Test::Unit::TestCase
 
   def test_bad_command_line
     flag = Flag.new([:f,:filename],'Filename')
-    assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah -f)) }
-    assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah --filename)) }
-    assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah --filename=)) }
-    assert_raises(RuntimeError) { flag.get_value!(%w(foo bar --f blah --filename bleorgh -lfilename crud)) }
+    assert_raises(MissingArgumentException) { flag.get_value!(%w(foo bar --f blah -f)) }
+    assert_raises(MissingArgumentException) { flag.get_value!(%w(foo bar --f blah --filename)) }
+    assert_raises(MissingArgumentException) { flag.get_value!(%w(foo bar --f blah --filename=)) }
+    assert_raises(MissingArgumentException) { flag.get_value!(%w(foo bar --f blah --filename bleorgh -lfilename crud)) }
   end
 
 end

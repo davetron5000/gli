@@ -60,7 +60,4 @@ class TC_testGLI < Test::Unit::TestCase
     end
   end
 
-  def test_parse_command_line
-    line = "-v -f blah doit -v 4 --file foo bar"
-  end
 end
