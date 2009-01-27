@@ -48,6 +48,51 @@ module GLI
     return parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
   end
 
+  # Finds the index of the first non-flag
+  # argument or -1 if there wasn't one.
+  def find_non_flag_index(args)
+    args.each_index do |i|
+      return i if args[i] =~ /^[^\-]/;
+      return i-1 if args[i] =~ /^\-\-$/;
+    end
+    -1;
+  end
+
+  alias :d :desc
+  alias :f :flag
+  alias :s :switch
+  alias :c :command
+
+  def clear_nexts
+    @@next_desc = nil
+    @@next_arg_name = nil
+    @@next_default_value = nil
+  end
+
+  clear_nexts
+
+  def flags; @@flags ||= {}; end
+  def switches; @@switches ||= {}; end
+  def commands; @@commands ||= {}; end
+
+  # Recursive helper for parsing command line options
+  # [args] the arguments that have yet to be processed
+  # [global_options] the global options hash
+  # [command] the Command that has been identified (or nil if not identified yet)
+  # [command_options] options for Command
+  # [arguments] the arguments for Command
+  #
+  # This works by finding the first non-switch/flag argument, and taking that sublist and trying to pick out
+  # flags and switches.  After this is done, one of the following is true:
+  #   * the sublist is empty - in this case, go again, as there might be more flags to parse
+  #   * the sublist has a flag left in it - unknown flag; we bail
+  #   * the sublist has a non-flag left in it - this is the command (or the start of the arguments list)
+  #
+  # This sort does the same thing in two phases; in the first phase, the command hasn't been identified, so
+  # we are looking for global switches and flags, ending when we get the command.
+  #
+  # Once the command has been found, we start looking for command-specific flags and switches.
+  # When those have been found, we know the rest of the argument list is arguments for the command
   def parse_options_helper(args,global_options,command,command_options,arguments)
     non_flag_i = find_non_flag_index(args)
     all_flags = false
@@ -97,7 +142,13 @@ module GLI
       if command
         check = rest
         check = rest | try_me if all_flags 
-        check.each() { |arg| raise(UnknownArgumentException,"Unknown argument #{arg}") if arg =~ /^\-/ }
+        check.each() do |arg| 
+          if arg =~ /^\-\-$/
+            try_me.delete arg
+            break 
+          end
+          raise(UnknownArgumentException,"Unknown argument #{arg}") if arg =~ /^\-/ 
+        end
         return [global_options,command,command_options,try_me | rest]
       else
         # Now we have our command name
@@ -112,32 +163,6 @@ module GLI
     end
 
   end
-
-  # Finds the index of the first non-flag
-  # argument or -1 if there wasn't one.
-  def find_non_flag_index(args)
-    args.each_index do |i|
-      return i if args[i] =~ /^[^\-]/;
-    end
-    -1;
-  end
-
-  alias :d :desc
-  alias :f :flag
-  alias :s :switch
-  alias :c :command
-
-  def clear_nexts
-    @@next_desc = nil
-    @@next_arg_name = nil
-    @@next_default_value = nil
-  end
-
-  clear_nexts
-
-  def flags; @@flags ||= {}; end
-  def switches; @@switches ||= {}; end
-  def commands; @@commands ||= {}; end
 
 
   # Logical element of a command line, mostly so that subclasses can have similar

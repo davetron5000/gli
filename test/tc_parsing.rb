@@ -70,6 +70,78 @@ class TC_testParsing < Test::Unit::TestCase
     assert(0,arguments.size)
   end
 
+  def test_parse_command_line_with_stop_processing
+    GLI.reset
+    argv = %w(-v -f doit -f -v -x -- -blah crud foo --x=blah)
+    GLI.switch :v
+    GLI.switch :f
+    GLI.command :doit do |c|
+      c.flag :file
+      c.switch :v
+      c.switch :f
+      c.switch :x
+    end
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert(global_options[:v])
+    assert(global_options[:f])
+    assert_equal(:doit,command.name)
+    assert(command_options[:f])
+    assert(command_options[:v])
+    assert(command_options[:x])
+    assert_equal(['-blah','crud','foo','--x=blah'],arguments)
+  end
+
+  def test_parse_command_line_with_stop_processing
+    GLI.reset
+    argv = %w(-- -v -f doit -f -v -x -- -blah crud foo --x=blah)
+    GLI.switch :v
+    GLI.switch :f
+    GLI.command :doit do |c|
+      c.flag :file
+      c.switch :v
+      c.switch :f
+      c.switch :x
+    end
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert_equal(11,arguments.size)
+  end
+
+  def test_parse_command_line_with_stop_processing
+    GLI.reset
+    argv = %w(-v -- -v -f doit -f -v -x -- -blah crud foo --x=blah)
+    GLI.switch :v
+    GLI.switch :f
+    GLI.command :doit do |c|
+      c.flag :file
+      c.switch :v
+      c.switch :f
+      c.switch :x
+    end
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert_equal(11,arguments.size)
+  end
+
+  def test_parse_command_line_with_stop_processing2
+    GLI.reset
+    argv = %w(-v -f doit -f -v -x --)
+    GLI.switch :v
+    GLI.switch :f
+    GLI.command :doit do |c|
+      c.flag :file
+      c.switch :v
+      c.switch :f
+      c.switch :x
+    end
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert(global_options[:v])
+    assert(global_options[:f])
+    assert_equal(:doit,command.name)
+    assert(command_options[:f])
+    assert(command_options[:v])
+    assert(command_options[:x])
+    assert_equal([],arguments)
+  end
+
   def test_parse_command_line_all_switches
     GLI.reset
     argv = %w(-v -f doit -f -v -x)

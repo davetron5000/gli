@@ -26,6 +26,11 @@ Flags can be specified in long or short form, and with or without an equals:
     git merge -s resolve
     git merge --strategy=resolve
 
+== Stop Switch ==
+
+A <tt>--</tt> at any time stops processing and sends the rest of the argument to the command as arguments, even if
+they start with a "--"
+
 == Use ==
 
 TBD
