@@ -5,15 +5,43 @@ require 'test/unit/ui/console/testrunner'
 include GLI
 class TC_testParsing < Test::Unit::TestCase
 
-  def test_parse_command_line
+  def test_parse_command_line_simple
     GLI.reset
-    argv = %w(-v -f blah doit -v 4 --file=foo bar)
     GLI.switch :v
     GLI.flag :f
     GLI.command :doit do |c|
       c.flag :file
       c.flag :v
     end
+    argv = %w(-v doit)
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert(global_options[:v])
+    assert_equal(:doit,command.name)
+  end
+
+  def test_parse_command_line_simplish
+    GLI.reset
+    GLI.switch :v
+    GLI.flag :f
+    GLI.command :doit do |c|
+      c.flag :file
+      c.flag :v
+    end
+    argv = %w(doit)
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert(!global_options[:v])
+    assert_equal(:doit,command.name)
+  end
+
+  def test_parse_command_line
+    GLI.reset
+    GLI.switch :v
+    GLI.flag :f
+    GLI.command :doit do |c|
+      c.flag :file
+      c.flag :v
+    end
+    argv = %w(-v -f blah doit -v 4 --file=foo bar)
     global_options,command,command_options,arguments = GLI.parse_options(argv)
     assert(global_options[:v])
     assert_equal('blah',global_options[:f])
@@ -131,6 +159,38 @@ class TC_testParsing < Test::Unit::TestCase
     assert(command_options[:v])
     assert(command_options[:x])
     assert(0,arguments.size)
+  end
+
+  def test_case_that_busted
+    GLI.reset
+    GLI.desc 'Some Global Option'
+    GLI.switch :g
+    glob = nil
+    verbose = nil
+    glob_verbose = nil
+    configure = nil
+    args = nil
+    GLI.desc 'Some Basic Command'
+    GLI.command :basic do |c|
+      c.desc 'be verbose'
+      c.switch :v
+      c.desc 'configure something'
+      c.flag [:c,:configure]
+      c.action = Proc.new do |global_options,options,arguments|
+        glob = global_options[:g] ? 'true' : 'false'
+        verbose = options[:v] ? 'true' : 'false'
+        glob_verbose = global_options[:v] ? 'true' : 'false'
+        configure = options[:c]
+        args = arguments
+      end
+    end
+    args = %w(-g basic -v -c foo bar baz quux)
+    global_options,command,command_options,arguments = GLI.parse_options(args)
+    assert(global_options[:g])
+    assert_equal(:basic,command.name)
+    assert(command_options[:v])
+    assert_equal('foo',command_options[:c])
+    assert_equal(%w(bar baz quux),arguments)
   end
 
   def teardown

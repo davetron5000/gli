@@ -32,10 +32,12 @@ task :test do |t|
     require 'tc_switch.rb'
     require 'tc_gli.rb'
     require 'tc_parsing.rb'
+    require 'tc_command.rb'
     Test::Unit::UI::Console::TestRunner.run(TC_testFlag)
     Test::Unit::UI::Console::TestRunner.run(TC_testSwitch)
     Test::Unit::UI::Console::TestRunner.run(TC_testGLI)
     Test::Unit::UI::Console::TestRunner.run(TC_testParsing)
+    Test::Unit::UI::Console::TestRunner.run(TC_testCommand)
 end
 
 task :clobber_coverage do

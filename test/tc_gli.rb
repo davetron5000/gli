@@ -53,11 +53,4 @@ class TC_testGLI < Test::Unit::TestCase
     assert(object.usage != nil) if object.respond_to? :usage;
   end
 
-  def test_command_create
-    description = 'List all files'
-    GLI.desc description
-    GLI.command [:ls,:list] do |c|
-    end
-  end
-
 end

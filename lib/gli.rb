@@ -37,11 +37,13 @@ module GLI
   end
 
   def run(args)
+    global_options,command,options,arguments = parse_options(args)
+    command.run(global_options,options,arguments)
   end
 
   # Returns an array of four values:
   #  * global options (as a Hash)
-  #  * command name (as a String)
+  #  * Command 
   #  * command options (as a Hash)
   #  * arguments (as an Array)
   def parse_options(args)
@@ -98,10 +100,14 @@ module GLI
     all_flags = false
     if non_flag_i == 0
       # no flags
-      command_name = args.shift
-      command = commands[command_name.to_sym]
-      raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
-      return parse_options_helper(args,global_options,command,command_options,arguments)
+      if !command
+        command_name = args.shift
+        command = commands[command_name.to_sym]
+        raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
+        return parse_options_helper(args,global_options,command,command_options,arguments)
+      else
+        return global_options,command,command_options,arguments | args
+      end
     elsif non_flag_i == -1
       all_flags = true
     end
@@ -191,6 +197,9 @@ module GLI
 
   # A command to be run, in context of global flags and switches
   class Command < CommandLineToken
+
+    attr_writer :action
+
     def initialize(names,description)
       super(names,description)
       clear_nexts
@@ -219,9 +228,6 @@ module GLI
       clear_nexts
     end
 
-    def action
-    end
-
     # Returns a multi-line usage statement for this command
     def usage
       string = "#{name} - #{description}\n"
@@ -238,6 +244,10 @@ module GLI
       @next_desc = nil
       @next_arg_name = nil
       @next_default_value = nil
+    end
+
+    def run(global_options,options,arguments)
+      @action.call(global_options,options,arguments)
     end
   end
 
