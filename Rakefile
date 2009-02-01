@@ -16,38 +16,34 @@ end
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
-  rd.title = 'Ruby Client for Gliffy'
+  rd.title = 'Git Like Interface'
 end
- 
-# spec = eval(File.read('gliffy.gemspec'))
-#  
-# Rake::GemPackageTask.new(spec) do |pkg|
-#     pkg.need_tar = true
-# end
-# 
+
+spec = eval(File.read('gli.gemspec'))
+
+Rake::GemPackageTask.new(spec) do |pkg|
+end
 
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = FileList['test/tc_*.rb']
-#  t.verbose = true
 end
 
 
 task :clobber_coverage do
-    rm_rf "coverage"
+  rm_rf "coverage"
 end
 
 desc 'Measures test coverage'
 task :coverage => :rcov do
-    system("open coverage/index.html") if PLATFORM['darwin']
-    rm output_yaml
+  system("open coverage/index.html") if PLATFORM['darwin']
+  rm output_yaml
 end
 
 Rcov::RcovTask.new do |t|
   t.libs << 'lib'
   t.libs << 'ext'
   t.test_files = FileList['test/tc_*.rb']
-  # t.verbose = true     # uncomment to see the executed command
 end
 
 task :default => :test

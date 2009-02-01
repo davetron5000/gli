@@ -33,4 +33,82 @@ they start with a "--"
 
 == Use ==
 
-TBD
+The simplest way to get started is to create a scaffold project
+
+    gli init my_proj command_name other_command_name
+
+This will create a (very) basic scaffold project in <tt>./my_proj</tt>, with a bare-bones 
+main file in <tt>./my_proj/bin/my_proj</tt>.  This file demonstrates most of what you need
+to describe your command line interface
+
+=== More Detail ===
+
+This sets you up to use the DSL that GLI defines:
+
+    #!/usr/bin/ruby
+    $: << File.expand_path(File.dirname(__FILE__) + '/../lib') 
+
+    require 'gli'
+
+    include GLI
+
+This describes a command line switch "-n" that is global to all commands and specified before
+the command name on the command line.
+
+    desc 'Dry run; don\'t change the disk'
+    switch :n
+
+
+This is  describes a command line flag that is global and has a default value of <tt>.</tt>.  It also
+specified a short description of its argument.  This is used to print command line help.  Note that we
+have specified two different aliases for this flag.  <tt>-r</tt> (because it is listed first) is the default
+one and <tt>--root</tt> is also supported.  This means that <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean
+the same thing to the application.
+
+    desc 'Root dir in which to create project'
+    default_value '.'
+    arg_name 'root_dir'
+    flag [:r,:root]
+
+Here we specify a command.  Inside the block we can use the same sorts of things as we did above to define flags
+and switches specific to the command.  These must come after the command name.  Also note that we use <tt>arg_name</tt>
+here to describe the arguments this command accepts.
+
+    desc 'Create a new GLI-based project'
+    arg_name 'project_name [command[ command]*]'
+    command [:init,:scaffold] do |c|
+
+      c.desc 'Create an ext dir'
+      c.switch [:e,:ext]
+
+      c.desc 'Overwrite/ignore existing files and directories'
+      c.switch [:force]
+
+Here we specify the actual actions to take when the command is executed.  We define a block that
+will be given the global options (as a Hash), the command-specific options (as a hash) and the command
+line arguments
+
+      c.action = Proc.new do |g,o,args|
+        if args.length < 1
+          raise(MissingArgumentException,'You must specify the name of your project')
+        end
+        Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+      end
+    end
+
+Now, we run the program using the arguments the user provided on the command line
+
+    run(ARGV)
+
+What this gives you:
+
+  * A reasonably useful help system.  <tt>your_program help</tt> will list all the global options and commands (along with command aliases) and <tt>your_program help command_name</tt> will list help for that given command.
+  * Error handling when flags do not receive arguments or unknown flags or switches are given
+  * Error handling when an unknown command is specified
+  * Default values for flags if they are not specified by the user (switches all default to false)
+
+What this doesn't give you:
+
+  * A way to indicate required flags
+  * A way to indicate a require argument or required number of arguments
+  * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
