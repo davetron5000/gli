@@ -37,7 +37,7 @@ module GLI
     end
 
     def list_one_command_help(command_name)
-      command = GLI.commands[command_name.to_sym]
+      command = GLI.find_command(command_name)
       if command
         puts command.usage
         description = wrap(command.description,4)

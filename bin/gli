@@ -1,0 +1,36 @@
+#!/usr/bin/ruby
+$: << File.expand_path(File.dirname(__FILE__) + '/../lib') 
+
+require 'gli'
+require 'support/scaffold'
+
+include GLI
+desc 'Dry run; don\'t change the disk'
+switch :n
+
+desc 'Root dir in which to create project'
+default_value '.'
+flag [:r,:root]
+
+desc 'Create a new GLI-based project'
+arg_name 'project_name [command[ command]*]'
+command [:init,:scaffold] do |c|
+
+  c.desc 'Create an ext dir'
+  c.switch [:e,:ext]
+
+  c.desc 'Do not create a test dir'
+  c.switch [:notest]
+
+  c.desc 'Overwrite/ignore existing files and directories'
+  c.switch [:force]
+
+  c.action = Proc.new do |g,o,args|
+    if args.length < 1
+      raise(MissingArgumentException,'You must specify the name of your project')
+    end
+    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+  end
+end
+
+run(ARGV)

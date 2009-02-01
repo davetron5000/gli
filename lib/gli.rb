@@ -2,7 +2,7 @@ require 'gli/command_line_token.rb'
 require 'gli/command.rb'
 require 'gli/switch.rb'
 require 'gli/flag.rb'
-require 'gli/help.rb'
+require 'support/help.rb'
 
 # A means to define and parse a command line interface that works as
 # Git's does, in that you specify global options, a command name, command
@@ -10,12 +10,13 @@ require 'gli/help.rb'
 module GLI
   extend self
 
+  @@program_name = $0.split(/\//)[-1]
+
   # Reset the GLI module internal data structures; mostly for testing
   def reset
     switches.clear
     flags.clear
     commands.clear
-    @@program_name = $0.split(/\//)[-1]
     clear_nexts
   end
 
@@ -53,15 +54,25 @@ module GLI
     commands[:help] = DefaultHelpCommand.new if !commands[:help]
     begin
       global_options,command,options,arguments = parse_options(args)
-      command.execute(global_options,options,arguments)
+      if command
+        command.execute(global_options,options,arguments)
+      else
+        raise UnknownCommandException
+      end
     rescue UnknownCommandException, UnknownArgumentException, MissingArgumentException => ex
+      puts "error: #{ex}"
+      puts
       help = commands[:help]
       help.execute({},{},[])
     end
   end
 
-  ## TODO allow this to be overridden
-  def program_name; @@program_name; end
+  def program_name(override=nil)
+    if override
+      @@program_name = override
+    end
+    @@program_name
+  end
 
   # Returns an array of four values:
   #  * global options (as a Hash)
@@ -127,7 +138,7 @@ module GLI
       # no flags
       if !command
         command_name = args.shift
-        command = commands[command_name.to_sym]
+        command = find_command(command_name)
         raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
         return parse_options_helper(args,global_options,command,command_options,arguments)
       else
@@ -186,13 +197,23 @@ module GLI
         command_name = try_me.shift
         raise(UnknownArgumentException,"Unknown argument #{command_name}") if command_name =~ /^\-/
 
-        command = commands[command_name.to_sym]
+        command = find_command(command_name)
         raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
 
         return parse_options_helper(rest,global_options,command,command_options,arguments)
       end
     end
 
+  end
+
+  def find_command(name)
+    sym = name.to_sym
+    return commands[name.to_sym] if commands[sym]
+    commands.keys.each do |command_name|
+      command = commands[command_name]
+      return command if (command.aliases && command.aliases.include?(sym))
+    end
+    nil
   end
 
   class UnknownArgumentException < Exception
