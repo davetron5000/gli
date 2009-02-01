@@ -48,21 +48,19 @@ module GLI
       [false,nil,nil]
     end
 
-    def usage(padding=0,long=false)
-      printf_string = "    %-#{padding}s"
-      string = ""
-      if aliases
-        aliases.each do |a|
-          string += sprintf("#{printf_string}\n",name_for_usage(a))
-        end
+    # Returns a string of all possible forms
+    # of this flag.  Mostly intended for printing
+    # to the user.
+    def all_forms(joiner=', ')
+      forms = all_forms_a
+      string = forms.join(joiner)
+      if forms[-1] =~ /^\-\-/
+        string += '='
+      else
+        string += ' '
       end
-      string += sprintf("#{printf_string} - %s (default %s)\n", name_for_usage,description,@default_value)
+      string += @argument_name
       return string
-    end
-
-    def name_for_usage(arg=name)
-      string = arg.to_s
-      (string.length == 1 ? "-#{string} " : "--#{string}=") + @argument_name
     end
   end
 end

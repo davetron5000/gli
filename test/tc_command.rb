@@ -9,16 +9,18 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.reset
     GLI.desc 'Some Global Option'
     GLI.switch :g
+    GLI.switch :blah
+    GLI.flag [:y,:yes]
     @glob = nil
     @verbose = nil
     @glob_verbose = nil
     @configure = nil
     @args = nil
-    GLI.desc 'Some Basic Command'
-    GLI.command :basic do |c|
+    GLI.desc 'Some Basic Command that potentially has a really reall long description and stuff, but you know, who cares?'
+    GLI.command [:basic,:bs] do |c|
       c.desc 'be verbose'
       c.switch :v
-      c.desc 'configure something'
+      c.desc 'configure something or other, in some way that requires a lot of verbose text and whatnot'
       c.default_value 'crud'
       c.flag [:c,:configure]
       c.action = Proc.new do |global_options,options,arguments|

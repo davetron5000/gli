@@ -2,7 +2,7 @@ require 'rake/clean'
 require 'hanna/rdoctask'
 require 'rcov/rcovtask'
 require 'rubygems'
-require 'rake/gempackagetask'
+#require 'rake/gempackagetask'
 require 'rake/testtask'
 $: << '../grancher/lib'
 require 'grancher/task'
@@ -29,7 +29,7 @@ end
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = FileList['test/tc_*.rb']
-  t.verbose = true
+#  t.verbose = true
 end
 
 

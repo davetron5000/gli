@@ -8,22 +8,6 @@ module GLI
       super(names,description)
     end
 
-    def usage(padding=0,long=false)
-      sprintf("    %-#{padding}s - %s\n", name_for_usage,description)
-    end
-
-    def aliases_s
-      return '' if !aliases || aliases.length == 0
-      with_dashes = aliases.collect do |item|
-        if item.to_s.length == 1
-          "-#{item}"
-        else
-          "--#{item}"
-        end
-      end
-      "(" + with_dashes.join(',') + ")"
-    end
-
     # Given the argument list, scans it looking for this switch
     # returning true if it's in the argumennt list (and removing it from the argument list)
     def get_value!(args)
@@ -67,10 +51,6 @@ module GLI
     def self.name_as_string(name)
       string = name.to_s
       string.length == 1 ? "-#{string}" : "--#{string}"
-    end
-
-    def name_for_usage
-      Switch.name_as_string(name)
     end
   end
 end

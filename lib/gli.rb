@@ -2,6 +2,7 @@ require 'gli/command_line_token.rb'
 require 'gli/command.rb'
 require 'gli/switch.rb'
 require 'gli/flag.rb'
+require 'gli/help.rb'
 
 # A means to define and parse a command line interface that works as
 # Git's does, in that you specify global options, a command name, command
@@ -14,6 +15,7 @@ module GLI
     switches.clear
     flags.clear
     commands.clear
+    @@program_name = $0.split(/\//)[-1]
     clear_nexts
   end
 
@@ -40,7 +42,7 @@ module GLI
 
   # Define a command.
   def command(names)
-    command = Command.new(names,@@next_desc)
+    command = Command.new(names,@@next_desc,@@next_arg_name)
     commands[command.name] = command
     yield command
     clear_nexts
@@ -48,7 +50,7 @@ module GLI
 
   # Runs whatever command is needed based on the arguments.
   def run(args)
-    commands[:help] = default_help_command if !commands[:help]
+    commands[:help] = DefaultHelpCommand.new if !commands[:help]
     begin
       global_options,command,options,arguments = parse_options(args)
       command.execute(global_options,options,arguments)
@@ -58,33 +60,8 @@ module GLI
     end
   end
 
-  def default_help_command
-    command = Command.new(:help,"Shows help")
-    command.action = Proc.new do |global_options,options,arguments|
-      if arguments.empty?
-        puts "Commands:"
-        output_command_tokens_for_help(commands)
-      else
-        command = commands[arguments[0].to_sym]
-        if command
-          puts "#{arguments[0]} - #{command.description}"
-          output_command_tokens_for_help(command.switches.merge(command.flags))
-        else
-          puts "No such command #{arguments[0]}"
-        end
-      end
-    end
-    command
-  end
-
-  def output_command_tokens_for_help(tokens)
-    max = 0
-    tokens.values.each { |token| max = token.name_for_usage.length > max ? token.name_for_usage.length : max }
-    names = tokens.keys.sort { |x,y| x.to_s <=> y.to_s }
-    names.each do |name|
-      puts tokens[name].usage(max,false)
-    end
-  end
+  ## TODO allow this to be overridden
+  def program_name; @@program_name; end
 
   # Returns an array of four values:
   #  * global options (as a Hash)

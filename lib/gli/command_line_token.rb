@@ -11,18 +11,22 @@ module GLI
       @name,@aliases,@names = parse_names(names)
     end
 
-    # Returns the aliases for this as a string
-    # for human readability
-    def aliases_s
-      !aliases || aliases.length == 0 ? '' : ("(" + aliases.join(',') + ")")
+    def usage
+      all_forms
     end
 
-    def name_for_usage
-      name.to_s
+    private
+    # Returns a string of all possible forms
+    # of this flag.  Mostly intended for printing
+    # to the user.
+    def all_forms(joiner=', ')
+      forms = all_forms_a
+      forms.join(joiner)
     end
 
-    private 
 
+    # Handles dealing with the "names" param, parsing
+    # it into the primary name and aliases list
     def parse_names(names)
       names_hash = Hash.new
       names = names.is_a?(Array) ? names : [names]
@@ -30,6 +34,14 @@ module GLI
       name = names.shift
       aliases = names.length > 0 ? names : nil
       [name,aliases,names_hash]
+    end
+
+    def all_forms_a
+      forms = [self.class.name_as_string(name)]
+      if aliases
+        forms |= aliases.collect { |a| self.class.name_as_string(a) }.sort { |x,y| y.length <=> x.length }
+      end
+      forms
     end
   end
 end

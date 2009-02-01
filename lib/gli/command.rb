@@ -6,9 +6,27 @@ module GLI
 
     attr_writer :action
 
-    def initialize(names,description)
+    # Create a new command
+    #
+    # [names] the name or names of this command (symbol or Array of symbols)
+    # [description] description of this command
+    # [arguments_name] description of the arguments, or nil if this command doesn't take arguments
+    #
+    def initialize(names,description,arguments_name=nil)
       super(names,description)
+      @arguments_description = arguments_name || ''
       clear_nexts
+    end
+
+    def names
+      all_forms
+    end
+
+    def usage
+      usage = name.to_s
+      usage += ' [options]' if !flags.empty? || !switches.empty?
+      usage += @arguments_description
+      usage
     end
 
     def flags; @flags ||= {}; end
@@ -32,15 +50,6 @@ module GLI
       switch = Switch.new(names,@next_desc)
       switches[switch.name] = switch
       clear_nexts
-    end
-
-    # Returns a multi-line usage statement for this command
-    def usage(padding=0,long=true)
-      string = sprintf("%#{padding}s - %s\n",name,description)
-      return string if !long
-      flags.keys.each { |flag| string += "    #{flags[flag].usage}\n" }
-      switches.keys.each { |switch| string += "    #{switches[switch].usage}\n" }
-      string
     end
 
     def self.name_as_string(name)
