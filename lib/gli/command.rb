@@ -25,7 +25,7 @@ module GLI
     def usage
       usage = name.to_s
       usage += ' [options]' if !flags.empty? || !switches.empty?
-      usage += @arguments_description
+      usage += ' ' + @arguments_description if @arguments_description
       usage
     end
 

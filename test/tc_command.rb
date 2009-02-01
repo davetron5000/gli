@@ -17,6 +17,7 @@ class TC_testCommand < Test::Unit::TestCase
     @configure = nil
     @args = nil
     GLI.desc 'Some Basic Command that potentially has a really reall long description and stuff, but you know, who cares?'
+    GLI.arg_name 'first_file second_file'
     GLI.command [:basic,:bs] do |c|
       c.desc 'be verbose'
       c.switch :v
@@ -76,6 +77,11 @@ class TC_testCommand < Test::Unit::TestCase
 
   def test_help
     args = %w(help basic)
+    GLI.run(args)
+  end
+
+  def test_help_no_command
+    args = %w(help foo)
     GLI.run(args)
   end
 

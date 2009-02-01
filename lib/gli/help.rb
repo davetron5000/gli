@@ -8,7 +8,6 @@ module GLI
     end
 
     def execute(global_options,options,arguments)
-      puts "\n"
       if arguments.empty?
         list_global_flags
         list_commands
@@ -40,9 +39,15 @@ module GLI
     def list_one_command_help(command_name)
       command = GLI.commands[command_name.to_sym]
       if command
-        description = wrap(command.description,command.usage.length + 3)
-        puts "#{command.usage} - #{description}"
-        output_command_tokens_for_help(command.switches.merge(command.flags))
+        puts command.usage
+        description = wrap(command.description,4)
+        puts "    #{description}"
+        all_options = command.switches.merge(command.flags)
+        if !all_options.empty?
+          puts
+          puts "Options:"
+          output_command_tokens_for_help(all_options)
+        end
       else
         puts "No such command #{command_name}"
       end
