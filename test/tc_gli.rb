@@ -1,4 +1,4 @@
-require 'gli'
+require 'gli.rb'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
@@ -18,7 +18,7 @@ class TC_testGLI < Test::Unit::TestCase
     object.flag :f
     assert (object.flags[:f] )
     assert_equal(description,object.flags[:f].description)
-    assert_equal("-f filename - #{description} (default ~/.blah.rc)",object.flags[:f].usage)
+    assert_equal("    -f filename - #{description} (default ~/.blah.rc)\n",object.flags[:f].usage)
     assert(object.usage != nil) if object.respond_to? :usage;
   end
 

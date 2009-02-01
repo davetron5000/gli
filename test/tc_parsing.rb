@@ -1,4 +1,4 @@
-require 'gli'
+require 'gli.rb'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
