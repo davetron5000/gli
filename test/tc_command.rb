@@ -45,8 +45,16 @@ class TC_testCommand < Test::Unit::TestCase
 
     args = %w(basic bar baz quux)
     GLI.run(args)
+    assert_equal('false',glob)
+    assert_equal('false',verbose)
     assert_equal('crud',configure)
     assert_equal(%w(bar baz quux),args)
+
+    args = %w(basic -v)
+    GLI.run(args)
+    assert_equal('true',verbose)
+    assert_equal('crud',configure)
+    assert_equal([],args)
   end
 
   def test_command_create
