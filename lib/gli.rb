@@ -47,7 +47,10 @@ module GLI
   #  * command options (as a Hash)
   #  * arguments (as an Array)
   def parse_options(args)
-    return parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
+    global_options,command,options,arguments = parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
+    flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
+    command.flags.each { |name,flag| options[name] = flag.default_value if !options[name] }
+    return [global_options,command,options,arguments]
   end
 
   # Finds the index of the first non-flag
@@ -311,6 +314,8 @@ module GLI
 
   # Defines a flag, which is to say a switch that takes an argument
   class Flag < Switch
+
+    attr_reader :default_value
 
     def initialize(names,description,argument_name=nil,default=nil)
       super(names,description)
