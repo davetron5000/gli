@@ -2,7 +2,7 @@ require 'rake/clean'
 require 'hanna/rdoctask'
 require 'rcov/rcovtask'
 require 'rubygems'
-#require 'rake/gempackagetask'
+require 'rake/gempackagetask'
 require 'rake/testtask'
 $: << '../grancher/lib'
 require 'grancher/task'
@@ -42,7 +42,6 @@ end
 
 Rcov::RcovTask.new do |t|
   t.libs << 'lib'
-  t.libs << 'ext'
   t.test_files = FileList['test/tc_*.rb']
 end
 

@@ -1,37 +1,6 @@
-This is a command line parser for a git-like command line client:
+This is a command line parser for a git-like command line client.
 
-*executable* <i>global options and flags</i> *command* <i>command specific options and flags</i> `arguments`
-
-  [switch]    a command line control string that takes no argument.  The <tt>-l</tt> in <tt>ls -l</tt>
-  [flag]      a switch that takes an argument.  The <tt>-d' '</tt> in <tt>cut -d' ' file</tt>
-  [command]   the command to execute.  The <tt>rebase</tt> in <tt>git rebase</tt>
-  [arguments] Anything that's not a switch, flag, or command.  The <tt>main.c</tt> in <tt>git add main.c</tt>
-
-== Switches ==
-
-Switches can be specified one at a time in either a long or short format:
-
-    git add -i
-    git add --interactive
-
-Switches can also be combined in their short form:
-
-    ls -l -a    
-    ls -la
-
-== Flags ==
-
-Flags can be specified in long or short form, and with or without an equals:
-
-    git merge -s resolve
-    git merge --strategy=resolve
-
-== Stop Switch ==
-
-A <tt>--</tt> at any time stops processing and sends the rest of the argument to the command as arguments, even if
-they start with a "--"
-
-== Use ==
+= Use
 
 The simplest way to get started is to create a scaffold project
 
@@ -41,7 +10,7 @@ This will create a (very) basic scaffold project in <tt>./my_proj</tt>, with a b
 main file in <tt>./my_proj/bin/my_proj</tt>.  This file demonstrates most of what you need
 to describe your command line interface
 
-=== More Detail ===
+== More Detail
 
 This sets you up to use the DSL that GLI defines:
 
@@ -102,13 +71,47 @@ Now, we run the program using the arguments the user provided on the command lin
 
 What this gives you:
 
-  * A reasonably useful help system.  <tt>your_program help</tt> will list all the global options and commands (along with command aliases) and <tt>your_program help command_name</tt> will list help for that given command.
-  * Error handling when flags do not receive arguments or unknown flags or switches are given
-  * Error handling when an unknown command is specified
-  * Default values for flags if they are not specified by the user (switches all default to false)
+* A reasonably useful help system.  <tt>your_program help</tt> will list all the global options and commands (along with command aliases) and <tt>your_program help command_name</tt> will list help for that given command.
+* Error handling when flags do not receive arguments or unknown flags or switches are given
+* Error handling when an unknown command is specified
+* Default values for flags if they are not specified by the user (switches all default to false)
 
 What this doesn't give you:
 
-  * A way to indicate required flags
-  * A way to indicate a require argument or required number of arguments
-  * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
+* A way to indicate required flags
+* A way to indicate a require argument or required number of arguments
+* A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
+  
+= Interface Generated
+
+*executable* <i>global options and flags</i> *command* <i>command specific options and flags</i> `arguments`
+
+[switch]    a command line control string that takes no argument.  The <tt>-l</tt> in <tt>ls -l</tt>
+[flag]      a switch that takes an argument.  The <tt>-d' '</tt> in <tt>cut -d' ' file</tt>
+[command]   the command to execute.  The <tt>rebase</tt> in <tt>git rebase</tt>
+[arguments] Anything that's not a switch, flag, or command.  The <tt>main.c</tt> in <tt>git add main.c</tt>
+
+== Switches
+
+Switches can be specified one at a time in either a long or short format:
+
+    git add -i
+    git add --interactive
+
+Switches can also be combined in their short form:
+
+    ls -l -a    
+    ls -la
+
+== Flags
+
+Flags can be specified in long or short form, and with or without an equals:
+
+    git merge -s resolve
+    git merge --strategy=resolve
+
+== Stop Switch
+
+A <tt>--</tt> at any time stops processing and sends the rest of the argument to the command as arguments, even if
+they start with a "--"
+
