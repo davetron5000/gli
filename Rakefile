@@ -20,6 +20,9 @@ Rake::RDocTask.new do |rd|
 end
 
 spec = eval(File.read('gli.gemspec'))
+$: << 'lib'
+require 'gli'
+spec.version = GLI::VERSION
 
 Rake::GemPackageTask.new(spec) do |pkg|
 end

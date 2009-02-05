@@ -8,6 +8,9 @@ include GLI
 desc 'Be verbose'
 switch :v
 
+desc 'Print version'
+switch :version
+
 desc 'Dry run; don\'t change the disk'
 switch :n
 
@@ -37,7 +40,13 @@ command [:init,:scaffold] do |c|
 end
 
 pre do |global,command,options,args|
-  puts "Executing #{command.name}" if global[:v]
+  if (!command || command.name == :help) && global[:version]
+    puts "#{$0} v#{GLI::VERSION}"
+    false
+  else
+    puts "Executing #{command.name}" if global[:v]
+    true
+  end
 end
 
 post do |global,command,options,args|

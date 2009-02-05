@@ -10,6 +10,8 @@ require 'support/help.rb'
 module GLI
   extend self
 
+  VERSION = '0.1.3'
+
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
   @@pre_block = nil
@@ -56,6 +58,8 @@ module GLI
   # but before any command is run.  If this block raises an exception
   # the command specified will not be executed.
   # The block will receive the global-options,command,options, and arguments
+  # If this block evaluates to true, the program will proceed; otherwise
+  # the program will end immediately
   def pre(&a_proc)
     @@pre_block = a_proc
   end
@@ -78,10 +82,13 @@ module GLI
     commands[:help] = DefaultHelpCommand.new if !commands[:help]
     begin
       global_options,command,options,arguments = parse_options(args)
-      @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
-      command = commands[:help] if !command
-      command.execute(global_options,options,arguments)
-      @@post_block.call(global_options,command,options,arguments) if @@post_block 
+      proceed = true
+      proceed = @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
+      if proceed
+        command = commands[:help] if !command
+        command.execute(global_options,options,arguments)
+        @@post_block.call(global_options,command,options,arguments) if @@post_block 
+      end
     rescue UnknownCommandException, UnknownArgumentException, MissingArgumentException => ex
       regular_error_handling = true
       if @@error_block
