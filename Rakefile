@@ -22,7 +22,7 @@ end
 spec = eval(File.read('gli.gemspec'))
 $: << 'lib'
 require 'gli'
-spec.version = GLI::VERSION
+raise "Version mismatch" if spec.version != GLI::VERSION
 
 Rake::GemPackageTask.new(spec) do |pkg|
 end

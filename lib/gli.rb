@@ -10,7 +10,7 @@ require 'support/help.rb'
 module GLI
   extend self
 
-  VERSION = '0.1.3'
+  VERSION = '0.1.4'
 
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
