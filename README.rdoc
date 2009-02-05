@@ -57,12 +57,28 @@ Here we specify the actual actions to take when the command is executed.  We def
 will be given the global options (as a Hash), the command-specific options (as a hash) and the command
 line arguments
 
-      c.action = Proc.new do |g,o,args|
+      c.action do |global_options,options,args|
         if args.length < 1
           raise(MissingArgumentException,'You must specify the name of your project')
         end
         Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
       end
+    end
+
+You can also specify some global code to run before, after and on errors:
+
+    pre do |global_options,command,options,args|
+      puts "After parsing, but before #{command.name} is run"
+    end
+
+    post do |global_options,command,options,args|
+      puts "After successful execution of #{command.name}"
+    end
+
+    on_error do |global_options,command,options,args|
+      puts "We go an error"
+      return true    # does the standard error handling code
+      # return false # this would skip standard error handling code
     end
 
 Now, we run the program using the arguments the user provided on the command line

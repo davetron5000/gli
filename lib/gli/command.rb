@@ -4,8 +4,6 @@ module GLI
   # A command to be run, in context of global flags and switches
   class Command < CommandLineToken
 
-    attr_writer :action
-
     # Create a new command
     #
     # [names] the name or names of this command (symbol or Array of symbols)
@@ -50,6 +48,10 @@ module GLI
       switch = Switch.new(names,@next_desc)
       switches[switch.name] = switch
       clear_nexts
+    end
+
+    def action(&block)
+      @action = block
     end
 
     def self.name_as_string(name)

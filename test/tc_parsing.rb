@@ -176,7 +176,7 @@ class TC_testParsing < Test::Unit::TestCase
       c.switch :v
       c.desc 'configure something'
       c.flag [:c,:configure]
-      c.action = Proc.new do |global_options,options,arguments|
+      c.action do |global_options,options,arguments|
         glob = global_options[:g] ? 'true' : 'false'
         verbose = options[:v] ? 'true' : 'false'
         glob_verbose = global_options[:v] ? 'true' : 'false'

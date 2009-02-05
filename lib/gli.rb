@@ -11,6 +11,9 @@ module GLI
   extend self
 
   @@program_name = $0.split(/\//)[-1]
+  @@post_block = nil
+  @@pre_block = nil
+  @@error_block = nil
 
   # Reset the GLI module internal data structures; mostly for testing
   def reset
@@ -49,21 +52,48 @@ module GLI
     clear_nexts
   end
 
+  # Define a block to run after command line arguments are parsed
+  # but before any command is run.  If this block raises an exception
+  # the command specified will not be executed.
+  # The block will receive the global-options,command,options, and arguments
+  def pre(&a_proc)
+    @@pre_block = a_proc
+  end
+
+  # Define a block to run after command hase been executed, only
+  # if there was not an error.
+  # The block will receive the global-options,command,options, and arguments
+  def post(&a_proc)
+    @@post_block = a_proc
+  end
+
+  # Define a block to run if an error occurs.
+  # The block will receive the global-options,command,options, and arguments
+  def on_error(&a_proc)
+    @@error_block = a_proc
+  end
+
   # Runs whatever command is needed based on the arguments.
   def run(args)
     commands[:help] = DefaultHelpCommand.new if !commands[:help]
     begin
       global_options,command,options,arguments = parse_options(args)
-      if command
-        command.execute(global_options,options,arguments)
-      else
-        raise UnknownCommandException
-      end
+      @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
+      command = commands[:help] if !command
+      command.execute(global_options,options,arguments)
+      @@post_block.call(global_options,command,options,arguments) if @@post_block 
     rescue UnknownCommandException, UnknownArgumentException, MissingArgumentException => ex
-      puts "error: #{ex}"
-      puts
-      help = commands[:help]
-      help.execute({},{},[])
+      regular_error_handling = true
+      if @@error_block
+        regular_error_handling = @@error_block.call(global_options,command,options,arguments,ex)
+      end
+
+      if regular_error_handling
+        puts "error: #{ex}"
+        puts
+        help = commands[:help]
+        help.execute({},{},[])
+      end
     end
   end
 
@@ -216,12 +246,14 @@ module GLI
     nil
   end
 
+  # Raise this if you get an argument you were not expecting
   class UnknownArgumentException < Exception
   end
 
   class UnknownCommandException < Exception
   end
 
+  # Raise this if your command doesn't get the number of arguments you were expecting
   class MissingArgumentException < Exception
   end
 end

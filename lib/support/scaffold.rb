@@ -49,7 +49,7 @@ command :#{command} do |c|
   c.default_value 'default'
   c.flag :s
 
-  c.action = Proc.new do |global_options,options,args|
+  c.action do |global_options,options,args|
     # Your command logic here
   end
 end

@@ -11,6 +11,12 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.switch :g
     GLI.switch :blah
     GLI.flag [:y,:yes]
+    @pre_called = false
+    @post_called = false
+    @error_called = false
+    GLI.pre { |g,c,o,a| @pre_called = true }
+    GLI.post { |g,c,o,a| @post_called = true }
+    GLI.on_error { |g,c,o,a| @error_called = true }
     @glob = nil
     @verbose = nil
     @glob_verbose = nil
@@ -24,7 +30,7 @@ class TC_testCommand < Test::Unit::TestCase
       c.desc 'configure something or other, in some way that requires a lot of verbose text and whatnot'
       c.default_value 'crud'
       c.flag [:c,:configure]
-      c.action = Proc.new do |global_options,options,arguments|
+      c.action do |global_options,options,arguments|
         @glob = global_options[:g] ? 'true' : 'false'
         @verbose = options[:v] ? 'true' : 'false'
         @glob_verbose = global_options[:v] ? 'true' : 'false'
@@ -43,6 +49,9 @@ class TC_testCommand < Test::Unit::TestCase
       assert_equal('false',@glob_verbose)
       assert_equal('foo',@configure)
       assert_equal(%w(bar baz quux),@args)
+      assert(@pre_called)
+      assert(@post_called)
+      assert(!@error_called)
     end
   end
 
@@ -73,6 +82,8 @@ class TC_testCommand < Test::Unit::TestCase
   def test_unknown_command
     args = %w(blah -v)
     GLI.run(args)
+    assert(!@post_called)
+    assert(@error_called)
   end
 
   def test_help
@@ -81,8 +92,10 @@ class TC_testCommand < Test::Unit::TestCase
   end
 
   def test_help_no_command
+    GLI.program_name 'cruddo'
     args = %w(help foo)
     GLI.run(args)
+    assert_equal('cruddo',GLI.program_name)
   end
 
   def test_command_create

@@ -5,6 +5,9 @@ require 'gli'
 require 'support/scaffold'
 
 include GLI
+desc 'Be verbose'
+switch :v
+
 desc 'Dry run; don\'t change the disk'
 switch :n
 
@@ -25,12 +28,25 @@ command [:init,:scaffold] do |c|
   c.desc 'Overwrite/ignore existing files and directories'
   c.switch [:force]
 
-  c.action = Proc.new do |g,o,args|
+  c.action do |g,o,args|
     if args.length < 1
       raise(MissingArgumentException,'You must specify the name of your project')
     end
     Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
   end
+end
+
+pre do |global,command,options,args|
+  puts "Executing #{command.name}" if global[:v]
+end
+
+post do |global,command,options,args|
+  puts "Executed #{command.name}" if global[:v]
+end
+
+on_error do |global,command,options,args|
+  puts "Got an error" if global[:v]
+  true
 end
 
 run(ARGV)
