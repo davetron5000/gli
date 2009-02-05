@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>File: README.rdoc [Git Like Interface]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='.././rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='file' id='wrapper'>
+      <div class='header'>
+        <div class='name'>README.rdoc</div>
+        <div class='paths'>
+          README.rdoc
+        </div>
+        <div class='last-update'>
+          Last Update:
+          <span class='datetime'>Wed Feb 04 22:29:30 -0500 2009</span>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='description'>
+            <p>
+            This is a command line parser for a git-like command line client.
+            </p>
+            <h1>Use</h1>
+            <p>
+            The simplest way to get started is to create a scaffold project
+            </p>
+            <pre>gli init my_proj command_name other_command_name</pre>
+            <p>
+            This will create a (very) basic scaffold project in <tt>./my_proj</tt>,
+            with a bare-bones main file in <tt>./my_proj/bin/my_proj</tt>. This file
+            demonstrates most of what you need to describe your command line interface
+            </p>
+            <h2>More Detail</h2>
+            <p>
+            This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
+            defines:
+            </p>
+            <pre>#!/usr/bin/ruby&#x000A;$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')&#x000A;&#x000A;require 'gli'&#x000A;&#x000A;include GLI</pre>
+            <p>
+            This describes a command line switch &#8220;-n&#8221; that is global to all
+            commands and specified before the command name on the command line.
+            </p>
+            <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
+            <p>
+            This is describes a command line flag that is global and has a default
+            value of <tt>.</tt>. It also specified a short description of its argument.
+            This is used to print command line help. Note that we have specified two
+            different aliases for this flag. <tt>-r</tt> (because it is listed first)
+            is the default one and <tt>--root</tt> is also supported. This means that
+            <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean the same thing to
+            the application.
+            </p>
+            <pre>desc 'Root dir in which to create project'&#x000A;default_value '.'&#x000A;arg_name 'root_dir'&#x000A;flag [:r,:root]</pre>
+            <p>
+            Here we specify a command. Inside the block we can use the same sorts of
+            things as we did above to define flags and switches specific to the
+            command. These must come after the command name. Also note that we use
+            <tt>arg_name</tt> here to describe the arguments this command accepts.
+            </p>
+            <pre>desc 'Create a new GLI-based project'&#x000A;arg_name 'project_name [command[ command]*]'&#x000A;command [:init,:scaffold] do |c|&#x000A;&#x000A;  c.desc 'Create an ext dir'&#x000A;  c.switch [:e,:ext]&#x000A;&#x000A;  c.desc 'Overwrite/ignore existing files and directories'&#x000A;  c.switch [:force]</pre>
+            <p>
+            Here we specify the actual actions to take when the command is executed. We
+            define a block that will be given the global options (as a Hash), the
+            command-specific options (as a hash) and the command line arguments
+            </p>
+            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise(MissingArgumentException,'You must specify the name of your project')&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
+            <p>
+            You can also specify some global code to run before, after and on errors:
+            </p>
+            <pre>pre do |global_options,command,options,args|&#x000A;  puts &quot;After parsing, but before #{command.name} is run&quot;&#x000A;end&#x000A;&#x000A;post do |global_options,command,options,args|&#x000A;  puts &quot;After successful execution of #{command.name}&quot;&#x000A;end&#x000A;&#x000A;on_error do |global_options,command,options,args|&#x000A;  puts &quot;We go an error&quot;&#x000A;  return true    # does the standard error handling code&#x000A;  # return false # this would skip standard error handling code&#x000A;end</pre>
+            <p>
+            Now, we run the program using the arguments the user provided on the
+            command line
+            </p>
+            <pre>run(ARGV)</pre>
+            <p>
+            What this gives you:
+            </p>
+            <ul>
+            <li>A reasonably useful help system. <tt>your_program help</tt> will list all
+            the global options and commands (along with command aliases) and
+            <tt>your_program help command_name</tt> will list help for that given
+            command.
+            
+            </li>
+            <li>Error handling when flags do not receive arguments or unknown flags or
+            switches are given
+            
+            </li>
+            <li>Error handling when an unknown command is specified
+            
+            </li>
+            <li>Default values for flags if they are not specified by the user (switches
+            all default to false)
+            
+            </li>
+            </ul>
+            <p>
+            What this doesn&#8217;t give you:
+            </p>
+            <ul>
+            <li>A way to indicate required flags
+            
+            </li>
+            <li>A way to indicate a require argument or required number of arguments
+            
+            </li>
+            <li>A way to do default switches to &#8216;true&#8217; and therefore accept
+            things like <tt>--no-force</tt>
+            
+            </li>
+            </ul>
+            <h1>Interface Generated</h1>
+            <p>
+            <b>executable</b> <em>global options and flags</em> <b>command</b>
+            <em>command specific options and flags</em> `arguments`
+            </p>
+            <dl>
+            <dt>switch</dt><dd>a command line control string that takes no argument. The <tt>-l</tt> in
+            <tt>ls -l</tt>
+            
+            </dd>
+            <dt>flag</dt><dd>a switch that takes an argument. The <tt>-d' '</tt> in <tt>cut -d' '
+            file</tt>
+            
+            </dd>
+            <dt>command</dt><dd>the command to execute. The <tt>rebase</tt> in <tt>git rebase</tt>
+            
+            </dd>
+            <dt>arguments</dt><dd>Anything that&#8217;s not a switch, flag, or command. The <tt>main.c</tt>
+            in <tt>git add main.c</tt>
+            
+            </dd>
+            </dl>
+            <h2>Switches</h2>
+            <p>
+            Switches can be specified one at a time in either a long or short format:
+            </p>
+            <pre>git add -i&#x000A;git add --interactive</pre>
+            <p>
+            Switches can also be combined in their short form:
+            </p>
+            <pre>ls -l -a&#x000A;ls -la</pre>
+            <h2>Flags</h2>
+            <p>
+            Flags can be specified in long or short form, and with or without an
+            equals:
+            </p>
+            <pre>git merge -s resolve&#x000A;git merge --strategy=resolve</pre>
+            <h2>Stop Switch</h2>
+            <p>
+            A <tt>--</tt> at any time stops processing and sends the rest of the
+            argument to the command as arguments, even if they start with a
+            &#8220;&#8212;&#8220;
+            </p>
+          </div>
+          <div id='section'>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>
