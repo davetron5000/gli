@@ -28,10 +28,10 @@ the command name on the command line.
     switch :n
 
 
-This is  describes a command line flag that is global and has a default value of <tt>.</tt>.  It also
-specified a short description of its argument.  This is used to print command line help.  Note that we
+This describes a command line flag that is global and has a default value of '<tt>.</tt>'.  It also
+specifies a short description of its argument.  This is used to print command line help.  Note that we
 have specified two different aliases for this flag.  <tt>-r</tt> (because it is listed first) is the default
-one and <tt>--root</tt> is also supported.  This means that <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean
+one and <tt>--root</tt> (note two-dash syntax) is also supported.  This means that <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean
 the same thing to the application.
 
     desc 'Root dir in which to create project'
@@ -69,6 +69,8 @@ You can also specify some global code to run before, after and on errors:
 
     pre do |global_options,command,options,args|
       puts "After parsing, but before #{command.name} is run"
+      return true
+      # return false if we want to skip command execution for some reason
     end
 
     post do |global_options,command,options,args|
