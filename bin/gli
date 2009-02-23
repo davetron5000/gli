@@ -14,7 +14,7 @@ switch :version
 desc 'Dry run; don\'t change the disk'
 switch :n
 
-desc 'Root dir in which to create project'
+desc 'Root dir of project'
 default_value '.'
 flag [:r,:root]
 
@@ -53,9 +53,9 @@ post do |global,command,options,args|
   puts "Executed #{command.name}" if global[:v]
 end
 
-on_error do |global,command,options,args|
-  puts "Got an error" if global[:v]
-  true
-end
+#on_error do |global,command,options,args|
+#  puts "Got an error" if global[:v]
+#  true
+#end
 
 run(ARGV)

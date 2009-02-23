@@ -10,7 +10,7 @@ require 'support/help.rb'
 module GLI
   extend self
 
-  VERSION = '0.1.4'
+  VERSION = '0.1.5'
 
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
@@ -72,7 +72,8 @@ module GLI
   end
 
   # Define a block to run if an error occurs.
-  # The block will receive the global-options,command,options, and arguments
+  # The block will receive the exception that was caught.
+  # It should return false to avoid the built-in error handling
   def on_error(&a_proc)
     @@error_block = a_proc
   end
@@ -91,9 +92,7 @@ module GLI
       end
     rescue UnknownCommandException, UnknownArgumentException, MissingArgumentException => ex
       regular_error_handling = true
-      if @@error_block
-        regular_error_handling = @@error_block.call(global_options,command,options,arguments,ex)
-      end
+      regular_error_handling = @@error_block.call(ex) if @@error_block
 
       if regular_error_handling
         puts "error: #{ex}"
