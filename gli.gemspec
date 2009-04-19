@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
-  s.version = '0.1.5'
+  s.version = '0.1.6'
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
@@ -22,5 +22,6 @@ bin/gli
   s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << 'gli'
+  s.rubyforge_project = 'gli'
 end
 
