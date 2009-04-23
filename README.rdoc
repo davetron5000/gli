@@ -137,3 +137,8 @@ Flags can be specified in long or short form, and with or without an equals:
 A <tt>--</tt> at any time stops processing and sends the rest of the argument to the command as arguments, even if
 they start with a "--"
 
+== Links
+
+* [http://davetron5000.github.com/gli] - RubyDoc
+* [http://www.github.com/davetron5000/gli] - Source on GitHub
+
