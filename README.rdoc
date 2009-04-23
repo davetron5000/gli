@@ -2,6 +2,10 @@ This is a command line parser for a git-like command line client.
 
 = Use
 
+Install if you need to:
+
+    sudo gem install gli
+
 The simplest way to get started is to create a scaffold project
 
     gli init my_proj command_name other_command_name
