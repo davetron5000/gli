@@ -1,6 +1,12 @@
-This is a command line parser for a git-like command line client.
+= Git-Like Interface Command Line Parser
 
-= Use
+Author::  Dave Copeland (mailto:davetron5000 at g mail dot com)
+Copyright:: Copyright (c) 2009 by Dave Copeland
+License:: Distributes under the Apache License, see LICENSE.txt in the source distro
+
+This is a DSL you can use to create a command line interface like git, gem or svn, in that the first argument is a command, and there are global and command specific flags.
+
+== Use
 
 Install if you need to:
 
@@ -14,7 +20,7 @@ This will create a (very) basic scaffold project in <tt>./my_proj</tt>, with a b
 main file in <tt>./my_proj/bin/my_proj</tt>.  This file demonstrates most of what you need
 to describe your command line interface
 
-== More Detail
+=== More Detail
 
 This sets you up to use the DSL that GLI defines:
 
@@ -104,7 +110,7 @@ What this doesn't give you:
 * A way to indicate a require argument or required number of arguments
 * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
   
-= Interface Generated
+== Interface Generated
 
 *executable* <i>global options and flags</i> *command* <i>command specific options and flags</i> `arguments`
 
@@ -113,7 +119,7 @@ What this doesn't give you:
 [command]   the command to execute.  The <tt>rebase</tt> in <tt>git rebase</tt>
 [arguments] Anything that's not a switch, flag, or command.  The <tt>main.c</tt> in <tt>git add main.c</tt>
 
-== Switches
+=== Switches
 
 Switches can be specified one at a time in either a long or short format:
 
@@ -125,14 +131,14 @@ Switches can also be combined in their short form:
     ls -l -a    
     ls -la
 
-== Flags
+=== Flags
 
 Flags can be specified in long or short form, and with or without an equals:
 
     git merge -s resolve
     git merge --strategy=resolve
 
-== Stop Switch
+=== Stop Switch
 
 A <tt>--</tt> at any time stops processing and sends the rest of the argument to the command as arguments, even if
 they start with a "--"
