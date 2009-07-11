@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang='en'>
   <head>
-    <title>Class: GLI::DefaultHelpCommand [Git Like Interface]</title>
+    <title>: GLI::DefaultHelpCommand [Git Like Interface]</title>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../.././rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
       //<![CDATA[
         function popupCode(url) {
@@ -45,41 +45,41 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000048">new</a></li>
+              <li><a href="#M000044">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000049">execute</a></li>
+              <li><a href="#M000045">execute</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000048'>
-                <a name='M000048'>      </a>
+              <div class='public-class method' id='method-M000044'>
+                <a name='M000044'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000048-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000044-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000048-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 6</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:help</span>,<span class="ruby-value str">'Shows list of commands or help for one command'</span>,<span class="ruby-value str">'[command]'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000044-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 6</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:help</span>,<span class="ruby-value str">'Shows list of commands or help for one command'</span>,<span class="ruby-value str">'[command]'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000049'>
-                <a name='M000049'>      </a>
+              <div class='public-instance method' id='method-M000045'>
+                <a name='M000045'>      </a>
                 <div class='synopsis'>
                   <span class='name'>execute</span>
                   <span class='arguments'>(global_options,options,arguments)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000049-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000045-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000049-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 10</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>&#x000A;        <span class="ruby-identifier">list_global_flags</span>&#x000A;        <span class="ruby-identifier">list_commands</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">list_one_command_help</span>(<span class="ruby-identifier">arguments</span>[<span class="ruby-value">0</span>])&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000045-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 10</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>&#x000A;        <span class="ruby-identifier">list_global_flags</span>&#x000A;        <span class="ruby-identifier">list_commands</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">list_one_command_help</span>(<span class="ruby-identifier">arguments</span>[<span class="ruby-value">0</span>])&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>

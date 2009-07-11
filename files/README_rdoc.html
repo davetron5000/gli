@@ -3,7 +3,7 @@
   <head>
     <title>File: README.rdoc [Git Like Interface]</title>
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='.././rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
     <script type='text/javascript'>
       //<![CDATA[
         function popupCode(url) {
@@ -31,16 +31,35 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Wed Feb 04 22:29:30 -0500 2009</span>
+          <span class='datetime'>Sat Jul 11 19:10:49 -0400 2009</span>
         </div>
       </div>
       <div id='content'>
         <div id='text'>
           <div id='description'>
+            <h1>Git-Like Interface Command Line Parser</h1>
+            <table>
+            <tr><td valign="top">Author:</td><td>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot
+            com)
+            
+            </td></tr>
+            <tr><td valign="top">Copyright:</td><td>Copyright &#169; 2009 by Dave Copeland
+            
+            </td></tr>
+            <tr><td valign="top">License:</td><td>Distributes under the Apache License, see LICENSE.txt in the source distro
+            
+            </td></tr>
+            </table>
             <p>
-            This is a command line parser for a git-like command line client.
+            This is a DSL you can use to create a command line interface like git, gem
+            or svn, in that the first argument is a command, and there are global and
+            command specific flags.
             </p>
-            <h1>Use</h1>
+            <h2>Use</h2>
+            <p>
+            Install if you need to:
+            </p>
+            <pre>sudo gem install gli</pre>
             <p>
             The simplest way to get started is to create a scaffold project
             </p>
@@ -50,7 +69,7 @@
             with a bare-bones main file in <tt>./my_proj/bin/my_proj</tt>. This file
             demonstrates most of what you need to describe your command line interface
             </p>
-            <h2>More Detail</h2>
+            <h3>More Detail</h3>
             <p>
             This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
             defines:
@@ -62,13 +81,13 @@
             </p>
             <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
             <p>
-            This is describes a command line flag that is global and has a default
-            value of <tt>.</tt>. It also specified a short description of its argument.
-            This is used to print command line help. Note that we have specified two
-            different aliases for this flag. <tt>-r</tt> (because it is listed first)
-            is the default one and <tt>--root</tt> is also supported. This means that
-            <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean the same thing to
-            the application.
+            This describes a command line flag that is global and has a default value
+            of &#8216;<tt>.</tt>&#8217;. It also specifies a short description of its
+            argument. This is used to print command line help. Note that we have
+            specified two different aliases for this flag. <tt>-r</tt> (because it is
+            listed first) is the default one and <tt>--root</tt> (note two-dash syntax)
+            is also supported. This means that <tt>-r some_dir</tt> and
+            <tt>--root=some_dir</tt> mean the same thing to the application.
             </p>
             <pre>desc 'Root dir in which to create project'&#x000A;default_value '.'&#x000A;arg_name 'root_dir'&#x000A;flag [:r,:root]</pre>
             <p>
@@ -83,11 +102,11 @@
             define a block that will be given the global options (as a Hash), the
             command-specific options (as a hash) and the command line arguments
             </p>
-            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise(MissingArgumentException,'You must specify the name of your project')&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
+            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise 'You must specify the name of your project'&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
             <p>
             You can also specify some global code to run before, after and on errors:
             </p>
-            <pre>pre do |global_options,command,options,args|&#x000A;  puts &quot;After parsing, but before #{command.name} is run&quot;&#x000A;end&#x000A;&#x000A;post do |global_options,command,options,args|&#x000A;  puts &quot;After successful execution of #{command.name}&quot;&#x000A;end&#x000A;&#x000A;on_error do |global_options,command,options,args|&#x000A;  puts &quot;We go an error&quot;&#x000A;  return true    # does the standard error handling code&#x000A;  # return false # this would skip standard error handling code&#x000A;end</pre>
+            <pre>pre do |global_options,command,options,args|&#x000A;  puts &quot;After parsing, but before #{command.name} is run&quot;&#x000A;  return true&#x000A;  # return false if we want to skip command execution for some reason&#x000A;end&#x000A;&#x000A;post do |global_options,command,options,args|&#x000A;  puts &quot;After successful execution of #{command.name}&quot;&#x000A;end&#x000A;&#x000A;on_error do |global_options,command,options,args|&#x000A;  puts &quot;We go an error&quot;&#x000A;  return true    # does the standard error handling code&#x000A;  # return false # this would skip standard error handling code&#x000A;end</pre>
             <p>
             Now, we run the program using the arguments the user provided on the
             command line
@@ -130,7 +149,7 @@
             
             </li>
             </ul>
-            <h1>Interface Generated</h1>
+            <h2>Interface Generated</h2>
             <p>
             <b>executable</b> <em>global options and flags</em> <b>command</b>
             <em>command specific options and flags</em> `arguments`
@@ -152,7 +171,7 @@
             
             </dd>
             </dl>
-            <h2>Switches</h2>
+            <h3>Switches</h3>
             <p>
             Switches can be specified one at a time in either a long or short format:
             </p>
@@ -161,18 +180,31 @@
             Switches can also be combined in their short form:
             </p>
             <pre>ls -l -a&#x000A;ls -la</pre>
-            <h2>Flags</h2>
+            <h3>Flags</h3>
             <p>
             Flags can be specified in long or short form, and with or without an
             equals:
             </p>
             <pre>git merge -s resolve&#x000A;git merge --strategy=resolve</pre>
-            <h2>Stop Switch</h2>
+            <h3>Stop Switch</h3>
             <p>
             A <tt>--</tt> at any time stops processing and sends the rest of the
             argument to the command as arguments, even if they start with a
             &#8220;&#8212;&#8220;
             </p>
+            <h2>Links</h2>
+            <ul>
+            <li>[<a
+            href="http://davetron5000.github.com/gli">davetron5000.github.com/gli</a>]
+            - RubyDoc
+            
+            </li>
+            <li>[<a
+            href="http://www.github.com/davetron5000/gli">www.github.com/davetron5000/gli</a>]
+            - Source on GitHub
+            
+            </li>
+            </ul>
           </div>
           <div id='section'>
           </div>
