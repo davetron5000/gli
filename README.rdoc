@@ -69,7 +69,7 @@ line arguments
 
       c.action do |global_options,options,args|
         if args.length < 1
-          raise(MissingArgumentException,'You must specify the name of your project')
+          raise 'You must specify the name of your project'
         end
         Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
       end

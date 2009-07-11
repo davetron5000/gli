@@ -53,7 +53,11 @@ command :#{command} do |c|
   c.default_value 'default'
   c.flag :s
   c.action do |global_options,options,args|
+
     # Your command logic here
+     
+    # If you have any errors, just raise them
+    # raise "that command made no sense"
   end
 end
 EOS

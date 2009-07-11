@@ -24,7 +24,7 @@ module GLI
               args.delete_at index
               return value
             else
-              raise(MissingArgumentException,"#{matched} requires an argument")
+              raise "#{matched} requires an argument"
             end
           else
             return value
@@ -38,7 +38,7 @@ module GLI
       if @names[arg]
         return [true,arg,nil] if arg.length == 2
         # This means we matched the long-form, but there's no argument
-        raise(MissingArgumentException,"#{arg} requires an argument via #{arg}=argument")
+        raise "#{arg} requires an argument via #{arg}=argument"
       end
       @names.keys.each() do |name|
         match_string = "^#{name}=(.*)$"

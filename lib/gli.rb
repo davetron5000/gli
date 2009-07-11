@@ -72,8 +72,9 @@ module GLI
   end
 
   # Define a block to run if an error occurs.
-  # The block will receive the exception that was caught.
-  # It should return false to avoid the built-in error handling
+  # The block will receive any Exception that was caught.
+  # It should return false to avoid the built-in error handling (which basically just
+  # prints out a message)
   def on_error(&a_proc)
     @@error_block = a_proc
   end
@@ -90,15 +91,12 @@ module GLI
         command.execute(global_options,options,arguments)
         @@post_block.call(global_options,command,options,arguments) if @@post_block 
       end
-    rescue UnknownCommandException, UnknownArgumentException, MissingArgumentException => ex
+    rescue Exception => ex
       regular_error_handling = true
       regular_error_handling = @@error_block.call(ex) if @@error_block
 
       if regular_error_handling
-        puts "error: #{ex}"
-        puts
-        help = commands[:help]
-        help.execute({},{},[])
+        puts "error: #{ex.message}"
       end
     end
   end
@@ -175,7 +173,7 @@ module GLI
       if !command
         command_name = args.shift
         command = find_command(command_name)
-        raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
+        raise "Unknown command '#{command_name}'" if !command
         return parse_options_helper(args,global_options,command,command_options,arguments)
       else
         return global_options,command,command_options,arguments | args
@@ -225,16 +223,16 @@ module GLI
             try_me.delete arg
             break 
           end
-          raise(UnknownArgumentException,"Unknown argument #{arg}") if arg =~ /^\-/ 
+          raise "Unknown argument #{arg}" if arg =~ /^\-/ 
         end
         return [global_options,command,command_options,try_me | rest]
       else
         # Now we have our command name
         command_name = try_me.shift
-        raise(UnknownArgumentException,"Unknown argument #{command_name}") if command_name =~ /^\-/
+        raise "Unknown argument #{command_name}" if command_name =~ /^\-/
 
         command = find_command(command_name)
-        raise(UnknownCommandException,"Unknown command '#{command_name}'") if !command
+        raise "Unknown command '#{command_name}'" if !command
 
         return parse_options_helper(rest,global_options,command,command_options,arguments)
       end
@@ -252,14 +250,4 @@ module GLI
     nil
   end
 
-  # Raise this if you get an argument you were not expecting
-  class UnknownArgumentException < Exception
-  end
-
-  class UnknownCommandException < Exception
-  end
-
-  # Raise this if your command doesn't get the number of arguments you were expecting
-  class MissingArgumentException < Exception
-  end
 end
