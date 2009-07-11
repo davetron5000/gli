@@ -53,9 +53,4 @@ post do |global,command,options,args|
   puts "Executed #{command.name}" if global[:v]
 end
 
-#on_error do |global,command,options,args|
-#  puts "Got an error" if global[:v]
-#  true
-#end
-
 run(ARGV)
