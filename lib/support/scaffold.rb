@@ -12,6 +12,105 @@ module GLI
 
       if mkdirs(dirs,force,dry_run)
         mk_binfile(root_dir,create_ext_dir,force,dry_run,project_name,commands)
+        mk_readme(root_dir,dry_run,project_name)
+        mk_gemspec(root_dir,dry_run,project_name)
+        mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
+      end
+    end
+
+    def self.mk_readme(root_dir,dry_run,project_name)
+      return if dry_run
+      File.open("#{root_dir}/#{project_name}/README.rdoc",'w') do |file|
+        file << "= #{project_name}\n\n"
+        file << "Describe your project here\n\n"
+        file << ":include:#{project_name}.rdoc\n\n"
+      end
+      File.open("#{root_dir}/#{project_name}/#{project_name}.rdoc",'w') do |file|
+        file << "= #{project_name}\n\n"
+        file << "Generate this with\n    #{project_name} rdoc\nAfter you have described your command line interface"
+      end
+    end
+
+    def self.mk_gemspec(root_dir,dry_run,project_name)
+      return if dry_run
+      File.open("#{root_dir}/#{project_name}/#{project_name}.gemspec",'w') do |file|
+        file.puts <<EOS
+spec = Gem::Specification.new do |s| 
+  s.name = '#{project_name}'
+  s.version = '0.0.01'
+  s.author = 'Your Name Here'
+  s.email = 'your@email.address.com'
+  s.homepage = 'http://your.website.com'
+  s.platform = Gem::Platform::RUBY
+  s.summary = 'A description of your project'
+# Add your other files here if you make them
+  s.files = %w(
+bin/#{project_name}
+  )
+  s.require_paths << 'lib'
+  s.has_rdoc = true
+  s.extra_rdoc_files = ['README.rdoc','#{project_name}.rdoc']
+  s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc' << '-ri'
+  s.bindir = 'bin'
+  s.executables << '#{project_name}'
+end
+EOS
+      end
+    end
+
+    def self.mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
+      return if dry_run
+      File.open("#{root_dir}/#{project_name}/Rakefile",'w') do |file|
+        file.puts <<EOS
+require 'rake/clean'
+require 'rubygems'
+require 'rake/gempackagetask'
+require 'rake/rdoctask'
+
+Rake::RDocTask.new do |rd|
+  rd.main = "README.rdoc"
+  rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
+  rd.title = 'Your application title'
+end
+
+spec = eval(File.read('#{project_name}.gemspec'))
+
+Rake::GemPackageTask.new(spec) do |pkg|
+end
+
+EOS
+        if create_test_dir
+          file.puts <<EOS
+require 'rake/testtask'
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/tc_*.rb']
+end
+
+task :default => :test
+EOS
+          File.open("#{root_dir}/#{project_name}/test/tc_nothing.rb",'w') do |test_file|
+            test_file.puts <<EOS
+require 'test/unit'
+require 'test/unit/ui/console/testrunner'
+
+class TC_testNothing < Test::Unit::TestCase
+
+  def setup
+  end
+
+  def teardown
+  end
+
+  def test_the_truth
+    assert true
+  end
+end
+EOS
+          end
+        else
+          file.puts "task :default => :package\n"
+        end
       end
     end
 
