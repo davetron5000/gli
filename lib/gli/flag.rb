@@ -6,8 +6,8 @@ module GLI
 
     attr_reader :default_value
 
-    def initialize(names,description,argument_name=nil,default=nil)
-      super(names,description)
+    def initialize(names,description,argument_name=nil,default=nil,long_desc=nil)
+      super(names,description,long_desc)
       @argument_name = argument_name || "arg"
       @default_value = default
     end

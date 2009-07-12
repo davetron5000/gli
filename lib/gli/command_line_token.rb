@@ -5,9 +5,11 @@ module GLI
     attr_reader :name
     attr_reader :aliases
     attr_reader :description
+    attr_reader :long_description
 
-    def initialize(names,description)
+    def initialize(names,description,long_description=nil)
       @description = description
+      @long_description = long_description
       @name,@aliases,@names = parse_names(names)
     end
 

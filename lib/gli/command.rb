@@ -9,12 +9,15 @@ module GLI
     # [names] the name or names of this command (symbol or Array of symbols)
     # [description] description of this command
     # [arguments_name] description of the arguments, or nil if this command doesn't take arguments
+    # [long_desc] a longer description of the command, possibly with multiple lines and text formatting
     #
-    def initialize(names,description,arguments_name=nil)
-      super(names,description)
+    def initialize(names,description,arguments_name=nil,long_desc=nil)
+      super(names,description,long_desc)
       @arguments_description = arguments_name || ''
       clear_nexts
     end
+
+    def arguments_description; @arguments_description; end
 
     def names
       all_forms

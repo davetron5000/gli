@@ -4,8 +4,8 @@ module GLI
   # Defines a command line switch
   class Switch < CommandLineToken
 
-    def initialize(names,description)
-      super(names,description)
+    def initialize(names,description,long_desc=nil)
+      super(names,description,long_desc)
     end
 
     # Given the argument list, scans it looking for this switch
