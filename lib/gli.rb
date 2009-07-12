@@ -11,7 +11,7 @@ require 'support/rdoc.rb'
 module GLI
   extend self
 
-  VERSION = '0.1.5'
+  VERSION = '0.2.1'
 
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
