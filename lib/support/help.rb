@@ -3,7 +3,8 @@ require 'gli/command'
 
 module GLI
   class DefaultHelpCommand < Command
-    def initialize
+    def initialize(*omit_from_list)
+      @omit_from_list = omit_from_list
       super(:help,'Shows list of commands or help for one command','[command]')
     end
 
@@ -33,7 +34,8 @@ module GLI
 
     def list_commands
       puts 'Commands:'
-      output_command_tokens_for_help(GLI.commands,:names)
+      commands_to_show = GLI.commands.reject{ |name,c| @omit_from_list.include?(c) }
+      output_command_tokens_for_help(commands_to_show,:names)
     end
 
     def list_one_command_help(command_name)
@@ -42,6 +44,10 @@ module GLI
         puts command.usage
         description = wrap(command.description,4)
         puts "    #{description}"
+        if command.long_description
+          puts
+          puts "    #{wrap(command.long_description,4)}"
+        end
         all_options = command.switches.merge(command.flags)
         if !all_options.empty?
           puts
