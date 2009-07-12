@@ -3,6 +3,7 @@ require 'gli/command.rb'
 require 'gli/switch.rb'
 require 'gli/flag.rb'
 require 'support/help.rb'
+require 'support/rdoc.rb'
 
 # A means to define and parse a command line interface that works as
 # Git's does, in that you specify global options, a command name, command
@@ -87,7 +88,9 @@ module GLI
 
   # Runs whatever command is needed based on the arguments.
   def run(args)
-    commands[:help] = DefaultHelpCommand.new if !commands[:help]
+    rdoc = RDocCommand.new
+    commands[:rdoc] = rdoc if !commands[:rdoc]
+    commands[:help] = DefaultHelpCommand.new(rdoc) if !commands[:help]
     begin
       global_options,command,options,arguments = parse_options(args)
       proceed = true
