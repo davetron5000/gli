@@ -16,12 +16,17 @@ The simplest way to get started is to create a scaffold project
 
     gli init my_proj command_name other_command_name
 
-This will create a (very) basic scaffold project in <tt>./my_proj</tt>, with a bare-bones 
-main file in <tt>./my_proj/bin/my_proj</tt>.  This file demonstrates most of what you need
-to describe your command line interface.
+This will create a basic scaffold project in <tt>./my_proj</tt> with:
 
-=== More Detail
+* executable in <tt>./my_proj/bin/my_proj</tt>.  This file demonstrates most of what you need to describe your command line interface.
+* an empty test in <tt>./my_proj/test/tc_nothing.rb</tt> that can bootstrap your tests
+* a gemspec shell
+* a README shell
+* Rakefile that can generate RDoc, package your Gem and run tests
 
+=== Example
+
+This example demonstrates most of the features of GLI
 
     #!/usr/bin/ruby
     $: << File.expand_path(File.dirname(__FILE__) + '/../lib') 
@@ -118,7 +123,22 @@ What this doesn't give you:
 * A way to indicate required flags
 * A way to indicate a require argument or required number of arguments
 * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
-  
+
+== Reference
+
+
+[+action+] Specify the action to take when a command is executed from the command line.  This is only usable in a command block on the command object (e.g. <tt>c.action</tt>).  This takes a block that yields three parameters: a hash of global options specified on the commandline, a hash of command-specific options specified on the command line, and an array of arguments parsed after the options were set on the command line.  So, a command like <tt>git --git-dir=/tmp commit -a -m 'Foo bar' foo.c bar.c</tt> would result in the global hash containing <tt>:'git-dir' => '/tmp'</tt>, the options hash containing <tt>:a => true, :m => 'Foo bar'</tt> and the arguments array being <tt>['foo.c', 'bar.c']</tt>
+[+arg_name+] Describe the name of the argument to the next flag or command.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.arg_name</tt>)
+[+command+] Declare a command.  This takes a symbol or array of symbols and a block.  The block yields one argument, the command itself.  
+[+default_value+] Indicate the default value of the next flag.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.default_value</tt>)
+[+desc+] Describe the next flag, switch, or command you will declare.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.desc</tt>)
+[+flag+] Declare a flag, which is a command line switch that takes an argument.  This takes either a symbol or an array of symbols.  The first symbol decared is used in your program to determine the flag's value at runtime.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.flag</tt>)
+[+long_desc+] Provide a more lengthy description of the next flag, switch, or command you will declare.  This will appear in command line output for commands when you get help for a command.  For flags and switches, this will only appear in the generated rdoc and *not* on the command line.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.long_desc</tt>)
+[+on_error+] Declare an error handling routine that will be called if any command (or other GLI processing) encouters an exception.  This is a block that will receive the exception that was caught.  All exceptions are routed through this block. If the block evaluates to true, the built-in error handling will be called after, otherwise, nothing will happen.
+[+post+] Declare code to run after every command that didn't experience an error.  This is not available inside a command block.  This takes a block that will receive four arguments: the global argument hash (as in <tt>action</tt>), the command (instance of Command), the command-specific options (as in <tt>action</tt>, and the parsed command line arguments (as in <tt>action</tt>).  
+[+pre+] Declare code to run before every command.  This is not available inside a command block.  This takes a block that will receive four arguments: the global argument hash (as in <tt>action</tt>), the command (instance of Command), the command-specific options (as in <tt>action</tt>, and the parsed command line arguments (as in <tt>action</tt>).  If this block evaluates to false, the command will not be executed and the program will stop.
+[+switch+] Declare a switch, which is a command-line switch taking no argument that indicates a boolean "true" when specified on the command line.  This takes either a symbol or array of symbols.  The first symbol declared is used in your program to determine if the switch was set.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.switch</tt>)
+
 == Interface Generated
 
 The command line interface that is created with the GLI DSL is:
