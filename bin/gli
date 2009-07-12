@@ -5,20 +5,28 @@ require 'gli'
 require 'support/scaffold'
 
 include GLI
+
 desc 'Be verbose'
 switch :v
 
-desc 'Print version'
+desc 'Show version'
 switch :version
 
-desc 'Dry run; don\'t change the disk'
+desc 'Dry run; don''t change the disk'
 switch :n
 
 desc 'Root dir of project'
+long_desc 'This is the directory where the project''s directory will be made, so if you specify a project name ''foo'' and the root dir of ''.'', the directory ''./foo'' will be created'
 default_value '.'
 flag [:r,:root]
 
 desc 'Create a new GLI-based project'
+long_desc <<EOS
+This will create a scaffold command line project that uses GLI
+for command line processing.  Specifically, this will create
+an executable ready to go, as well as a lib and test directory, all
+inside the directory named for your project
+EOS
 arg_name 'project_name [command[ command]*]'
 command [:init,:scaffold] do |c|
 
