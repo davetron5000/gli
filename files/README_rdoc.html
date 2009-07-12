@@ -31,7 +31,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Sat Jul 11 19:10:49 -0400 2009</span>
+          <span class='datetime'>Sun Jul 12 17:59:16 -0400 2009</span>
         </div>
       </div>
       <div id='content'>
@@ -65,44 +65,69 @@
             </p>
             <pre>gli init my_proj command_name other_command_name</pre>
             <p>
-            This will create a (very) basic scaffold project in <tt>./my_proj</tt>,
-            with a bare-bones main file in <tt>./my_proj/bin/my_proj</tt>. This file
-            demonstrates most of what you need to describe your command line interface
+            This will create a basic scaffold project in <tt>./my_proj</tt> with:
             </p>
-            <h3>More Detail</h3>
+            <ul>
+            <li>executable in <tt>./my_proj/bin/my_proj</tt>. This file demonstrates most
+            of what you need to describe your command line interface.
+            
+            </li>
+            <li>an empty test in <tt>./my_proj/test/tc_nothing.rb</tt> that can bootstrap
+            your tests
+            
+            </li>
+            <li>a gemspec shell
+            
+            </li>
+            <li>a README shell
+            
+            </li>
+            <li>Rakefile that can generate RDoc, package your Gem and run tests
+            
+            </li>
+            </ul>
+            <h3>Example</h3>
+            <p>
+            This example demonstrates most of the features of <a
+            href="../classes/GLI.html">GLI</a>
+            </p>
+            <pre>#!/usr/bin/ruby&#x000A;$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')&#x000A;&#x000A;require 'gli'&#x000A;&#x000A;include GLI</pre>
             <p>
             This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
             defines:
             </p>
-            <pre>#!/usr/bin/ruby&#x000A;$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')&#x000A;&#x000A;require 'gli'&#x000A;&#x000A;include GLI</pre>
+            <pre>program_description 'Support program for bootstrapping GLI-based programs'</pre>
+            <p>
+            This sets a description of your program. This can be as long as you want.
+            </p>
+            <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
             <p>
             This describes a command line switch &#8220;-n&#8221; that is global to all
             commands and specified before the command name on the command line.
             </p>
-            <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
-            <p>
-            This describes a command line flag that is global and has a default value
-            of &#8216;<tt>.</tt>&#8217;. It also specifies a short description of its
-            argument. This is used to print command line help. Note that we have
-            specified two different aliases for this flag. <tt>-r</tt> (because it is
-            listed first) is the default one and <tt>--root</tt> (note two-dash syntax)
-            is also supported. This means that <tt>-r some_dir</tt> and
-            <tt>--root=some_dir</tt> mean the same thing to the application.
-            </p>
             <pre>desc 'Root dir in which to create project'&#x000A;default_value '.'&#x000A;arg_name 'root_dir'&#x000A;flag [:r,:root]</pre>
+            <p>
+            The following describes a command line flag that is global and has a
+            default value of &#8216;<tt>.</tt>&#8217;. It also specifies a short
+            description of its argument. This is used to print command line help. Note
+            that we have specified two different aliases for this flag. <tt>-r</tt>
+            (because it is listed first) is the default one and <tt>--root</tt> (note
+            two-dash syntax) is also supported. This means that <tt>-r some_dir</tt>
+            and <tt>--root=some_dir</tt> mean the same thing to the application.
+            </p>
+            <pre>desc 'Create a new GLI-based project'&#x000A;arg_name 'project_name [command[ command]*]'&#x000A;command [:init,:scaffold] do |c|&#x000A;&#x000A;  c.desc 'Create an ext dir'&#x000A;  c.switch [:e,:ext]&#x000A;&#x000A;  c.desc 'Overwrite/ignore existing files and directories'&#x000A;  c.switch [:force]</pre>
             <p>
             Here we specify a command. Inside the block we can use the same sorts of
             things as we did above to define flags and switches specific to the
             command. These must come after the command name. Also note that we use
             <tt>arg_name</tt> here to describe the arguments this command accepts.
             </p>
-            <pre>desc 'Create a new GLI-based project'&#x000A;arg_name 'project_name [command[ command]*]'&#x000A;command [:init,:scaffold] do |c|&#x000A;&#x000A;  c.desc 'Create an ext dir'&#x000A;  c.switch [:e,:ext]&#x000A;&#x000A;  c.desc 'Overwrite/ignore existing files and directories'&#x000A;  c.switch [:force]</pre>
+            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise 'You must specify the name of your project'&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
             <p>
             Here we specify the actual actions to take when the command is executed. We
             define a block that will be given the global options (as a Hash), the
             command-specific options (as a hash) and the command line arguments
             </p>
-            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise 'You must specify the name of your project'&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
             <p>
             You can also specify some global code to run before, after and on errors:
             </p>
@@ -112,6 +137,10 @@
             command line
             </p>
             <pre>run(ARGV)</pre>
+            <p>
+            Note that by using <tt>gli init</tt> you can create a shell with all of
+            this already there.
+            </p>
             <p>
             What this gives you:
             </p>
@@ -149,7 +178,93 @@
             
             </li>
             </ul>
+            <h2>Reference</h2>
+            <dl>
+            <dt><tt>action</tt></dt><dd>Specify the action to take when a command is executed from the command
+            line. This is only usable in a command block on the command object (e.g.
+            <tt>c.action</tt>). This takes a block that yields three parameters: a hash
+            of global options specified on the commandline, a hash of command-specific
+            options specified on the command line, and an array of arguments parsed
+            after the options were set on the command line. So, a command like <tt>git
+            --git-dir=/tmp commit -a -m 'Foo bar' foo.c bar.c</tt> would result in the
+            global hash containing <tt>:'git-dir' =&gt; '/tmp'</tt>, the options hash
+            containing <tt>:a =&gt; true, :m =&gt; 'Foo bar'</tt> and the arguments
+            array being <tt>['foo.c', 'bar.c']</tt>
+            
+            </dd>
+            <dt><tt>arg_name</tt></dt><dd>Describe the name of the argument to the next flag or command. This can be
+            used at the global level or inside a command block on the command object
+            (e.g. <tt>c.arg_name</tt>)
+            
+            </dd>
+            <dt><tt>command</tt></dt><dd>Declare a command. This takes a symbol or array of symbols and a block. The
+            block yields one argument, the command itself.
+            
+            </dd>
+            <dt><tt>default_value</tt></dt><dd>Indicate the default value of the next flag. This can be used at the global
+            level or inside a command block on the command object (e.g.
+            <tt>c.default_value</tt>)
+            
+            </dd>
+            <dt><tt>desc</tt></dt><dd>Describe the next flag, switch, or command you will declare. This can be
+            used at the global level or inside a command block on the command object
+            (e.g. <tt>c.desc</tt>)
+            
+            </dd>
+            <dt><tt>flag</tt></dt><dd>Declare a flag, which is a command line switch that takes an argument. This
+            takes either a symbol or an array of symbols. The first symbol decared is
+            used in your program to determine the flag&#8217;s value at runtime. This
+            can be used at the global level or inside a command block on the command
+            object (e.g. <tt>c.flag</tt>)
+            
+            </dd>
+            <dt><tt>long_desc</tt></dt><dd>Provide a more lengthy description of the next flag, switch, or command you
+            will declare. This will appear in command line output for commands when you
+            get help for a command. For flags and switches, this will only appear in
+            the generated rdoc and <b>not</b> on the command line. This can be used at
+            the global level or inside a command block on the command object (e.g.
+            <tt>c.long_desc</tt>)
+            
+            </dd>
+            <dt><tt>on_error</tt></dt><dd>Declare an error handling routine that will be called if any command (or
+            other <a href="../classes/GLI.html">GLI</a> processing) encouters an
+            exception. This is a block that will receive the exception that was caught.
+            All exceptions are routed through this block. If the block evaluates to
+            true, the built-in error handling will be called after, otherwise, nothing
+            will happen.
+            
+            </dd>
+            <dt><tt>post</tt></dt><dd>Declare code to run after every command that didn&#8217;t experience an
+            error. This is not available inside a command block. This takes a block
+            that will receive four arguments: the global argument hash (as in
+            <tt>action</tt>), the command (instance of Command), the command-specific
+            options (as in <tt>action</tt>, and the parsed command line arguments (as
+            in <tt>action</tt>).
+            
+            </dd>
+            <dt><tt>pre</tt></dt><dd>Declare code to run before every command. This is not available inside a
+            command block. This takes a block that will receive four arguments: the
+            global argument hash (as in <tt>action</tt>), the command (instance of
+            Command), the command-specific options (as in <tt>action</tt>, and the
+            parsed command line arguments (as in <tt>action</tt>). If this block
+            evaluates to false, the command will not be executed and the program will
+            stop.
+            
+            </dd>
+            <dt><tt>switch</tt></dt><dd>Declare a switch, which is a command-line switch taking no argument that
+            indicates a boolean &#8220;true&#8221; when specified on the command line.
+            This takes either a symbol or array of symbols. The first symbol declared
+            is used in your program to determine if the switch was set. This can be
+            used at the global level or inside a command block on the command object
+            (e.g. <tt>c.switch</tt>)
+            
+            </dd>
+            </dl>
             <h2>Interface Generated</h2>
+            <p>
+            The command line interface that is created with the <a
+            href="../classes/GLI.html">GLI</a> DSL is:
+            </p>
             <p>
             <b>executable</b> <em>global options and flags</em> <b>command</b>
             <em>command specific options and flags</em> `arguments`
@@ -192,6 +307,91 @@
             argument to the command as arguments, even if they start with a
             &#8220;&#8212;&#8220;
             </p>
+            <h1><tt>gli</tt></h1>
+            <pre>gli [global options] command_name [command-specific options] [--] arguments...</pre>
+            <ul>
+            <li>Use the command <tt>help</tt> to get a summary of commands
+            
+            </li>
+            <li>Use the command <tt>help command_name</tt> to get a help for
+            <tt>command_name</tt>
+            
+            </li>
+            <li>Use <tt>--</tt> to stop command line argument processing; useful if your
+            arguments have dashes in them
+            
+            </li>
+            </ul>
+            <h2>Global Options</h2>
+            <p>
+            These options are available for any command and are specified before the
+            name of the command
+            </p>
+            <dl>
+            <dt><tt>-n</tt></dt><dd>Dry run; dont change the disk
+            
+            </dd>
+            <dt><tt>-r, --root=arg</tt></dt><dd>Root dir of project <em>( default: <tt>.</tt>)</em>
+            
+            <p>
+            This is the directory where the projects directory will be made, so if you
+            specify a project name foo and the root dir of ., the directory ./foo will
+            be created
+            </p>
+            </dd>
+            <dt><tt>-v</tt></dt><dd>Be verbose
+            
+            </dd>
+            <dt><tt>--version</tt></dt><dd>Show version
+            
+            </dd>
+            </dl>
+            <h2>Commands</h2>
+            <dl>
+            <dt><tt>help</tt></dt><dd>Shows list of commands or help for one command
+            
+            </dd>
+            <dt><tt>init</tt></dt><dd>Create a new GLI-based project
+            
+            </dd>
+            </dl>
+            <h3><tt>help [command]</tt></h3>
+            <p>
+            Shows list of commands or help for one command
+            </p>
+            <h3><tt>init project_name [command[ command]*]</tt></h3>
+            <p>
+            Create a new GLI-based project
+            </p>
+            <p>
+            <b>Aliases</b>
+            </p>
+            <ul>
+            <li><b><tt>scaffold</tt></b>
+            
+            </li>
+            </ul>
+            <p>
+            This will create a scaffold command line project that uses <a
+            href="../classes/GLI.html">GLI</a> for command line processing.
+            Specifically, this will create an executable ready to go, as well as a lib
+            and test directory, all inside the directory named for your project
+            </p>
+            <h4>Options</h4>
+            <p>
+            These options are specified <b>after</b> the command.
+            </p>
+            <dl>
+            <dt><tt>-e, --ext</tt></dt><dd>Create an ext dir
+            
+            </dd>
+            <dt><tt>--force</tt></dt><dd>Overwrite/ignore existing files and directories
+            
+            </dd>
+            <dt><tt>--notest</tt></dt><dd>Do not create a test dir
+            
+            </dd>
+            </dl>
             <h2>Links</h2>
             <ul>
             <li>[<a

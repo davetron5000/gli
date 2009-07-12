@@ -51,11 +51,12 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000024">new</a></li>
+              <li><a href="#M000032">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000025">usage</a></li>
+              <li><a href="#M000034">&lt;=&gt;</a></li>
+              <li><a href="#M000033">usage</a></li>
             </ol>
           </div>
           <div id='section'>
@@ -74,6 +75,11 @@
                     <td class='context-item-desc'></td>
                   </tr>
                   <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>long_description</td>
+                    <td class='context-item-value'>[R]</td>
+                    <td class='context-item-desc'></td>
+                  </tr>
+                  <tr class='top-aligned-row context-row'>
                     <td class='context-item-name'>name</td>
                     <td class='context-item-value'>[R]</td>
                     <td class='context-item-desc'></td>
@@ -83,31 +89,44 @@
             </div>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000024'>
-                <a name='M000024'>      </a>
+              <div class='public-class method' id='method-M000032'>
+                <a name='M000032'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
-                  <span class='arguments'>(names,description)</span>
+                  <span class='arguments'>(names,description,long_description=nil)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000024-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000032-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000024-source'><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 9</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>)&#x000A;      <span class="ruby-ivar">@description</span> = <span class="ruby-identifier">description</span>&#x000A;      <span class="ruby-ivar">@name</span>,<span class="ruby-ivar">@aliases</span>,<span class="ruby-ivar">@names</span> = <span class="ruby-identifier">parse_names</span>(<span class="ruby-identifier">names</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000032-source'><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 10</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_description</span>=<span class="ruby-keyword kw">nil</span>)&#x000A;      <span class="ruby-ivar">@description</span> = <span class="ruby-identifier">description</span>&#x000A;      <span class="ruby-ivar">@long_description</span> = <span class="ruby-identifier">long_description</span>&#x000A;      <span class="ruby-ivar">@name</span>,<span class="ruby-ivar">@aliases</span>,<span class="ruby-ivar">@names</span> = <span class="ruby-identifier">parse_names</span>(<span class="ruby-identifier">names</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000025'>
-                <a name='M000025'>      </a>
+              <div class='public-instance method' id='method-M000034'>
+                <a name='M000034'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>&lt;=&gt;</span>
+                  <span class='arguments'>(other)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000034-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000034-source'><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 20</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-identifier">other</span>)&#x000A;      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <div class='public-instance method' id='method-M000033'>
+                <a name='M000033'>      </a>
                 <div class='synopsis'>
                   <span class='name'>usage</span>
                   <span class='arguments'>()</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000025-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000033-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000025-source'><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 14</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">usage</span>&#x000A;      <span class="ruby-identifier">all_forms</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000033-source'><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 16</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">usage</span>&#x000A;      <span class="ruby-identifier">all_forms</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
