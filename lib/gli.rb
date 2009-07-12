@@ -25,8 +25,14 @@ module GLI
     clear_nexts
   end
 
-  # describe the next switch, flag, or command
+  # describe the next switch, flag, or command.  This should be a
+  # short, one-line description
   def desc(description); @@next_desc = description; end
+
+  # Provide a longer, more detailed description.  This
+  # will be reformatted and wrapped to fit in 80 columns
+  def long_desc(long_desc); @@next_long_desc = long_desc; end
+
   # describe the argument name of the next flag
   def arg_name(name); @@next_arg_name = name; end
   # set the default value of the next flag
@@ -34,21 +40,21 @@ module GLI
 
   # Create a flag, which is a switch that takes an argument
   def flag(names)
-    flag = Flag.new(names,@@next_desc,@@next_arg_name,@@next_default_value)
+    flag = Flag.new(names,@@next_desc,@@next_arg_name,@@next_default_value,@@next_long_desc)
     flags[flag.name] = flag
     clear_nexts
   end
 
   # Create a switch
   def switch(names)
-    switch = Switch.new(names,@@next_desc)
+    switch = Switch.new(names,@@next_desc,@@next_long_desc)
     switches[switch.name] = switch
     clear_nexts
   end
 
   # Define a command.
   def command(names)
-    command = Command.new(names,@@next_desc,@@next_arg_name)
+    command = Command.new(names,@@next_desc,@@next_arg_name,@@next_long_desc)
     commands[command.name] = command
     yield command
     clear_nexts
@@ -139,6 +145,7 @@ module GLI
     @@next_desc = nil
     @@next_arg_name = nil
     @@next_default_value = nil
+    @@next_long_desc = nil
   end
 
   clear_nexts
