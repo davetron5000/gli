@@ -1,0 +1,45 @@
+= <tt>gli</tt>
+
+    gli [global options] command_name [command-specific options] [--] arguments...
+
+* Use the command +help+ to get a summary of commands
+* Use the command <tt>help command_name</tt> to get a help for +command_name+
+* Use <tt>--</tt> to stop command line argument processing; useful if your arguments have dashes in them
+
+== Global Options
+These options are available for any command and are specified before the name of the command
+
+[<tt>-n</tt>] Dry run; dont change the disk
+[<tt>-r, --root=arg</tt>] Root dir of project <i>( default: <tt>.</tt>)</i>
+
+                          This is the directory where the projects directory will be made, so if you specify a project name foo and the root dir of ., the directory ./foo will be created
+
+[<tt>-v</tt>] Be verbose
+[<tt>--version</tt>] Show version
+== Commands
+[<tt>help</tt>] Shows list of commands or help for one command
+[<tt>init</tt>] Create a new GLI-based project
+
+=== <tt>help [command]</tt>
+
+Shows list of commands or help for one command
+
+=== <tt>init project_name [command[ command]*]</tt>
+
+Create a new GLI-based project
+
+*Aliases*
+* <tt><b>scaffold</b></tt>
+
+This will create a scaffold command line project that uses GLI
+for command line processing.  Specifically, this will create
+an executable ready to go, as well as a lib and test directory, all
+inside the directory named for your project
+
+
+==== Options
+These options are specified *after* the command.
+
+[<tt>-e, --ext</tt>] Create an ext dir
+[<tt>--force</tt>] Overwrite/ignore existing files and directories
+[<tt>--notest</tt>] Do not create a test dir
