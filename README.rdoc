@@ -99,7 +99,7 @@ You can also specify some global code to run before, after and on errors:
       puts "After successful execution of #{command.name}"
     end
 
-    on_error do |global_options,command,options,args|
+    on_error do |ex|
       puts "We go an error"
       return true    # does the standard error handling code
       # return false # this would skip standard error handling code
