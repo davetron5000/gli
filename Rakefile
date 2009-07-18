@@ -4,13 +4,17 @@ require 'rcov/rcovtask'
 require 'rubygems'
 require 'rake/gempackagetask'
 require 'rake/testtask'
-$: << '../grancher/lib'
-require 'grancher/task'
 
-Grancher::Task.new do |g|
-  g.branch = 'gh-pages'
-  g.push_to = 'origin'
-  g.directory 'html'
+$: << '../grancher/lib'
+begin
+  require 'grancher/task'
+  Grancher::Task.new do |g|
+    g.branch = 'gh-pages'
+    g.push_to = 'origin'
+    g.directory 'html'
+  end
+rescue LoadError
+  #puts "you may install the optional gem 'grancher'"
 end
 
 Rake::RDocTask.new do |rd|
