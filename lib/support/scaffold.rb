@@ -139,11 +139,13 @@ flag [:f,:flagname]
 EOS
             first = true
             commands.each do |command|
-              if first
-                file.puts <<EOS
+              file.puts <<EOS
 
 desc 'Describe #{command} here'
 arg_name 'Describe arguments to #{command} here'
+EOS
+              if first
+                file.puts <<EOS
 command :#{command} do |c|
   c.desc 'Describe a switch to #{command}'
   c.switch :s
@@ -171,6 +173,7 @@ EOS
               first = false
             end
             file.puts <<EOS
+
 pre do |global,command,options,args|
   # Pre logic here
   # Return true to proceed; false to abourt and not call the
