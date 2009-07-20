@@ -40,22 +40,22 @@ module GLI
   def default_value(val); @@next_default_value = val; end
 
   # Create a flag, which is a switch that takes an argument
-  def flag(names)
-    flag = Flag.new(names,@@next_desc,@@next_arg_name,@@next_default_value,@@next_long_desc)
+  def flag(*names)
+    flag = Flag.new([names].flatten,@@next_desc,@@next_arg_name,@@next_default_value,@@next_long_desc)
     flags[flag.name] = flag
     clear_nexts
   end
 
   # Create a switch
-  def switch(names)
-    switch = Switch.new(names,@@next_desc,@@next_long_desc)
+  def switch(*names)
+    switch = Switch.new([names].flatten,@@next_desc,@@next_long_desc)
     switches[switch.name] = switch
     clear_nexts
   end
 
   # Define a command.
-  def command(names)
-    command = Command.new(names,@@next_desc,@@next_arg_name,@@next_long_desc)
+  def command(*names)
+    command = Command.new([names].flatten,@@next_desc,@@next_arg_name,@@next_long_desc)
     commands[command.name] = command
     yield command
     clear_nexts

@@ -99,10 +99,25 @@ class TC_testCommand < Test::Unit::TestCase
   end
 
   def test_command_create
-    description = 'List all files'
+    GLI.desc 'single symbol'
+    GLI.command :single do |c|; end
+    command = GLI.commands[:single]
+    assert_equal :single, command.name
+    assert_equal nil, command.aliases
+  
+    description = 'implicit array'
     GLI.desc description
-    GLI.command [:ls,:list] do |c|
-    end
+    GLI.command :foo, :bar do |c|; end
+    command = GLI.commands[:foo]
+    assert_equal :foo, command.name
+    assert_equal [:bar], command.aliases
+
+    description = 'explicit array'
+    GLI.desc description
+    GLI.command [:baz, :blah] do |c|; end
+    command = GLI.commands[:baz]
+    assert_equal :baz, command.name
+    assert_equal [:blah], command.aliases
   end
 
 end
