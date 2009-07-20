@@ -2,6 +2,7 @@ require 'gli/command_line_token.rb'
 require 'gli/command.rb'
 require 'gli/switch.rb'
 require 'gli/flag.rb'
+require 'gli/options.rb'
 require 'support/help.rb'
 require 'support/rdoc.rb'
 
@@ -123,7 +124,7 @@ module GLI
   #  * command options (as a Hash)
   #  * arguments (as an Array)
   def parse_options(args)
-    global_options,command,options,arguments = parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
+    global_options,command,options,arguments = parse_options_helper(args.clone,Options.new,nil,Options.new,Array.new)
     flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
     command.flags.each { |name,flag| options[name] = flag.default_value if !options[name] }
     return [global_options,command,options,arguments]
