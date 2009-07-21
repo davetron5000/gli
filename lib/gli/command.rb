@@ -40,15 +40,15 @@ module GLI
     # set the default value of the next flag
     def default_value(val); @next_default_value = val; end
 
-    def flag(names)
-      flag = Flag.new(names,@next_desc,@next_arg_name,@next_default_value)
+    def flag(*names)
+      flag = Flag.new([names].flatten,@next_desc,@next_arg_name,@next_default_value)
       flags[flag.name] = flag
       clear_nexts
     end
 
     # Create a switch
-    def switch(names)
-      switch = Switch.new(names,@next_desc)
+    def switch(*names)
+      switch = Switch.new([names].flatten,@next_desc)
       switches[switch.name] = switch
       clear_nexts
     end
