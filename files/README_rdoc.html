@@ -31,7 +31,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Sun Jul 12 17:59:16 -0400 2009</span>
+          <span class='datetime'>Sat Jul 25 12:23:41 -0400 2009</span>
         </div>
       </div>
       <div id='content'>
@@ -131,7 +131,7 @@
             <p>
             You can also specify some global code to run before, after and on errors:
             </p>
-            <pre>pre do |global_options,command,options,args|&#x000A;  puts &quot;After parsing, but before #{command.name} is run&quot;&#x000A;  return true&#x000A;  # return false if we want to skip command execution for some reason&#x000A;end&#x000A;&#x000A;post do |global_options,command,options,args|&#x000A;  puts &quot;After successful execution of #{command.name}&quot;&#x000A;end&#x000A;&#x000A;on_error do |global_options,command,options,args|&#x000A;  puts &quot;We go an error&quot;&#x000A;  return true    # does the standard error handling code&#x000A;  # return false # this would skip standard error handling code&#x000A;end</pre>
+            <pre>pre do |global_options,command,options,args|&#x000A;  puts &quot;After parsing, but before #{command.name} is run&quot;&#x000A;  return true&#x000A;  # return false if we want to skip command execution for some reason&#x000A;end&#x000A;&#x000A;post do |global_options,command,options,args|&#x000A;  puts &quot;After successful execution of #{command.name}&quot;&#x000A;end&#x000A;&#x000A;on_error do |ex|&#x000A;  puts &quot;We go an error&quot;&#x000A;  return true    # does the standard error handling code&#x000A;  # return false # this would skip standard error handling code&#x000A;end</pre>
             <p>
             Now, we run the program using the arguments the user provided on the
             command line
@@ -322,7 +322,7 @@
             
             </li>
             </ul>
-            <h2>Global Options</h2>
+            <h2>Global <a href="../classes/Options.html">Options</a></h2>
             <p>
             These options are available for any command and are specified before the
             name of the command
@@ -377,7 +377,7 @@
             Specifically, this will create an executable ready to go, as well as a lib
             and test directory, all inside the directory named for your project
             </p>
-            <h4>Options</h4>
+            <h4><a href="../classes/Options.html">Options</a></h4>
             <p>
             These options are specified <b>after</b> the command.
             </p>

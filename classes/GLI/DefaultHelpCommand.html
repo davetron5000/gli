@@ -45,41 +45,41 @@
             <h2>Methods</h2>
             <h3>public class</h3>
             <ol>
-              <li><a href="#M000057">new</a></li>
+              <li><a href="#M000059">new</a></li>
             </ol>
             <h3>public instance</h3>
             <ol>
-              <li><a href="#M000058">execute</a></li>
+              <li><a href="#M000060">execute</a></li>
             </ol>
           </div>
           <div id='section'>
             <div id='methods'>
               <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000057'>
-                <a name='M000057'>      </a>
+              <div class='public-class method' id='method-M000059'>
+                <a name='M000059'>      </a>
                 <div class='synopsis'>
                   <span class='name'>new</span>
                   <span class='arguments'>(*omit_from_list)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000057-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000059-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000057-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 6</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">omit_from_list</span>)&#x000A;      <span class="ruby-ivar">@omit_from_list</span> = <span class="ruby-identifier">omit_from_list</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:help</span>,<span class="ruby-value str">'Shows list of commands or help for one command'</span>,<span class="ruby-value str">'[command]'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000059-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 6</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">omit_from_list</span>)&#x000A;      <span class="ruby-ivar">@omit_from_list</span> = <span class="ruby-identifier">omit_from_list</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:help</span>,<span class="ruby-value str">'Shows list of commands or help for one command'</span>,<span class="ruby-value str">'[command]'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
               <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000058'>
-                <a name='M000058'>      </a>
+              <div class='public-instance method' id='method-M000060'>
+                <a name='M000060'>      </a>
                 <div class='synopsis'>
                   <span class='name'>execute</span>
                   <span class='arguments'>(global_options,options,arguments)</span>
                 </div>
                 <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000058-source'); return false">
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000060-source'); return false">
                     [show source]
                   </a>
-                  <pre id='M000058-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 11</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>&#x000A;        <span class="ruby-identifier">list_global_flags</span>&#x000A;        <span class="ruby-identifier">list_commands</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">list_one_command_help</span>(<span class="ruby-identifier">arguments</span>[<span class="ruby-value">0</span>])&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                  <pre id='M000060-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 11</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>&#x000A;        <span class="ruby-identifier">list_global_flags</span>&#x000A;        <span class="ruby-identifier">list_commands</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">list_one_command_help</span>(<span class="ruby-identifier">arguments</span>[<span class="ruby-value">0</span>])&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
                 </div>
               </div>
             </div>
