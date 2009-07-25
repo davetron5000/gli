@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
-  s.version = '0.2.1'
+  s.version = '0.2.3'
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
@@ -12,6 +12,7 @@ lib/gli/command.rb
 lib/gli/command_line_token.rb
 lib/gli/flag.rb
 lib/gli/switch.rb
+lib/gli/options.rb
 lib/gli.rb
 lib/support/help.rb
 lib/support/rdoc.rb
