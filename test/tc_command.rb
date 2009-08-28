@@ -10,6 +10,7 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.desc 'Some Global Option'
     GLI.switch :g
     GLI.switch :blah
+    GLI.long_desc 'This is a very long description for a flag'
     GLI.flag [:y,:yes]
     @pre_called = false
     @post_called = false
@@ -22,7 +23,8 @@ class TC_testCommand < Test::Unit::TestCase
     @glob_verbose = nil
     @configure = nil
     @args = nil
-    GLI.desc 'Some Basic Command that potentially has a really reall long description and stuff, but you know, who cares?'
+    GLI.desc 'Some Basic Command that potentially has a really really really really really really really long description and stuff, but you know, who cares?'
+    GLI.long_desc 'This is the long description: "Some Basic Command that potentially has a really really really really really really really long description and stuff, but you know, who cares?"'
     GLI.arg_name 'first_file second_file'
     GLI.command [:basic,:bs] do |c|
       c.desc 'be verbose'
@@ -38,6 +40,28 @@ class TC_testCommand < Test::Unit::TestCase
         @args = arguments
       end
     end
+  end
+
+  def tear_down
+    FileUtils.rm_f "cruddo.rdoc"
+  end
+
+  def test_names
+    command = Command.new([:ls,:list,:'list-them-all'],"List")
+    assert_equal "ls, list-them-all, list",command.names
+  end
+
+  def test_command_sort
+    commands = [Command.new(:foo,"foo")]
+    commands << Command.new(:bar,"bar")
+    commands << Command.new(:zazz,"zazz")
+    commands << Command.new(:zaz,"zaz")
+
+    sorted = commands.sort
+    assert_equal :bar,sorted[0].name
+    assert_equal :foo,sorted[1].name
+    assert_equal :zaz,sorted[2].name
+    assert_equal :zazz,sorted[3].name
   end
 
   def test_basic_command
@@ -89,6 +113,15 @@ class TC_testCommand < Test::Unit::TestCase
   def test_help
     args = %w(help basic)
     GLI.run(args)
+    args = %w(help)
+    GLI.run(args)
+  end
+
+  def test_rdoc
+    GLI.program_name 'cruddo'
+    args = %w(rdoc)
+    GLI.run(args)
+    assert File.exists?("cruddo.rdoc")
   end
 
   def test_help_no_command
