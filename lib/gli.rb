@@ -187,7 +187,7 @@ module GLI
         raise "Unknown command '#{command_name}'" if !command
         return parse_options_helper(args,global_options,command,command_options,arguments)
       else
-        return global_options,command,command_options,arguments | args
+        return global_options,command,command_options,arguments + args
       end
     elsif non_flag_i == -1
       all_flags = true
@@ -228,7 +228,7 @@ module GLI
     else
       if command
         check = rest
-        check = rest | try_me if all_flags 
+        check = rest + try_me if all_flags 
         check.each() do |arg| 
           if arg =~ /^\-\-$/
             try_me.delete arg
@@ -236,7 +236,7 @@ module GLI
           end
           raise "Unknown argument #{arg}" if arg =~ /^\-/ 
         end
-        return [global_options,command,command_options,try_me | rest]
+        return [global_options,command,command_options,try_me + rest]
       else
         # Now we have our command name
         command_name = try_me.shift

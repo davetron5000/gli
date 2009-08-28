@@ -19,6 +19,20 @@ class TC_testParsing < Test::Unit::TestCase
     assert_equal(:doit,command.name)
   end
 
+  def test_repeated_arguments
+    GLI.reset
+    GLI.command :doit do |c|
+      c.flag :file
+      c.flag :v
+    end
+    argv = %w(doit foo foo bar)
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert_equal 3,arguments.size
+    assert_equal "foo",arguments[0]
+    assert_equal "foo",arguments[1]
+    assert_equal "bar",arguments[2]
+  end
+
   def test_parse_command_line_simplish
     GLI.reset
     GLI.switch :v
