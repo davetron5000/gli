@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
-  s.version = '0.3.0'
+  s.version = '0.3.1'
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
