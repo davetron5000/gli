@@ -26,7 +26,9 @@ This will create a basic scaffold project in <tt>./my_proj</tt> with:
 
 === Example
 
-This example demonstrates most of the features of GLI
+This example demonstrates most of the features of GLI.
+
+This sets you up to use the DSL that GLI defines:
 
     #!/usr/bin/ruby
     $: << File.expand_path(File.dirname(__FILE__) + '/../lib') 
@@ -35,31 +37,31 @@ This example demonstrates most of the features of GLI
 
     include GLI
 
-This sets you up to use the DSL that GLI defines:
-
-
-    program_description 'Support program for bootstrapping GLI-based programs'
-
 This sets a description of your program.  This can be as long as you want.
 
-
-    desc 'Dry run; don\'t change the disk'
-    switch :n
+    program_description 'Support program for bootstrapping GLI-based programs'
 
 This describes a command line switch "-n" that is global to all commands and specified before
 the command name on the command line.
 
-
-    desc 'Root dir in which to create project'
-    default_value '.'
-    arg_name 'root_dir'
-    flag [:r,:root]
+    desc 'Dry run; don\'t change the disk'
+    switch :n
 
 The following describes a command line flag that is global and has a default value of '<tt>.</tt>'.  It also
 specifies a short description of its argument.  This is used to print command line help.  Note that we
 have specified two different aliases for this flag.  <tt>-r</tt> (because it is listed first) is the default
 one and <tt>--root</tt> (note two-dash syntax) is also supported.  This means that <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean
 the same thing to the application.
+
+    desc 'Root dir in which to create project'
+    long_desc 'This is the location where your project ill be created.  A subdirectory named for your project will be created here, and THAT directory will contain the generated files'
+    default_value '.'
+    arg_name 'root_dir'
+    flag [:r,:root]
+
+Here we specify a command.  Inside the block we can use the same sorts of things as we did above to define flags
+and switches specific to the command.  These must come after the command name.  Also note that we use <tt>arg_name</tt>
+here to describe the arguments this command accepts.
 
     desc 'Create a new GLI-based project'
     arg_name 'project_name [command[ command]*]'
@@ -71,9 +73,9 @@ the same thing to the application.
       c.desc 'Overwrite/ignore existing files and directories'
       c.switch [:force]
 
-Here we specify a command.  Inside the block we can use the same sorts of things as we did above to define flags
-and switches specific to the command.  These must come after the command name.  Also note that we use <tt>arg_name</tt>
-here to describe the arguments this command accepts.
+Here we specify the actual actions to take when the command is executed.  We define a block that
+will be given the global options (as a Hash), the command-specific options (as a hash) and the command
+line arguments
 
       c.action do |global_options,options,args|
         if args.length < 1
@@ -82,10 +84,6 @@ here to describe the arguments this command accepts.
         Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
       end
     end
-
-Here we specify the actual actions to take when the command is executed.  We define a block that
-will be given the global options (as a Hash), the command-specific options (as a hash) and the command
-line arguments
 
 You can also specify some global code to run before, after and on errors:
 
@@ -109,7 +107,7 @@ Now, we run the program using the arguments the user provided on the command lin
 
     run(ARGV)
 
-Note that by using <tt>gli init</tt> you can create a shell with all of this already there.
+Note that by using <tt>gli init</tt> you can create a shell with all of this already there for you.
 
 What this gives you:
 
@@ -121,7 +119,7 @@ What this gives you:
 What this doesn't give you:
 
 * A way to indicate required flags
-* A way to indicate a require argument or required number of arguments
+* A way to indicate a required argument or required number of arguments
 * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
 
 == Reference
