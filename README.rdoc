@@ -8,6 +8,12 @@ This is a DSL you can use to create a command line interface like git, gem or sv
 
 == Use
 
+Note that the latest version of this gem is hosted at [http://www.gemcutter.org], so if you haven't set it up yet, do so:
+
+    # Only needed if you haven't used/setup Gemcutter before
+    sudo gem install gemcutter
+    sudo gem tumble
+
 Install if you need to:
 
     sudo gem install gli
