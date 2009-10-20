@@ -31,7 +31,7 @@
         </div>
         <div class='last-update'>
           Last Update:
-          <span class='datetime'>Sat Jul 25 12:23:41 -0400 2009</span>
+          <span class='datetime'>Mon Oct 19 20:17:55 -0400 2009</span>
         </div>
       </div>
       <div id='content'>
@@ -56,6 +56,12 @@
             command specific flags.
             </p>
             <h2>Use</h2>
+            <p>
+            Note that the latest version of this gem is hosted at [<a
+            href="http://www.gemcutter.org">www.gemcutter.org</a>], so if you
+            haven&#8217;t set it up yet, do so:
+            </p>
+            <pre># Only needed if you haven't used/setup Gemcutter before&#x000A;sudo gem install gemcutter&#x000A;sudo gem tumble</pre>
             <p>
             Install if you need to:
             </p>
@@ -89,23 +95,22 @@
             <h3>Example</h3>
             <p>
             This example demonstrates most of the features of <a
-            href="../classes/GLI.html">GLI</a>
+            href="../classes/GLI.html">GLI</a>.
             </p>
-            <pre>#!/usr/bin/ruby&#x000A;$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')&#x000A;&#x000A;require 'gli'&#x000A;&#x000A;include GLI</pre>
             <p>
             This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
             defines:
             </p>
-            <pre>program_description 'Support program for bootstrapping GLI-based programs'</pre>
+            <pre>#!/usr/bin/ruby&#x000A;$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')&#x000A;&#x000A;require 'gli'&#x000A;&#x000A;include GLI</pre>
             <p>
             This sets a description of your program. This can be as long as you want.
             </p>
-            <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
+            <pre>program_description 'Support program for bootstrapping GLI-based programs'</pre>
             <p>
             This describes a command line switch &#8220;-n&#8221; that is global to all
             commands and specified before the command name on the command line.
             </p>
-            <pre>desc 'Root dir in which to create project'&#x000A;default_value '.'&#x000A;arg_name 'root_dir'&#x000A;flag [:r,:root]</pre>
+            <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
             <p>
             The following describes a command line flag that is global and has a
             default value of &#8216;<tt>.</tt>&#8217;. It also specifies a short
@@ -115,19 +120,20 @@
             two-dash syntax) is also supported. This means that <tt>-r some_dir</tt>
             and <tt>--root=some_dir</tt> mean the same thing to the application.
             </p>
-            <pre>desc 'Create a new GLI-based project'&#x000A;arg_name 'project_name [command[ command]*]'&#x000A;command [:init,:scaffold] do |c|&#x000A;&#x000A;  c.desc 'Create an ext dir'&#x000A;  c.switch [:e,:ext]&#x000A;&#x000A;  c.desc 'Overwrite/ignore existing files and directories'&#x000A;  c.switch [:force]</pre>
+            <pre>desc 'Root dir in which to create project'&#x000A;long_desc 'This is the location where your project ill be created.  A subdirectory named for your project will be created here, and THAT directory will contain the generated files'&#x000A;default_value '.'&#x000A;arg_name 'root_dir'&#x000A;flag [:r,:root]</pre>
             <p>
             Here we specify a command. Inside the block we can use the same sorts of
             things as we did above to define flags and switches specific to the
             command. These must come after the command name. Also note that we use
             <tt>arg_name</tt> here to describe the arguments this command accepts.
             </p>
-            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise 'You must specify the name of your project'&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
+            <pre>desc 'Create a new GLI-based project'&#x000A;arg_name 'project_name [command[ command]*]'&#x000A;command [:init,:scaffold] do |c|&#x000A;&#x000A;  c.desc 'Create an ext dir'&#x000A;  c.switch [:e,:ext]&#x000A;&#x000A;  c.desc 'Overwrite/ignore existing files and directories'&#x000A;  c.switch [:force]</pre>
             <p>
             Here we specify the actual actions to take when the command is executed. We
             define a block that will be given the global options (as a Hash), the
             command-specific options (as a hash) and the command line arguments
             </p>
+            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise 'You must specify the name of your project'&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
             <p>
             You can also specify some global code to run before, after and on errors:
             </p>
@@ -139,7 +145,7 @@
             <pre>run(ARGV)</pre>
             <p>
             Note that by using <tt>gli init</tt> you can create a shell with all of
-            this already there.
+            this already there for you.
             </p>
             <p>
             What this gives you:
@@ -170,7 +176,7 @@
             <li>A way to indicate required flags
             
             </li>
-            <li>A way to indicate a require argument or required number of arguments
+            <li>A way to indicate a required argument or required number of arguments
             
             </li>
             <li>A way to do default switches to &#8216;true&#8217; and therefore accept
