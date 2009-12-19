@@ -104,7 +104,7 @@ You can also specify some global code to run before, after and on errors:
     end
 
     on_error do |ex|
-      puts "We go an error"
+      puts "We got an error"
       return true    # does the standard error handling code
       # return false # this would skip standard error handling code
     end

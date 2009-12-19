@@ -171,7 +171,7 @@ module GLI
   #   * the sublist has a flag left in it - unknown flag; we bail
   #   * the sublist has a non-flag left in it - this is the command (or the start of the arguments list)
   #
-  # This sort does the same thing in two phases; in the first phase, the command hasn't been identified, so
+  # This sort of does the same thing in two phases; in the first phase, the command hasn't been identified, so
   # we are looking for global switches and flags, ending when we get the command.
   #
   # Once the command has been found, we start looking for command-specific flags and switches.
