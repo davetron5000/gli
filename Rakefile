@@ -1,1 +1,4 @@
-task :test
+task :default do
+end
+
+task :test => :default
