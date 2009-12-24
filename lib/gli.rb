@@ -5,6 +5,7 @@ require 'gli/flag.rb'
 require 'gli/options.rb'
 require 'support/help.rb'
 require 'support/rdoc.rb'
+require 'etc'
 
 # A means to define and parse a command line interface that works as
 # Git's does, in that you specify global options, a command name, command
@@ -12,18 +13,20 @@ require 'support/rdoc.rb'
 module GLI
   extend self
 
-  VERSION = '0.3.0'
+  VERSION = '1.0.0'
 
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
   @@pre_block = nil
   @@error_block = nil
+  @@config_file = nil
 
   # Reset the GLI module internal data structures; mostly for testing
   def reset
     switches.clear
     flags.clear
     commands.clear
+    @@config_file = nil
     clear_nexts
   end
 
@@ -52,6 +55,17 @@ module GLI
     switch = Switch.new([names].flatten,@@next_desc,@@next_long_desc)
     switches[switch.name] = switch
     clear_nexts
+  end
+
+  # Sets the config file.  If not an absolute path
+  # sets the path to the user's home directory
+  def config_file(filename)
+    if filename =~ /^\//
+      @@config_file = filename
+    else
+      @@config_file = Etc.getpwuid.dir + '/' + filename
+    end
+    @@config_file
   end
 
   # Define a command.
@@ -93,7 +107,8 @@ module GLI
     commands[:rdoc] = rdoc if !commands[:rdoc]
     commands[:help] = DefaultHelpCommand.new(rdoc) if !commands[:help]
     begin
-      global_options,command,options,arguments = parse_options(args)
+      config = parse_config
+      global_options,command,options,arguments = parse_options(args,config)
       proceed = true
       proceed = @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
       if proceed
@@ -111,6 +126,12 @@ module GLI
     end
   end
 
+  def parse_config
+    return nil if @@config_file.nil?
+    require 'yaml'
+    File.open(@@config_file) { |f| YAML::load(f) }
+  end
+
   def program_name(override=nil)
     if override
       @@program_name = override
@@ -123,8 +144,14 @@ module GLI
   #  * Command 
   #  * command options (as a Hash)
   #  * arguments (as an Array)
-  def parse_options(args)
-    global_options,command,options,arguments = parse_options_helper(args.clone,Options.new,nil,Options.new,Array.new)
+  def parse_options(args,config=nil)
+    command_configs = {}
+    if config.nil?
+      config = {}
+    else
+      command_configs = config.delete('commands') if !config.nil?
+    end
+    global_options,command,options,arguments = parse_options_helper(args.clone,config,nil,Options.new,Array.new,command_configs)
     flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
     command.flags.each { |name,flag| options[name] = flag.default_value if !options[name] }
     return [global_options,command,options,arguments]
@@ -164,6 +191,7 @@ module GLI
   # [command] the Command that has been identified (or nil if not identified yet)
   # [command_options] options for Command
   # [arguments] the arguments for Command
+  # [command_configs] the configuration file for all commands, used as defaults
   #
   # This works by finding the first non-switch/flag argument, and taking that sublist and trying to pick out
   # flags and switches.  After this is done, one of the following is true:
@@ -176,7 +204,7 @@ module GLI
   #
   # Once the command has been found, we start looking for command-specific flags and switches.
   # When those have been found, we know the rest of the argument list is arguments for the command
-  def parse_options_helper(args,global_options,command,command_options,arguments)
+  def parse_options_helper(args,global_options,command,command_options,arguments,command_configs)
     non_flag_i = find_non_flag_index(args)
     all_flags = false
     if non_flag_i == 0
@@ -185,7 +213,12 @@ module GLI
         command_name = args.shift
         command = find_command(command_name)
         raise "Unknown command '#{command_name}'" if !command
-        return parse_options_helper(args,global_options,command,command_options,arguments)
+        return parse_options_helper(args,
+                                    global_options,
+                                    command,
+                                    default_command_options(command,command_configs),
+                                    arguments,
+                                    command_configs)
       else
         return global_options,command,command_options,arguments + args
       end
@@ -224,7 +257,7 @@ module GLI
       return [global_options,command,command_options,arguments] if rest.empty?
       # If we have no more options we've parsed them all
       # and rest may have more
-      return parse_options_helper(rest,global_options,command,command_options,arguments)
+      return parse_options_helper(rest,global_options,command,command_options,arguments,command_configs)
     else
       if command
         check = rest
@@ -245,10 +278,21 @@ module GLI
         command = find_command(command_name)
         raise "Unknown command '#{command_name}'" if !command
 
-        return parse_options_helper(rest,global_options,command,command_options,arguments)
+        command_options_defaults = {:blah => 'BLAH'}
+        command_options_defaults = command_configs['commands'][command.name.to_sym] if command_configs['commands']
+        return parse_options_helper(rest,
+                                    global_options,
+                                    command,
+                                    default_command_options(command,command_configs),
+                                    arguments,
+                                    command_configs)
       end
     end
 
+  end
+
+  def default_command_options(command,command_configs)
+    options = command_configs[command.name.to_sym] || {}
   end
 
   def find_command(name)

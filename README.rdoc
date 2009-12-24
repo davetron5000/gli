@@ -47,6 +47,14 @@ This sets a description of your program.  This can be as long as you want.
 
     program_description 'Support program for bootstrapping GLI-based programs'
 
+This sets a config file for your program.  The config file can be used to store default values for command
+line options and command-specific options on a per-user (or per-site) basis.  The format is YAML-based.  
+Using an absolute path will result in the configuraiton file being located there.  Without an absolute path,
+the file will be located relative to the current user's home directory (which is what is being done here).
+
+    config_file '.glirc'
+
+the configuration file 
 This describes a command line switch "-n" that is global to all commands and specified before
 the command name on the command line.
 
