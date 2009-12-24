@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang='en'>
+  <head>
+    <title>: GLI::InitConfig [Git Like Interface]</title>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
+    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
+    <script type='text/javascript'>
+      //<![CDATA[
+        function popupCode(url) {
+          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+        }
+        
+        function toggleCode(id) {
+          var code = document.getElementById(id)
+        
+          code.style.display = code.style.display != 'block' ? 'block' : 'none'
+          return true
+        }
+        
+        // Make codeblocks hidden by default
+        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
+      //]]>
+    </script>
+  </head>
+  <body class='page'>
+    <div class='class' id='wrapper'>
+      <div class='header'>
+        <h1 class='name'>
+          <span class='type'>Class</span>
+          GLI::InitConfig
+        </h1>
+        <ol class='paths'>
+          <li>
+            <a href="../../files/lib/support/initconfig_rb.html">lib/support/initconfig.rb</a>
+          </li>
+        </ol>
+        <div class='parent'>
+          Parent:
+          <strong><a href="Command.html">GLI::Command</a></strong>
+        </div>
+      </div>
+      <div id='content'>
+        <div id='text'>
+          <div id='method-list'>
+            <h2>Methods</h2>
+            <h3>public class</h3>
+            <ol>
+              <li><a href="#M000031">new</a></li>
+            </ol>
+            <h3>public instance</h3>
+            <ol>
+              <li><a href="#M000032">execute</a></li>
+            </ol>
+          </div>
+          <div id='section'>
+            <div id='constants-list'>
+              <h2>Constants</h2>
+              <div class='name-list'>
+                <table summary='Constants'>
+                  <tr class='top-aligned-row context-row'>
+                    <td class='context-item-name'>COMMANDS_KEY</td>
+                    <td>=</td>
+                    <td class='context-item-value'>'commands'</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+            <div id='methods'>
+              <h2>Public class methods</h2>
+              <div class='public-class method' id='method-M000031'>
+                <a name='M000031'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>new</span>
+                  <span class='arguments'>(config_file_name)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000031-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000031-source'><span class="ruby-comment cmt"># File lib/support/initconfig.rb, line 9</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">config_file_name</span>)&#x000A;      <span class="ruby-ivar">@filename</span> = <span class="ruby-identifier">config_file_name</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:initconfig</span>,<span class="ruby-value str">&quot;Initialize the config file using current global options&quot;</span>,<span class="ruby-keyword kw">nil</span>,<span class="ruby-value str">'Initializes a configuration file where you can set default options for command line flags, but globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program'</span>)&#x000A;&#x000A;      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">desc</span> <span class="ruby-value str">'force overwrite of existing config file'</span>&#x000A;      <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">switch</span> <span class="ruby-identifier">:force</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+              <h2>Public instance methods</h2>
+              <div class='public-instance method' id='method-M000032'>
+                <a name='M000032'>      </a>
+                <div class='synopsis'>
+                  <span class='name'>execute</span>
+                  <span class='arguments'>(global_options,options,arguments)</span>
+                </div>
+                <div class='source'>
+                  <a class='source-toggle' href='#' onclick="toggleCode('M000032-source'); return false">
+                    [show source]
+                  </a>
+                  <pre id='M000032-source'><span class="ruby-comment cmt"># File lib/support/initconfig.rb, line 17</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:force</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-ivar">@filename</span>)&#x000A;        <span class="ruby-identifier">config</span> = <span class="ruby-identifier">global_options</span>&#x000A;        <span class="ruby-identifier">config</span>[<span class="ruby-constant">COMMANDS_KEY</span>] = {}&#x000A;        <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">commands</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span>,<span class="ruby-identifier">command</span><span class="ruby-operator">|</span>&#x000A;          <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">command</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">self</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">name</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">:rdoc</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-identifier">name</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">:help</span>)&#x000A;            <span class="ruby-identifier">config</span>[<span class="ruby-constant">COMMANDS_KEY</span>][<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>] = {} <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword kw">self</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-ivar">@filename</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;          <span class="ruby-constant">YAML</span>.<span class="ruby-identifier">dump</span>(<span class="ruby-identifier">config</span>,<span class="ruby-identifier">file</span>)&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Not overwriting existing config file #{@filename}&quot;</span>&#x000A;        <span class="ruby-identifier">puts</span> <span class="ruby-value str">'Use --force to override'</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id='footer-push'></div>
+    </div>
+    <div id='footer'>
+      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    </div>
+  </body>
+</html>

@@ -113,11 +113,17 @@ table {
     margin: 0;
     padding: 0; }
     #index form input {
-      margin: .4em;
-      margin-bottom: 0;
-      width: 90%; }
+      margin: .4em 3px 0 .4em;
+      width: 80%; }
     #index form #search.untouched {
       color: #777777; }
+    #index form .clear_button {
+      -moz-border-radius: 7px;
+      -webkit-border-radius: 7px;
+      background: #AAA;
+      color: white;
+      padding: 0 5px 1px 5px;
+      cursor: pointer; }
   #index ol {
     padding: .4em .5em; }
     #index ol li {
@@ -142,6 +148,9 @@ table {
       color: #666666; }
     #index #index-entries.methods li a:hover .module_name,     #index #search-results.methods li a:hover .module_name {
       color: #ddd; }
+
+#attribute-list .context-item-name {
+  font-weight: bold; }
 
 div.header {
   font-size: 80%;
