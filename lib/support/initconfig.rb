@@ -19,7 +19,9 @@ module GLI
         config = global_options
         config[COMMANDS_KEY] = {}
         GLI.commands.each do |name,command|
-          config[COMMANDS_KEY][name.to_sym] = {} if command != self
+          if (command != self) && (name != :rdoc) && (name != :help)
+            config[COMMANDS_KEY][name.to_sym] = {} if command != self
+          end
         end
         File.open(@filename,'w') do |file|
           YAML.dump(config,file)
