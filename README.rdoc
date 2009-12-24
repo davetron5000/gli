@@ -136,6 +136,44 @@ What this doesn't give you:
 * A way to indicate a required argument or required number of arguments
 * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
 
+== Configuration File
+
+The configuration file format is a very simple means of customizing the execution of your command on a per-user
+or per-site basis.  The idea is that commonly used values that aren't the commands' default can be stored in the configuration
+file so that users do not need to specify them on the command line.  The search order for the value of a particular
+flag then becomes:
+
+1. Command line invocation
+2. Configuration File value
+3. Default value in the application
+
+Note that since there is no way to switch _off_ switches, setting them to default to true in the configuration file
+cannot be "undone" on the command line.  A future version may allow this.
+
+The configuration file format is YAML based and can be bootstrapped via the +initconfig+ command to your application.  
+This command is automatically created and added to your application's commands when you declare that there is a 
+config file.  When invoked, all global options set on the command line are configured 
+inside the configuration file.  Further, a blank area for each
+command of your application is created, to allow the user edit the config file  ith command-specific default values.
+
+    --- 
+    # Global options are here
+    :f: foo
+    :g: blah
+    # Command-specific options are under 'commands'
+    commands: 
+      # defaults for the "doit" command
+      :doit: 
+        :g: bar
+        :s: true
+      # defaults for the "gonow" command
+      :gonow: 
+        :g: foobar
+        :f: barfoo
+
+This allows you to design your application to have it's behavior _entirely_ affected by command line options, with sensible
+defaults stored in a configuration file.
+
 == Reference
 
 

@@ -1,9 +1,18 @@
 require 'gli.rb'
+require 'support/initconfig.rb'
 require 'test/unit'
 require 'test/unit/ui/console/testrunner'
 
 include GLI
 class TC_testGLI < Test::Unit::TestCase
+
+  def setup
+    @config_file = File.expand_path(File.dirname(__FILE__) + '/new_config.yaml')
+  end
+
+  def teardown
+    File.delete(@config_file) if File.exist?(@config_file)
+  end
 
   def test_flag_create
     GLI.reset
@@ -45,6 +54,41 @@ class TC_testGLI < Test::Unit::TestCase
     assert_equal(Etc.getpwuid.dir + "/foo",file)
     file = GLI.config_file("/foo")
     assert_equal "/foo",file
+    init_command = GLI.commands[:initconfig]
+    assert init_command
+  end
+
+  def test_initconfig_command
+    GLI.reset
+    GLI.config_file(@config_file)
+    GLI.flag :f
+    GLI.switch :s
+    GLI.switch :w
+    GLI.flag :bigflag
+    GLI.flag :biggestflag
+    GLI.command :foo do |c|
+    end
+    GLI.command :bar do |c|
+    end
+    GLI.command :blah do |c|
+    end
+    GLI.on_error do |ex|
+      raise ex
+    end
+    GLI.run(['-f','foo','-s','--bigflag=bleorgh','initconfig'])
+
+    written_config = File.open(@config_file) { |f| YAML::load(f) }
+
+    assert_equal 'foo',written_config[:f]
+    assert_equal 'bleorgh',written_config[:bigflag]
+    assert written_config[:s]
+    assert !written_config[:w]
+    assert_nil written_config[:biggestflag]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:bar]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:blah]
+
   end
 
   def do_test_flag_create(object)

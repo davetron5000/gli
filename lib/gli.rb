@@ -5,6 +5,7 @@ require 'gli/flag.rb'
 require 'gli/options.rb'
 require 'support/help.rb'
 require 'support/rdoc.rb'
+require 'support/initconfig.rb'
 require 'etc'
 
 # A means to define and parse a command line interface that works as
@@ -65,6 +66,7 @@ module GLI
     else
       @@config_file = Etc.getpwuid.dir + '/' + filename
     end
+    commands[:initconfig] = InitConfig.new(@@config_file)
     @@config_file
   end
 
@@ -129,7 +131,11 @@ module GLI
   def parse_config
     return nil if @@config_file.nil?
     require 'yaml'
-    File.open(@@config_file) { |f| YAML::load(f) }
+    if File.exist?(@@config_file)
+      File.open(@@config_file) { |f| YAML::load(f) }
+    else
+      {}
+    end
   end
 
   def program_name(override=nil)
@@ -149,7 +155,7 @@ module GLI
     if config.nil?
       config = {}
     else
-      command_configs = config.delete('commands') if !config.nil?
+      command_configs = config.delete(GLI::InitConfig::COMMANDS_KEY) if !config.nil?
     end
     global_options,command,options,arguments = parse_options_helper(args.clone,config,nil,Options.new,Array.new,command_configs)
     flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
@@ -278,8 +284,6 @@ module GLI
         command = find_command(command_name)
         raise "Unknown command '#{command_name}'" if !command
 
-        command_options_defaults = {:blah => 'BLAH'}
-        command_options_defaults = command_configs['commands'][command.name.to_sym] if command_configs['commands']
         return parse_options_helper(rest,
                                     global_options,
                                     command,
@@ -292,7 +296,7 @@ module GLI
   end
 
   def default_command_options(command,command_configs)
-    options = command_configs[command.name.to_sym] || {}
+    options = (command_configs && command_configs[command.name.to_sym]) || {}
   end
 
   def find_command(name)
