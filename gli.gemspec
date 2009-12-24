@@ -1,6 +1,6 @@
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
@@ -17,6 +17,7 @@ lib/gli.rb
 lib/support/help.rb
 lib/support/rdoc.rb
 lib/support/scaffold.rb
+lib/support/initconfig.rb
 bin/gli
   )
   s.require_paths << 'lib'
