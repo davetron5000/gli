@@ -1,483 +1,578 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>File: README.rdoc [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='file' id='wrapper'>
-      <div class='header'>
-        <div class='name'>README.rdoc</div>
-        <div class='paths'>
-          README.rdoc
-        </div>
-        <div class='last-update'>
-          Last Update:
-          <span class='datetime'>Thu Dec 24 11:25:23 -0500 2009</span>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='description'>
-            <h1>Git-Like Interface Command Line Parser</h1>
-            <table>
-            <tr><td valign="top">Author:</td><td>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot
-            com)
-            
-            </td></tr>
-            <tr><td valign="top">Copyright:</td><td>Copyright &#169; 2009 by Dave Copeland
-            
-            </td></tr>
-            <tr><td valign="top">License:</td><td>Distributes under the Apache License, see LICENSE.txt in the source distro
-            
-            </td></tr>
-            </table>
-            <p>
-            This is a DSL you can use to create a command line interface like git, gem
-            or svn, in that the first argument is a command, and there are global and
-            command specific flags.
-            </p>
-            <h2>Use</h2>
-            <p>
-            Note that the latest version of this gem is hosted at [<a
-            href="http://www.gemcutter.org">www.gemcutter.org</a>], so if you
-            haven&#8217;t set it up yet, do so:
-            </p>
-            <pre># Only needed if you haven't used/setup Gemcutter before&#x000A;sudo gem install gemcutter&#x000A;sudo gem tumble</pre>
-            <p>
-            Install if you need to:
-            </p>
-            <pre>sudo gem install gli</pre>
-            <p>
-            The simplest way to get started is to create a scaffold project
-            </p>
-            <pre>gli init my_proj command_name other_command_name</pre>
-            <p>
-            This will create a basic scaffold project in <tt>./my_proj</tt> with:
-            </p>
-            <ul>
-            <li>executable in <tt>./my_proj/bin/my_proj</tt>. This file demonstrates most
-            of what you need to describe your command line interface.
-            
-            </li>
-            <li>an empty test in <tt>./my_proj/test/tc_nothing.rb</tt> that can bootstrap
-            your tests
-            
-            </li>
-            <li>a gemspec shell
-            
-            </li>
-            <li>a README shell
-            
-            </li>
-            <li>Rakefile that can generate RDoc, package your Gem and run tests
-            
-            </li>
-            </ul>
-            <h3>Example</h3>
-            <p>
-            This example demonstrates most of the features of <a
-            href="../classes/GLI.html">GLI</a>.
-            </p>
-            <p>
-            This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
-            defines:
-            </p>
-            <pre>#!/usr/bin/ruby&#x000A;$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')&#x000A;&#x000A;require 'gli'&#x000A;&#x000A;include GLI</pre>
-            <p>
-            This sets a description of your program. This can be as long as you want.
-            </p>
-            <pre>program_description 'Support program for bootstrapping GLI-based programs'</pre>
-            <p>
-            This sets a config file for your program. The config file can be used to
-            store default values for command line options and command-specific options
-            on a per-user (or per-site) basis. The format is YAML-based. Using an
-            absolute path will result in the configuraiton file being located there.
-            Without an absolute path, the file will be located relative to the current
-            user&#8217;s home directory (which is what is being done here).
-            </p>
-            <pre>config_file '.glirc'</pre>
-            <p>
-            the configuration file This describes a command line switch
-            &#8220;-n&#8221; that is global to all commands and specified before the
-            command name on the command line.
-            </p>
-            <pre>desc 'Dry run; don\'t change the disk'&#x000A;switch :n</pre>
-            <p>
-            The following describes a command line flag that is global and has a
-            default value of &#8216;<tt>.</tt>&#8217;. It also specifies a short
-            description of its argument. This is used to print command line help. Note
-            that we have specified two different aliases for this flag. <tt>-r</tt>
-            (because it is listed first) is the default one and <tt>--root</tt> (note
-            two-dash syntax) is also supported. This means that <tt>-r some_dir</tt>
-            and <tt>--root=some_dir</tt> mean the same thing to the application.
-            </p>
-            <pre>desc 'Root dir in which to create project'&#x000A;long_desc 'This is the location where your project ill be created.  A subdirectory named for your project will be created here, and THAT directory will contain the generated files'&#x000A;default_value '.'&#x000A;arg_name 'root_dir'&#x000A;flag [:r,:root]</pre>
-            <p>
-            Here we specify a command. Inside the block we can use the same sorts of
-            things as we did above to define flags and switches specific to the
-            command. These must come after the command name. Also note that we use
-            <tt>arg_name</tt> here to describe the arguments this command accepts.
-            </p>
-            <pre>desc 'Create a new GLI-based project'&#x000A;arg_name 'project_name [command[ command]*]'&#x000A;command [:init,:scaffold] do |c|&#x000A;&#x000A;  c.desc 'Create an ext dir'&#x000A;  c.switch [:e,:ext]&#x000A;&#x000A;  c.desc 'Overwrite/ignore existing files and directories'&#x000A;  c.switch [:force]</pre>
-            <p>
-            Here we specify the actual actions to take when the command is executed. We
-            define a block that will be given the global options (as a Hash), the
-            command-specific options (as a hash) and the command line arguments
-            </p>
-            <pre>  c.action do |global_options,options,args|&#x000A;    if args.length &lt; 1&#x000A;      raise 'You must specify the name of your project'&#x000A;    end&#x000A;    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])&#x000A;  end&#x000A;end</pre>
-            <p>
-            You can also specify some global code to run before, after and on errors:
-            </p>
-            <pre>pre do |global_options,command,options,args|&#x000A;  puts &quot;After parsing, but before #{command.name} is run&quot;&#x000A;  return true&#x000A;  # return false if we want to skip command execution for some reason&#x000A;end&#x000A;&#x000A;post do |global_options,command,options,args|&#x000A;  puts &quot;After successful execution of #{command.name}&quot;&#x000A;end&#x000A;&#x000A;on_error do |ex|&#x000A;  puts &quot;We got an error&quot;&#x000A;  return true    # does the standard error handling code&#x000A;  # return false # this would skip standard error handling code&#x000A;end</pre>
-            <p>
-            Now, we run the program using the arguments the user provided on the
-            command line
-            </p>
-            <pre>run(ARGV)</pre>
-            <p>
-            Note that by using <tt>gli init</tt> you can create a shell with all of
-            this already there for you.
-            </p>
-            <p>
-            What this gives you:
-            </p>
-            <ul>
-            <li>A reasonably useful help system. <tt>your_program help</tt> will list all
-            the global options and commands (along with command aliases) and
-            <tt>your_program help command_name</tt> will list help for that given
-            command.
-            
-            </li>
-            <li>Error handling when flags do not receive arguments or unknown flags or
-            switches are given
-            
-            </li>
-            <li>Error handling when an unknown command is specified
-            
-            </li>
-            <li>Default values for flags if they are not specified by the user (switches
-            all default to false)
-            
-            </li>
-            </ul>
-            <p>
-            What this doesn&#8217;t give you:
-            </p>
-            <ul>
-            <li>A way to indicate required flags
-            
-            </li>
-            <li>A way to indicate a required argument or required number of arguments
-            
-            </li>
-            <li>A way to do default switches to &#8216;true&#8217; and therefore accept
-            things like <tt>--no-force</tt>
-            
-            </li>
-            </ul>
-            <h2>Configuration File</h2>
-            <p>
-            The configuration file format is a very simple means of customizing the
-            execution of your command on a per-user or per-site basis. The idea is that
-            commonly used values that aren&#8217;t the commands&#8217; default can be
-            stored in the configuration file so that users do not need to specify them
-            on the command line. The search order for the value of a particular flag
-            then becomes:
-            </p>
-            <ol>
-            <li>Command line invocation
-            
-            </li>
-            <li>Configuration File value
-            
-            </li>
-            <li>Default value in the application
-            
-            </li>
-            </ol>
-            <p>
-            Note that since there is no way to switch <em>off</em> switches, setting
-            them to default to true in the configuration file cannot be
-            &#8220;undone&#8221; on the command line. A future version may allow this.
-            </p>
-            <p>
-            The configuration file format is YAML based and can be bootstrapped via the
-            <tt>initconfig</tt> command to your application. This command is
-            automatically created and added to your application&#8217;s commands when
-            you declare that there is a config file. When invoked, all global options
-            set on the command line are configured inside the configuration file.
-            Further, a blank area for each command of your application is created, to
-            allow the user edit the config file ith command-specific default values.
-            </p>
-            <pre>---&#x000A;# Global options are here&#x000A;:f: foo&#x000A;:g: blah&#x000A;# Command-specific options are under 'commands'&#x000A;commands:&#x000A;  # defaults for the &quot;doit&quot; command&#x000A;  :doit:&#x000A;    :g: bar&#x000A;    :s: true&#x000A;  # defaults for the &quot;gonow&quot; command&#x000A;  :gonow:&#x000A;    :g: foobar&#x000A;    :f: barfoo</pre>
-            <p>
-            This allows you to design your application to have it&#8217;s behavior
-            <em>entirely</em> affected by command line options, with sensible defaults
-            stored in a configuration file.
-            </p>
-            <h2>Reference</h2>
-            <dl>
-            <dt><tt>action</tt></dt><dd>Specify the action to take when a command is executed from the command
-            line. This is only usable in a command block on the command object (e.g.
-            <tt>c.action</tt>). This takes a block that yields three parameters: a hash
-            of global options specified on the commandline, a hash of command-specific
-            options specified on the command line, and an array of arguments parsed
-            after the options were set on the command line. So, a command like <tt>git
-            --git-dir=/tmp commit -a -m 'Foo bar' foo.c bar.c</tt> would result in the
-            global hash containing <tt>:'git-dir' =&gt; '/tmp'</tt>, the options hash
-            containing <tt>:a =&gt; true, :m =&gt; 'Foo bar'</tt> and the arguments
-            array being <tt>['foo.c', 'bar.c']</tt>
-            
-            </dd>
-            <dt><tt>arg_name</tt></dt><dd>Describe the name of the argument to the next flag or command. This can be
-            used at the global level or inside a command block on the command object
-            (e.g. <tt>c.arg_name</tt>)
-            
-            </dd>
-            <dt><tt>config_file</tt></dt><dd>Name the configuration file for your applicaiton. This can either be an
-            absolute path to where the applicaiton will find the configuration file, or
-            a relative path, that will be interpretted as relative to the user&#8217;s
-            home directory. Default is <tt>nil</tt>, which means no configuration file
-            will be used. Declaring this creates a special <tt>initconfig</tt> command
-            that can bootstrap this configuration file for your users.
-            
-            </dd>
-            <dt><tt>command</tt></dt><dd>Declare a command. This takes a symbol or array of symbols and a block. The
-            block yields one argument, the command itself.
-            
-            </dd>
-            <dt><tt>default_value</tt></dt><dd>Indicate the default value of the next flag. This can be used at the global
-            level or inside a command block on the command object (e.g.
-            <tt>c.default_value</tt>)
-            
-            </dd>
-            <dt><tt>desc</tt></dt><dd>Describe the next flag, switch, or command you will declare. This can be
-            used at the global level or inside a command block on the command object
-            (e.g. <tt>c.desc</tt>)
-            
-            </dd>
-            <dt><tt>flag</tt></dt><dd>Declare a flag, which is a command line switch that takes an argument. This
-            takes either a symbol or an array of symbols. The first symbol decared is
-            used in your program to determine the flag&#8217;s value at runtime. This
-            can be used at the global level or inside a command block on the command
-            object (e.g. <tt>c.flag</tt>)
-            
-            </dd>
-            <dt><tt>long_desc</tt></dt><dd>Provide a more lengthy description of the next flag, switch, or command you
-            will declare. This will appear in command line output for commands when you
-            get help for a command. For flags and switches, this will only appear in
-            the generated rdoc and <b>not</b> on the command line. This can be used at
-            the global level or inside a command block on the command object (e.g.
-            <tt>c.long_desc</tt>)
-            
-            </dd>
-            <dt><tt>on_error</tt></dt><dd>Declare an error handling routine that will be called if any command (or
-            other <a href="../classes/GLI.html">GLI</a> processing) encouters an
-            exception. This is a block that will receive the exception that was caught.
-            All exceptions are routed through this block. If the block evaluates to
-            true, the built-in error handling will be called after, otherwise, nothing
-            will happen.
-            
-            </dd>
-            <dt><tt>post</tt></dt><dd>Declare code to run after every command that didn&#8217;t experience an
-            error. This is not available inside a command block. This takes a block
-            that will receive four arguments: the global argument hash (as in
-            <tt>action</tt>), the command (instance of Command), the command-specific
-            options (as in <tt>action</tt>, and the parsed command line arguments (as
-            in <tt>action</tt>).
-            
-            </dd>
-            <dt><tt>pre</tt></dt><dd>Declare code to run before every command. This is not available inside a
-            command block. This takes a block that will receive four arguments: the
-            global argument hash (as in <tt>action</tt>), the command (instance of
-            Command), the command-specific options (as in <tt>action</tt>, and the
-            parsed command line arguments (as in <tt>action</tt>). If this block
-            evaluates to false, the command will not be executed and the program will
-            stop.
-            
-            </dd>
-            <dt><tt>switch</tt></dt><dd>Declare a switch, which is a command-line switch taking no argument that
-            indicates a boolean &#8220;true&#8221; when specified on the command line.
-            This takes either a symbol or array of symbols. The first symbol declared
-            is used in your program to determine if the switch was set. This can be
-            used at the global level or inside a command block on the command object
-            (e.g. <tt>c.switch</tt>)
-            
-            </dd>
-            </dl>
-            <h2>Interface Generated</h2>
-            <p>
-            The command line interface that is created with the <a
-            href="../classes/GLI.html">GLI</a> DSL is:
-            </p>
-            <p>
-            <b>executable</b> <em>global options and flags</em> <b>command</b>
-            <em>command specific options and flags</em> `arguments`
-            </p>
-            <dl>
-            <dt>switch</dt><dd>a command line control string that takes no argument. The <tt>-l</tt> in
-            <tt>ls -l</tt>
-            
-            </dd>
-            <dt>flag</dt><dd>a switch that takes an argument. The <tt>-d' '</tt> in <tt>cut -d' '
-            file</tt>
-            
-            </dd>
-            <dt>command</dt><dd>the command to execute. The <tt>rebase</tt> in <tt>git rebase</tt>
-            
-            </dd>
-            <dt>arguments</dt><dd>Anything that&#8217;s not a switch, flag, or command. The <tt>main.c</tt>
-            in <tt>git add main.c</tt>
-            
-            </dd>
-            </dl>
-            <h3>Switches</h3>
-            <p>
-            Switches can be specified one at a time in either a long or short format:
-            </p>
-            <pre>git add -i&#x000A;git add --interactive</pre>
-            <p>
-            Switches can also be combined in their short form:
-            </p>
-            <pre>ls -l -a&#x000A;ls -la</pre>
-            <h3>Flags</h3>
-            <p>
-            Flags can be specified in long or short form, and with or without an
-            equals:
-            </p>
-            <pre>git merge -s resolve&#x000A;git merge --strategy=resolve</pre>
-            <h3>Stop Switch</h3>
-            <p>
-            A <tt>--</tt> at any time stops processing and sends the rest of the
-            argument to the command as arguments, even if they start with a
-            &#8220;&#8212;&#8220;
-            </p>
-            <h1><tt>gli</tt></h1>
-            <pre>gli [global options] command_name [command-specific options] [--] arguments...</pre>
-            <ul>
-            <li>Use the command <tt>help</tt> to get a summary of commands
-            
-            </li>
-            <li>Use the command <tt>help command_name</tt> to get a help for
-            <tt>command_name</tt>
-            
-            </li>
-            <li>Use <tt>--</tt> to stop command line argument processing; useful if your
-            arguments have dashes in them
-            
-            </li>
-            </ul>
-            <h2>Global <a href="../classes/Options.html">Options</a></h2>
-            <p>
-            These options are available for any command and are specified before the
-            name of the command
-            </p>
-            <dl>
-            <dt><tt>-n</tt></dt><dd>Dry run; dont change the disk
-            
-            </dd>
-            <dt><tt>-r, --root=arg</tt></dt><dd>Root dir of project <em>( default: <tt>.</tt>)</em>
-            
-            <p>
-            This is the directory where the projects directory will be made, so if you
-            specify a project name foo and the root dir of ., the directory ./foo will
-            be created
-            </p>
-            </dd>
-            <dt><tt>-v</tt></dt><dd>Be verbose
-            
-            </dd>
-            <dt><tt>--version</tt></dt><dd>Show version
-            
-            </dd>
-            </dl>
-            <h2>Commands</h2>
-            <dl>
-            <dt><tt>help</tt></dt><dd>Shows list of commands or help for one command
-            
-            </dd>
-            <dt><tt>init</tt></dt><dd>Create a new GLI-based project
-            
-            </dd>
-            </dl>
-            <h3><tt>help [command]</tt></h3>
-            <p>
-            Shows list of commands or help for one command
-            </p>
-            <h3><tt>init project_name [command[ command]*]</tt></h3>
-            <p>
-            Create a new GLI-based project
-            </p>
-            <p>
-            <b>Aliases</b>
-            </p>
-            <ul>
-            <li><b><tt>scaffold</tt></b>
-            
-            </li>
-            </ul>
-            <p>
-            This will create a scaffold command line project that uses <a
-            href="../classes/GLI.html">GLI</a> for command line processing.
-            Specifically, this will create an executable ready to go, as well as a lib
-            and test directory, all inside the directory named for your project
-            </p>
-            <h4><a href="../classes/Options.html">Options</a></h4>
-            <p>
-            These options are specified <b>after</b> the command.
-            </p>
-            <dl>
-            <dt><tt>-e, --ext</tt></dt><dd>Create an ext dir
-            
-            </dd>
-            <dt><tt>--force</tt></dt><dd>Overwrite/ignore existing files and directories
-            
-            </dd>
-            <dt><tt>--notest</tt></dt><dd>Do not create a test dir
-            
-            </dd>
-            </dl>
-            <h2>Links</h2>
-            <ul>
-            <li>[<a
-            href="http://davetron5000.github.com/gli">davetron5000.github.com/gli</a>]
-            - RubyDoc
-            
-            </li>
-            <li>[<a
-            href="http://www.github.com/davetron5000/gli">www.github.com/davetron5000/gli</a>]
-            - Source on GitHub
-            
-            </li>
-            </ul>
-          </div>
-          <div id='section'>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>README.rdoc</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+    <script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            README.rdoc
+        </h1>
+        <ul class="files">
+            <li>README.rdoc</li>
+            <li>Last modified: Sun Jan 03 13:24:57 -0500 2010</li>
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <h1>Git-Like Interface Command Line Parser</h1>
+<table>
+<tr><td valign="top">Author:</td><td>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot
+com)
+
+</td></tr>
+<tr><td valign="top">Copyright:</td><td>Copyright &#169; 2009 by Dave Copeland
+
+</td></tr>
+<tr><td valign="top">License:</td><td>Distributes under the Apache License, see LICENSE.txt in the source distro
+
+</td></tr>
+</table>
+<p>
+This is a DSL you can use to create a command line interface like git, gem
+or svn, in that the first argument is a command, and there are global and
+command specific flags.
+</p>
+<h2>Use</h2>
+<p>
+Note that the latest version of this gem is hosted at [<a
+href="http://www.gemcutter.org">www.gemcutter.org</a>], so if you
+haven&#8217;t set it up yet, do so:
+</p>
+<pre>
+    # Only needed if you haven't used/setup Gemcutter before
+    sudo gem install gemcutter
+    sudo gem tumble
+</pre>
+<p>
+Install if you need to:
+</p>
+<pre>
+    sudo gem install gli
+</pre>
+<p>
+The simplest way to get started is to create a scaffold project
+</p>
+<pre>
+    gli init my_proj command_name other_command_name
+</pre>
+<p>
+This will create a basic scaffold project in <tt>./my_proj</tt> with:
+</p>
+<ul>
+<li>executable in <tt>./my_proj/bin/my_proj</tt>. This file demonstrates most
+of what you need to describe your command line interface.
+
+</li>
+<li>an empty test in <tt>./my_proj/test/tc_nothing.rb</tt> that can bootstrap
+your tests
+
+</li>
+<li>a gemspec shell
+
+</li>
+<li>a README shell
+
+</li>
+<li>Rakefile that can generate RDoc, package your Gem and run tests
+
+</li>
+</ul>
+<h3>Example</h3>
+<p>
+This example demonstrates most of the features of <a
+href="../classes/GLI.html">GLI</a>.
+</p>
+<p>
+This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
+defines:
+</p>
+<pre>
+    #!/usr/bin/ruby
+    $: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+    require 'gli'
+
+    include GLI
+</pre>
+<p>
+This sets a description of your program. This can be as long as you want.
+</p>
+<pre>
+    program_description 'Support program for bootstrapping GLI-based programs'
+</pre>
+<p>
+This sets a config file for your program. The config file can be used to
+store default values for command line options and command-specific options
+on a per-user (or per-site) basis. The format is YAML-based. Using an
+absolute path will result in the configuraiton file being located there.
+Without an absolute path, the file will be located relative to the current
+user&#8217;s home directory (which is what is being done here).
+</p>
+<pre>
+    config_file '.glirc'
+</pre>
+<p>
+the configuration file This describes a command line switch
+&#8220;-n&#8221; that is global to all commands and specified before the
+command name on the command line.
+</p>
+<pre>
+    desc 'Dry run; don\'t change the disk'
+    switch :n
+</pre>
+<p>
+The following describes a command line flag that is global and has a
+default value of &#8216;<tt>.</tt>&#8217;. It also specifies a short
+description of its argument. This is used to print command line help. Note
+that we have specified two different aliases for this flag. <tt>-r</tt>
+(because it is listed first) is the default one and <tt>--root</tt> (note
+two-dash syntax) is also supported. This means that <tt>-r some_dir</tt>
+and <tt>--root=some_dir</tt> mean the same thing to the application.
+</p>
+<pre>
+    desc 'Root dir in which to create project'
+    long_desc 'This is the location where your project ill be created.  A subdirectory named for your project will be created here, and THAT directory will contain the generated files'
+    default_value '.'
+    arg_name 'root_dir'
+    flag [:r,:root]
+</pre>
+<p>
+Here we specify a command. Inside the block we can use the same sorts of
+things as we did above to define flags and switches specific to the
+command. These must come after the command name. Also note that we use
+<tt>arg_name</tt> here to describe the arguments this command accepts.
+</p>
+<pre>
+    desc 'Create a new GLI-based project'
+    arg_name 'project_name [command[ command]*]'
+    command [:init,:scaffold] do |c|
+
+      c.desc 'Create an ext dir'
+      c.switch [:e,:ext]
+
+      c.desc 'Overwrite/ignore existing files and directories'
+      c.switch [:force]
+</pre>
+<p>
+Here we specify the actual actions to take when the command is executed. We
+define a block that will be given the global options (as a Hash), the
+command-specific options (as a hash) and the command line arguments
+</p>
+<pre>
+      c.action do |global_options,options,args|
+        if args.length &lt; 1
+          raise 'You must specify the name of your project'
+        end
+        Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+      end
+    end
+</pre>
+<p>
+You can also specify some global code to run before, after and on errors:
+</p>
+<pre>
+    pre do |global_options,command,options,args|
+      puts &quot;After parsing, but before #{command.name} is run&quot;
+      return true
+      # return false if we want to skip command execution for some reason
+    end
+
+    post do |global_options,command,options,args|
+      puts &quot;After successful execution of #{command.name}&quot;
+    end
+
+    on_error do |ex|
+      puts &quot;We got an error&quot;
+      return true    # does the standard error handling code
+      # return false # this would skip standard error handling code
+    end
+</pre>
+<p>
+Now, we run the program using the arguments the user provided on the
+command line
+</p>
+<pre>
+    run(ARGV)
+</pre>
+<p>
+Note that by using <tt>gli init</tt> you can create a shell with all of
+this already there for you.
+</p>
+<p>
+What this gives you:
+</p>
+<ul>
+<li>A reasonably useful help system. <tt>your_program help</tt> will list all
+the global options and commands (along with command aliases) and
+<tt>your_program help command_name</tt> will list help for that given
+command.
+
+</li>
+<li>Error handling when flags do not receive arguments or unknown flags or
+switches are given
+
+</li>
+<li>Error handling when an unknown command is specified
+
+</li>
+<li>Default values for flags if they are not specified by the user (switches
+all default to false)
+
+</li>
+</ul>
+<p>
+What this doesn&#8217;t give you:
+</p>
+<ul>
+<li>A way to indicate required flags
+
+</li>
+<li>A way to indicate a required argument or required number of arguments
+
+</li>
+<li>A way to do default switches to &#8216;true&#8217; and therefore accept
+things like <tt>--no-force</tt>
+
+</li>
+</ul>
+<h2>Configuration File</h2>
+<p>
+The configuration file format is a very simple means of customizing the
+execution of your command on a per-user or per-site basis. The idea is that
+commonly used values that aren&#8217;t the commands&#8217; default can be
+stored in the configuration file so that users do not need to specify them
+on the command line. The search order for the value of a particular flag
+then becomes:
+</p>
+<ol>
+<li>Command line invocation
+
+</li>
+<li>Configuration File value
+
+</li>
+<li>Default value in the application
+
+</li>
+</ol>
+<p>
+Note that since there is no way to switch <em>off</em> switches, setting
+them to default to true in the configuration file cannot be
+&#8220;undone&#8221; on the command line. A future version may allow this.
+</p>
+<p>
+The configuration file format is YAML based and can be bootstrapped via the
+<tt>initconfig</tt> command to your application. This command is
+automatically created and added to your application&#8217;s commands when
+you declare that there is a config file. When invoked, all global options
+set on the command line are configured inside the configuration file.
+Further, a blank area for each command of your application is created, to
+allow the user edit the config file ith command-specific default values.
+</p>
+<pre>
+    ---
+    # Global options are here
+    :f: foo
+    :g: blah
+    # Command-specific options are under 'commands'
+    commands:
+      # defaults for the &quot;doit&quot; command
+      :doit:
+        :g: bar
+        :s: true
+      # defaults for the &quot;gonow&quot; command
+      :gonow:
+        :g: foobar
+        :f: barfoo
+</pre>
+<p>
+This allows you to design your application to have it&#8217;s behavior
+<em>entirely</em> affected by command line options, with sensible defaults
+stored in a configuration file.
+</p>
+<h2>Reference</h2>
+<dl>
+<dt><tt>action</tt></dt><dd>Specify the action to take when a command is executed from the command
+line. This is only usable in a command block on the command object (e.g.
+<tt>c.action</tt>). This takes a block that yields three parameters: a hash
+of global options specified on the commandline, a hash of command-specific
+options specified on the command line, and an array of arguments parsed
+after the options were set on the command line. So, a command like <tt>git
+--git-dir=/tmp commit -a -m 'Foo bar' foo.c bar.c</tt> would result in the
+global hash containing <tt>:'git-dir' =&gt; '/tmp'</tt>, the options hash
+containing <tt>:a =&gt; true, :m =&gt; 'Foo bar'</tt> and the arguments
+array being <tt>['foo.c', 'bar.c']</tt>
+
+</dd>
+<dt><tt>arg_name</tt></dt><dd>Describe the name of the argument to the next flag or command. This can be
+used at the global level or inside a command block on the command object
+(e.g. <tt>c.arg_name</tt>)
+
+</dd>
+<dt><tt>config_file</tt></dt><dd>Name the configuration file for your applicaiton. This can either be an
+absolute path to where the applicaiton will find the configuration file, or
+a relative path, that will be interpretted as relative to the user&#8217;s
+home directory. Default is <tt>nil</tt>, which means no configuration file
+will be used. Declaring this creates a special <tt>initconfig</tt> command
+that can bootstrap this configuration file for your users.
+
+</dd>
+<dt><tt>command</tt></dt><dd>Declare a command. This takes a symbol or array of symbols and a block. The
+block yields one argument, the command itself.
+
+</dd>
+<dt><tt>default_value</tt></dt><dd>Indicate the default value of the next flag. This can be used at the global
+level or inside a command block on the command object (e.g.
+<tt>c.default_value</tt>)
+
+</dd>
+<dt><tt>desc</tt></dt><dd>Describe the next flag, switch, or command you will declare. This can be
+used at the global level or inside a command block on the command object
+(e.g. <tt>c.desc</tt>)
+
+</dd>
+<dt><tt>flag</tt></dt><dd>Declare a flag, which is a command line switch that takes an argument. This
+takes either a symbol or an array of symbols. The first symbol decared is
+used in your program to determine the flag&#8217;s value at runtime. This
+can be used at the global level or inside a command block on the command
+object (e.g. <tt>c.flag</tt>)
+
+</dd>
+<dt><tt>long_desc</tt></dt><dd>Provide a more lengthy description of the next flag, switch, or command you
+will declare. This will appear in command line output for commands when you
+get help for a command. For flags and switches, this will only appear in
+the generated rdoc and <b>not</b> on the command line. This can be used at
+the global level or inside a command block on the command object (e.g.
+<tt>c.long_desc</tt>)
+
+</dd>
+<dt><tt>on_error</tt></dt><dd>Declare an error handling routine that will be called if any command (or
+other <a href="../classes/GLI.html">GLI</a> processing) encouters an
+exception. This is a block that will receive the exception that was caught.
+All exceptions are routed through this block. If the block evaluates to
+true, the built-in error handling will be called after, otherwise, nothing
+will happen.
+
+</dd>
+<dt><tt>post</tt></dt><dd>Declare code to run after every command that didn&#8217;t experience an
+error. This is not available inside a command block. This takes a block
+that will receive four arguments: the global argument hash (as in
+<tt>action</tt>), the command (instance of Command), the command-specific
+options (as in <tt>action</tt>, and the parsed command line arguments (as
+in <tt>action</tt>).
+
+</dd>
+<dt><tt>pre</tt></dt><dd>Declare code to run before every command. This is not available inside a
+command block. This takes a block that will receive four arguments: the
+global argument hash (as in <tt>action</tt>), the command (instance of
+Command), the command-specific options (as in <tt>action</tt>, and the
+parsed command line arguments (as in <tt>action</tt>). If this block
+evaluates to false, the command will not be executed and the program will
+stop.
+
+</dd>
+<dt><tt>switch</tt></dt><dd>Declare a switch, which is a command-line switch taking no argument that
+indicates a boolean &#8220;true&#8221; when specified on the command line.
+This takes either a symbol or array of symbols. The first symbol declared
+is used in your program to determine if the switch was set. This can be
+used at the global level or inside a command block on the command object
+(e.g. <tt>c.switch</tt>)
+
+</dd>
+</dl>
+<h2>Interface Generated</h2>
+<p>
+The command line interface that is created with the <a
+href="../classes/GLI.html">GLI</a> DSL is:
+</p>
+<p>
+<b>executable</b> <em>global options and flags</em> <b>command</b>
+<em>command specific options and flags</em> `arguments`
+</p>
+<dl>
+<dt>switch</dt><dd>a command line control string that takes no argument. The <tt>-l</tt> in
+<tt>ls -l</tt>
+
+</dd>
+<dt>flag</dt><dd>a switch that takes an argument. The <tt>-d' '</tt> in <tt>cut -d' '
+file</tt>
+
+</dd>
+<dt>command</dt><dd>the command to execute. The <tt>rebase</tt> in <tt>git rebase</tt>
+
+</dd>
+<dt>arguments</dt><dd>Anything that&#8217;s not a switch, flag, or command. The <tt>main.c</tt>
+in <tt>git add main.c</tt>
+
+</dd>
+</dl>
+<h3>Switches</h3>
+<p>
+Switches can be specified one at a time in either a long or short format:
+</p>
+<pre>
+    git add -i
+    git add --interactive
+</pre>
+<p>
+Switches can also be combined in their short form:
+</p>
+<pre>
+    ls -l -a
+    ls -la
+</pre>
+<h3>Flags</h3>
+<p>
+Flags can be specified in long or short form, and with or without an
+equals:
+</p>
+<pre>
+    git merge -s resolve
+    git merge --strategy=resolve
+</pre>
+<h3>Stop Switch</h3>
+<p>
+A <tt>--</tt> at any time stops processing and sends the rest of the
+argument to the command as arguments, even if they start with a
+&#8220;&#8212;&#8220;
+</p>
+<h1><tt>gli</tt></h1>
+<pre>
+    gli [global options] command_name [command-specific options] [--] arguments...
+</pre>
+<ul>
+<li>Use the command <tt>help</tt> to get a summary of commands
+
+</li>
+<li>Use the command <tt>help command_name</tt> to get a help for
+<tt>command_name</tt>
+
+</li>
+<li>Use <tt>--</tt> to stop command line argument processing; useful if your
+arguments have dashes in them
+
+</li>
+</ul>
+<h2>Global <a href="../classes/Options.html">Options</a></h2>
+<p>
+These options are available for any command and are specified before the
+name of the command
+</p>
+<dl>
+<dt><tt>-n</tt></dt><dd>Dry run; dont change the disk
+
+</dd>
+<dt><tt>-r, --root=arg</tt></dt><dd>Root dir of project <em>( default: <tt>.</tt>)</em>
+
+<p>
+This is the directory where the projects directory will be made, so if you
+specify a project name foo and the root dir of ., the directory ./foo will
+be created
+</p>
+</dd>
+<dt><tt>-v</tt></dt><dd>Be verbose
+
+</dd>
+<dt><tt>--version</tt></dt><dd>Show version
+
+</dd>
+</dl>
+<h2>Commands</h2>
+<dl>
+<dt><tt>help</tt></dt><dd>Shows list of commands or help for one command
+
+</dd>
+<dt><tt>init</tt></dt><dd>Create a new GLI-based project
+
+</dd>
+</dl>
+<h3><tt>help [command]</tt></h3>
+<p>
+Shows list of commands or help for one command
+</p>
+<h3><tt>init project_name [command[ command]*]</tt></h3>
+<p>
+Create a new GLI-based project
+</p>
+<p>
+<b>Aliases</b>
+</p>
+<ul>
+<li><b><tt>scaffold</tt></b>
+
+</li>
+</ul>
+<p>
+This will create a scaffold command line project that uses <a
+href="../classes/GLI.html">GLI</a> for command line processing.
+Specifically, this will create an executable ready to go, as well as a lib
+and test directory, all inside the directory named for your project
+</p>
+<h4><a href="../classes/Options.html">Options</a></h4>
+<p>
+These options are specified <b>after</b> the command.
+</p>
+<dl>
+<dt><tt>-e, --ext</tt></dt><dd>Create an ext dir
+
+</dd>
+<dt><tt>--force</tt></dt><dd>Overwrite/ignore existing files and directories
+
+</dd>
+<dt><tt>--notest</tt></dt><dd>Do not create a test dir
+
+</dd>
+</dl>
+<h2>Links</h2>
+<ul>
+<li>[<a
+href="http://davetron5000.github.com/gli">davetron5000.github.com/gli</a>]
+- RubyDoc
+
+</li>
+<li>[<a
+href="http://www.github.com/davetron5000/gli">www.github.com/davetron5000/gli</a>]
+- Source on GitHub
+
+</li>
+</ul>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</div>
     </div>
   </body>
 </html>

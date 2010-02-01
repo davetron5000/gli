@@ -1,146 +1,279 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: GLI::Flag [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          GLI::Flag
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::Flag</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::Flag 
+            
+                <span class="parent">&lt; 
+                    
+                    Switch
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../../files/lib/gli/flag_rb.html">lib/gli/flag.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong><a href="Switch.html">GLI::Switch</a></strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='description'>
-            <p>
-            Defines a flag, which is to say a switch that takes an argument
-            </p>
-          </div>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public class</h3>
-            <ol>
-              <li><a href="#M000060">new</a></li>
-            </ol>
-            <h3>public instance</h3>
-            <ol>
-              <li><a href="#M000063">all_forms</a></li>
-              <li><a href="#M000062">find_me</a></li>
-              <li><a href="#M000061">get_value!</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='attribute-list'>
-              <h2 class='section-bar'>Attributes</h2>
-              <div class='name-list'>
-                <table>
-                  <tr class='top-aligned-row context-row'>
-                    <td class='context-item-name'>default_value</td>
-                    <td class='context-item-value'>[R]</td>
-                    <td class='context-item-desc'></td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-            <div id='methods'>
-              <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000060'>
-                <a name='M000060'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>new</span>
-                  <span class='arguments'>(names,description,argument_name=nil,default=nil,long_desc=nil)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000060-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000060-source'><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 9</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">argument_name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">default</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)&#x000A;      <span class="ruby-ivar">@argument_name</span> = <span class="ruby-identifier">argument_name</span> <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;arg&quot;</span>&#x000A;      <span class="ruby-ivar">@default_value</span> = <span class="ruby-identifier">default</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000063'>
-                <a name='M000063'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>all_forms</span>
-                  <span class='arguments'>(joiner=', ')</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  Returns a string of all possible forms of this flag. Mostly intended for
-                  printing to the user.
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000063-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000063-source'><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 54</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">all_forms</span>(<span class="ruby-identifier">joiner</span>=<span class="ruby-value str">', '</span>)&#x000A;      <span class="ruby-identifier">forms</span> = <span class="ruby-identifier">all_forms_a</span>&#x000A;      <span class="ruby-identifier">string</span> = <span class="ruby-identifier">forms</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">joiner</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">forms</span>[<span class="ruby-value">-1</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\-\-/</span>&#x000A;        <span class="ruby-identifier">string</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">'='</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">string</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">' '</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-identifier">string</span> <span class="ruby-operator">+=</span> <span class="ruby-ivar">@argument_name</span>&#x000A;      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">string</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000062'>
-                <a name='M000062'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>find_me</span>
-                  <span class='arguments'>(arg)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000062-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000062-source'><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 37</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@names</span>[<span class="ruby-identifier">arg</span>]&#x000A;        <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>,<span class="ruby-identifier">arg</span>,<span class="ruby-keyword kw">nil</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span>&#x000A;        <span class="ruby-comment cmt"># This means we matched the long-form, but there's no argument</span>&#x000A;        <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{arg} requires an argument via #{arg}=argument&quot;</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">match_string</span> = <span class="ruby-node">&quot;^#{name}=(.*)$&quot;</span>&#x000A;        <span class="ruby-identifier">match_data</span> = <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">match_string</span>)&#x000A;        <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">$1</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">match_data</span>;&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      [<span class="ruby-keyword kw">false</span>,<span class="ruby-keyword kw">nil</span>,<span class="ruby-keyword kw">nil</span>]&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000061'>
-                <a name='M000061'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>get_value!</span>
-                  <span class='arguments'>(args)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000061-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000061-source'><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 15</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_value!</span>(<span class="ruby-identifier">args</span>)&#x000A;      <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each_index</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">arg</span> = <span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>]&#x000A;        <span class="ruby-identifier">present</span>,<span class="ruby-identifier">matched</span>,<span class="ruby-identifier">value</span> = <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">present</span>&#x000A;          <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete_at</span> <span class="ruby-identifier">index</span>&#x000A;          <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value str">''</span>&#x000A;            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>]&#x000A;              <span class="ruby-identifier">value</span> = <span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>]&#x000A;              <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete_at</span> <span class="ruby-identifier">index</span>&#x000A;              <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">value</span>&#x000A;            <span class="ruby-keyword kw">else</span>&#x000A;              <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{matched} requires an argument&quot;</span>&#x000A;            <span class="ruby-keyword kw">end</span>&#x000A;          <span class="ruby-keyword kw">else</span>&#x000A;            <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">value</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@default_value</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/gli/flag_rb.html">lib/gli/flag.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <p>
+Defines a flag, which is to say a switch that takes an argument
+</p>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>A</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000024">all_forms</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>F</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000021">find_me</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>G</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000017">get_value!</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>N</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000016">new</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <div class="sectiontitle">Attributes</div>
+    <table border='0' cellpadding='5'>
+        
+        <tr valign='top'>
+            <td class='attr-rw'>
+                [R]
+            </td>
+            <td class='attr-name'>default_value</td>
+            <td class='attr-desc'></td>
+        </tr>
+        
+    </table>
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000016">
+                    
+                    <a name="M000016"></a><b>new</b>(names,description,argument_name=nil,default=nil,long_desc=nil)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000016_source')" id="l_M000016_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L9" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000016_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 9</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">argument_name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">default</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)
+      <span class="ruby-ivar">@argument_name</span> = <span class="ruby-identifier">argument_name</span> <span class="ruby-operator">||</span> <span class="ruby-value str">&quot;arg&quot;</span>
+      <span class="ruby-ivar">@default_value</span> = <span class="ruby-identifier">default</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000024">
+                    
+                    <a name="M000024"></a><b>all_forms</b>(joiner=', ')
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Returns a string of all possible forms of this flag. Mostly intended for
+printing to the user.
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000024_source')" id="l_M000024_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L54" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000024_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 54</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">all_forms</span>(<span class="ruby-identifier">joiner</span>=<span class="ruby-value str">', '</span>)
+      <span class="ruby-identifier">forms</span> = <span class="ruby-identifier">all_forms_a</span>
+      <span class="ruby-identifier">string</span> = <span class="ruby-identifier">forms</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">joiner</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">forms</span>[<span class="ruby-value">-1</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\-\-/</span>
+        <span class="ruby-identifier">string</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">'='</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">string</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">' '</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">string</span> <span class="ruby-operator">+=</span> <span class="ruby-ivar">@argument_name</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">string</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000021">
+                    
+                    <a name="M000021"></a><b>find_me</b>(arg)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000021_source')" id="l_M000021_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L37" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000021_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 37</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@names</span>[<span class="ruby-identifier">arg</span>]
+        <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>,<span class="ruby-identifier">arg</span>,<span class="ruby-keyword kw">nil</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">2</span>
+        <span class="ruby-comment cmt"># This means we matched the long-form, but there's no argument</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{arg} requires an argument via #{arg}=argument&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">match_string</span> = <span class="ruby-node">&quot;^#{name}=(.*)$&quot;</span>
+        <span class="ruby-identifier">match_data</span> = <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">match_string</span>)
+        <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>,<span class="ruby-identifier">name</span>,<span class="ruby-identifier">$1</span>] <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">match_data</span>;
+      <span class="ruby-keyword kw">end</span>
+      [<span class="ruby-keyword kw">false</span>,<span class="ruby-keyword kw">nil</span>,<span class="ruby-keyword kw">nil</span>]
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000017">
+                    
+                    <a name="M000017"></a><b>get_value!</b>(args)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000017_source')" id="l_M000017_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L15" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000017_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 15</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_value!</span>(<span class="ruby-identifier">args</span>)
+      <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each_index</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">arg</span> = <span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>]
+        <span class="ruby-identifier">present</span>,<span class="ruby-identifier">matched</span>,<span class="ruby-identifier">value</span> = <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">present</span>
+          <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete_at</span> <span class="ruby-identifier">index</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">value</span> <span class="ruby-operator">==</span> <span class="ruby-value str">''</span>
+            <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>]
+              <span class="ruby-identifier">value</span> = <span class="ruby-identifier">args</span>[<span class="ruby-identifier">index</span>]
+              <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete_at</span> <span class="ruby-identifier">index</span>
+              <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">value</span>
+            <span class="ruby-keyword kw">else</span>
+              <span class="ruby-identifier">raise</span> <span class="ruby-node">&quot;#{matched} requires an argument&quot;</span>
+            <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">value</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@default_value</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    

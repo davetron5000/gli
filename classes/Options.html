@@ -1,91 +1,132 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: Options [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          Options
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Options</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+    <script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            Options 
+            
+                <span class="parent">&lt; 
+                    
+                    OpenStruct
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../files/lib/gli/options_rb.html">lib/gli/options.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong>OpenStruct</strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public instance</h3>
-            <ol>
-              <li><a href="#M000001">[]</a></li>
-              <li><a href="#M000002">[]=</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='methods'>
-              <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000001'>
-                <a name='M000001'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>[]</span>
-                  <span class='arguments'>(k)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000001-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000001-source'><span class="ruby-comment cmt"># File lib/gli/options.rb, line 5</span>&#x000A;  <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">k</span>)&#x000A;    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>]&#x000A;  <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000002'>
-                <a name='M000002'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>[]=</span>
-                  <span class='arguments'>(k, v)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000002-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000002-source'><span class="ruby-comment cmt"># File lib/gli/options.rb, line 9</span>&#x000A;  <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]=</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)&#x000A;    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">v</span>&#x000A;  <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../files/lib/gli/options_rb.html">lib/gli/options.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>#</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000025">[]</a>,</li>
+                
+                <li><a href="#M000026">[]=</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000025">
+                    
+                    <a name="M000025"></a><b>[]</b>(k)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000025_source')" id="l_M000025_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/b90e9a8343bb4f79fa8017c5ea82f36365d0235a/lib/gli/options.rb#L5" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000025_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/options.rb, line 5</span>
+  <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">k</span>)
+    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>]
+  <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000026">
+                    
+                    <a name="M000026"></a><b>[]=</b>(k, v)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000026_source')" id="l_M000026_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/b90e9a8343bb4f79fa8017c5ea82f36365d0235a/lib/gli/options.rb#L9" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000026_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/options.rb, line 9</span>
+  <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]=</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
+    <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">v</span>
+  <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    

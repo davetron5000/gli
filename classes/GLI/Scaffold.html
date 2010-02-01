@@ -1,147 +1,337 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: GLI::Scaffold [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          GLI::Scaffold
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::Scaffold</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::Scaffold 
+            
+                <span class="parent">&lt; 
+                    
+                    Object
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../../files/lib/support/scaffold_rb.html">lib/support/scaffold.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong>Object</strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public class</h3>
-            <ol>
-              <li><a href="#M000033">create_scaffold</a></li>
-              <li><a href="#M000037">mk_binfile</a></li>
-              <li><a href="#M000035">mk_gemspec</a></li>
-              <li><a href="#M000036">mk_rakefile</a></li>
-              <li><a href="#M000034">mk_readme</a></li>
-              <li><a href="#M000038">mkdirs</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='methods'>
-              <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000033'>
-                <a name='M000033'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>create_scaffold</span>
-                  <span class='arguments'>(root_dir,create_test_dir,create_ext_dir,project_name,commands,force=false,dry_run=false)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000033-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000033-source'><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 7</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_scaffold</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_test_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">force</span>=<span class="ruby-keyword kw">false</span>,<span class="ruby-identifier">dry_run</span>=<span class="ruby-keyword kw">false</span>)&#x000A;      <span class="ruby-identifier">dirs</span> = [<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'lib'</span>)]&#x000A;      <span class="ruby-identifier">dirs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'bin'</span>)&#x000A;      <span class="ruby-identifier">dirs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'test'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_test_dir</span>&#x000A;      <span class="ruby-identifier">dirs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'ext'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_ext_dir</span>&#x000A;&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">mkdirs</span>(<span class="ruby-identifier">dirs</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>)&#x000A;        <span class="ruby-identifier">mk_binfile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>)&#x000A;        <span class="ruby-identifier">mk_readme</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)&#x000A;        <span class="ruby-identifier">mk_gemspec</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)&#x000A;        <span class="ruby-identifier">mk_rakefile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">create_test_dir</span>)&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000037'>
-                <a name='M000037'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>mk_binfile</span>
-                  <span class='arguments'>(root_dir,create_ext_dir,force,dry_run,project_name,commands)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000037-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000037-source'><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 121</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_binfile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>)&#x000A;      <span class="ruby-identifier">bin_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'bin'</span>,<span class="ruby-identifier">project_name</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">bin_file</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">force</span>&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">dry_run</span>&#x000A;          <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">bin_file</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">chmod</span>(<span class="ruby-value">0755</span>)&#x000A;            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'#!/usr/bin/ruby'</span>&#x000A;            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + \'/../lib\')'</span>&#x000A;            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + \'/../ext\')'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_ext_dir</span>&#x000A;            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rubygems'\nrequire 'gli'\n\ninclude GLI\n\ndesc 'Describe some switch here'\nswitch [:s,:switch]\n\ndesc 'Describe some flag here'\ndefault_value 'the default'\narg_name 'The name of the argument'\nflag [:f,:flagname]\n&quot;</span>&#x000A;            <span class="ruby-identifier">first</span> = <span class="ruby-keyword kw">true</span>&#x000A;            <span class="ruby-identifier">commands</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>&#x000A;              <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\ndesc 'Describe \#{command} here'\narg_name 'Describe arguments to \#{command} here'\n&quot;</span>&#x000A;              <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">first</span>&#x000A;                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;command :\#{command} do |c|\n  c.desc 'Describe a switch to \#{command}'\n  c.switch :s\n\n  c.desc 'Describe a flag to \#{command}'\n  c.default_value 'default'\n  c.flag :s\n  c.action do |global_options,options,args|\n\n    # Your command logic here\n     \n    # If you have any errors, just raise them\n    # raise \&quot;that command made no sense\&quot;\n  end\nend\n&quot;</span>&#x000A;              <span class="ruby-keyword kw">else</span>&#x000A;                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;command :\#{command} do |c|\n  c.action do |global_options,options,args|\n  end\nend\n&quot;</span>&#x000A;              <span class="ruby-keyword kw">end</span>&#x000A;              <span class="ruby-identifier">first</span> = <span class="ruby-keyword kw">false</span>&#x000A;            <span class="ruby-keyword kw">end</span>&#x000A;            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\npre do |global,command,options,args|\n  # Pre logic here\n  # Return true to proceed; false to abourt and not call the\n  # chosen command\n  true\nend\n\npost do |global,command,options,args|\n  # Post logic here\nend\n\non_error do |exception|\n  # Error logic here\n  # return false to skip default error handling\n  true\nend\n\nGLI.run(ARGV)\n&quot;</span>&#x000A;            <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Created #{bin_file}&quot;</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">puts</span> <span class="ruby-identifier">bin_file</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; exists; use --force to override&quot;</span>&#x000A;        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">true</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000035'>
-                <a name='M000035'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>mk_gemspec</span>
-                  <span class='arguments'>(root_dir,dry_run,project_name)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000035-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000035-source'><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 34</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_gemspec</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)&#x000A;      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>&#x000A;      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/#{project_name}.gemspec&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;spec = Gem::Specification.new do |s| \n  s.name = '\#{project_name}'\n  s.version = '0.0.01'\n  s.author = 'Your Name Here'\n  s.email = 'your@email.address.com'\n  s.homepage = 'http://your.website.com'\n  s.platform = Gem::Platform::RUBY\n  s.summary = 'A description of your project'\n# Add your other files here if you make them\n  s.files = %w(\nbin/\#{project_name}\n  )\n  s.require_paths &lt;&lt; 'lib'\n  s.has_rdoc = true\n  s.extra_rdoc_files = ['README.rdoc','\#{project_name}.rdoc']\n  s.rdoc_options &lt;&lt; '--title' &lt;&lt; 'Git Like Interface' &lt;&lt; '--main' &lt;&lt; 'README.rdoc' &lt;&lt; '-ri'\n  s.bindir = 'bin'\n  s.executables &lt;&lt; '\#{project_name}'\nend\n&quot;</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000036'>
-                <a name='M000036'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>mk_rakefile</span>
-                  <span class='arguments'>(root_dir,dry_run,project_name,create_test_dir)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000036-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000036-source'><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 62</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_rakefile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">create_test_dir</span>)&#x000A;      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>&#x000A;      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/Rakefile&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rake/clean'\nrequire 'rubygems'\nrequire 'rake/gempackagetask'\nrequire 'rake/rdoctask'\n\nRake::RDocTask.new do |rd|\n  rd.main = \&quot;README.rdoc\&quot;\n  rd.rdoc_files.include(\&quot;README.rdoc\&quot;,\&quot;lib/**/*.rb\&quot;,\&quot;bin/**/*\&quot;)\n  rd.title = 'Your application title'\nend\n\nspec = eval(File.read('\#{project_name}.gemspec'))\n\nRake::GemPackageTask.new(spec) do |pkg|\nend\n\n&quot;</span>&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_test_dir</span>&#x000A;          <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rake/testtask'\nRake::TestTask.new do |t|\n  t.libs &lt;&lt; \&quot;test\&quot;\n  t.test_files = FileList['test/tc_*.rb']\nend\n\ntask :default =&gt; :test\n&quot;</span>&#x000A;          <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/test/tc_nothing.rb&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">test_file</span><span class="ruby-operator">|</span>&#x000A;            <span class="ruby-identifier">test_file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'test/unit'\nrequire 'test/unit/ui/console/testrunner'\n\nclass TC_testNothing &lt; Test::Unit::TestCase\n\n  def setup\n  end\n\n  def teardown\n  end\n\n  def test_the_truth\n    assert true\n  end\nend\n&quot;</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">else</span>&#x000A;          <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;task :default =&gt; :package\n&quot;</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000034'>
-                <a name='M000034'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>mk_readme</span>
-                  <span class='arguments'>(root_dir,dry_run,project_name)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000034-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000034-source'><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 21</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_readme</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)&#x000A;      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>&#x000A;      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/README.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;= #{project_name}\n\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;Describe your project here\n\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;:include:#{project_name}.rdoc\n\n&quot;</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/#{project_name}.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;= #{project_name}\n\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Generate this with\n    #{project_name} rdoc\nAfter you have described your command line interface&quot;</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000038'>
-                <a name='M000038'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>mkdirs</span>
-                  <span class='arguments'>(dirs,force,dry_run)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000038-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000038-source'><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 215</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mkdirs</span>(<span class="ruby-identifier">dirs</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>)&#x000A;      <span class="ruby-identifier">exists</span> = <span class="ruby-keyword kw">false</span>&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">force</span>&#x000A;        <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>&#x000A;          <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">dir</span>&#x000A;            <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{dir} exists; use --force to override&quot;</span>&#x000A;            <span class="ruby-identifier">exists</span> = <span class="ruby-keyword kw">true</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">exists</span>&#x000A;        <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>&#x000A;          <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Creating dir #{dir}...&quot;</span>&#x000A;          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>&#x000A;            <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;dry-run; #{dir} not created&quot;</span>&#x000A;          <span class="ruby-keyword kw">else</span>&#x000A;            <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span> <span class="ruby-identifier">dir</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Exiting...&quot;</span>&#x000A;        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">true</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/support/scaffold_rb.html">lib/support/scaffold.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>C</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000071">create_scaffold</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>M</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000075">mk_binfile</a>,</li>
+                
+                <li><a href="#M000073">mk_gemspec</a>,</li>
+                
+                <li><a href="#M000074">mk_rakefile</a>,</li>
+                
+                <li><a href="#M000072">mk_readme</a>,</li>
+                
+                <li><a href="#M000076">mkdirs</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000071">
+                    
+                    <a name="M000071"></a><b>create_scaffold</b>(root_dir,create_test_dir,create_ext_dir,project_name,commands,force=false,dry_run=false)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000071_source')" id="l_M000071_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L7" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000071_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 7</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_scaffold</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_test_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">force</span>=<span class="ruby-keyword kw">false</span>,<span class="ruby-identifier">dry_run</span>=<span class="ruby-keyword kw">false</span>)
+      <span class="ruby-identifier">dirs</span> = [<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'lib'</span>)]
+      <span class="ruby-identifier">dirs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'bin'</span>)
+      <span class="ruby-identifier">dirs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'test'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_test_dir</span>
+      <span class="ruby-identifier">dirs</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'ext'</span>) <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_ext_dir</span>
+
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">mkdirs</span>(<span class="ruby-identifier">dirs</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>)
+        <span class="ruby-identifier">mk_binfile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>)
+        <span class="ruby-identifier">mk_readme</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)
+        <span class="ruby-identifier">mk_gemspec</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)
+        <span class="ruby-identifier">mk_rakefile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">create_test_dir</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000075">
+                    
+                    <a name="M000075"></a><b>mk_binfile</b>(root_dir,create_ext_dir,force,dry_run,project_name,commands)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000075_source')" id="l_M000075_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L121" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000075_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 121</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_binfile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>)
+      <span class="ruby-identifier">bin_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'bin'</span>,<span class="ruby-identifier">project_name</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">bin_file</span>) <span class="ruby-operator">||</span> <span class="ruby-identifier">force</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">dry_run</span>
+          <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">bin_file</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">chmod</span>(<span class="ruby-value">0755</span>)
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'#!/usr/bin/ruby'</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + \'/../lib\')'</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + \'/../ext\')'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_ext_dir</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rubygems'\nrequire 'gli'\n\ninclude GLI\n\ndesc 'Describe some switch here'\nswitch [:s,:switch]\n\ndesc 'Describe some flag here'\ndefault_value 'the default'\narg_name 'The name of the argument'\nflag [:f,:flagname]\n&quot;</span>
+            <span class="ruby-identifier">first</span> = <span class="ruby-keyword kw">true</span>
+            <span class="ruby-identifier">commands</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\ndesc 'Describe \#{command} here'\narg_name 'Describe arguments to \#{command} here'\n&quot;</span>
+              <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">first</span>
+                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;command :\#{command} do |c|\n  c.desc 'Describe a switch to \#{command}'\n  c.switch :s\n\n  c.desc 'Describe a flag to \#{command}'\n  c.default_value 'default'\n  c.flag :s\n  c.action do |global_options,options,args|\n\n    # Your command logic here\n     \n    # If you have any errors, just raise them\n    # raise \&quot;that command made no sense\&quot;\n  end\nend\n&quot;</span>
+              <span class="ruby-keyword kw">else</span>
+                <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;command :\#{command} do |c|\n  c.action do |global_options,options,args|\n  end\nend\n&quot;</span>
+              <span class="ruby-keyword kw">end</span>
+              <span class="ruby-identifier">first</span> = <span class="ruby-keyword kw">false</span>
+            <span class="ruby-keyword kw">end</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;\npre do |global,command,options,args|\n  # Pre logic here\n  # Return true to proceed; false to abourt and not call the\n  # chosen command\n  true\nend\n\npost do |global,command,options,args|\n  # Post logic here\nend\n\non_error do |exception|\n  # Error logic here\n  # return false to skip default error handling\n  true\nend\n\nGLI.run(ARGV)\n&quot;</span>
+            <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Created #{bin_file}&quot;</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-identifier">bin_file</span> <span class="ruby-operator">+</span> <span class="ruby-value str">&quot; exists; use --force to override&quot;</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000073">
+                    
+                    <a name="M000073"></a><b>mk_gemspec</b>(root_dir,dry_run,project_name)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000073_source')" id="l_M000073_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L34" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000073_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 34</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_gemspec</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/#{project_name}.gemspec&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;spec = Gem::Specification.new do |s| \n  s.name = '\#{project_name}'\n  s.version = '0.0.01'\n  s.author = 'Your Name Here'\n  s.email = 'your@email.address.com'\n  s.homepage = 'http://your.website.com'\n  s.platform = Gem::Platform::RUBY\n  s.summary = 'A description of your project'\n# Add your other files here if you make them\n  s.files = %w(\nbin/\#{project_name}\n  )\n  s.require_paths &lt;&lt; 'lib'\n  s.has_rdoc = true\n  s.extra_rdoc_files = ['README.rdoc','\#{project_name}.rdoc']\n  s.rdoc_options &lt;&lt; '--title' &lt;&lt; 'Git Like Interface' &lt;&lt; '--main' &lt;&lt; 'README.rdoc' &lt;&lt; '-ri'\n  s.bindir = 'bin'\n  s.executables &lt;&lt; '\#{project_name}'\nend\n&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000074">
+                    
+                    <a name="M000074"></a><b>mk_rakefile</b>(root_dir,dry_run,project_name,create_test_dir)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000074_source')" id="l_M000074_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L62" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000074_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 62</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_rakefile</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">create_test_dir</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/Rakefile&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rake/clean'\nrequire 'rubygems'\nrequire 'rake/gempackagetask'\nrequire 'rake/rdoctask'\n\nRake::RDocTask.new do |rd|\n  rd.main = \&quot;README.rdoc\&quot;\n  rd.rdoc_files.include(\&quot;README.rdoc\&quot;,\&quot;lib/**/*.rb\&quot;,\&quot;bin/**/*\&quot;)\n  rd.title = 'Your application title'\nend\n\nspec = eval(File.read('\#{project_name}.gemspec'))\n\nRake::GemPackageTask.new(spec) do |pkg|\nend\n\n&quot;</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_test_dir</span>
+          <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rake/testtask'\nRake::TestTask.new do |t|\n  t.libs &lt;&lt; \&quot;test\&quot;\n  t.test_files = FileList['test/tc_*.rb']\nend\n\ntask :default =&gt; :test\n&quot;</span>
+          <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/test/tc_nothing.rb&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">test_file</span><span class="ruby-operator">|</span>
+            <span class="ruby-identifier">test_file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'test/unit'\nrequire 'test/unit/ui/console/testrunner'\n\nclass TC_testNothing &lt; Test::Unit::TestCase\n\n  def setup\n  end\n\n  def teardown\n  end\n\n  def test_the_truth\n    assert true\n  end\nend\n&quot;</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;task :default =&gt; :package\n&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000072">
+                    
+                    <a name="M000072"></a><b>mk_readme</b>(root_dir,dry_run,project_name)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000072_source')" id="l_M000072_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L21" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000072_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 21</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_readme</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)
+      <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/README.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;= #{project_name}\n\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;Describe your project here\n\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;:include:#{project_name}.rdoc\n\n&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{root_dir}/#{project_name}/#{project_name}.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;= #{project_name}\n\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;Generate this with\n    #{project_name} rdoc\nAfter you have described your command line interface&quot;</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000076">
+                    
+                    <a name="M000076"></a><b>mkdirs</b>(dirs,force,dry_run)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000076_source')" id="l_M000076_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L215" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000076_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 215</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mkdirs</span>(<span class="ruby-identifier">dirs</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>)
+      <span class="ruby-identifier">exists</span> = <span class="ruby-keyword kw">false</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">force</span>
+        <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-identifier">dir</span>
+            <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{dir} exists; use --force to override&quot;</span>
+            <span class="ruby-identifier">exists</span> = <span class="ruby-keyword kw">true</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">exists</span>
+        <span class="ruby-identifier">dirs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Creating dir #{dir}...&quot;</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>
+            <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;dry-run; #{dir} not created&quot;</span>
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-constant">FileUtils</span>.<span class="ruby-identifier">mkdir_p</span> <span class="ruby-identifier">dir</span>
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;Exiting...&quot;</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">false</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    

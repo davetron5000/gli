@@ -1,323 +1,617 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: GLI::Command [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          GLI::Command
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::Command</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::Command 
+            
+                <span class="parent">&lt; 
+                    
+                    CommandLineToken
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../../files/lib/gli/command_rb.html">lib/gli/command.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong><a href="CommandLineToken.html">GLI::CommandLineToken</a></strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='description'>
-            <p>
-            A command to be run, in context of global flags and switches
-            </p>
-          </div>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public class</h3>
-            <ol>
-              <li><a href="#M000054">name_as_string</a></li>
-              <li><a href="#M000042">new</a></li>
-            </ol>
-            <h3>public instance</h3>
-            <ol>
-              <li><a href="#M000053">action</a></li>
-              <li><a href="#M000049">arg_name</a></li>
-              <li><a href="#M000043">arguments_description</a></li>
-              <li><a href="#M000055">clear_nexts</a></li>
-              <li><a href="#M000050">default_value</a></li>
-              <li><a href="#M000048">desc</a></li>
-              <li><a href="#M000056">execute</a></li>
-              <li><a href="#M000051">flag</a></li>
-              <li><a href="#M000046">flags</a></li>
-              <li><a href="#M000044">names</a></li>
-              <li><a href="#M000052">switch</a></li>
-              <li><a href="#M000047">switches</a></li>
-              <li><a href="#M000045">usage</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='methods'>
-              <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000054'>
-                <a name='M000054'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>name_as_string</span>
-                  <span class='arguments'>(name)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000054-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000054-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 60</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name_as_string</span>(<span class="ruby-identifier">name</span>)&#x000A;      <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000042'>
-                <a name='M000042'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>new</span>
-                  <span class='arguments'>(names,description,arguments_name=nil,long_desc=nil)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  Create a new command
-                  </p>
-                  <dl>
-                  <dt>names</dt><dd>the name or names of this command (symbol or Array of symbols)
-                  
-                  </dd>
-                  <dt>description</dt><dd>description of this command
-                  
-                  </dd>
-                  <dt>arguments_name</dt><dd>description of the arguments, or nil if this command doesn&#8217;t take
-                  arguments
-                  
-                  </dd>
-                  <dt>long_desc</dt><dd>a longer description of the command, possibly with multiple lines and text
-                  formatting
-                  
-                  </dd>
-                  </dl>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000042-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000042-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 14</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">arguments_name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)&#x000A;      <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">arguments_name</span> <span class="ruby-operator">||</span> <span class="ruby-value str">''</span>&#x000A;      <span class="ruby-identifier">clear_nexts</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000053'>
-                <a name='M000053'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>action</span>
-                  <span class='arguments'>(&amp;block)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000053-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000053-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 56</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">action</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)&#x000A;      <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000049'>
-                <a name='M000049'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>arg_name</span>
-                  <span class='arguments'>(name)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  describe the argument name of the next flag
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000049-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000049-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 39</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">arg_name</span>(<span class="ruby-identifier">name</span>); <span class="ruby-ivar">@next_arg_name</span> = <span class="ruby-identifier">name</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000043'>
-                <a name='M000043'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>arguments_description</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000043-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000043-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 20</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">arguments_description</span>; <span class="ruby-ivar">@arguments_description</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000055'>
-                <a name='M000055'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>clear_nexts</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000055-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000055-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 64</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_nexts</span>&#x000A;      <span class="ruby-ivar">@next_desc</span> = <span class="ruby-keyword kw">nil</span>&#x000A;      <span class="ruby-ivar">@next_arg_name</span> = <span class="ruby-keyword kw">nil</span>&#x000A;      <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-keyword kw">nil</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000050'>
-                <a name='M000050'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>default_value</span>
-                  <span class='arguments'>(val)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  set the default value of the next flag
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000050-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000050-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 41</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_value</span>(<span class="ruby-identifier">val</span>); <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-identifier">val</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000048'>
-                <a name='M000048'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>desc</span>
-                  <span class='arguments'>(description)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  describe the next switch or flag
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000048-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000048-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 37</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">desc</span>(<span class="ruby-identifier">description</span>); <span class="ruby-ivar">@next_desc</span> = <span class="ruby-identifier">description</span>; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000056'>
-                <a name='M000056'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>execute</span>
-                  <span class='arguments'>(global_options,options,arguments)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000056-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000056-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 70</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-ivar">@action</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000051'>
-                <a name='M000051'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>flag</span>
-                  <span class='arguments'>(*names)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000051-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000051-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 43</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)&#x000A;      <span class="ruby-identifier">flag</span> = <span class="ruby-constant">Flag</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>,<span class="ruby-ivar">@next_desc</span>,<span class="ruby-ivar">@next_arg_name</span>,<span class="ruby-ivar">@next_default_value</span>)&#x000A;      <span class="ruby-identifier">flags</span>[<span class="ruby-identifier">flag</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">flag</span>&#x000A;      <span class="ruby-identifier">clear_nexts</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000046'>
-                <a name='M000046'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>flags</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000046-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000046-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 33</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flags</span>; <span class="ruby-ivar">@flags</span> <span class="ruby-operator">||=</span> {}; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000044'>
-                <a name='M000044'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>names</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000044-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000044-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 22</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">names</span>&#x000A;      <span class="ruby-identifier">all_forms</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000052'>
-                <a name='M000052'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>switch</span>
-                  <span class='arguments'>(*names)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  Create a switch
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000052-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000052-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 50</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">switch</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)&#x000A;      <span class="ruby-identifier">switch</span> = <span class="ruby-constant">Switch</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>,<span class="ruby-ivar">@next_desc</span>)&#x000A;      <span class="ruby-identifier">switches</span>[<span class="ruby-identifier">switch</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">switch</span>&#x000A;      <span class="ruby-identifier">clear_nexts</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000047'>
-                <a name='M000047'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>switches</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000047-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000047-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 34</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">switches</span>; <span class="ruby-ivar">@switches</span> <span class="ruby-operator">||=</span> {}; <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000045'>
-                <a name='M000045'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>usage</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000045-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000045-source'><span class="ruby-comment cmt"># File lib/gli/command.rb, line 26</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">usage</span>&#x000A;      <span class="ruby-identifier">usage</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>&#x000A;      <span class="ruby-identifier">usage</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">' [options]'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">flags</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">switches</span>.<span class="ruby-identifier">empty?</span>&#x000A;      <span class="ruby-identifier">usage</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">' '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@arguments_description</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@arguments_description</span>&#x000A;      <span class="ruby-identifier">usage</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/gli/command_rb.html">lib/gli/command.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <p>
+A command to be run, in context of global flags and switches
+</p>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>A</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000011">action</a>,</li>
+                
+                <li><a href="#M000007">arg_name</a>,</li>
+                
+                <li><a href="#M000001">arguments_description</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>C</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000013">clear_nexts</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>D</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000008">default_value</a>,</li>
+                
+                <li><a href="#M000006">desc</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>E</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000014">execute</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>F</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000009">flag</a>,</li>
+                
+                <li><a href="#M000004">flags</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>N</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000012">name_as_string</a>,</li>
+                
+                <li><a href="#M000002">names</a>,</li>
+                
+                <li><a href="#M000000">new</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>S</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000010">switch</a>,</li>
+                
+                <li><a href="#M000005">switches</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>U</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000003">usage</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000012">
+                    
+                    <a name="M000012"></a><b>name_as_string</b>(name)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000012_source')" id="l_M000012_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L60" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000012_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 60</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name_as_string</span>(<span class="ruby-identifier">name</span>)
+      <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000000">
+                    
+                    <a name="M000000"></a><b>new</b>(names,description,arguments_name=nil,long_desc=nil)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Create a new command
+</p>
+<dl>
+<dt>names</dt><dd>the name or names of this command (symbol or Array of symbols)
+
+</dd>
+<dt>description</dt><dd>description of this command
+
+</dd>
+<dt>arguments_name</dt><dd>description of the arguments, or nil if this command doesn&#8217;t take
+arguments
+
+</dd>
+<dt>long_desc</dt><dd>a longer description of the command, possibly with multiple lines and text
+formatting
+
+</dd>
+</dl>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000000_source')" id="l_M000000_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L14" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000000_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 14</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">arguments_name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)
+      <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">arguments_name</span> <span class="ruby-operator">||</span> <span class="ruby-value str">''</span>
+      <span class="ruby-identifier">clear_nexts</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000011">
+                    
+                    <a name="M000011"></a><b>action</b>(&amp;block)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000011_source')" id="l_M000011_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L56" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000011_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 56</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">action</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+      <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000007">
+                    
+                    <a name="M000007"></a><b>arg_name</b>(name)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+describe the argument name of the next flag
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000007_source')" id="l_M000007_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L39" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000007_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 39</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">arg_name</span>(<span class="ruby-identifier">name</span>); <span class="ruby-ivar">@next_arg_name</span> = <span class="ruby-identifier">name</span>; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000001">
+                    
+                    <a name="M000001"></a><b>arguments_description</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000001_source')" id="l_M000001_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L20" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000001_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 20</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">arguments_description</span>; <span class="ruby-ivar">@arguments_description</span>; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000013">
+                    
+                    <a name="M000013"></a><b>clear_nexts</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000013_source')" id="l_M000013_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L64" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000013_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 64</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">clear_nexts</span>
+      <span class="ruby-ivar">@next_desc</span> = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-ivar">@next_arg_name</span> = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000008">
+                    
+                    <a name="M000008"></a><b>default_value</b>(val)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+set the default value of the next flag
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000008_source')" id="l_M000008_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L41" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000008_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 41</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_value</span>(<span class="ruby-identifier">val</span>); <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-identifier">val</span>; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000006">
+                    
+                    <a name="M000006"></a><b>desc</b>(description)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+describe the next switch or flag
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000006_source')" id="l_M000006_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L37" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000006_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 37</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">desc</span>(<span class="ruby-identifier">description</span>); <span class="ruby-ivar">@next_desc</span> = <span class="ruby-identifier">description</span>; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000014">
+                    
+                    <a name="M000014"></a><b>execute</b>(global_options,options,arguments)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000014_source')" id="l_M000014_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L70" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000014_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 70</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)
+      <span class="ruby-ivar">@action</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000009">
+                    
+                    <a name="M000009"></a><b>flag</b>(*names)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000009_source')" id="l_M000009_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L43" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000009_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 43</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)
+      <span class="ruby-identifier">flag</span> = <span class="ruby-constant">Flag</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>,<span class="ruby-ivar">@next_desc</span>,<span class="ruby-ivar">@next_arg_name</span>,<span class="ruby-ivar">@next_default_value</span>)
+      <span class="ruby-identifier">flags</span>[<span class="ruby-identifier">flag</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">flag</span>
+      <span class="ruby-identifier">clear_nexts</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000004">
+                    
+                    <a name="M000004"></a><b>flags</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000004_source')" id="l_M000004_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L33" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000004_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 33</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flags</span>; <span class="ruby-ivar">@flags</span> <span class="ruby-operator">||=</span> {}; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000002">
+                    
+                    <a name="M000002"></a><b>names</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000002_source')" id="l_M000002_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L22" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000002_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 22</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">names</span>
+      <span class="ruby-identifier">all_forms</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000010">
+                    
+                    <a name="M000010"></a><b>switch</b>(*names)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Create a switch
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000010_source')" id="l_M000010_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L50" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000010_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 50</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">switch</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)
+      <span class="ruby-identifier">switch</span> = <span class="ruby-constant">Switch</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>,<span class="ruby-ivar">@next_desc</span>)
+      <span class="ruby-identifier">switches</span>[<span class="ruby-identifier">switch</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">switch</span>
+      <span class="ruby-identifier">clear_nexts</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000005">
+                    
+                    <a name="M000005"></a><b>switches</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000005_source')" id="l_M000005_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L34" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000005_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 34</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">switches</span>; <span class="ruby-ivar">@switches</span> <span class="ruby-operator">||=</span> {}; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000003">
+                    
+                    <a name="M000003"></a><b>usage</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000003_source')" id="l_M000003_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/80cdabcce832460da587e3498551fda7b366cfe5/lib/gli/command.rb#L26" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000003_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command.rb, line 26</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">usage</span>
+      <span class="ruby-identifier">usage</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
+      <span class="ruby-identifier">usage</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">' [options]'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">flags</span>.<span class="ruby-identifier">empty?</span> <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-identifier">switches</span>.<span class="ruby-identifier">empty?</span>
+      <span class="ruby-identifier">usage</span> <span class="ruby-operator">+=</span> <span class="ruby-value str">' '</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@arguments_description</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@arguments_description</span>
+      <span class="ruby-identifier">usage</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    

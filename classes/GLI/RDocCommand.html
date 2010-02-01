@@ -1,109 +1,236 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: GLI::RDocCommand [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          GLI::RDocCommand
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::RDocCommand</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::RDocCommand 
+            
+                <span class="parent">&lt; 
+                    
+                    Command
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../../files/lib/support/rdoc_rb.html">lib/support/rdoc.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong><a href="Command.html">GLI::Command</a></strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public class</h3>
-            <ol>
-              <li><a href="#M000057">new</a></li>
-            </ol>
-            <h3>public instance</h3>
-            <ol>
-              <li><a href="#M000058">execute</a></li>
-              <li><a href="#M000059">output_flags</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='methods'>
-              <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000057'>
-                <a name='M000057'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>new</span>
-                  <span class='arguments'>()</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000057-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000057-source'><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 7</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:rdoc</span>,<span class="ruby-value str">'Generates RDoc for your command line interface'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000058'>
-                <a name='M000058'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>execute</span>
-                  <span class='arguments'>(g,o,a)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000058-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000058-source'><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 11</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">g</span>,<span class="ruby-identifier">o</span>,<span class="ruby-identifier">a</span>)&#x000A;      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{GLI.program_name}.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;= &lt;tt&gt;#{GLI.program_name}&lt;/tt&gt;\n\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;    &quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">program_name</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; &quot;</span>&#x000A;        <span class="ruby-identifier">global_options</span> = <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">switches</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-constant">GLI</span>.<span class="ruby-identifier">flags</span>)&#x000A;        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">global_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">global_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;[global options] &quot;</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;command_name&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; [command-specific options]&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; [--] arguments...\n\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;* Use the command +help+ to get a summary of commands\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;* Use the command &lt;tt&gt;help command_name&lt;/tt&gt; to get a help for +command_name+\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;* Use &lt;tt&gt;--&lt;/tt&gt; to stop command line argument processing; useful if your arguments have dashes in them\n&quot;</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>&#x000A;        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">global_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">global_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;== Global Options\n&quot;</span>&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;These options are available for any command and are specified before the name of the command\n\n&quot;</span>&#x000A;          <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">global_options</span>)&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;== Commands\n&quot;</span>&#x000A;        <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">commands</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>&#x000A;          <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">self</span>&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[&lt;tt&gt;#{command.name}&lt;/tt&gt;] #{command.description}\n&quot;</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>&#x000A;&#x000A;        <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">commands</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>&#x000A;          <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">self</span>&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;=== &lt;tt&gt;#{command.name} #{command.arguments_description}&lt;/tt&gt;\n\n&quot;</span>&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{command.description}\n\n&quot;</span>&#x000A;          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span>.<span class="ruby-identifier">aliases</span>&#x000A;            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;*Aliases*\n&quot;</span>&#x000A;            <span class="ruby-identifier">command</span>.<span class="ruby-identifier">aliases</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">al</span><span class="ruby-operator">|</span>&#x000A;              <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;* &lt;tt&gt;&lt;b&gt;#{al}&lt;/b&gt;&lt;/tt&gt;\n&quot;</span>&#x000A;            <span class="ruby-keyword kw">end</span> &#x000A;            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;          <span class="ruby-identifier">all_options</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">switches</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">command</span>.<span class="ruby-identifier">flags</span>)&#x000A;          <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">all_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">all_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)&#x000A;            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{command.long_description}\n\n&quot;</span>&#x000A;            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;==== Options\n&quot;</span>&#x000A;            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;These options are specified *after* the command.\n\n&quot;</span>&#x000A;            <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">all_options</span>)&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000059'>
-                <a name='M000059'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>output_flags</span>
-                  <span class='arguments'>(file,flags)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000059-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000059-source'><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 62</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">flags</span>)&#x000A;      <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">flag</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[&lt;tt&gt;#{flag.usage}&lt;/tt&gt;] #{flag.description}&quot;</span>&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Flag</span>&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; &lt;i&gt;( default: &lt;tt&gt;#{flag.default_value}&lt;/tt&gt;)&lt;/i&gt;&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">default_value</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">long_description</span>&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>&#x000A;          <span class="ruby-comment cmt"># 12 is 4 for tt, 5 for /tt, 2 for the brackets and 1 for spacing</span>&#x000A;          (<span class="ruby-identifier">flag</span>.<span class="ruby-identifier">usage</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">12</span>).<span class="ruby-identifier">times</span> { <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; &quot;</span> }&#x000A;          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{flag.long_description}\n\n&quot;</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/support/rdoc_rb.html">lib/support/rdoc.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>E</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000069">execute</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>N</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000068">new</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>O</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000070">output_flags</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000068">
+                    
+                    <a name="M000068"></a><b>new</b>()
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000068_source')" id="l_M000068_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/b1c7998a9b68e778104cb2ca12f31cd0fb354678/lib/support/rdoc.rb#L7" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000068_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 7</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:rdoc</span>,<span class="ruby-value str">'Generates RDoc for your command line interface'</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000069">
+                    
+                    <a name="M000069"></a><b>execute</b>(g,o,a)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000069_source')" id="l_M000069_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/b1c7998a9b68e778104cb2ca12f31cd0fb354678/lib/support/rdoc.rb#L11" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000069_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 11</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">g</span>,<span class="ruby-identifier">o</span>,<span class="ruby-identifier">a</span>)
+      <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{GLI.program_name}.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;= &lt;tt&gt;#{GLI.program_name}&lt;/tt&gt;\n\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;    &quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">program_name</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; &quot;</span>
+        <span class="ruby-identifier">global_options</span> = <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">switches</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-constant">GLI</span>.<span class="ruby-identifier">flags</span>)
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">global_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">global_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;[global options] &quot;</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;command_name&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; [command-specific options]&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; [--] arguments...\n\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;* Use the command +help+ to get a summary of commands\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;* Use the command &lt;tt&gt;help command_name&lt;/tt&gt; to get a help for +command_name+\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;* Use &lt;tt&gt;--&lt;/tt&gt; to stop command line argument processing; useful if your arguments have dashes in them\n&quot;</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
+        <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">global_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">global_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;== Global Options\n&quot;</span>
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;These options are available for any command and are specified before the name of the command\n\n&quot;</span>
+          <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">global_options</span>)
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;== Commands\n&quot;</span>
+        <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">commands</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">self</span>
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[&lt;tt&gt;#{command.name}&lt;/tt&gt;] #{command.description}\n&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
+
+        <span class="ruby-constant">GLI</span>.<span class="ruby-identifier">commands</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>
+          <span class="ruby-keyword kw">next</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span> <span class="ruby-operator">==</span> <span class="ruby-keyword kw">self</span>
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;=== &lt;tt&gt;#{command.name} #{command.arguments_description}&lt;/tt&gt;\n\n&quot;</span>
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{command.description}\n\n&quot;</span>
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span>.<span class="ruby-identifier">aliases</span>
+            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;*Aliases*\n&quot;</span>
+            <span class="ruby-identifier">command</span>.<span class="ruby-identifier">aliases</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">al</span><span class="ruby-operator">|</span>
+              <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;* &lt;tt&gt;&lt;b&gt;#{al}&lt;/b&gt;&lt;/tt&gt;\n&quot;</span>
+            <span class="ruby-keyword kw">end</span> 
+            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-identifier">all_options</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">switches</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">command</span>.<span class="ruby-identifier">flags</span>)
+          <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">all_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">all_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
+            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{command.long_description}\n\n&quot;</span>
+            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;==== Options\n&quot;</span>
+            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;These options are specified *after* the command.\n\n&quot;</span>
+            <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">all_options</span>)
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000070">
+                    
+                    <a name="M000070"></a><b>output_flags</b>(file,flags)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000070_source')" id="l_M000070_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/b1c7998a9b68e778104cb2ca12f31cd0fb354678/lib/support/rdoc.rb#L62" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000070_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 62</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">flags</span>)
+      <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">flag</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;[&lt;tt&gt;#{flag.usage}&lt;/tt&gt;] #{flag.description}&quot;</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Flag</span>
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot; &lt;i&gt;( default: &lt;tt&gt;#{flag.default_value}&lt;/tt&gt;)&lt;/i&gt;&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">default_value</span>
+        <span class="ruby-keyword kw">end</span>
+        <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">long_description</span>
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
+          <span class="ruby-comment cmt"># 12 is 4 for tt, 5 for /tt, 2 for the brackets and 1 for spacing</span>
+          (<span class="ruby-identifier">flag</span>.<span class="ruby-identifier">usage</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">12</span>).<span class="ruby-identifier">times</span> { <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; &quot;</span> }
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{flag.long_description}\n\n&quot;</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    

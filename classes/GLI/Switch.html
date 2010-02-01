@@ -1,148 +1,264 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: GLI::Switch [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          GLI::Switch
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::Switch</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::Switch 
+            
+                <span class="parent">&lt; 
+                    
+                    CommandLineToken
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../../files/lib/gli/switch_rb.html">lib/gli/switch.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong><a href="CommandLineToken.html">GLI::CommandLineToken</a></strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='description'>
-            <p>
-            Defines a command line switch
-            </p>
-          </div>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public class</h3>
-            <ol>
-              <li><a href="#M000069">name_as_string</a></li>
-              <li><a href="#M000066">new</a></li>
-            </ol>
-            <h3>public instance</h3>
-            <ol>
-              <li><a href="#M000068">find_me</a></li>
-              <li><a href="#M000067">get_value!</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='methods'>
-              <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000069'>
-                <a name='M000069'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>name_as_string</span>
-                  <span class='arguments'>(name)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000069-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000069-source'><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 51</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name_as_string</span>(<span class="ruby-identifier">name</span>)&#x000A;      <span class="ruby-identifier">string</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>&#x000A;      <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-node">&quot;-#{string}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;--#{string}&quot;</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-class method' id='method-M000066'>
-                <a name='M000066'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>new</span>
-                  <span class='arguments'>(names,description,long_desc=nil)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000066-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000066-source'><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 7</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000068'>
-                <a name='M000068'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>find_me</span>
-                  <span class='arguments'>(arg)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  Finds the switch in the given arg, returning the arg to keep. Returns an
-                  array of size 2:
-                  </p>
-                  <dl>
-                  <dt>0</dt><dd>true or false if the arg was found
-                  
-                  </dd>
-                  <dt>1</dt><dd>the remaining arg to keep in the command line or nil to remove it
-                  
-                  </dd>
-                  </dl>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000068-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000068-source'><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 33</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@names</span>[<span class="ruby-identifier">arg</span>]&#x000A;        <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>,<span class="ruby-keyword kw">nil</span>]&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^-(\w)$/</span>&#x000A;          <span class="ruby-identifier">match_string</span> = <span class="ruby-node">&quot;^\\-(\\w*)#{$1}(\\w*)$&quot;</span>&#x000A;          <span class="ruby-identifier">match_data</span> = <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">match_string</span>)&#x000A;          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">match_data</span>&#x000A;            <span class="ruby-comment cmt"># Note that if [1] and [2] were both empty </span>&#x000A;            <span class="ruby-comment cmt"># we'd have returned above</span>&#x000A;            <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>, <span class="ruby-value str">&quot;-&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">match_data</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">match_data</span>[<span class="ruby-value">2</span>]]&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      [<span class="ruby-keyword kw">false</span>]&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <div class='public-instance method' id='method-M000067'>
-                <a name='M000067'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>get_value!</span>
-                  <span class='arguments'>(args)</span>
-                </div>
-                <div class='description'>
-                  <p>
-                  Given the argument list, scans it looking for this switch returning true if
-                  it&#8217;s in the argumennt list (and removing it from the argument list)
-                  </p>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000067-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000067-source'><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 13</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_value!</span>(<span class="ruby-identifier">args</span>)&#x000A;      <span class="ruby-identifier">idx</span> = <span class="ruby-value">-1</span>&#x000A;      <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>&#x000A;        <span class="ruby-identifier">result</span> = <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">args</span>[<span class="ruby-identifier">i</span>])&#x000A;        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]&#x000A;          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>]&#x000A;            <span class="ruby-identifier">args</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>]&#x000A;          <span class="ruby-keyword kw">else</span>&#x000A;            <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete_at</span> <span class="ruby-identifier">i</span>&#x000A;          <span class="ruby-keyword kw">end</span>&#x000A;          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]&#x000A;        <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;      <span class="ruby-keyword kw">false</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/gli/switch_rb.html">lib/gli/switch.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <p>
+Defines a command line switch
+</p>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>F</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000029">find_me</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>G</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000028">get_value!</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>N</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000030">name_as_string</a>,</li>
+                
+                <li><a href="#M000027">new</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000030">
+                    
+                    <a name="M000030"></a><b>name_as_string</b>(name)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000030_source')" id="l_M000030_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L51" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000030_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 51</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name_as_string</span>(<span class="ruby-identifier">name</span>)
+      <span class="ruby-identifier">string</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
+      <span class="ruby-identifier">string</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span> <span class="ruby-operator">?</span> <span class="ruby-node">&quot;-#{string}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-node">&quot;--#{string}&quot;</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000027">
+                    
+                    <a name="M000027"></a><b>new</b>(names,description,long_desc=nil)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000027_source')" id="l_M000027_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L7" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000027_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 7</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000029">
+                    
+                    <a name="M000029"></a><b>find_me</b>(arg)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Finds the switch in the given arg, returning the arg to keep. Returns an
+array of size 2:
+</p>
+<dl>
+<dt>0</dt><dd>true or false if the arg was found
+
+</dd>
+<dt>1</dt><dd>the remaining arg to keep in the command line or nil to remove it
+
+</dd>
+</dl>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000029_source')" id="l_M000029_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L33" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000029_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 33</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@names</span>[<span class="ruby-identifier">arg</span>]
+        <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>,<span class="ruby-keyword kw">nil</span>]
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-ivar">@names</span>.<span class="ruby-identifier">keys</span>.<span class="ruby-identifier">each</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^-(\w)$/</span>
+          <span class="ruby-identifier">match_string</span> = <span class="ruby-node">&quot;^\\-(\\w*)#{$1}(\\w*)$&quot;</span>
+          <span class="ruby-identifier">match_data</span> = <span class="ruby-identifier">arg</span>.<span class="ruby-identifier">match</span>(<span class="ruby-identifier">match_string</span>)
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">match_data</span>
+            <span class="ruby-comment cmt"># Note that if [1] and [2] were both empty </span>
+            <span class="ruby-comment cmt"># we'd have returned above</span>
+            <span class="ruby-keyword kw">return</span> [<span class="ruby-keyword kw">true</span>, <span class="ruby-value str">&quot;-&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">match_data</span>[<span class="ruby-value">1</span>] <span class="ruby-operator">+</span> <span class="ruby-identifier">match_data</span>[<span class="ruby-value">2</span>]]
+          <span class="ruby-keyword kw">end</span>
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      [<span class="ruby-keyword kw">false</span>]
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000028">
+                    
+                    <a name="M000028"></a><b>get_value!</b>(args)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Given the argument list, scans it looking for this switch returning true if
+it&#8217;s in the argumennt list (and removing it from the argument list)
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000028_source')" id="l_M000028_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L13" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000028_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 13</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_value!</span>(<span class="ruby-identifier">args</span>)
+      <span class="ruby-identifier">idx</span> = <span class="ruby-value">-1</span>
+      <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each_index</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">i</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">result</span> = <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">args</span>[<span class="ruby-identifier">i</span>])
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]
+          <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>]
+            <span class="ruby-identifier">args</span>[<span class="ruby-identifier">i</span>] = <span class="ruby-identifier">result</span>[<span class="ruby-value">1</span>]
+          <span class="ruby-keyword kw">else</span>
+            <span class="ruby-identifier">args</span>.<span class="ruby-identifier">delete_at</span> <span class="ruby-identifier">i</span>
+          <span class="ruby-keyword kw">end</span>
+          <span class="ruby-keyword kw">return</span> <span class="ruby-identifier">result</span>[<span class="ruby-value">0</span>]
+        <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    

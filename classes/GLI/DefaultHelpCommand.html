@@ -1,95 +1,147 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang='en'>
-  <head>
-    <title>: GLI::DefaultHelpCommand [Git Like Interface]</title>
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'>
-    <link href='../../rdoc-style.css' media='screen' rel='stylesheet' type='text/css'>
-    <script type='text/javascript'>
-      //<![CDATA[
-        function popupCode(url) {
-          window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
-        }
-        
-        function toggleCode(id) {
-          var code = document.getElementById(id)
-        
-          code.style.display = code.style.display != 'block' ? 'block' : 'none'
-          return true
-        }
-        
-        // Make codeblocks hidden by default
-        document.writeln('<' + 'style type="text/css">.method .source pre { display: none }<\/style>')
-      //]]>
-    </script>
-  </head>
-  <body class='page'>
-    <div class='class' id='wrapper'>
-      <div class='header'>
-        <h1 class='name'>
-          <span class='type'>Class</span>
-          GLI::DefaultHelpCommand
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::DefaultHelpCommand</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::DefaultHelpCommand 
+            
+                <span class="parent">&lt; 
+                    
+                    Command
+                    
+                </span>
+            
         </h1>
-        <ol class='paths'>
-          <li>
-            <a href="../../files/lib/support/help_rb.html">lib/support/help.rb</a>
-          </li>
-        </ol>
-        <div class='parent'>
-          Parent:
-          <strong><a href="Command.html">GLI::Command</a></strong>
-        </div>
-      </div>
-      <div id='content'>
-        <div id='text'>
-          <div id='method-list'>
-            <h2>Methods</h2>
-            <h3>public class</h3>
-            <ol>
-              <li><a href="#M000064">new</a></li>
-            </ol>
-            <h3>public instance</h3>
-            <ol>
-              <li><a href="#M000065">execute</a></li>
-            </ol>
-          </div>
-          <div id='section'>
-            <div id='methods'>
-              <h2>Public class methods</h2>
-              <div class='public-class method' id='method-M000064'>
-                <a name='M000064'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>new</span>
-                  <span class='arguments'>(*omit_from_list)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000064-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000064-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 6</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">omit_from_list</span>)&#x000A;      <span class="ruby-ivar">@omit_from_list</span> = <span class="ruby-identifier">omit_from_list</span>&#x000A;      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:help</span>,<span class="ruby-value str">'Shows list of commands or help for one command'</span>,<span class="ruby-value str">'[command]'</span>)&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-              <h2>Public instance methods</h2>
-              <div class='public-instance method' id='method-M000065'>
-                <a name='M000065'>      </a>
-                <div class='synopsis'>
-                  <span class='name'>execute</span>
-                  <span class='arguments'>(global_options,options,arguments)</span>
-                </div>
-                <div class='source'>
-                  <a class='source-toggle' href='#' onclick="toggleCode('M000065-source'); return false">
-                    [show source]
-                  </a>
-                  <pre id='M000065-source'><span class="ruby-comment cmt"># File lib/support/help.rb, line 11</span>&#x000A;    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)&#x000A;      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>&#x000A;        <span class="ruby-identifier">list_global_flags</span>&#x000A;        <span class="ruby-identifier">list_commands</span>&#x000A;      <span class="ruby-keyword kw">else</span>&#x000A;        <span class="ruby-identifier">list_one_command_help</span>(<span class="ruby-identifier">arguments</span>[<span class="ruby-value">0</span>])&#x000A;      <span class="ruby-keyword kw">end</span>&#x000A;    <span class="ruby-keyword kw">end</span></pre>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id='footer-push'></div>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/support/help_rb.html">lib/support/help.rb</a></li>
+            
+        </ul>
     </div>
-    <div id='footer'>
-      <a href="http://github.com/mislav/hanna/tree/master"><strong>Hanna</strong> RDoc template</a>
+    <div id="bodyContent">
+        <div id="content">
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>E</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000033">execute</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>N</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000032">new</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000032">
+                    
+                    <a name="M000032"></a><b>new</b>(*omit_from_list)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000032_source')" id="l_M000032_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/dabd1b5c821243011b155708bd00f613ee69a5dc/lib/support/help.rb#L6" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000032_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/help.rb, line 6</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">omit_from_list</span>)
+      <span class="ruby-ivar">@omit_from_list</span> = <span class="ruby-identifier">omit_from_list</span>
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:help</span>,<span class="ruby-value str">'Shows list of commands or help for one command'</span>,<span class="ruby-value str">'[command]'</span>)
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000033">
+                    
+                    <a name="M000033"></a><b>execute</b>(global_options,options,arguments)
+                    
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000033_source')" id="l_M000033_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/dabd1b5c821243011b155708bd00f613ee69a5dc/lib/support/help.rb#L11" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000033_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/help.rb, line 11</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">arguments</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">list_global_flags</span>
+        <span class="ruby-identifier">list_commands</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-identifier">list_one_command_help</span>(<span class="ruby-identifier">arguments</span>[<span class="ruby-value">0</span>])
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
     </div>
   </body>
-</html>
+</html>    
