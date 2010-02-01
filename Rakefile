@@ -1,9 +1,10 @@
 require 'rake/clean'
-require 'hanna/rdoctask'
 require 'rcov/rcovtask'
 require 'rubygems'
 require 'rake/gempackagetask'
 require 'rake/testtask'
+require 'rake/rdoctask'
+require 'sdoc'
 
 $: << '../grancher/lib'
 begin
@@ -20,6 +21,8 @@ end
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
+  rd.options << '--fmt' << 'shtml'
+  rd.template = 'direct'
   rd.title = 'Git Like Interface'
 end
 
