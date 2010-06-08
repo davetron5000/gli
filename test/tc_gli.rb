@@ -48,6 +48,16 @@ class TC_testGLI < Test::Unit::TestCase
     raise failure if !failure.nil?
   end
 
+  def test_no_overwrite_config
+    config_file = File.expand_path(File.dirname(__FILE__) + '/config.yaml')
+    config_file_contents = read_file_contents(config_file)
+    GLI.reset
+    GLI.config_file(config_file)
+    GLI.run(['initconfig'])
+    config_file_contents_after = read_file_contents(config_file)
+    assert_equal(config_file_contents,config_file_contents_after)
+  end
+
   def test_config_file_name
     GLI.reset
     file = GLI.config_file("foo")
@@ -135,5 +145,14 @@ class TC_testGLI < Test::Unit::TestCase
     assert_equal(nil,object.switches[:g].description)
     assert(object.usage != nil) if object.respond_to? :usage;
   end
+
+  private
+
+  def read_file_contents(filename)
+    contents = ""
+    File.open(filename) { |file| file.readlines.each { |line| contents += line }}
+    contents
+  end
+
 
 end
