@@ -8,12 +8,6 @@ This is a DSL you can use to create a command line interface like git, gem or sv
 
 == Use
 
-Note that the latest version of this gem is hosted at [http://www.gemcutter.org], so if you haven't set it up yet, do so:
-
-    # Only needed if you haven't used/setup Gemcutter before
-    sudo gem install gemcutter
-    sudo gem tumble
-
 Install if you need to:
 
     sudo gem install gli
@@ -129,12 +123,14 @@ What this gives you:
 * Error handling when flags do not receive arguments or unknown flags or switches are given
 * Error handling when an unknown command is specified
 * Default values for flags if they are not specified by the user (switches all default to false)
+* An easy way to allow location-specific defaults for options via a config file for your app
 
 What this doesn't give you:
 
 * A way to indicate required flags
 * A way to indicate a required argument or required number of arguments
 * A way to do default switches to 'true' and therefore accept things like <tt>--no-force</tt>
+* A way to have repeated flags turn into an array or other type-transforming things
 
 == Configuration File
 
