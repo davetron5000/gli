@@ -207,6 +207,46 @@ class TC_testParsing < Test::Unit::TestCase
     assert_equal(%w(bar baz quux),arguments)
   end
 
+  def test_possible_issue_with_numbers
+    $debug = false#true
+    GLI.reset
+    GLI.desc 'Create a day''s worth of data for a particular service point'
+    GLI.arg_name 'service point ids'
+    GLI.command :data do |c|
+
+      c.desc 'Type of data'
+      c.arg_name 'either bill, day, or halfhour'
+      c.flag [:t,:type]
+
+      c.desc 'Date for the reads (start date for billing)'
+      c.arg_name 'date (in yyyy-mm-dd format)'
+      c.default_value '2010-04-01'
+      c.flag [:d,:date]
+
+      c.desc 'Number of reads, for billing'
+      c.arg_name 'number'
+      c.default_value '1'
+      c.flag :n
+
+      c.desc 'Make like gas data'
+      c.switch :g
+
+      c.action do |global_options,options,args|
+        raise "at least one service point id required" if args.nil? || args.empty?
+        Generate::Data.new(options[:t],options[:d],options[:n].to_i,options[:g],args).go
+      end
+    end
+    args = %w(data -t bill -n 10 1234)
+    global_options,command,command_options,arguments = GLI.parse_options(args)
+    $debug = false;
+    assert(global_options.empty?)
+    assert_equal(:data,command.name)
+    assert_equal('bill',command_options[:t])
+    assert_equal('10',command_options[:n])
+    assert_equal(['1234'],arguments)
+
+  end
+
   def teardown
     GLI.reset
   end

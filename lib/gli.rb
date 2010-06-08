@@ -256,7 +256,7 @@ module GLI
 
     flag_hash.each do |name,flag|
       value = flag.get_value!(try_me)
-      options[name] = value if !options[name]
+      options[name] = value if value
     end
 
     if try_me.empty?
