@@ -208,7 +208,6 @@ class TC_testParsing < Test::Unit::TestCase
   end
 
   def test_possible_issue_with_numbers
-    $debug = false#true
     GLI.reset
     GLI.desc 'Create a day''s worth of data for a particular service point'
     GLI.arg_name 'service point ids'
@@ -238,7 +237,6 @@ class TC_testParsing < Test::Unit::TestCase
     end
     args = %w(data -t bill -n 10 1234)
     global_options,command,command_options,arguments = GLI.parse_options(args)
-    $debug = false;
     assert(global_options.empty?)
     assert_equal(:data,command.name)
     assert_equal('bill',command_options[:t])
