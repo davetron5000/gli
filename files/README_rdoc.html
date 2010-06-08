@@ -19,7 +19,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: Sun Jan 03 13:24:57 -0500 2010</li>
+            <li>Last modified: Tue Jun 08 19:50:48 -0400 2010</li>
         </ul>
     </div>
 
@@ -46,16 +46,6 @@ or svn, in that the first argument is a command, and there are global and
 command specific flags.
 </p>
 <h2>Use</h2>
-<p>
-Note that the latest version of this gem is hosted at [<a
-href="http://www.gemcutter.org">www.gemcutter.org</a>], so if you
-haven&#8217;t set it up yet, do so:
-</p>
-<pre>
-    # Only needed if you haven't used/setup Gemcutter before
-    sudo gem install gemcutter
-    sudo gem tumble
-</pre>
 <p>
 Install if you need to:
 </p>
@@ -232,6 +222,10 @@ switches are given
 all default to false)
 
 </li>
+<li>An easy way to allow location-specific defaults for options via a config
+file for your app
+
+</li>
 </ul>
 <p>
 What this doesn&#8217;t give you:
@@ -245,6 +239,10 @@ What this doesn&#8217;t give you:
 </li>
 <li>A way to do default switches to &#8216;true&#8217; and therefore accept
 things like <tt>--no-force</tt>
+
+</li>
+<li>A way to have repeated flags turn into an array or other type-transforming
+things
 
 </li>
 </ul>

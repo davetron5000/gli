@@ -29,9 +29,9 @@
             
             <li><a href="../files/lib/gli/switch_rb.html">lib/gli/switch.rb</a></li>
             
-            <li><a href="../files/lib/gli_rb.html">lib/gli.rb</a></li>
-            
             <li><a href="../files/lib/support/help_rb.html">lib/support/help.rb</a></li>
+            
+            <li><a href="../files/lib/gli_rb.html">lib/gli.rb</a></li>
             
             <li><a href="../files/lib/support/initconfig_rb.html">lib/support/initconfig.rb</a></li>
             
@@ -68,7 +68,7 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000037">arg_name</a></li>
+                <li><a href="#M000038">arg_name</a></li>
                 
             </ul>
         </dd>
@@ -88,9 +88,9 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000038">default_value</a>,</li>
+                <li><a href="#M000039">default_value</a>,</li>
                 
-                <li><a href="#M000035">desc</a></li>
+                <li><a href="#M000036">desc</a></li>
                 
             </ul>
         </dd>
@@ -99,7 +99,7 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000039">flag</a></li>
+                <li><a href="#M000041">flag</a></li>
                 
             </ul>
         </dd>
@@ -108,18 +108,7 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000036">long_desc</a></li>
-                
-            </ul>
-        </dd>
-    
-        <dt>P</dt>
-        <dd>
-            <ul>
-                
-                <li><a href="#M000047">post</a>,</li>
-                
-                <li><a href="#M000046">pre</a></li>
+                <li><a href="#M000037">long_desc</a></li>
                 
             </ul>
         </dd>
@@ -128,7 +117,7 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000031">reset</a></li>
+                <li><a href="#M000035">reset</a></li>
                 
             </ul>
         </dd>
@@ -192,9 +181,9 @@ command specific options, and then command arguments.
             <div class="sectiontitle">Instance Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000037">
+                <div class="title" id="M000038">
                     
-                    <a name="M000037"></a><b>arg_name</b>(name)
+                    <a name="M000038"></a><b>arg_name</b>(name)
                     
                 </div>
                 
@@ -210,12 +199,12 @@ describe the argument name of the next flag
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000037_source')" id="l_M000037_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000038_source')" id="l_M000038_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L43" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L43" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000037_source" class="dyn-source">
+                    <div id="M000038_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 43</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">arg_name</span>(<span class="ruby-identifier">name</span>); <span class="ruby-ivar">@@next_arg_name</span> = <span class="ruby-identifier">name</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -251,7 +240,7 @@ Define a command.
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000045_source')" id="l_M000045_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L74" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L74" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000045_source" class="dyn-source">
@@ -289,7 +278,7 @@ user&#8217;s home directory
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000043_source')" id="l_M000043_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L63" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L63" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000043_source" class="dyn-source">
@@ -309,9 +298,9 @@ user&#8217;s home directory
             </div>
             
             <div class="method">
-                <div class="title" id="M000038">
+                <div class="title" id="M000039">
                     
-                    <a name="M000038"></a><b>default_value</b>(val)
+                    <a name="M000039"></a><b>default_value</b>(val)
                     
                 </div>
                 
@@ -327,12 +316,12 @@ set the default value of the next flag
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000038_source')" id="l_M000038_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000039_source')" id="l_M000039_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L45" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L45" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000038_source" class="dyn-source">
+                    <div id="M000039_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 45</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_value</span>(<span class="ruby-identifier">val</span>); <span class="ruby-ivar">@@next_default_value</span> = <span class="ruby-identifier">val</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -341,9 +330,9 @@ set the default value of the next flag
             </div>
             
             <div class="method">
-                <div class="title" id="M000035">
+                <div class="title" id="M000036">
                     
-                    <a name="M000035"></a><b>desc</b>(description)
+                    <a name="M000036"></a><b>desc</b>(description)
                     
                 </div>
                 
@@ -367,12 +356,12 @@ one-line description
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000035_source')" id="l_M000035_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000036_source')" id="l_M000036_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L36" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L36" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000035_source" class="dyn-source">
+                    <div id="M000036_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 36</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">desc</span>(<span class="ruby-identifier">description</span>); <span class="ruby-ivar">@@next_desc</span> = <span class="ruby-identifier">description</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -381,9 +370,9 @@ one-line description
             </div>
             
             <div class="method">
-                <div class="title" id="M000039">
+                <div class="title" id="M000041">
                     
-                    <a name="M000039"></a><b>flag</b>(*names)
+                    <a name="M000041"></a><b>flag</b>(*names)
                     
                 </div>
                 
@@ -406,12 +395,12 @@ Create a flag, which is a switch that takes an argument
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000039_source')" id="l_M000039_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000041_source')" id="l_M000041_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L48" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L48" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000039_source" class="dyn-source">
+                    <div id="M000041_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 48</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">flag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)
     <span class="ruby-identifier">flag</span> = <span class="ruby-constant">Flag</span>.<span class="ruby-identifier">new</span>([<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>,<span class="ruby-ivar">@@next_desc</span>,<span class="ruby-ivar">@@next_arg_name</span>,<span class="ruby-ivar">@@next_default_value</span>,<span class="ruby-ivar">@@next_long_desc</span>)
@@ -424,9 +413,9 @@ Create a flag, which is a switch that takes an argument
             </div>
             
             <div class="method">
-                <div class="title" id="M000036">
+                <div class="title" id="M000037">
                     
-                    <a name="M000036"></a><b>long_desc</b>(long_desc)
+                    <a name="M000037"></a><b>long_desc</b>(long_desc)
                     
                 </div>
                 
@@ -443,12 +432,12 @@ wrapped to fit in 80 columns
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000036_source')" id="l_M000036_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000037_source')" id="l_M000037_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L40" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L40" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000036_source" class="dyn-source">
+                    <div id="M000037_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 40</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">long_desc</span>(<span class="ruby-identifier">long_desc</span>); <span class="ruby-ivar">@@next_long_desc</span> = <span class="ruby-identifier">long_desc</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -457,83 +446,9 @@ wrapped to fit in 80 columns
             </div>
             
             <div class="method">
-                <div class="title" id="M000047">
+                <div class="title" id="M000035">
                     
-                    <a name="M000047"></a><b>post</b>(&amp;a_proc)
-                    
-                </div>
-                
-                <div class="description">
-                  <p>
-Define a block to run after command hase been executed, only if there was
-not an error. The block will receive the global-options,command,options,
-and arguments
-</p>
-
-                </div>
-                
-                
-                
-                
-                <div class="sourcecode">
-                    <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000047_source')" id="l_M000047_source">show</a>
-                        
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L94" target="_blank" class="github_url">on GitHub</a>
-                        
-                    </p>
-                    <div id="M000047_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 94</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">post</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">a_proc</span>)
-    <span class="ruby-ivar">@@post_block</span> = <span class="ruby-identifier">a_proc</span>
-  <span class="ruby-keyword kw">end</span></pre>
-                    </div>
-                </div>
-                
-            </div>
-            
-            <div class="method">
-                <div class="title" id="M000046">
-                    
-                    <a name="M000046"></a><b>pre</b>(&amp;a_proc)
-                    
-                </div>
-                
-                <div class="description">
-                  <p>
-Define a block to run after command line arguments are parsed but before
-any command is run. If this block raises an exception the command specified
-will not be executed. The block will receive the
-global-options,command,options, and arguments If this block evaluates to
-true, the program will proceed; otherwise the program will end immediately
-</p>
-
-                </div>
-                
-                
-                
-                
-                <div class="sourcecode">
-                    <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000046_source')" id="l_M000046_source">show</a>
-                        
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L87" target="_blank" class="github_url">on GitHub</a>
-                        
-                    </p>
-                    <div id="M000046_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 87</span>
-  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">pre</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">a_proc</span>)
-    <span class="ruby-ivar">@@pre_block</span> = <span class="ruby-identifier">a_proc</span>
-  <span class="ruby-keyword kw">end</span></pre>
-                    </div>
-                </div>
-                
-            </div>
-            
-            <div class="method">
-                <div class="title" id="M000031">
-                    
-                    <a name="M000031"></a><b>reset</b>()
+                    <a name="M000035"></a><b>reset</b>()
                     
                 </div>
                 
@@ -550,12 +465,12 @@ mostly for testing
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000035_source')" id="l_M000035_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L26" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L26" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000031_source" class="dyn-source">
+                    <div id="M000035_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 26</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reset</span>
     <span class="ruby-identifier">switches</span>.<span class="ruby-identifier">clear</span>
@@ -597,7 +512,7 @@ Create a switch
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000042_source')" id="l_M000042_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b946afed94cac7a07d4bf13c57fc15a23c33d97b/lib/gli.rb#L55" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4001d5b189810f2f8b110ed9944a6c22241f210c/lib/gli.rb#L55" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000042_source" class="dyn-source">

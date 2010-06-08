@@ -65,7 +65,7 @@ Defines a flag, which is to say a switch that takes an argument
         <dd>
             <ul>
                 
-                <li><a href="#M000021">find_me</a></li>
+                <li><a href="#M000023">find_me</a></li>
                 
             </ul>
         </dd>
@@ -74,7 +74,7 @@ Defines a flag, which is to say a switch that takes an argument
         <dd>
             <ul>
                 
-                <li><a href="#M000017">get_value!</a></li>
+                <li><a href="#M000019">get_value!</a></li>
                 
             </ul>
         </dd>
@@ -83,7 +83,7 @@ Defines a flag, which is to say a switch that takes an argument
         <dd>
             <ul>
                 
-                <li><a href="#M000016">new</a></li>
+                <li><a href="#M000018">new</a></li>
                 
             </ul>
         </dd>
@@ -118,9 +118,9 @@ Defines a flag, which is to say a switch that takes an argument
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000016">
+                <div class="title" id="M000018">
                     
-                    <a name="M000016"></a><b>new</b>(names,description,argument_name=nil,default=nil,long_desc=nil)
+                    <a name="M000018"></a><b>new</b>(names,description,argument_name=nil,default=nil,long_desc=nil)
                     
                 </div>
                 
@@ -129,12 +129,12 @@ Defines a flag, which is to say a switch that takes an argument
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000016_source')" id="l_M000016_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000018_source')" id="l_M000018_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L9" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000016_source" class="dyn-source">
+                    <div id="M000018_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 9</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">argument_name</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">default</span>=<span class="ruby-keyword kw">nil</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)
       <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)
@@ -192,9 +192,9 @@ printing to the user.
             </div>
             
             <div class="method">
-                <div class="title" id="M000021">
+                <div class="title" id="M000023">
                     
-                    <a name="M000021"></a><b>find_me</b>(arg)
+                    <a name="M000023"></a><b>find_me</b>(arg)
                     
                 </div>
                 
@@ -203,12 +203,12 @@ printing to the user.
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000021_source')" id="l_M000021_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000023_source')" id="l_M000023_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L37" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000021_source" class="dyn-source">
+                    <div id="M000023_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 37</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)
       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@names</span>[<span class="ruby-identifier">arg</span>]
@@ -229,9 +229,9 @@ printing to the user.
             </div>
             
             <div class="method">
-                <div class="title" id="M000017">
+                <div class="title" id="M000019">
                     
-                    <a name="M000017"></a><b>get_value!</b>(args)
+                    <a name="M000019"></a><b>get_value!</b>(args)
                     
                 </div>
                 
@@ -240,12 +240,12 @@ printing to the user.
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000017_source')" id="l_M000017_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000019_source')" id="l_M000019_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/flag.rb#L15" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000017_source" class="dyn-source">
+                    <div id="M000019_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/flag.rb, line 15</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_value!</span>(<span class="ruby-identifier">args</span>)
       <span class="ruby-identifier">args</span>.<span class="ruby-identifier">each_index</span>() <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">index</span><span class="ruby-operator">|</span>

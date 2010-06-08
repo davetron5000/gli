@@ -49,7 +49,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000064">execute</a></li>
+                <li><a href="#M000061">execute</a></li>
                 
             </ul>
         </dd>
@@ -58,7 +58,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000063">new</a></li>
+                <li><a href="#M000060">new</a></li>
                 
             </ul>
         </dd>
@@ -92,9 +92,9 @@
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000063">
+                <div class="title" id="M000060">
                     
-                    <a name="M000063"></a><b>new</b>(config_file_name)
+                    <a name="M000060"></a><b>new</b>(config_file_name)
                     
                 </div>
                 
@@ -103,16 +103,16 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000063_source')" id="l_M000063_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000060_source')" id="l_M000060_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/8f49eb7657aa5dd1a9986b57d540be91fbd32b1e/lib/support/initconfig.rb#L9" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/c262511c92437e17d7f1bf04c334ef7b479df358/lib/support/initconfig.rb#L9" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000063_source" class="dyn-source">
+                    <div id="M000060_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/initconfig.rb, line 9</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">config_file_name</span>)
       <span class="ruby-ivar">@filename</span> = <span class="ruby-identifier">config_file_name</span>
-      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:initconfig</span>,<span class="ruby-value str">&quot;Initialize the config file using current global options&quot;</span>,<span class="ruby-keyword kw">nil</span>,<span class="ruby-value str">'Initializes a configuration file where you can set default options for command line flags, but globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program'</span>)
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:initconfig</span>,<span class="ruby-value str">&quot;Initialize the config file using current global options&quot;</span>,<span class="ruby-keyword kw">nil</span>,<span class="ruby-value str">'Initializes a configuration file where you can set default options for command line flags, both globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program'</span>)
 
       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">desc</span> <span class="ruby-value str">'force overwrite of existing config file'</span>
       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">switch</span> <span class="ruby-identifier">:force</span>
@@ -125,9 +125,9 @@
             <div class="sectiontitle">Instance Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000064">
+                <div class="title" id="M000061">
                     
-                    <a name="M000064"></a><b>execute</b>(global_options,options,arguments)
+                    <a name="M000061"></a><b>execute</b>(global_options,options,arguments)
                     
                 </div>
                 
@@ -136,12 +136,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000064_source')" id="l_M000064_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000061_source')" id="l_M000061_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/8f49eb7657aa5dd1a9986b57d540be91fbd32b1e/lib/support/initconfig.rb#L17" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/c262511c92437e17d7f1bf04c334ef7b479df358/lib/support/initconfig.rb#L17" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000064_source" class="dyn-source">
+                    <div id="M000061_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/initconfig.rb, line 17</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)
       <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-identifier">:force</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">!</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-ivar">@filename</span>)
