@@ -1,6 +1,9 @@
+# Make sure we get the gli that's local
+require File.join([File.dirname(__FILE__),'lib','gli_version.rb'])
+
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
-  s.version = '1.1.0'
+  s.version = GLI::VERSION
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
@@ -14,6 +17,7 @@ lib/gli/flag.rb
 lib/gli/switch.rb
 lib/gli/options.rb
 lib/gli.rb
+lib/gli_version.rb
 lib/support/help.rb
 lib/support/rdoc.rb
 lib/support/scaffold.rb

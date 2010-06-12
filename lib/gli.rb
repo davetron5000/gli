@@ -3,6 +3,7 @@ require 'gli/command.rb'
 require 'gli/switch.rb'
 require 'gli/flag.rb'
 require 'gli/options.rb'
+require 'gli_version.rb'
 require 'support/help.rb'
 require 'support/rdoc.rb'
 require 'support/initconfig.rb'
@@ -13,8 +14,6 @@ require 'etc'
 # specific options, and then command arguments.
 module GLI
   extend self
-
-  VERSION = '1.0.0'
 
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
