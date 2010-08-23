@@ -40,6 +40,7 @@ module GLI
 
   # describe the argument name of the next flag
   def arg_name(name); @@next_arg_name = name; end
+
   # set the default value of the next flag
   def default_value(val); @@next_default_value = val; end
 

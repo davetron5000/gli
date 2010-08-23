@@ -48,18 +48,19 @@ the file will be located relative to the current user's home directory (which is
 
     config_file '.glirc'
 
-the configuration file 
 This describes a command line switch "-n" that is global to all commands and specified before
 the command name on the command line.
 
     desc 'Dry run; don\'t change the disk'
     switch :n
 
-The following describes a command line flag that is global and has a default value of '<tt>.</tt>'.  It also
-specifies a short description of its argument.  This is used to print command line help.  Note that we
+The following describes a command line flag that is global and has a default value of '<tt>.</tt>' (in GLI parlance,
+a "flag" is a command line switch that takes an option).  It also
+specifies a short and long description of its argument.  This is used to print command line help and to generate
+rdoc documentation.  Note that we
 have specified two different aliases for this flag.  <tt>-r</tt> (because it is listed first) is the default
 one and <tt>--root</tt> (note two-dash syntax) is also supported.  This means that <tt>-r some_dir</tt> and <tt>--root=some_dir</tt> mean
-the same thing to the application.
+the same thing to the application, but that your code should look for <tt>:r</tt>.
 
     desc 'Root dir in which to create project'
     long_desc 'This is the location where your project ill be created.  A subdirectory named for your project will be created here, and THAT directory will contain the generated files'
@@ -67,7 +68,7 @@ the same thing to the application.
     arg_name 'root_dir'
     flag [:r,:root]
 
-Here we specify a command.  Inside the block we can use the same sorts of things as we did above to define flags
+Next, we specify a command.  Inside the block we can use the same sorts of things as we did above to define flags
 and switches specific to the command.  These must come after the command name.  Also note that we use <tt>arg_name</tt>
 here to describe the arguments this command accepts.
 
@@ -81,15 +82,23 @@ here to describe the arguments this command accepts.
       c.desc 'Overwrite/ignore existing files and directories'
       c.switch [:force]
 
-Here we specify the actual actions to take when the command is executed.  We define a block that
-will be given the global options (as a Hash), the command-specific options (as a hash) and the command
-line arguments
+Next, while we are still inside the <tt>command</tt> block,
+we specify the actual code to execute when the command is chosen by the user.  We define a block that
+will be given the global options (as a Hash), the command-specific options (as a Hash) and the command
+line arguments.  The hashes keys are symbols based upon the switches and flags.  For a switch or
+flag named "-r", we would use <tt>:r</tt>.
 
       c.action do |global_options,options,args|
         if args.length < 1
           raise 'You must specify the name of your project'
         end
-        Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+        Scaffold.create_scaffold(global_options[:r],
+                                 !options[:notest],
+                                 options[:e],
+                                 args[0],
+                                 args[1..-1],
+                                 ooptions[:force],
+                                 global_options[:n])
       end
     end
 
@@ -98,7 +107,8 @@ You can also specify some global code to run before, after and on errors:
     pre do |global_options,command,options,args|
       puts "After parsing, but before #{command.name} is run"
       return true
-      # return false if we want to skip command execution for some reason
+      # return false if we want to skip command execution for some reason,
+      # such as some global precondition not having been met
     end
 
     post do |global_options,command,options,args|
@@ -123,7 +133,8 @@ What this gives you:
 * Error handling when flags do not receive arguments or unknown flags or switches are given
 * Error handling when an unknown command is specified
 * Default values for flags if they are not specified by the user (switches all default to false)
-* An easy way to allow location-specific defaults for options via a config file for your app
+* An easy way to allow user or site-specific defaults for options via a config file for your app
+* Nice RDoc describing how to use your application (you can see an example in the rdoc version of this file for the <tt>gli</tt> command)
 
 What this doesn't give you:
 
@@ -169,6 +180,16 @@ command of your application is created, to allow the user edit the config file  
 
 This allows you to design your application to have it's behavior _entirely_ affected by command line options, with sensible
 defaults stored in a configuration file.
+
+== Generating RDoc
+
+All gli-based applications include a "hidden" command named <tt>rdoc</tt>.  When you execute this command, a file called <tt>yourapp.rdoc</tt>
+is created in the current directory.  This contains a rdoc-formatted helpfile for your command line application.  This can be useful
+in packaging your application to share with others. This is also the only place in which the <tt>long_desc</tt> values are currently
+used.
+
+If your application has a <tt>README.rdoc</tt> already, you can simply add <tt>:include:yourapp.rdoc</tt> to the bottom and it will
+be included when you generate and publish your rdoc (note that it will *not* show up on github).
 
 == Reference
 
