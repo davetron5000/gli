@@ -109,7 +109,7 @@ class TC_testParsing < Test::Unit::TestCase
     assert_equal(:doit,command.name)
     assert(!command_options[:v])
     assert(!command_options[:file])
-    assert(0,arguments.size)
+    assert_equal(0,arguments.size)
   end
 
   def test_parse_command_line_with_stop_processing
@@ -172,7 +172,7 @@ class TC_testParsing < Test::Unit::TestCase
     assert(command_options[:f])
     assert(command_options[:v])
     assert(command_options[:x])
-    assert(0,arguments.size)
+    assert_equal(0,arguments.size)
   end
 
   def test_case_that_busted
