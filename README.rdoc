@@ -24,6 +24,15 @@ This will create a basic scaffold project in <tt>./my_proj</tt> with:
 * a README shell
 * Rakefile that can generate RDoc, package your Gem and run tests
 
+== Supported Platforms
+
+Known to work on
+
+* 1.8.7
+* 1.9.2
+
+Though likely works on various other versions
+
 === Example
 
 This example demonstrates most of the features of GLI.
