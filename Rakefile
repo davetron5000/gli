@@ -43,8 +43,7 @@ end
 
 desc 'Measures test coverage'
 task :coverage => :rcov do
-  system("open coverage/index.html") if PLATFORM['darwin']
-  rm output_yaml
+  puts "coverage/index.html contains what you need"
 end
 
 Rcov::RcovTask.new do |t|
