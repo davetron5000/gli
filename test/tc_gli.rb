@@ -1,7 +1,6 @@
 require 'gli.rb'
 require 'support/initconfig.rb'
 require 'test/unit'
-require 'test/unit/ui/console/testrunner'
 
 include GLI
 class TC_testGLI < Test::Unit::TestCase

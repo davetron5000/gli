@@ -1,6 +1,5 @@
 require 'gli.rb'
 require 'test/unit'
-require 'test/unit/ui/console/testrunner'
 
 include GLI
 class TC_testParsing < Test::Unit::TestCase
