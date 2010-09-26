@@ -1,7 +1,7 @@
 = Git-Like Interface Command Line Parser
 
 Author::  Dave Copeland (mailto:davetron5000 at g mail dot com)
-Copyright:: Copyright (c) 2009 by Dave Copeland
+Copyright:: Copyright (c) 2010 by Dave Copeland
 License:: Distributes under the Apache License, see LICENSE.txt in the source distro
 
 This is a DSL you can use to create a command line interface like git, gem or svn, in that the first argument is a command, and there are global and command specific flags.
