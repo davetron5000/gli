@@ -145,6 +145,57 @@ class TC_testGLI < Test::Unit::TestCase
     assert(object.usage != nil) if object.respond_to? :usage;
   end
 
+  def test_two_flags
+    GLI.reset
+    GLI.on_error do |ex|
+      raise ex
+    end
+    GLI.command [:foo] do |c|
+      c.flag :i
+      c.flag :s
+      c.action do |g,o,a|
+        assert_equal "5", o[:i]
+        assert_equal "a", o[:s]
+      end
+    end
+    GLI.run(['foo', '-i','5','-s','a'])
+  end
+
+  def test_two_flags_with_a_default
+    GLI.reset
+    GLI.on_error do |ex|
+      raise ex
+    end
+    GLI.command [:foo] do |c|
+      c.default_value "1"
+      c.flag :i
+      c.flag :s
+      c.action do |g,o,a|
+        assert_equal "5", o[:i]
+        assert_equal "a", o[:s]
+      end
+    end
+    GLI.run(['foo', '-i','5','-s','a'])
+  end
+
+  def test_two_flags_using_equals_with_a_default
+    GLI.reset
+    GLI.on_error do |ex|
+      raise ex
+    end
+    GLI.command [:foo] do |c|
+      c.default_value "1"
+      c.flag :i
+      c.flag :s
+      c.action do |g,o,a|
+        assert_equal "5", o[:i]
+        assert_equal "a", o[:s]
+      end
+    end
+    GLI.run(['foo', '-i=5','-s=a'])
+  end
+
+
   private
 
   def read_file_contents(filename)
