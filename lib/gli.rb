@@ -256,7 +256,18 @@ module GLI
 
     flag_hash.each do |name,flag|
       value = flag.get_value!(try_me)
-      options[name] = value if value
+      # So, there's a case where the first time we request the value for a flag,
+      # we get the default and not the user-provided value.  The next time we request
+      # it, we want to override it with the real value.
+      # HOWEVER, sometimes this happens in reverse, so we want to err on taking the
+      # user-provided, non-default value where possible.
+      if value 
+        if options[name]
+          options[name] = value if options[name] == flag.default_value
+        else
+          options[name] = value
+        end
+      end
     end
 
     if try_me.empty?
