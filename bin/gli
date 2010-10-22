@@ -1,5 +1,5 @@
 #!/usr/bin/ruby
-$: << File.expand_path(File.dirname(__FILE__) + '/../lib') 
+$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib') 
 
 require 'gli'
 require 'support/scaffold'

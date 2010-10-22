@@ -6,7 +6,7 @@ include GLI
 class TC_testGLI < Test::Unit::TestCase
 
   def setup
-    @config_file = File.expand_path(File.dirname(__FILE__) + '/new_config.yaml')
+    @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
   end
 
   def teardown
@@ -22,7 +22,7 @@ class TC_testGLI < Test::Unit::TestCase
   def test_init_from_config
     failure = nil
     GLI.reset
-    GLI.config_file(File.expand_path(File.dirname(__FILE__) + '/config.yaml'))
+    GLI.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
     GLI.flag :f
     GLI.switch :s
     GLI.flag :g
@@ -48,7 +48,7 @@ class TC_testGLI < Test::Unit::TestCase
   end
 
   def test_no_overwrite_config
-    config_file = File.expand_path(File.dirname(__FILE__) + '/config.yaml')
+    config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml')
     config_file_contents = read_file_contents(config_file)
     GLI.reset
     GLI.config_file(config_file)

@@ -121,8 +121,8 @@ EOS
           File.open(bin_file,'w') do |file|
             file.chmod(0755)
             file.puts '#!/usr/bin/ruby'
-            file.puts '$: << File.expand_path(File.dirname(__FILE__) + \'/../lib\')'
-            file.puts '$: << File.expand_path(File.dirname(__FILE__) + \'/../ext\')' if create_ext_dir
+            file.puts '$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../lib\')'
+            file.puts '$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../ext\')' if create_ext_dir
             file.puts <<EOS
 require 'rubygems'
 require 'gli'
