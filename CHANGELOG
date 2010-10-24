@@ -1,0 +1,12 @@
+GLI Changelog
+
+1.1.3 - 10/24/2010
+==================
+
+- Changed the way we locate __FILE__'s directory; if it's a symlink it would've have worked.
+  Required adding :realpath method to File for pre 1.9.2 rubies
+
+0.0 - 1.1.2
+===========
+
+No changelog tracking was done for these versions :(

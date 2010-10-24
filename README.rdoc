@@ -171,7 +171,6 @@ This command is automatically created and added to your application's commands w
 config file.  When invoked, all global options set on the command line are configured 
 inside the configuration file.  Further, a blank area for each
 command of your application is created, to allow the user edit the config file  ith command-specific default values.
-
     --- 
     # Global options are here
     :f: foo
@@ -253,6 +252,7 @@ they start with a "--"
 
 :include:gli.rdoc
 
+:include:CHANGELOG.rdoc
 == Links
 
 * [http://davetron5000.github.com/gli] - RubyDoc

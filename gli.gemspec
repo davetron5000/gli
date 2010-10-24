@@ -26,8 +26,8 @@ bin/gli
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
-  s.extra_rdoc_files = ['README.rdoc', 'gli.rdoc']
-  s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc' << '-ri'
+  s.extra_rdoc_files = ['README.rdoc', 'gli.rdoc', 'CHANGELOG.rdoc']
+  s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc' << '-R'
   s.bindir = 'bin'
   s.executables << 'gli'
   s.rubyforge_project = 'gli'

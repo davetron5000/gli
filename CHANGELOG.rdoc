@@ -1,0 +1,9 @@
+== Changelog
+
+=== 1.1.3 - 10/24/2010
+
+* Changed the way we locate <code>__FILE__</code>'s directory; if it's a symlink it would've have worked.  Required adding <code>:realpath</code> method to <code>File</code> for pre 1.9.2 rubies
+
+=== 0.0 - 1.1.2
+
+No changelog tracking was done for these versions :(

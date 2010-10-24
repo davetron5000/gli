@@ -3,4 +3,3 @@ html
 *.sw?
 pkg
 coverage
-changelog
