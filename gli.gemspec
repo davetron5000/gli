@@ -1,5 +1,5 @@
 # Make sure we get the gli that's local
-require File.join([File.dirname(File.realpath(__FILE__)),'lib','gli_version.rb'])
+require File.join([File.dirname(__FILE__),'lib','gli_version.rb'])
 
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'

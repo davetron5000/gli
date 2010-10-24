@@ -121,6 +121,19 @@ EOS
           File.open(bin_file,'w') do |file|
             file.chmod(0755)
             file.puts '#!/usr/bin/ruby'
+            file.puts <<EOS
+# 1.9 adds realpath to resolve symlinks; 1.8 doesn't
+# have this method, so we add it so we get resolved symlinks
+# and compatibility
+unless File.respond_to? :realpath
+  class File
+    def self.realpath path
+      return realpath(File.readlink(path)) if symlink?(path)
+      path
+    end
+  end
+end
+EOS
             file.puts '$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../lib\')'
             file.puts '$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../ext\')' if create_ext_dir
             file.puts <<EOS
