@@ -253,6 +253,16 @@ they start with a "--"
 :include:gli.rdoc
 
 :include:CHANGELOG.rdoc
+
+== Developing
+
+    gem install bundler
+    bundle install
+    rake test
+    rake rcov
+
+GLI currently has 100% test coverage, and I'd like to keep it that way.  If you submit patches, please have a test, that makes it easier for me to know if anything's broken.
+
 == Links
 
 * [http://davetron5000.github.com/gli] - RubyDoc

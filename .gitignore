@@ -3,3 +3,5 @@ html
 *.sw?
 pkg
 coverage
+.bundle
+cruddo.rdoc
