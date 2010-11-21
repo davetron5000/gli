@@ -98,11 +98,11 @@ command specific options, and then command arguments.
                 
                 <li><a href="#M000048">d</a>,</li>
                 
-                <li><a href="#M000060">default_command_options</a>,</li>
+                <li><a href="#M000063">default_command_options</a>,</li>
                 
                 <li><a href="#M000035">default_value</a>,</li>
                 
-                <li><a href="#M000030">desc</a></li>
+                <li><a href="#M000032">desc</a></li>
                 
             </ul>
         </dd>
@@ -113,7 +113,7 @@ command specific options, and then command arguments.
                 
                 <li><a href="#M000049">f</a>,</li>
                 
-                <li><a href="#M000061">find_command</a>,</li>
+                <li><a href="#M000064">find_command</a>,</li>
                 
                 <li><a href="#M000047">find_non_flag_index</a>,</li>
                 
@@ -128,7 +128,7 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000031">long_desc</a></li>
+                <li><a href="#M000033">long_desc</a></li>
                 
             </ul>
         </dd>
@@ -165,7 +165,7 @@ command specific options, and then command arguments.
         <dd>
             <ul>
                 
-                <li><a href="#M000029">reset</a>,</li>
+                <li><a href="#M000031">reset</a>,</li>
                 
                 <li><a href="#M000043">run</a></li>
                 
@@ -433,7 +433,7 @@ user&#8217;s home directory
                 
                 <div class="description">
                   <p>
-Alias for <a href="GLI.html#M000030">desc</a>
+Alias for <a href="GLI.html#M000032">desc</a>
 </p>
 
                 </div>
@@ -443,9 +443,9 @@ Alias for <a href="GLI.html#M000030">desc</a>
             </div>
             
             <div class="method">
-                <div class="title" id="M000060">
+                <div class="title" id="M000063">
                     
-                    <a name="M000060"></a><b>default_command_options</b>(command,command_configs)
+                    <a name="M000063"></a><b>default_command_options</b>(command,command_configs)
                     
                 </div>
                 
@@ -454,12 +454,12 @@ Alias for <a href="GLI.html#M000030">desc</a>
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000060_source')" id="l_M000060_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000063_source')" id="l_M000063_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/57edda54fcfceafba42bc22f4001bb22c1dd2133/lib/gli.rb#L309" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000060_source" class="dyn-source">
+                    <div id="M000063_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 309</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">default_command_options</span>(<span class="ruby-identifier">command</span>,<span class="ruby-identifier">command_configs</span>)
     <span class="ruby-identifier">options</span> = (<span class="ruby-identifier">command_configs</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">command_configs</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>]) <span class="ruby-operator">||</span> {}
@@ -502,9 +502,9 @@ set the default value of the next flag
             </div>
             
             <div class="method">
-                <div class="title" id="M000030">
+                <div class="title" id="M000032">
                     
-                    <a name="M000030"></a><b>desc</b>(description)
+                    <a name="M000032"></a><b>desc</b>(description)
                     
                 </div>
                 
@@ -528,12 +528,12 @@ one-line description
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000030_source')" id="l_M000030_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000032_source')" id="l_M000032_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/57edda54fcfceafba42bc22f4001bb22c1dd2133/lib/gli.rb#L35" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000030_source" class="dyn-source">
+                    <div id="M000032_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 35</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">desc</span>(<span class="ruby-identifier">description</span>); <span class="ruby-ivar">@@next_desc</span> = <span class="ruby-identifier">description</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -560,9 +560,9 @@ Alias for <a href="GLI.html#M000036">flag</a>
             </div>
             
             <div class="method">
-                <div class="title" id="M000061">
+                <div class="title" id="M000064">
                     
-                    <a name="M000061"></a><b>find_command</b>(name)
+                    <a name="M000064"></a><b>find_command</b>(name)
                     
                 </div>
                 
@@ -571,12 +571,12 @@ Alias for <a href="GLI.html#M000036">flag</a>
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000061_source')" id="l_M000061_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000064_source')" id="l_M000064_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/57edda54fcfceafba42bc22f4001bb22c1dd2133/lib/gli.rb#L313" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000061_source" class="dyn-source">
+                    <div id="M000064_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 313</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_command</span>(<span class="ruby-identifier">name</span>)
     <span class="ruby-identifier">sym</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_sym</span>
@@ -700,9 +700,9 @@ Create a flag, which is a switch that takes an argument
             </div>
             
             <div class="method">
-                <div class="title" id="M000031">
+                <div class="title" id="M000033">
                     
-                    <a name="M000031"></a><b>long_desc</b>(long_desc)
+                    <a name="M000033"></a><b>long_desc</b>(long_desc)
                     
                 </div>
                 
@@ -719,12 +719,12 @@ wrapped to fit in 80 columns
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000033_source')" id="l_M000033_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/57edda54fcfceafba42bc22f4001bb22c1dd2133/lib/gli.rb#L39" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000031_source" class="dyn-source">
+                    <div id="M000033_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 39</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">long_desc</span>(<span class="ruby-identifier">long_desc</span>); <span class="ruby-ivar">@@next_long_desc</span> = <span class="ruby-identifier">long_desc</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -1122,9 +1122,9 @@ true, the program will proceed; otherwise the program will end immediately
             </div>
             
             <div class="method">
-                <div class="title" id="M000029">
+                <div class="title" id="M000031">
                     
-                    <a name="M000029"></a><b>reset</b>()
+                    <a name="M000031"></a><b>reset</b>()
                     
                 </div>
                 
@@ -1141,12 +1141,12 @@ mostly for testing
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000029_source')" id="l_M000029_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/57edda54fcfceafba42bc22f4001bb22c1dd2133/lib/gli.rb#L25" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000029_source" class="dyn-source">
+                    <div id="M000031_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli.rb, line 25</span>
   <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">reset</span>
     <span class="ruby-identifier">switches</span>.<span class="ruby-identifier">clear</span>
