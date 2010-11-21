@@ -5,17 +5,12 @@ require 'rake/gempackagetask'
 require 'rake/testtask'
 require 'rake/rdoctask'
 require 'sdoc'
+require 'grancher/task'
 
-$: << '../grancher/lib'
-begin
-  require 'grancher/task'
-  Grancher::Task.new do |g|
-    g.branch = 'gh-pages'
-    g.push_to = 'origin'
-    g.directory 'html'
-  end
-rescue LoadError
-  #puts "you may install the optional gem 'grancher'"
+Grancher::Task.new do |g|
+  g.branch = 'gh-pages'
+  g.push_to = 'origin'
+  g.directory 'html'
 end
 
 Rake::RDocTask.new do |rd|
