@@ -6,6 +6,9 @@ License:: Distributes under the Apache License, see LICENSE.txt in the source di
 
 This is a DSL you can use to create a command line interface like git, gem or svn, in that the first argument is a command, and there are global and command specific flags.
 
+* {Source on Github}[http://github.com/davetron5000/gli]
+* RDoc[http://davetron5000.github.com/gli]
+
 == Use
 
 Install if you need to:
@@ -143,7 +146,7 @@ What this gives you:
 * Error handling when an unknown command is specified
 * Default values for flags if they are not specified by the user (switches all default to false)
 * An easy way to allow user or site-specific defaults for options via a config file for your app
-* Nice RDoc describing how to use your application (you can see an example in the rdoc version of this file for the <tt>gli</tt> command)
+* Nice RDoc describing how to use your application (you can see an example in the {rdoc version of this file}[http://davetron5000.github.com/gli] for the <tt>gli</tt> command)
 
 What this doesn't give you:
 
