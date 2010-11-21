@@ -19,7 +19,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: Tue Jun 08 19:50:48 -0400 2010</li>
+            <li>Last modified: Sun Nov 21 09:46:04 -0500 2010</li>
         </ul>
     </div>
 
@@ -33,7 +33,7 @@
 com)
 
 </td></tr>
-<tr><td valign="top">Copyright:</td><td>Copyright &#169; 2009 by Dave Copeland
+<tr><td valign="top">Copyright:</td><td>Copyright &#169; 2010 by Dave Copeland
 
 </td></tr>
 <tr><td valign="top">License:</td><td>Distributes under the Apache License, see LICENSE.txt in the source distro
@@ -80,6 +80,21 @@ your tests
 
 </li>
 </ul>
+<h2>Supported Platforms</h2>
+<p>
+Known to work on
+</p>
+<ul>
+<li>1.8.7
+
+</li>
+<li>1.9.2
+
+</li>
+</ul>
+<p>
+Though likely works on various other versions
+</p>
 <h3>Example</h3>
 <p>
 This example demonstrates most of the features of <a
@@ -91,7 +106,7 @@ defines:
 </p>
 <pre>
     #!/usr/bin/ruby
-    $: &lt;&lt; File.expand_path(File.dirname(__FILE__) + '/../lib')
+    $: &lt;&lt; File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
     require 'gli'
 
@@ -115,9 +130,8 @@ user&#8217;s home directory (which is what is being done here).
     config_file '.glirc'
 </pre>
 <p>
-the configuration file This describes a command line switch
-&#8220;-n&#8221; that is global to all commands and specified before the
-command name on the command line.
+This describes a command line switch &#8220;-n&#8221; that is global to all
+commands and specified before the command name on the command line.
 </p>
 <pre>
     desc 'Dry run; don\'t change the disk'
@@ -125,12 +139,16 @@ command name on the command line.
 </pre>
 <p>
 The following describes a command line flag that is global and has a
-default value of &#8216;<tt>.</tt>&#8217;. It also specifies a short
-description of its argument. This is used to print command line help. Note
-that we have specified two different aliases for this flag. <tt>-r</tt>
-(because it is listed first) is the default one and <tt>--root</tt> (note
-two-dash syntax) is also supported. This means that <tt>-r some_dir</tt>
-and <tt>--root=some_dir</tt> mean the same thing to the application.
+default value of &#8216;<tt>.</tt>&#8217; (in <a
+href="../classes/GLI.html">GLI</a> parlance, a &#8220;flag&#8221; is a
+command line switch that takes an option). It also specifies a short and
+long description of its argument. This is used to print command line help
+and to generate rdoc documentation. Note that we have specified two
+different aliases for this flag. <tt>-r</tt> (because it is listed first)
+is the default one and <tt>--root</tt> (note two-dash syntax) is also
+supported. This means that <tt>-r some_dir</tt> and
+<tt>--root=some_dir</tt> mean the same thing to the application, but that
+your code should look for <tt>:r</tt>.
 </p>
 <pre>
     desc 'Root dir in which to create project'
@@ -140,7 +158,7 @@ and <tt>--root=some_dir</tt> mean the same thing to the application.
     flag [:r,:root]
 </pre>
 <p>
-Here we specify a command. Inside the block we can use the same sorts of
+Next, we specify a command. Inside the block we can use the same sorts of
 things as we did above to define flags and switches specific to the
 command. These must come after the command name. Also note that we use
 <tt>arg_name</tt> here to describe the arguments this command accepts.
@@ -157,16 +175,25 @@ command. These must come after the command name. Also note that we use
       c.switch [:force]
 </pre>
 <p>
-Here we specify the actual actions to take when the command is executed. We
-define a block that will be given the global options (as a Hash), the
-command-specific options (as a hash) and the command line arguments
+Next, while we are still inside the <tt>command</tt> block, we specify the
+actual code to execute when the command is chosen by the user. We define a
+block that will be given the global options (as a Hash), the
+command-specific options (as a Hash) and the command line arguments. The
+hashes keys are symbols based upon the switches and flags. For a switch or
+flag named &#8220;-r&#8221;, we would use <tt>:r</tt>.
 </p>
 <pre>
       c.action do |global_options,options,args|
         if args.length &lt; 1
           raise 'You must specify the name of your project'
         end
-        Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+        Scaffold.create_scaffold(global_options[:r],
+                                 !options[:notest],
+                                 options[:e],
+                                 args[0],
+                                 args[1..-1],
+                                 ooptions[:force],
+                                 global_options[:n])
       end
     end
 </pre>
@@ -177,7 +204,8 @@ You can also specify some global code to run before, after and on errors:
     pre do |global_options,command,options,args|
       puts &quot;After parsing, but before #{command.name} is run&quot;
       return true
-      # return false if we want to skip command execution for some reason
+      # return false if we want to skip command execution for some reason,
+      # such as some global precondition not having been met
     end
 
     post do |global_options,command,options,args|
@@ -222,8 +250,12 @@ switches are given
 all default to false)
 
 </li>
-<li>An easy way to allow location-specific defaults for options via a config
-file for your app
+<li>An easy way to allow user or site-specific defaults for options via a
+config file for your app
+
+</li>
+<li>Nice RDoc describing how to use your application (you can see an example in
+the rdoc version of this file for the <tt>gli</tt> command)
 
 </li>
 </ul>
@@ -246,7 +278,7 @@ things
 
 </li>
 </ul>
-<h2>Configuration File</h2>
+<h2>Configuration <a href="../classes/File.html">File</a></h2>
 <p>
 The configuration file format is a very simple means of customizing the
 execution of your command on a per-user or per-site basis. The idea is that
@@ -259,7 +291,7 @@ then becomes:
 <li>Command line invocation
 
 </li>
-<li>Configuration File value
+<li>Configuration <a href="../classes/File.html">File</a> value
 
 </li>
 <li>Default value in the application
@@ -300,6 +332,22 @@ allow the user edit the config file ith command-specific default values.
 This allows you to design your application to have it&#8217;s behavior
 <em>entirely</em> affected by command line options, with sensible defaults
 stored in a configuration file.
+</p>
+<h2>Generating RDoc</h2>
+<p>
+All gli-based applications include a &#8220;hidden&#8221; command named
+<tt>rdoc</tt>. When you execute this command, a file called
+<tt>yourapp.rdoc</tt> is created in the current directory. This contains a
+rdoc-formatted helpfile for your command line application. This can be
+useful in packaging your application to share with others. This is also the
+only place in which the <tt>long_desc</tt> values are currently used.
+</p>
+<p>
+If your application has a <tt><a
+href="README_rdoc.html">README.rdoc</a></tt> already, you can simply add
+<tt>:include:yourapp.rdoc</tt> to the bottom and it will be included when
+you generate and publish your rdoc (note that it will <b>not</b> show up on
+github).
 </p>
 <h2>Reference</h2>
 <dl>
@@ -534,6 +582,31 @@ These options are specified <b>after</b> the command.
 
 </dd>
 </dl>
+<h2>Changelog</h2>
+<h3>1.1.3 - 10/24/2010</h3>
+<ul>
+<li>Changed the way we locate <tt><em>FILE</em></tt>&#8217;s directory; if
+it&#8217;s a symlink it would&#8217;ve have worked. Required adding
+<tt>:realpath</tt> method to <tt>File</tt> for pre 1.9.2 rubies
+
+</li>
+</ul>
+<h3>0.0 - 1.1.2</h3>
+<p>
+No changelog tracking was done for these versions :(
+</p>
+<h2>Developing</h2>
+<pre>
+    gem install bundler
+    bundle install
+    rake test
+    rake rcov
+</pre>
+<p>
+<a href="../classes/GLI.html">GLI</a> currently has 100% test coverage, and
+I&#8217;d like to keep it that way. If you submit patches, please have a
+test, that makes it easier for me to know if anything&#8217;s broken.
+</p>
 <h2>Links</h2>
 <ul>
 <li>[<a

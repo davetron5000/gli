@@ -66,7 +66,7 @@
                 
                 <li><a href="#M000072">mk_readme</a>,</li>
                 
-                <li><a href="#M000076">mkdirs</a></li>
+                <li><a href="#M000077">mkdirs</a></li>
                 
             </ul>
         </dd>
@@ -101,7 +101,7 @@
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000071_source')" id="l_M000071_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L7" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L7" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000071_source" class="dyn-source">
@@ -138,7 +138,7 @@
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000075_source')" id="l_M000075_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L121" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L121" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000075_source" class="dyn-source">
@@ -150,8 +150,9 @@
           <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">bin_file</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
             <span class="ruby-identifier">file</span>.<span class="ruby-identifier">chmod</span>(<span class="ruby-value">0755</span>)
             <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'#!/usr/bin/ruby'</span>
-            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + \'/../lib\')'</span>
-            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(__FILE__) + \'/../ext\')'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_ext_dir</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;# 1.9 adds realpath to resolve symlinks; 1.8 doesn't\n# have this method, so we add it so we get resolved symlinks\n# and compatibility\nunless File.respond_to? :realpath\n  class File\n    def self.realpath path\n      return realpath(File.readlink(path)) if symlink?(path)\n      path\n    end\n  end\nend\n&quot;</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../lib\')'</span>
+            <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">'$: &lt;&lt; File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../ext\')'</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">create_ext_dir</span>
             <span class="ruby-identifier">file</span>.<span class="ruby-identifier">puts</span> <span class="ruby-value str">&quot;require 'rubygems'\nrequire 'gli'\n\ninclude GLI\n\ndesc 'Describe some switch here'\nswitch [:s,:switch]\n\ndesc 'Describe some flag here'\ndefault_value 'the default'\narg_name 'The name of the argument'\nflag [:f,:flagname]\n&quot;</span>
             <span class="ruby-identifier">first</span> = <span class="ruby-keyword kw">true</span>
             <span class="ruby-identifier">commands</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command</span><span class="ruby-operator">|</span>
@@ -192,7 +193,7 @@
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000073_source')" id="l_M000073_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L34" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L34" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000073_source" class="dyn-source">
@@ -222,7 +223,7 @@
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000074_source')" id="l_M000074_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L62" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L62" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000074_source" class="dyn-source">
@@ -260,7 +261,7 @@
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000072_source')" id="l_M000072_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L21" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L21" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000072_source" class="dyn-source">
@@ -283,9 +284,9 @@
             </div>
             
             <div class="method">
-                <div class="title" id="M000076">
+                <div class="title" id="M000077">
                     
-                    <a name="M000076"></a><b>mkdirs</b>(dirs,force,dry_run)
+                    <a name="M000077"></a><b>mkdirs</b>(dirs,force,dry_run)
                     
                 </div>
                 
@@ -294,13 +295,13 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000076_source')" id="l_M000076_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000077_source')" id="l_M000077_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/3b29c884da7c0c3c165ee7bca55475c8320fec36/lib/support/scaffold.rb#L215" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L229" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000076_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 215</span>
+                    <div id="M000077_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 229</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mkdirs</span>(<span class="ruby-identifier">dirs</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>)
       <span class="ruby-identifier">exists</span> = <span class="ruby-keyword kw">false</span>
       <span class="ruby-keyword kw">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">force</span>

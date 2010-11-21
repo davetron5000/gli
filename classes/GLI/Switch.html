@@ -56,7 +56,7 @@ Defines a command line switch
         <dd>
             <ul>
                 
-                <li><a href="#M000029">find_me</a></li>
+                <li><a href="#M000031">find_me</a></li>
                 
             </ul>
         </dd>
@@ -65,7 +65,7 @@ Defines a command line switch
         <dd>
             <ul>
                 
-                <li><a href="#M000027">get_value!</a></li>
+                <li><a href="#M000028">get_value!</a></li>
                 
             </ul>
         </dd>
@@ -74,9 +74,9 @@ Defines a command line switch
         <dd>
             <ul>
                 
-                <li><a href="#M000030">name_as_string</a>,</li>
+                <li><a href="#M000032">name_as_string</a>,</li>
                 
-                <li><a href="#M000026">new</a></li>
+                <li><a href="#M000027">new</a></li>
                 
             </ul>
         </dd>
@@ -98,9 +98,9 @@ Defines a command line switch
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000030">
+                <div class="title" id="M000032">
                     
-                    <a name="M000030"></a><b>name_as_string</b>(name)
+                    <a name="M000032"></a><b>name_as_string</b>(name)
                     
                 </div>
                 
@@ -109,12 +109,12 @@ Defines a command line switch
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000030_source')" id="l_M000030_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000032_source')" id="l_M000032_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L51" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000030_source" class="dyn-source">
+                    <div id="M000032_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 51</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name_as_string</span>(<span class="ruby-identifier">name</span>)
       <span class="ruby-identifier">string</span> = <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
@@ -126,9 +126,9 @@ Defines a command line switch
             </div>
             
             <div class="method">
-                <div class="title" id="M000026">
+                <div class="title" id="M000027">
                     
-                    <a name="M000026"></a><b>new</b>(names,description,long_desc=nil)
+                    <a name="M000027"></a><b>new</b>(names,description,long_desc=nil)
                     
                 </div>
                 
@@ -137,12 +137,12 @@ Defines a command line switch
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000026_source')" id="l_M000026_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000027_source')" id="l_M000027_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L7" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000026_source" class="dyn-source">
+                    <div id="M000027_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 7</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>=<span class="ruby-keyword kw">nil</span>)
       <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_desc</span>)
@@ -155,9 +155,9 @@ Defines a command line switch
             <div class="sectiontitle">Instance Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000029">
+                <div class="title" id="M000031">
                     
-                    <a name="M000029"></a><b>find_me</b>(arg)
+                    <a name="M000031"></a><b>find_me</b>(arg)
                     
                 </div>
                 
@@ -182,12 +182,12 @@ array of size 2:
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000029_source')" id="l_M000029_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L33" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000029_source" class="dyn-source">
+                    <div id="M000031_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 33</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">find_me</span>(<span class="ruby-identifier">arg</span>)
       <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@names</span>[<span class="ruby-identifier">arg</span>]
@@ -212,9 +212,9 @@ array of size 2:
             </div>
             
             <div class="method">
-                <div class="title" id="M000027">
+                <div class="title" id="M000028">
                     
-                    <a name="M000027"></a><b>get_value!</b>(args)
+                    <a name="M000028"></a><b>get_value!</b>(args)
                     
                 </div>
                 
@@ -231,12 +231,12 @@ it&#8217;s in the argumennt list (and removing it from the argument list)
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000027_source')" id="l_M000027_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000028_source')" id="l_M000028_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/e4a87427e3ffca492eea3f83f8e4443432920c05/lib/gli/switch.rb#L13" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000027_source" class="dyn-source">
+                    <div id="M000028_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/switch.rb, line 13</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">get_value!</span>(<span class="ruby-identifier">args</span>)
       <span class="ruby-identifier">idx</span> = <span class="ruby-value">-1</span>
