@@ -49,7 +49,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000071">create_scaffold</a></li>
+                <li><a href="#M000070">create_scaffold</a></li>
                 
             </ul>
         </dd>
@@ -64,9 +64,9 @@
                 
                 <li><a href="#M000074">mk_rakefile</a>,</li>
                 
-                <li><a href="#M000072">mk_readme</a>,</li>
+                <li><a href="#M000071">mk_readme</a>,</li>
                 
-                <li><a href="#M000077">mkdirs</a></li>
+                <li><a href="#M000076">mkdirs</a></li>
                 
             </ul>
         </dd>
@@ -88,9 +88,9 @@
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000071">
+                <div class="title" id="M000070">
                     
-                    <a name="M000071"></a><b>create_scaffold</b>(root_dir,create_test_dir,create_ext_dir,project_name,commands,force=false,dry_run=false)
+                    <a name="M000070"></a><b>create_scaffold</b>(root_dir,create_test_dir,create_ext_dir,project_name,commands,force=false,dry_run=false)
                     
                 </div>
                 
@@ -99,12 +99,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000071_source')" id="l_M000071_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000070_source')" id="l_M000070_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L7" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000071_source" class="dyn-source">
+                    <div id="M000070_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 7</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">create_scaffold</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">create_test_dir</span>,<span class="ruby-identifier">create_ext_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">force</span>=<span class="ruby-keyword kw">false</span>,<span class="ruby-identifier">dry_run</span>=<span class="ruby-keyword kw">false</span>)
       <span class="ruby-identifier">dirs</span> = [<span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">project_name</span>,<span class="ruby-value str">'lib'</span>)]
@@ -248,9 +248,9 @@
             </div>
             
             <div class="method">
-                <div class="title" id="M000072">
+                <div class="title" id="M000071">
                     
-                    <a name="M000072"></a><b>mk_readme</b>(root_dir,dry_run,project_name)
+                    <a name="M000071"></a><b>mk_readme</b>(root_dir,dry_run,project_name)
                     
                 </div>
                 
@@ -259,12 +259,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000072_source')" id="l_M000072_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000071_source')" id="l_M000071_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L21" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000072_source" class="dyn-source">
+                    <div id="M000071_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 21</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mk_readme</span>(<span class="ruby-identifier">root_dir</span>,<span class="ruby-identifier">dry_run</span>,<span class="ruby-identifier">project_name</span>)
       <span class="ruby-keyword kw">return</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">dry_run</span>
@@ -284,9 +284,9 @@
             </div>
             
             <div class="method">
-                <div class="title" id="M000077">
+                <div class="title" id="M000076">
                     
-                    <a name="M000077"></a><b>mkdirs</b>(dirs,force,dry_run)
+                    <a name="M000076"></a><b>mkdirs</b>(dirs,force,dry_run)
                     
                 </div>
                 
@@ -295,12 +295,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000077_source')" id="l_M000077_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000076_source')" id="l_M000076_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/4be9dd245b62f3123f4e6114472cb4e6eb9a8730/lib/support/scaffold.rb#L229" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000077_source" class="dyn-source">
+                    <div id="M000076_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 229</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">mkdirs</span>(<span class="ruby-identifier">dirs</span>,<span class="ruby-identifier">force</span>,<span class="ruby-identifier">dry_run</span>)
       <span class="ruby-identifier">exists</span> = <span class="ruby-keyword kw">false</span>
