@@ -31,6 +31,30 @@ class TC_testGLI < Test::Unit::TestCase
     do_test_flag_create(Command.new(:f,'Some command'))
   end
 
+  def test_create_commands_using_strings
+    GLI.reset
+    GLI.flag ['f','flag']
+    GLI.switch ['s','some-switch']
+    GLI.command 'command','command-with-dash' do |c|
+    end
+    assert GLI.commands.include? :command
+    assert GLI.flags.include? :f
+    assert GLI.switches.include? :s
+    assert GLI.commands[:command].aliases.include? :'command-with-dash'
+    assert GLI.flags[:f].aliases.include? :flag
+    assert GLI.switches[:s].aliases.include? :'some-switch'
+  end
+
+  def test_flag_with_space_barfs
+    GLI.reset
+    assert_raises(ArgumentError) { GLI.flag ['some flag'] }
+    assert_raises(ArgumentError) { GLI.flag ['f','some flag'] }
+    assert_raises(ArgumentError) { GLI.switch ['some switch'] }
+    assert_raises(ArgumentError) { GLI.switch ['f','some switch'] }
+    assert_raises(ArgumentError) { GLI.command ['some command'] }
+    assert_raises(ArgumentError) { GLI.command ['f','some command'] }
+  end
+
   def test_init_from_config
     failure = nil
     GLI.reset
