@@ -3,17 +3,42 @@ require 'gli/command'
 
 module GLI
   class DefaultHelpCommand < Command
+    @@output = $stdout
+    # Exposed for testing :nodoc:
+    def self.output_device=(o); @@output = o; end
+
     def initialize(*omit_from_list)
       @omit_from_list = omit_from_list
-      super(:help,'Shows list of commands or help for one command','[command]')
+      super(:help,
+            'Shows list of commands or help for one command',
+            '[command]',
+            'Gets help for the application or its commands.  Can also list the commands in a way helpful to creating a bash-style completion function')
+      self.desc 'List all commands one line at a time, for use with shell completion ([command] argument is partial command to match)'
+      self.switch [:c,:completion]
     end
 
     def execute(global_options,options,arguments)
-      if arguments.empty?
-        list_global_flags
-        list_commands
+      if options[:c]
+        names = commands_to_show.reduce([]) do |memo,obj|
+          memo << obj[0]
+          memo << obj[1].aliases
+          memo = memo.flatten
+        end
+        names.map!(&:to_s)
+        if arguments && arguments.size > 0
+          names = names.select { |name| name =~ /^#{arguments[0]}/ }
+        end
+        names.sort.each do |command|
+          next if command.empty?
+          @@output.puts command
+        end
       else
-        list_one_command_help(arguments[0])
+        if arguments.empty?
+          list_global_flags
+          list_commands
+        else
+          list_one_command_help(arguments[0])
+        end
       end
     end
 
@@ -25,37 +50,40 @@ module GLI
       if !all_options.empty?
         usage += ' [options]'
       end
-      puts usage
-      puts
-      puts 'Options:' if !all_options.empty?
+      @@output.puts usage
+      @@output.puts
+      @@output.puts 'Options:' if !all_options.empty?
       output_command_tokens_for_help(all_options)
-      puts if !all_options.empty?
+      @@output.puts if !all_options.empty?
     end
 
     def list_commands
-      puts 'Commands:'
-      commands_to_show = GLI.commands.reject{ |name,c| @omit_from_list.include?(c) }
+      @@output.puts 'Commands:'
       output_command_tokens_for_help(commands_to_show,:names)
+    end
+
+    def commands_to_show
+      GLI.commands.reject{ |name,c| @omit_from_list.include?(c) }
     end
 
     def list_one_command_help(command_name)
       command = GLI.find_command(command_name)
       if command
-        puts command.usage
+        @@output.puts command.usage
         description = wrap(command.description,4)
-        puts "    #{description}"
+        @@output.puts "    #{description}"
         if command.long_description
-          puts
-          puts "    #{wrap(command.long_description,4)}"
+          @@output.puts
+          @@output.puts "    #{wrap(command.long_description,4)}"
         end
         all_options = command.switches.merge(command.flags)
         if !all_options.empty?
-          puts
-          puts "Options:"
+          @@output.puts
+          @@output.puts "Options:"
           output_command_tokens_for_help(all_options)
         end
       else
-        puts "No such command #{command_name}"
+        @@output.puts "No such command #{command_name}"
       end
     end
 

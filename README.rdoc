@@ -202,6 +202,27 @@ used.
 If your application has a <tt>README.rdoc</tt> already, you can simply add <tt>:include:yourapp.rdoc</tt> to the bottom and it will
 be included when you generate and publish your rdoc (note that it will *not* show up on github).
 
+== Bash Completion
+
+The +help+ command takes an optional switch, +-c+, that will list all the commands (including aliases) in sorted order suitable for use in a bash completion script.  When +-c+ is specified, the argument can be a partial command, and +help+ will only list the commands matching.  Put this in your +.bashrc+:
+
+    complete -F get_myapp_targets myapp
+    function get_myapp_targets() 
+    {
+        if [ -z $2 ] ; then
+            COMPREPLY=(`myapp help -c`)
+        else
+            COMPREPLY=(`myapp help -c $2`)
+        fi
+    }
+
+Now, suppose your app takes the commands +list+, +ls+, +rm+, +add+, and +init+:
+
+    > myapp <TAB>
+    add init list ls rm
+    > myapp l<TAB>
+    list ls
+
 == Reference
 
 

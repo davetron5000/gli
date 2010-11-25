@@ -116,6 +116,39 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.run(args)
   end
 
+  # TODO: Use this in other places to capture output
+  class FakeStdOut
+    attr_reader :strings
+    def puts(string=nil)
+      @strings ||= []
+      @strings << string unless string.nil?
+    end
+  end
+
+  def test_help_completion
+    GLI.command :foo, :bar do |c|; end
+    GLI.command :ls, :list do |c|; end
+    args = %w(help -c)
+    fake_stdout = FakeStdOut.new
+    DefaultHelpCommand.output_device=fake_stdout
+    GLI.run(args)
+    DefaultHelpCommand.output_device=$stdout
+    assert_equal 7,fake_stdout.strings.size
+    assert_equal ['bar','basic','bs','foo','help','list','ls'],fake_stdout.strings
+  end
+
+  def test_help_completion_partial
+    GLI.command :foo, :bar do |c|; end
+    GLI.command :ls, :list do |c|; end
+    args = %w(help -c b)
+    fake_stdout = FakeStdOut.new
+    DefaultHelpCommand.output_device=fake_stdout
+    GLI.run(args)
+    DefaultHelpCommand.output_device=$stdout
+    assert_equal 3,fake_stdout.strings.size
+    assert_equal ['bar','basic','bs'],fake_stdout.strings
+  end
+
   def test_rdoc
     GLI.program_name 'cruddo'
     args = %w(rdoc)
