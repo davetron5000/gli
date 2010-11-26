@@ -77,7 +77,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000083">project_name_as_module_name</a></li>
+                <li><a href="#M000082">project_name_as_module_name</a></li>
                 
             </ul>
         </dd>
@@ -387,9 +387,9 @@
             </div>
             
             <div class="method">
-                <div class="title" id="M000083">
+                <div class="title" id="M000082">
                     
-                    <a name="M000083"></a><b>project_name_as_module_name</b>(project_name)
+                    <a name="M000082"></a><b>project_name_as_module_name</b>(project_name)
                     
                 </div>
                 
@@ -398,12 +398,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000083_source')" id="l_M000083_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000082_source')" id="l_M000082_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/013b4b7a7d3662a92a343721aa666ae00bb558ce/lib/support/scaffold.rb#L68" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000083_source" class="dyn-source">
+                    <div id="M000082_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/scaffold.rb, line 68</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">project_name_as_module_name</span>(<span class="ruby-identifier">project_name</span>)
       <span class="ruby-identifier">project_name</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">/_/</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">part</span><span class="ruby-operator">|</span> <span class="ruby-identifier">part</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">0</span>].<span class="ruby-identifier">upcase</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">part</span>[<span class="ruby-value">1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>] }.<span class="ruby-identifier">join</span>(<span class="ruby-value str">''</span>)
