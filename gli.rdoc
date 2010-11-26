@@ -24,6 +24,12 @@ These options are available for any command and are specified before the name of
 
 Shows list of commands or help for one command
 
+Gets help for the application or its commands.  Can also list the commands in a way helpful to creating a bash-style completion function
+
+==== Options
+These options are specified *after* the command.
+
+[<tt>-c, --completion</tt>] List all commands one line at a time, for use with shell completion ([command] argument is partial command to match)
 === <tt>init project_name [command[ command]*]</tt>
 
 Create a new GLI-based project

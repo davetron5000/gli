@@ -35,6 +35,8 @@ module GLI
 
     # describe the next switch or flag
     def desc(description); @next_desc = description; end
+    # long description of this flag/switch
+    def long_desc(long_desc); @next_long_desc = long_desc; end
     # describe the argument name of the next flag
     def arg_name(name); @next_arg_name = name; end
     # set the default value of the next flag
@@ -43,7 +45,7 @@ module GLI
     def flag(*names)
       names = [names].flatten
       GLI.verify_unused(names,flags,switches,"in command #{name}")
-      flag = Flag.new(names,@next_desc,@next_arg_name,@next_default_value)
+      flag = Flag.new(names,@next_desc,@next_arg_name,@next_default_value,@next_long_desc)
       flags[flag.name] = flag
       clear_nexts
     end
@@ -52,7 +54,7 @@ module GLI
     def switch(*names)
       names = [names].flatten
       GLI.verify_unused(names,flags,switches,"in command #{name}")
-      switch = Switch.new(names,@next_desc)
+      switch = Switch.new(names,@next_desc,@next_long_desc)
       switches[switch.name] = switch
       clear_nexts
     end
@@ -69,6 +71,7 @@ module GLI
       @next_desc = nil
       @next_arg_name = nil
       @next_default_value = nil
+      @next_long_desc = nil
     end
 
     def execute(global_options,options,arguments)

@@ -49,8 +49,8 @@ module GLI
             file << "\n"
           end
           all_options = command.switches.merge(command.flags)
+          file << "#{command.long_description}\n\n" if command.long_description
           if (all_options && all_options.length > 0)
-            file << "#{command.long_description}\n\n"
             file << "==== Options\n"
             file << "These options are specified *after* the command.\n\n"
             output_flags(file,all_options)
@@ -68,7 +68,7 @@ module GLI
         file << "\n"
         if flag.long_description
           file << "\n"
-          # 12 is 4 for tt, 5 for /tt, 2 for the brackets and 1 for spacing
+          # 12 is: 4 for tt, 5 for /tt, 2 for the brackets and 1 for spacing
           (flag.usage.length + 12).times { file << " " }
           file << "#{flag.long_description}\n\n"
         end

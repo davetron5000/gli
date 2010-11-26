@@ -138,12 +138,15 @@ class TC_testGLI < Test::Unit::TestCase
 
   def do_test_flag_create(object)
     description = 'this is a description'
+    long_desc = 'this is a very long description'
     object.desc description
+    object.long_desc long_desc
     object.arg_name 'filename'
     object.default_value '~/.blah.rc'
     object.flag :f
     assert (object.flags[:f] )
     assert_equal(description,object.flags[:f].description)
+    assert_equal(long_desc,object.flags[:f].long_description)
     assert(nil != object.flags[:f].usage)
     assert(object.usage != nil) if object.respond_to? :usage;
   end
@@ -156,10 +159,13 @@ class TC_testGLI < Test::Unit::TestCase
 
   def do_test_switch_create(object)
     description = 'this is a description'
+    long_description = 'this is a very long description'
     object.desc description
+    object.long_desc long_description
     object.switch :f
     assert (object.switches[:f] )
     assert_equal(description,object.switches[:f].description)
+    assert_equal(long_description,object.switches[:f].long_description)
     assert(object.usage != nil) if object.respond_to? :usage;
   end
 
