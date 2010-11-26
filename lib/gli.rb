@@ -147,17 +147,19 @@ module GLI
   # options - Hash of options parsed from command line; this is an I/O param
   # gli_like - Object resonding to flags and switches in the same way that GLI or a Command instance do
   def copy_options_to_aliases(options,gli_like)
+    new_options = {}
     options.each do |key,value|
       if gli_like.flags[key] && gli_like.flags[key].aliases
         gli_like.flags[key].aliases.each do |alias_name|
-          options[alias_name] = value
+          new_options[alias_name] = value
         end
       elsif gli_like.switches[key] && gli_like.switches[key].aliases
         gli_like.switches[key].aliases.each do |alias_name|
-          options[alias_name] = value
+          new_options[alias_name] = value
         end
       end
     end
+    options.merge!(new_options)
   end
 
   def parse_config
