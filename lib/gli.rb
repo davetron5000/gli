@@ -26,6 +26,7 @@ module GLI
     switches.clear
     flags.clear
     commands.clear
+    @@version = nil
     @@config_file = nil
     clear_nexts
   end
@@ -107,11 +108,16 @@ module GLI
     @@error_block = a_proc
   end
 
+  # Indicate the version of your application
+  def version(version)
+    @@version = version
+  end
+
   # Runs whatever command is needed based on the arguments.
   def run(args)
     rdoc = RDocCommand.new
     commands[:rdoc] = rdoc if !commands[:rdoc]
-    commands[:help] = DefaultHelpCommand.new(rdoc) if !commands[:help]
+    commands[:help] = DefaultHelpCommand.new(@@version,rdoc) if !commands[:help]
     begin
       config = parse_config
       global_options,command,options,arguments = parse_options(args,config)
@@ -128,7 +134,7 @@ module GLI
       regular_error_handling = @@error_block.call(ex) if @@error_block
 
       if regular_error_handling
-        puts "error: #{ex.message}"
+        $stderr.puts "error: #{ex.message}"
       end
     end
   end

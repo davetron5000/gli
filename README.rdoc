@@ -40,27 +40,32 @@ Though likely works on various other versions
 
 This example demonstrates most of the features of GLI.
 
-This sets you up to use the DSL that GLI defines:
+The following sets you up to use the DSL that GLI defines:
 
     #!/usr/bin/ruby
     $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib') 
 
     require 'gli'
+    require 'gli_version'
 
     include GLI
 
-This sets a description of your program.  This can be as long as you want.
+The following sets the version of your application for exposure in the default <tt>help</tt> subcommand (the VERSION constant was created by the scaffolding):
+
+    version GLI::VERSION
+
+The following sets a description of your program.  This can be as long as you want.
 
     program_description 'Support program for bootstrapping GLI-based programs'
 
-This sets a config file for your program.  The config file can be used to store default values for command
+The following sets a config file for your program.  The config file can be used to store default values for command
 line options and command-specific options on a per-user (or per-site) basis.  The format is YAML-based.  
 Using an absolute path will result in the configuraiton file being located there.  Without an absolute path,
 the file will be located relative to the current user's home directory (which is what is being done here).
 
     config_file '.glirc'
 
-This describes a command line switch "-n" that is global to all commands and specified before
+The following describes a command line switch "-n" that is global to all commands and specified before
 the command name on the command line.
 
     desc 'Dry run; don\'t change the disk'
@@ -242,6 +247,7 @@ Now, suppose your app takes the commands +list+, +ls+, +rm+, +add+, and +init+:
 [+post+] Declare code to run after every command that didn't experience an error.  This is not available inside a command block.  This takes a block that will receive four arguments: the global argument hash (as in <tt>action</tt>), the command (instance of Command), the command-specific options (as in <tt>action</tt>, and the parsed command line arguments (as in <tt>action</tt>).  
 [+pre+] Declare code to run before every command.  This is not available inside a command block.  This takes a block that will receive four arguments: the global argument hash (as in <tt>action</tt>), the command (instance of Command), the command-specific options (as in <tt>action</tt>, and the parsed command line arguments (as in <tt>action</tt>).  If this block evaluates to false, the command will not be executed and the program will stop.
 [+switch+] Declare a switch, which is a command-line switch taking no argument that indicates a boolean "true" when specified on the command line.  This takes either a symbol, String or array of symbols/Strings.  The first symbol declared is used in your program to determine if the switch was set.  This can be used at the global level or inside a command block on the command object (e.g. <tt>c.switch</tt>)
+[+version+] Indicate the verison of your application/library.  This is used by the default <tt>help</tt> command to allow users to see the version of your application.
 
 == Interface Generated
 

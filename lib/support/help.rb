@@ -7,8 +7,9 @@ module GLI
     # Exposed for testing :nodoc:
     def self.output_device=(o); @@output = o; end
 
-    def initialize(*omit_from_list)
+    def initialize(version,*omit_from_list)
       @omit_from_list = omit_from_list
+      @version = version
       super(:help,
             'Shows list of commands or help for one command',
             '[command]',
@@ -52,6 +53,10 @@ module GLI
       end
       @@output.puts usage
       @@output.puts
+      if @version
+        @@output.puts "Version: #{@version}"
+        @@output.puts
+      end
       @@output.puts 'Options:' if !all_options.empty?
       output_command_tokens_for_help(all_options)
       @@output.puts if !all_options.empty?
@@ -103,7 +108,8 @@ module GLI
           description += " (default: #{token.default_value})" if token.default_value
         end
         description = wrap(description,max+7)
-        printf "    %-#{max}s - %s\n",token.send(usage_name),description
+        string = sprintf "    %-#{max}s - %s",token.send(usage_name),description
+        @@output.puts string
       end
     end
   end

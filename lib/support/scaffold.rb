@@ -15,6 +15,7 @@ module GLI
         mk_readme(root_dir,dry_run,project_name)
         mk_gemspec(root_dir,dry_run,project_name)
         mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
+        mk_version(root_dir,dry_run,project_name)
       end
     end
 
@@ -35,9 +36,11 @@ module GLI
       return if dry_run
       File.open("#{root_dir}/#{project_name}/#{project_name}.gemspec",'w') do |file|
         file.puts <<EOS
+# Ensure we require the local version and not one we might have installed already
+require File.join([File.dirname(__FILE__),'lib','#{project_name}_version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = '#{project_name}'
-  s.version = '0.0.01'
+  s.version = #{project_name_as_module_name(project_name)}::VERSION
   s.author = 'Your Name Here'
   s.email = 'your@email.address.com'
   s.homepage = 'http://your.website.com'
@@ -50,7 +53,7 @@ bin/#{project_name}
   s.require_paths << 'lib'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc','#{project_name}.rdoc']
-  s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc' << '-ri'
+  s.rdoc_options << '--title' << '#{project_name}' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << '#{project_name}'
 end
@@ -58,6 +61,20 @@ EOS
       end
     end
 
+    def self.project_name_as_module_name(project_name)
+      project_name.split(/_/).map { |part| puts part.class; part[0..0].upcase + part[1..-1] }.join('')
+    end
+
+    def self.mk_version(root_dir,dry_run,project_name)
+      return if dry_run
+      File.open("#{root_dir}/#{project_name}/lib/#{project_name}_version.rb",'w') do |file|
+        file.puts <<EOS
+module #{project_name_as_module_name(project_name)}
+  VERSION = '0.0.1'
+end
+EOS
+      end
+    end
     def self.mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
       return if dry_run
       File.open("#{root_dir}/#{project_name}/Rakefile",'w') do |file|
@@ -139,8 +156,11 @@ EOS
             file.puts <<EOS
 require 'rubygems'
 require 'gli'
+require '#{project_name}_version'
 
 include GLI
+
+version #{project_name_as_module_name(project_name)}::VERSION
 
 desc 'Describe some switch here'
 switch [:s,:switch]
