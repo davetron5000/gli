@@ -1,8 +1,10 @@
 == Changelog
 
-=== 1.1.4 - UNRELEASED
+=== 1.2.0 - UNRELEASED
 
 * Added ability to use +help+ command to list commands suitable for creating bash completion script
+* <code>options</code> and <code>global_options</code> will now contain values for all aliases of each flag and switch, so if you created a flag with <code>flag [:f,:flag]</code> and the user specifies <code>-f foo</code> on the command line, both <code>options[:f]</code> and <code>options[:flag]</code> will have the value <code>foo</code>.  Same behavior for <code>--flag=foo</code>.
+* You may now no-longer use names that have already been used.  So if you declare a switch <code>switch :foo</code> and then later declare a flag <code>flag [:f,:foo]</code>, you get an <code>ArgumentError</code>. This is only checked within relevant scope, so you can still use the same option names between commands, and you can still have the same option name once in global and once in command scope.  This is really a bugfix as the behavior of GLI was not clear before.
 
 === 1.1.3 - 10/24/2010
 
