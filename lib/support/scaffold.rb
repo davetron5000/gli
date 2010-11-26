@@ -185,7 +185,7 @@ command :#{command} do |c|
 
   c.desc 'Describe a flag to #{command}'
   c.default_value 'default'
-  c.flag :s
+  c.flag :f
   c.action do |global_options,options,args|
 
     # Your command logic here
