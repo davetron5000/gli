@@ -19,7 +19,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: Sun Nov 21 09:59:04 -0500 2010</li>
+            <li>Last modified: Fri Nov 26 14:47:08 -0500 2010</li>
         </ul>
     </div>
 
@@ -109,28 +109,38 @@ This example demonstrates most of the features of <a
 href="../classes/GLI.html">GLI</a>.
 </p>
 <p>
-This sets you up to use the DSL that <a href="../classes/GLI.html">GLI</a>
-defines:
+The following sets you up to use the DSL that <a
+href="../classes/GLI.html">GLI</a> defines:
 </p>
 <pre>
     #!/usr/bin/ruby
     $: &lt;&lt; File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
     require 'gli'
+    require 'gli_version'
 
     include GLI
 </pre>
 <p>
-This sets a description of your program. This can be as long as you want.
+The following sets the version of your application for exposure in the
+default <tt>help</tt> subcommand (the VERSION constant was created by the
+scaffolding):
+</p>
+<pre>
+    version GLI::VERSION
+</pre>
+<p>
+The following sets a description of your program. This can be as long as
+you want.
 </p>
 <pre>
     program_description 'Support program for bootstrapping GLI-based programs'
 </pre>
 <p>
-This sets a config file for your program. The config file can be used to
-store default values for command line options and command-specific options
-on a per-user (or per-site) basis. The format is YAML-based. Using an
-absolute path will result in the configuraiton file being located there.
+The following sets a config file for your program. The config file can be
+used to store default values for command line options and command-specific
+options on a per-user (or per-site) basis. The format is YAML-based. Using
+an absolute path will result in the configuraiton file being located there.
 Without an absolute path, the file will be located relative to the current
 user&#8217;s home directory (which is what is being done here).
 </p>
@@ -138,8 +148,9 @@ user&#8217;s home directory (which is what is being done here).
     config_file '.glirc'
 </pre>
 <p>
-This describes a command line switch &#8220;-n&#8221; that is global to all
-commands and specified before the command name on the command line.
+The following describes a command line switch &#8220;-n&#8221; that is
+global to all commands and specified before the command name on the command
+line.
 </p>
 <pre>
     desc 'Dry run; don\'t change the disk'
@@ -188,7 +199,11 @@ actual code to execute when the command is chosen by the user. We define a
 block that will be given the global options (as a Hash), the
 command-specific options (as a Hash) and the command line arguments. The
 hashes keys are symbols based upon the switches and flags. For a switch or
-flag named &#8220;-r&#8221;, we would use <tt>:r</tt>.
+flag named &#8220;-r&#8221;, we would use <tt>:r</tt>. Note that if you
+gave multiple values for one flag, e.g. <tt>flag [:f,:force]</tt> then both
+<tt>:f</tt> and <tt>:force</tt> would be set to the same value; this lets
+you use more readable keynames in your code when parsing options, but still
+provide terse flags to the user.
 </p>
 <pre>
       c.action do |global_options,options,args|
@@ -200,7 +215,7 @@ flag named &#8220;-r&#8221;, we would use <tt>:r</tt>.
                                  options[:e],
                                  args[0],
                                  args[1..-1],
-                                 ooptions[:force],
+                                 options[:force],
                                  global_options[:n])
       end
     end
@@ -358,6 +373,38 @@ href="README_rdoc.html">README.rdoc</a></tt> already, you can simply add
 you generate and publish your rdoc (note that it will <b>not</b> show up on
 github).
 </p>
+<h2>Bash Completion</h2>
+<p>
+<em>Not available in current release yet</em>
+</p>
+<p>
+The <tt>help</tt> command takes an optional switch, <tt>-c</tt>, that will
+list all the commands (including aliases) in sorted order suitable for use
+in a bash completion script. When <tt>-c</tt> is specified, the argument
+can be a partial command, and <tt>help</tt> will only list the commands
+matching. Put this in your <tt>.bashrc</tt>:
+</p>
+<pre>
+    complete -F get_myapp_targets myapp
+    function get_myapp_targets()
+    {
+        if [ -z $2 ] ; then
+            COMPREPLY=(`myapp help -c`)
+        else
+            COMPREPLY=(`myapp help -c $2`)
+        fi
+    }
+</pre>
+<p>
+Now, suppose your app takes the commands <tt>list</tt>, <tt>ls</tt>,
+<tt>rm</tt>, <tt>add</tt>, and <tt>init</tt>:
+</p>
+<pre>
+    &gt; myapp &lt;TAB&gt;
+    add init list ls rm
+    &gt; myapp l&lt;TAB&gt;
+    list ls
+</pre>
 <h2>Reference</h2>
 <dl>
 <dt><tt>action</tt></dt><dd>Specify the action to take when a command is executed from the command
@@ -385,8 +432,8 @@ will be used. Declaring this creates a special <tt>initconfig</tt> command
 that can bootstrap this configuration file for your users.
 
 </dd>
-<dt><tt>command</tt></dt><dd>Declare a command. This takes a symbol or array of symbols and a block. The
-block yields one argument, the command itself.
+<dt><tt>command</tt></dt><dd>Declare a command. This takes a symbol, String or array of symbols/Strings
+and a block. The block yields one argument, the command itself.
 
 </dd>
 <dt><tt>default_value</tt></dt><dd>Indicate the default value of the next flag. This can be used at the global
@@ -400,10 +447,10 @@ used at the global level or inside a command block on the command object
 
 </dd>
 <dt><tt>flag</tt></dt><dd>Declare a flag, which is a command line switch that takes an argument. This
-takes either a symbol or an array of symbols. The first symbol decared is
-used in your program to determine the flag&#8217;s value at runtime. This
-can be used at the global level or inside a command block on the command
-object (e.g. <tt>c.flag</tt>)
+takes either a symbol, String, or an array of symbols/Strings. The first
+symbol decared is used in your program to determine the flag&#8217;s value
+at runtime. This can be used at the global level or inside a command block
+on the command object (e.g. <tt>c.flag</tt>)
 
 </dd>
 <dt><tt>long_desc</tt></dt><dd>Provide a more lengthy description of the next flag, switch, or command you
@@ -441,10 +488,15 @@ stop.
 </dd>
 <dt><tt>switch</tt></dt><dd>Declare a switch, which is a command-line switch taking no argument that
 indicates a boolean &#8220;true&#8221; when specified on the command line.
-This takes either a symbol or array of symbols. The first symbol declared
-is used in your program to determine if the switch was set. This can be
-used at the global level or inside a command block on the command object
-(e.g. <tt>c.switch</tt>)
+This takes either a symbol, String or array of symbols/Strings. The first
+symbol declared is used in your program to determine if the switch was set.
+This can be used at the global level or inside a command block on the
+command object (e.g. <tt>c.switch</tt>)
+
+</dd>
+<dt><tt>version</tt></dt><dd>Indicate the verison of your application/library. This is used by the
+default <tt>help</tt> command to allow users to see the version of your
+application.
 
 </dd>
 </dl>
@@ -558,6 +610,20 @@ be created
 <p>
 Shows list of commands or help for one command
 </p>
+<p>
+Gets help for the application or its commands. Can also list the commands
+in a way helpful to creating a bash-style completion function
+</p>
+<h4><a href="../classes/Options.html">Options</a></h4>
+<p>
+These options are specified <b>after</b> the command.
+</p>
+<dl>
+<dt><tt>-c, --completion</tt></dt><dd>List all commands one line at a time, for use with shell completion
+([command] argument is partial command to match)
+
+</dd>
+</dl>
 <h3><tt>init project_name [command[ command]*]</tt></h3>
 <p>
 Create a new GLI-based project
@@ -592,6 +658,38 @@ These options are specified <b>after</b> the command.
 </dd>
 </dl>
 <h2>Changelog</h2>
+<h3>1.2.0 - 11/26/2010</h3>
+<ul>
+<li>Added ability to use <tt>help</tt> command to list commands suitable for
+creating bash completion script
+
+</li>
+<li><tt>options</tt> and <tt>global_options</tt> will now contain values for
+all aliases of each flag and switch, so if you created a flag with <tt>flag
+[:f,:flag]</tt> and the user specifies <tt>-f foo</tt> on the command line,
+both <tt>options[:f]</tt> and <tt>options[:flag]</tt> will have the value
+<tt>foo</tt>. Same behavior for <tt>--flag=foo</tt>.
+
+</li>
+<li>You may now no-longer use names that have already been used. So if you
+declare a switch <tt>switch :foo</tt> and then later declare a flag
+<tt>flag [:f,:foo]</tt>, you get an <tt>ArgumentError</tt>. This is only
+checked within relevant scope, so you can still use the same option names
+between commands, and you can still have the same option name once in
+global and once in command scope. This is really a bugfix as the behavior
+of <a href="../classes/GLI.html">GLI</a> was not clear before.
+
+</li>
+<li><tt>long_desc</tt> now shows up in generated rdoc for flags and switches
+
+</li>
+<li>Scaffoling now generates a usable <tt>Gemfile</tt> for bundler
+
+</li>
+<li>More direct support for version numbers in GLI-managed apps
+
+</li>
+</ul>
 <h3>1.1.3 - 10/24/2010</h3>
 <ul>
 <li>Changed the way we locate <tt><em>FILE</em></tt>&#8217;s directory; if

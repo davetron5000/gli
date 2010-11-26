@@ -49,7 +49,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000069">execute</a></li>
+                <li><a href="#M000075">execute</a></li>
                 
             </ul>
         </dd>
@@ -58,7 +58,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000068">new</a></li>
+                <li><a href="#M000074">new</a></li>
                 
             </ul>
         </dd>
@@ -67,7 +67,7 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000072">output_flags</a></li>
+                <li><a href="#M000078">output_flags</a></li>
                 
             </ul>
         </dd>
@@ -89,9 +89,9 @@
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000068">
+                <div class="title" id="M000074">
                     
-                    <a name="M000068"></a><b>new</b>()
+                    <a name="M000074"></a><b>new</b>()
                     
                 </div>
                 
@@ -100,12 +100,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000068_source')" id="l_M000068_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000074_source')" id="l_M000074_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b1c7998a9b68e778104cb2ca12f31cd0fb354678/lib/support/rdoc.rb#L7" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/d8b22e05f4f9fdd0165c2e84d414187fd857a751/lib/support/rdoc.rb#L7" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000068_source" class="dyn-source">
+                    <div id="M000074_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 7</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>
       <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">:rdoc</span>,<span class="ruby-value str">'Generates RDoc for your command line interface'</span>)
@@ -118,9 +118,9 @@
             <div class="sectiontitle">Instance Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000069">
+                <div class="title" id="M000075">
                     
-                    <a name="M000069"></a><b>execute</b>(g,o,a)
+                    <a name="M000075"></a><b>execute</b>(g,o,a)
                     
                 </div>
                 
@@ -129,12 +129,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000069_source')" id="l_M000069_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000075_source')" id="l_M000075_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b1c7998a9b68e778104cb2ca12f31cd0fb354678/lib/support/rdoc.rb#L11" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/d8b22e05f4f9fdd0165c2e84d414187fd857a751/lib/support/rdoc.rb#L11" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000069_source" class="dyn-source">
+                    <div id="M000075_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 11</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">execute</span>(<span class="ruby-identifier">g</span>,<span class="ruby-identifier">o</span>,<span class="ruby-identifier">a</span>)
       <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-node">&quot;#{GLI.program_name}.rdoc&quot;</span>,<span class="ruby-value str">'w'</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">file</span><span class="ruby-operator">|</span>
@@ -177,8 +177,8 @@
             <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
           <span class="ruby-keyword kw">end</span>
           <span class="ruby-identifier">all_options</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">switches</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">command</span>.<span class="ruby-identifier">flags</span>)
+          <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{command.long_description}\n\n&quot;</span> <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">command</span>.<span class="ruby-identifier">long_description</span>
           <span class="ruby-keyword kw">if</span> (<span class="ruby-identifier">all_options</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">all_options</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>)
-            <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{command.long_description}\n\n&quot;</span>
             <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;==== Options\n&quot;</span>
             <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;These options are specified *after* the command.\n\n&quot;</span>
             <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">all_options</span>)
@@ -192,9 +192,9 @@
             </div>
             
             <div class="method">
-                <div class="title" id="M000072">
+                <div class="title" id="M000078">
                     
-                    <a name="M000072"></a><b>output_flags</b>(file,flags)
+                    <a name="M000078"></a><b>output_flags</b>(file,flags)
                     
                 </div>
                 
@@ -203,12 +203,12 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000072_source')" id="l_M000072_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000078_source')" id="l_M000078_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/b1c7998a9b68e778104cb2ca12f31cd0fb354678/lib/support/rdoc.rb#L62" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/d8b22e05f4f9fdd0165c2e84d414187fd857a751/lib/support/rdoc.rb#L62" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000072_source" class="dyn-source">
+                    <div id="M000078_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/support/rdoc.rb, line 62</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">output_flags</span>(<span class="ruby-identifier">file</span>,<span class="ruby-identifier">flags</span>)
       <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">values</span>.<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">flag</span><span class="ruby-operator">|</span>
@@ -219,7 +219,7 @@
         <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
         <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">flag</span>.<span class="ruby-identifier">long_description</span>
           <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot;\n&quot;</span>
-          <span class="ruby-comment cmt"># 12 is 4 for tt, 5 for /tt, 2 for the brackets and 1 for spacing</span>
+          <span class="ruby-comment cmt"># 12 is: 4 for tt, 5 for /tt, 2 for the brackets and 1 for spacing</span>
           (<span class="ruby-identifier">flag</span>.<span class="ruby-identifier">usage</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">+</span> <span class="ruby-value">12</span>).<span class="ruby-identifier">times</span> { <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-value str">&quot; &quot;</span> }
           <span class="ruby-identifier">file</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;#{flag.long_description}\n\n&quot;</span>
         <span class="ruby-keyword kw">end</span>
