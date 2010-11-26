@@ -98,7 +98,9 @@ Next, while we are still inside the <tt>command</tt> block,
 we specify the actual code to execute when the command is chosen by the user.  We define a block that
 will be given the global options (as a Hash), the command-specific options (as a Hash) and the command
 line arguments.  The hashes keys are symbols based upon the switches and flags.  For a switch or
-flag named "-r", we would use <tt>:r</tt>.
+flag named "-r", we would use <tt>:r</tt>.  Note that if you gave multiple values for one flag, e.g. <tt>flag [:f,:force]</tt>
+then both <tt>:f</tt> and <tt>:force</tt> would be set to the same value; this lets you use more readable 
+keynames in your code when parsing options, but still provide terse flags to the user.
 
       c.action do |global_options,options,args|
         if args.length < 1
@@ -109,7 +111,7 @@ flag named "-r", we would use <tt>:r</tt>.
                                  options[:e],
                                  args[0],
                                  args[1..-1],
-                                 ooptions[:force],
+                                 options[:force],
                                  global_options[:n])
       end
     end

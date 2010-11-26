@@ -169,6 +169,33 @@ class TC_testGLI < Test::Unit::TestCase
     do_test_switch_create_twice(Command.new(:f,'Some command'))
   end
 
+  def test_all_aliases_in_options
+    GLI.reset
+    GLI.on_error { |ex| raise ex }
+    GLI.flag [:f,:flag,:'big-flag-name']
+    GLI.switch [:s,:switch,:'big-switch-name']
+    GLI.command [:com,:command] do |c|
+      c.flag [:g,:gflag]
+      c.switch [:h,:hswitch]
+      c.action do |global,options,args|
+        assert_equal 'foo',global[:f]
+        assert_equal global[:f],global[:flag]
+        assert_equal global[:f],global[:'big-flag-name']
+
+        assert global[:s]
+        assert global[:switch]
+        assert global[:'big-switch-name']
+
+        assert_equal 'bar',options[:g]
+        assert_equal options[:g],options[:gflag]
+
+        assert options[:h]
+        assert options[:hswitch]
+      end
+    end
+    GLI.run(%w(-f foo -s command -g bar -h some_arg))
+  end
+
   def do_test_switch_create_twice(object)
     description = 'this is a description'
     object.desc description

@@ -111,6 +111,7 @@ module GLI
     begin
       config = parse_config
       global_options,command,options,arguments = parse_options(args,config)
+      copy_options_to_aliased_versions(global_options,command,options)
       proceed = true
       proceed = @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
       if proceed
@@ -124,6 +125,33 @@ module GLI
 
       if regular_error_handling
         puts "error: #{ex.message}"
+      end
+    end
+  end
+
+  # Copies all options in both global_options and options to keys for the aliases of those flags.
+  # For example, if a flag works with either -f or --flag, this will copy the value from [:f] to [:flag]
+  # to allow the user to access the options by any alias
+  def copy_options_to_aliased_versions(global_options,command,options)
+    copy_options_to_aliases(global_options,self)
+    copy_options_to_aliases(options,command)
+  end
+
+  # For each option in options, copies its value to keys for the aliases of the flags or
+  # switches in gli_like
+  #
+  # options - Hash of options parsed from command line; this is an I/O param
+  # gli_like - Object resonding to flags and switches in the same way that GLI or a Command instance do
+  def copy_options_to_aliases(options,gli_like)
+    options.each do |key,value|
+      if gli_like.flags[key] && gli_like.flags[key].aliases
+        gli_like.flags[key].aliases.each do |alias_name|
+          options[alias_name] = value
+        end
+      elsif gli_like.switches[key] && gli_like.switches[key].aliases
+        gli_like.switches[key].aliases.each do |alias_name|
+          options[alias_name] = value
+        end
       end
     end
   end
