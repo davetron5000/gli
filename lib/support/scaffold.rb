@@ -125,10 +125,18 @@ class TC_testNothing < Test::Unit::TestCase
 end
 EOS
           end
+          puts "Created #{root_dir}/#{project_name}/test/tc_nothing.rb"
         else
           file.puts "task :default => :package\n"
         end
       end
+      puts "Created #{root_dir}/#{project_name}/Rakefile"
+      File.open("#{root_dir}/#{project_name}/Gemfile",'w') do |bundler_file|
+        bundler_file.puts "source :rubygems"
+        bundler_file.puts "gem: 'rake'"
+        bundler_file.puts "gem: 'rdoc'"
+      end
+      puts "Created #{root_dir}/#{project_name}/Gemfile"
     end
 
     def self.mk_binfile(root_dir,create_ext_dir,force,dry_run,project_name,commands)
