@@ -211,8 +211,6 @@ be included when you generate and publish your rdoc (note that it will *not* sho
 
 == Bash Completion
 
-<i>Not available in current release yet</i>
-
 The +help+ command takes an optional switch, +-c+, that will list all the commands (including aliases) in sorted order suitable for use in a bash completion script.  When +-c+ is specified, the argument can be a partial command, and +help+ will only list the commands matching.  Put this in your +.bashrc+:
 
     complete -F get_myapp_targets myapp
