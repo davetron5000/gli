@@ -46,14 +46,18 @@ module GLI
 
   # Create a flag, which is a switch that takes an argument
   def flag(*names)
-    flag = Flag.new([names].flatten,@@next_desc,@@next_arg_name,@@next_default_value,@@next_long_desc)
+    names = [names].flatten
+    verify_unused(names,flags,switches,"in global options")
+    flag = Flag.new(names,@@next_desc,@@next_arg_name,@@next_default_value,@@next_long_desc)
     flags[flag.name] = flag
     clear_nexts
   end
 
   # Create a switch
   def switch(*names)
-    switch = Switch.new([names].flatten,@@next_desc,@@next_long_desc)
+    names = [names].flatten
+    verify_unused(names,flags,switches,"in global options")
+    switch = Switch.new(names,@@next_desc,@@next_long_desc)
     switches[switch.name] = switch
     clear_nexts
   end
@@ -348,4 +352,22 @@ module GLI
     nil
   end
 
+  # Checks that the names passed in have not been used in another flag or option
+  def verify_unused(names,flags,switches,context)
+    names.each do |name|
+      verify_unused_in_option(name,flags,"flag",context)
+      verify_unused_in_option(name,switches,"switch",context)
+    end
+  end
+
+  private
+
+  def verify_unused_in_option(name,option_like,type,context)
+    raise ArgumentError.new("#{name} has already been specified as a #{type} #{context}") if option_like[name]
+    option_like.each do |one_option_name,one_option|
+      if one_option.aliases
+        raise ArgumentError.new("#{name} has already been specified as an alias of #{type} #{one_option_name} #{context}") if one_option.aliases.include? name
+      end
+    end
+  end
 end

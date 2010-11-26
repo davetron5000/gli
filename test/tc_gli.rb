@@ -208,6 +208,37 @@ class TC_testGLI < Test::Unit::TestCase
     assert(object.usage != nil) if object.respond_to? :usage;
   end
 
+  def test_repeated_option_names
+    GLI.reset
+    GLI.on_error { |ex| raise ex }
+    GLI.flag [:f,:flag]
+    assert_raises(ArgumentError) { GLI.switch [:foo,:flag] }
+    assert_raises(ArgumentError) { GLI.switch [:f] }
+
+    GLI.switch [:x,:y]
+    assert_raises(ArgumentError) { GLI.flag [:x] }
+    assert_raises(ArgumentError) { GLI.flag [:y] }
+  end
+
+  def test_repeated_option_names_on_command
+    GLI.reset
+    GLI.on_error { |ex| raise ex }
+    GLI.command :command do |c|
+      c.flag [:f,:flag]
+      assert_raises(ArgumentError) { c.switch [:foo,:flag] }
+      assert_raises(ArgumentError) { c.switch [:f] }
+      assert_raises(ArgumentError) { c.flag [:foo,:flag] }
+      assert_raises(ArgumentError) { c.flag [:f] }
+    end
+    GLI.command :command3 do |c|
+      c.switch [:s,:switch]
+      assert_raises(ArgumentError) { c.switch [:switch] }
+      assert_raises(ArgumentError) { c.switch [:s] }
+      assert_raises(ArgumentError) { c.flag [:switch] }
+      assert_raises(ArgumentError) { c.flag [:s] }
+    end
+  end
+
   def test_two_flags
     GLI.reset
     GLI.on_error do |ex|

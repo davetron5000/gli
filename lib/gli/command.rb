@@ -41,14 +41,18 @@ module GLI
     def default_value(val); @next_default_value = val; end
 
     def flag(*names)
-      flag = Flag.new([names].flatten,@next_desc,@next_arg_name,@next_default_value)
+      names = [names].flatten
+      GLI.verify_unused(names,flags,switches,"in command #{name}")
+      flag = Flag.new(names,@next_desc,@next_arg_name,@next_default_value)
       flags[flag.name] = flag
       clear_nexts
     end
 
     # Create a switch
     def switch(*names)
-      switch = Switch.new([names].flatten,@next_desc)
+      names = [names].flatten
+      GLI.verify_unused(names,flags,switches,"in command #{name}")
+      switch = Switch.new(names,@next_desc)
       switches[switch.name] = switch
       clear_nexts
     end
