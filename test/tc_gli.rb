@@ -202,6 +202,33 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.run(%w(-f foo -s command -g bar -h some_arg))
   end
 
+  def test_use_hash_by_default
+    GLI.reset
+    GLI.switch :g
+    GLI.command :command do |c|
+      c.switch :f
+      c.action do |global,options,args|
+        assert_equal Hash,global.class
+        assert_equal Hash,options.class
+      end
+    end
+    GLI.run(%w(-g command -f))
+  end
+
+  def test_use_openstruct
+    GLI.reset
+    GLI.switch :g
+    GLI.use_openstruct true
+    GLI.command :command do |c|
+      c.switch :f
+      c.action do |global,options,args|
+        assert_equal GLI::Options,global.class
+        assert_equal GLI::Options,options.class
+      end
+    end
+    GLI.run(%w(-g command -f))
+  end
+
   def do_test_switch_create_twice(object)
     description = 'this is a description'
     object.desc description

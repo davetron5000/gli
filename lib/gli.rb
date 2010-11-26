@@ -20,6 +20,8 @@ module GLI
   @@pre_block = nil
   @@error_block = nil
   @@config_file = nil
+  @@use_openstruct = false
+  @@version = nil
 
   # Reset the GLI module internal data structures; mostly for testing
   def reset
@@ -28,6 +30,7 @@ module GLI
     commands.clear
     @@version = nil
     @@config_file = nil
+    @@use_openstruct = false
     clear_nexts
   end
 
@@ -113,6 +116,14 @@ module GLI
     @@version = version
   end
 
+  # Call this with "true" will cause the <tt>global_options</tt> and
+  # <tt>options</tt> passed to your code to be wrapped in
+  # GLI::Option, which is a subclass of OpenStruct that adds
+  # <tt>[]</tt> and <tt>[]=</tt> methods.
+  def use_openstruct(use_openstruct)
+    @@use_openstruct = use_openstruct
+  end
+
   # Runs whatever command is needed based on the arguments.
   def run(args)
     rdoc = RDocCommand.new
@@ -123,6 +134,8 @@ module GLI
       global_options,command,options,arguments = parse_options(args,config)
       copy_options_to_aliased_versions(global_options,command,options)
       proceed = true
+      global_options = convert_to_option?(global_options)
+      options = convert_to_option?(options)
       proceed = @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
       if proceed
         command = commands[:help] if !command
@@ -137,6 +150,13 @@ module GLI
         $stderr.puts "error: #{ex.message}"
       end
     end
+  end
+
+  # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
+  # By default, it will *not*, however by putting <tt>use_openstruct true</tt>
+  # in your CLI definition, it will
+  def convert_to_option?(options)
+    @@use_openstruct ? Options.new(options) : options
   end
 
   # Copies all options in both global_options and options to keys for the aliases of those flags.
@@ -197,7 +217,7 @@ module GLI
     else
       command_configs = config.delete(GLI::InitConfig::COMMANDS_KEY) if !config.nil?
     end
-    global_options,command,options,arguments = parse_options_helper(args.clone,config,nil,Options.new,Array.new,command_configs)
+    global_options,command,options,arguments = parse_options_helper(args.clone,config,nil,Hash.new,Array.new,command_configs)
     flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
     command.flags.each { |name,flag| options[name] = flag.default_value if !options[name] }
     return [global_options,command,options,arguments]

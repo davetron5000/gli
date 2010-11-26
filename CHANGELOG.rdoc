@@ -1,4 +1,7 @@
 == Changelog
+=== 1.2.1 - 11/26/2010
+
+* Changed default data structure of options *back* to a <tt>Hash</tt>.  If you want to use the <tt>OpenStruct</tt> subclass <tt>Options</tt>, simply put <tt>use_openstruct true</tt> in your command line definition.
 
 === 1.2.0 - 11/26/2010
 
