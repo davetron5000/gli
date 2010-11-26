@@ -19,7 +19,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: Fri Nov 26 15:11:56 -0500 2010</li>
+            <li>Last modified: Fri Nov 26 17:12:57 -0500 2010</li>
         </ul>
     </div>
 
@@ -85,6 +85,10 @@ your tests
 
 </li>
 <li>Rakefile that can generate RDoc, package your Gem and run tests
+
+</li>
+<li>A <tt>Gemfile</tt> suitable for use with Bundler to manage development-time
+dependencies
 
 </li>
 </ul>
@@ -570,7 +574,7 @@ arguments have dashes in them
 
 </li>
 </ul>
-<h2>Global <a href="../classes/Options.html">Options</a></h2>
+<h2>Global Options</h2>
 <p>
 These options are available for any command and are specified before the
 name of the command
@@ -611,7 +615,7 @@ Shows list of commands or help for one command
 Gets help for the application or its commands. Can also list the commands
 in a way helpful to creating a bash-style completion function
 </p>
-<h4><a href="../classes/Options.html">Options</a></h4>
+<h4>Options</h4>
 <p>
 These options are specified <b>after</b> the command.
 </p>
@@ -639,7 +643,7 @@ href="../classes/GLI.html">GLI</a> for command line processing.
 Specifically, this will create an executable ready to go, as well as a lib
 and test directory, all inside the directory named for your project
 </p>
-<h4><a href="../classes/Options.html">Options</a></h4>
+<h4>Options</h4>
 <p>
 These options are specified <b>after</b> the command.
 </p>
@@ -655,6 +659,14 @@ These options are specified <b>after</b> the command.
 </dd>
 </dl>
 <h2>Changelog</h2>
+<h3>1.2.1 - 11/26/2010</h3>
+<ul>
+<li>Changed default data structure of options <b>back</b> to a <tt>Hash</tt>.
+If you want to use the <tt>OpenStruct</tt> subclass <tt>Options</tt>,
+simply put <tt>use_openstruct true</tt> in your command line definition.
+
+</li>
+</ul>
 <h3>1.2.0 - 11/26/2010</h3>
 <ul>
 <li>Added ability to use <tt>help</tt> command to list commands suitable for
