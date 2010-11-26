@@ -26,6 +26,7 @@ This will create a basic scaffold project in <tt>./my_proj</tt> with:
 * a gemspec shell
 * a README shell
 * Rakefile that can generate RDoc, package your Gem and run tests
+* A <tt>Gemfile</tt> suitable for use with Bundler to manage development-time dependencies
 
 == Supported Platforms
 
