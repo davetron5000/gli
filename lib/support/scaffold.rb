@@ -26,10 +26,12 @@ module GLI
         file << "Describe your project here\n\n"
         file << ":include:#{project_name}.rdoc\n\n"
       end
+      puts "Created #{root_dir}/#{project_name}/README.rdoc"
       File.open("#{root_dir}/#{project_name}/#{project_name}.rdoc",'w') do |file|
         file << "= #{project_name}\n\n"
         file << "Generate this with\n    #{project_name} rdoc\nAfter you have described your command line interface"
       end
+      puts "Created #{root_dir}/#{project_name}/#{project_name}.rdoc"
     end
 
     def self.mk_gemspec(root_dir,dry_run,project_name)
@@ -59,10 +61,11 @@ bin/#{project_name}
 end
 EOS
       end
+      puts "Created #{root_dir}/#{project_name}/#{project_name}.gemspec"
     end
 
     def self.project_name_as_module_name(project_name)
-      project_name.split(/_/).map { |part| puts part.class; part[0..0].upcase + part[1..-1] }.join('')
+      project_name.split(/_/).map { |part| part[0..0].upcase + part[1..-1] }.join('')
     end
 
     def self.mk_version(root_dir,dry_run,project_name)
@@ -74,6 +77,7 @@ module #{project_name_as_module_name(project_name)}
 end
 EOS
       end
+      puts "Created #{root_dir}/#{project_name}/lib/#{project_name}_version.rb"
     end
     def self.mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
       return if dry_run
