@@ -156,6 +156,8 @@ module GLI
         $stderr.puts "error: #{ex.message}"
       end
 
+      raise ex if ENV['GLI_DEBUG'] == 'true'
+
       case ex
       when BadCommandLine: 
         -1

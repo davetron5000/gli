@@ -19,10 +19,12 @@ class TC_testGLI < Test::Unit::TestCase
 
   def setup
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
+    @gli_debug = ENV['GLI_DEBUG']
   end
 
   def teardown
     File.delete(@config_file) if File.exist?(@config_file)
+    ENV['GLI_DEBUG'] = @gli_debug
   end
 
   def test_flag_create
@@ -365,6 +367,19 @@ class TC_testGLI < Test::Unit::TestCase
     assert_equal 45,GLI.run(['foo'])
   end
 
+  def test_gli_debug_overrides_error_hiding
+    ENV['GLI_DEBUG'] = 'true'
+
+    GLI.reset
+    GLI.on_error { true }
+    GLI.command(:foo) do |c|
+      c.action do |g,o,a|
+        exit_now!("Problem",45)
+      end
+    end
+
+    assert_raises(CustomExit) { GLI.run(['foo']) }
+  end
 
   private
 
@@ -373,6 +388,5 @@ class TC_testGLI < Test::Unit::TestCase
     File.open(filename) { |file| file.readlines.each { |line| contents += line }}
     contents
   end
-
 
 end
