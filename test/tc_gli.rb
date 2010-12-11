@@ -340,8 +340,31 @@ class TC_testGLI < Test::Unit::TestCase
         raise "Problem"
       end
     end
-    assert_equal -2,GLI.run('foo')
+    assert_equal -2,GLI.run(['foo'])
   end
+
+  def test_exits_nonzero_with_custom_exception
+    GLI.reset
+    GLI.on_error { true }
+    GLI.command(:foo) do |c|
+      c.action do |g,o,a|
+        raise CustomExit.new("Problem",45)
+      end
+    end
+    assert_equal 45,GLI.run(['foo'])
+  end
+
+  def test_exits_nonzero_with_exit_method
+    GLI.reset
+    GLI.on_error { true }
+    GLI.command(:foo) do |c|
+      c.action do |g,o,a|
+        exit_now!("Problem",45)
+      end
+    end
+    assert_equal 45,GLI.run(['foo'])
+  end
+
 
   private
 

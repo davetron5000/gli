@@ -159,10 +159,19 @@ module GLI
       case ex
       when BadCommandLine: 
         -1
+      when CustomExit:
+        ex.exit_code
       else 
         -2
       end
     end
+  end
+
+  # Simpler means of exiting with a custom exit code.  This will 
+  # raise a CustomExit with the given message and exit code, which will ultimatley
+  # cause your application to exit with the given exit_code as its exit status
+  def exit_now!(message,exit_code)
+    raise CustomExit.new(message,exit_code)
   end
 
   # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
