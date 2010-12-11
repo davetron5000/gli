@@ -13,7 +13,7 @@ This is a DSL you can use to create a command line interface like git, gem or sv
 
 Install if you need to:
 
-    sudo gem install gli
+    gem install gli
 
 The simplest way to get started is to create a scaffold project
 
@@ -46,5 +46,6 @@ Extensive documentation is {available at the wiki}[https://github.com/davetron50
 * [http://davetron5000.github.com/gli] - RubyDoc
 * [http://www.github.com/davetron5000/gli] - Source on GitHub
 * [http://www.github.com/davetron5000/gli/wiki] - Documentation Wiki
+* [http://www.github.com/davetron5000/gli/wiki/Changelog] - Changelog
 
 :include:gli.rdoc
