@@ -18,6 +18,10 @@ class TC_testTerminal < Test::Unit::TestCase
     Terminal.default_size = [80,24]
   end
 
+  def test_shared_instance_is_same
+    assert_equal Terminal.instance,Terminal.instance
+  end
+
   def test_size_based_on_columns
     ENV['COLUMNS'] = '666'
     ENV['LINES'] = '777'

@@ -1,5 +1,12 @@
 module GLI
   # Class to encapsulate stuff about the terminal.  This is a singleton, mostly to facilitate testing.
+  #
+  # Example:
+  #
+  #     Terminal.instance.size[0] # => columns in the terminal
+  #     Terminal.default_size = [128,24] # => change default when we can't figure it out
+  #     raise "no ls?!?!?" unless Terminal.instance.command_exists?("ls")
+  #
   class Terminal
 
     @@default_size = [80,24]
@@ -18,12 +25,11 @@ module GLI
       @@default_size = size
     end
 
-    @@instance = Terminal.new
     # Provide access to the shared instance
-    def self.instance; @@instance; end
+    def self.instance; @@instance ||= Terminal.new; end
 
-    @unsafe = false
-
+    # Call this to cause methods to throw exceptions rather than return a sane default.  You
+    # probably don't want to call this unless you are writing tests
     def make_unsafe!;
       @unsafe = true
     end
@@ -51,6 +57,8 @@ module GLI
       raise ex if @unsafe
       Terminal.default_size
     end
+
+    private
 
     # Runs a command using backticks.  Extracted to allow for testing
     def run_command(command)
