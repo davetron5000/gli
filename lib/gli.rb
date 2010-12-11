@@ -3,6 +3,7 @@ require 'gli/command.rb'
 require 'gli/switch.rb'
 require 'gli/flag.rb'
 require 'gli/options.rb'
+require 'gli/exceptions.rb'
 require 'gli_version.rb'
 require 'support/help.rb'
 require 'support/rdoc.rb'
@@ -124,7 +125,11 @@ module GLI
     @@use_openstruct = use_openstruct
   end
 
-  # Runs whatever command is needed based on the arguments.
+  # Runs whatever command is needed based on the arguments. 
+  #
+  # args - the command line ARGV array
+  #
+  # Returns a number that would be a reasonable exit code
   def run(args)
     rdoc = RDocCommand.new
     commands[:rdoc] = rdoc if !commands[:rdoc]
@@ -142,12 +147,20 @@ module GLI
         command.execute(global_options,options,arguments)
         @@post_block.call(global_options,command,options,arguments) if @@post_block 
       end
+      0
     rescue Exception => ex
       regular_error_handling = true
       regular_error_handling = @@error_block.call(ex) if @@error_block
 
       if regular_error_handling
         $stderr.puts "error: #{ex.message}"
+      end
+
+      case ex
+      when BadCommandLine: 
+        -1
+      else 
+        -2
       end
     end
   end
@@ -278,7 +291,7 @@ module GLI
       if !command
         command_name = args.shift
         command = find_command(command_name)
-        raise "Unknown command '#{command_name}'" if !command
+        raise BadCommandLine.new("Unknown command '#{command_name}'") if !command
         return parse_options_helper(args,
                                     global_options,
                                     command,
@@ -344,16 +357,16 @@ module GLI
             try_me.delete arg
             break 
           end
-          raise "Unknown argument #{arg}" if arg =~ /^\-/ 
+          raise BadCommandLine.new("Unknown argument #{arg}") if arg =~ /^\-/ 
         end
         return [global_options,command,command_options,try_me + rest]
       else
         # Now we have our command name
         command_name = try_me.shift
-        raise "Unknown argument #{command_name}" if command_name =~ /^\-/
+        raise BadCommandLine.new("Unknown argument #{command_name}") if command_name =~ /^\-/
 
         command = find_command(command_name)
-        raise "Unknown command '#{command_name}'" if !command
+        raise BadCommandLine.new("Unknown command '#{command_name}'") if !command
 
         return parse_options_helper(rest,
                                     global_options,

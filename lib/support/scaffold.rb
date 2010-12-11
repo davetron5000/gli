@@ -236,7 +236,7 @@ on_error do |exception|
   true
 end
 
-GLI.run(ARGV)
+exit GLI.run(ARGV)
 EOS
             puts "Created #{bin_file}"
           end

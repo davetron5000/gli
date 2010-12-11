@@ -74,7 +74,7 @@ class TC_testParsing < Test::Unit::TestCase
       c.flag :v
     end
     argv = %w(-x doit)
-    assert_raises(RuntimeError) do 
+    assert_raises(BadCommandLine) do 
       global_options,command,command_options,arguments = GLI.parse_options(argv)
     end
   end
@@ -88,7 +88,7 @@ class TC_testParsing < Test::Unit::TestCase
       c.flag :v
     end
     argv = %w(doit -x)
-    assert_raises(RuntimeError) do 
+    assert_raises(BadCommandLine) do 
       global_options,command,command_options,arguments = GLI.parse_options(argv)
     end
   end

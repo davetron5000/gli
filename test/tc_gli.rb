@@ -322,6 +322,26 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.run(['foo', '-i=5','-s=a'])
   end
 
+  def test_exits_zero_on_success
+    assert_equal 0,GLI.run([])
+  end
+
+  def test_exits_nonzero_on_bad_command_line
+    GLI.reset
+    GLI.on_error { true }
+    assert_equal -1,GLI.run(['asdfasdfasdf'])
+  end
+
+  def test_exists_nonzero_on_raise_from_command
+    GLI.reset
+    GLI.on_error { true }
+    GLI.command(:foo) do |c|
+      c.action do |g,o,a|
+        raise "Problem"
+      end
+    end
+    assert_equal -2,GLI.run('foo')
+  end
 
   private
 
