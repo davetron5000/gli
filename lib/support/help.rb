@@ -1,5 +1,6 @@
 require 'gli'
 require 'gli/command'
+require 'gli/terminal'
 
 module GLI
   class DefaultHelpCommand < Command
@@ -119,7 +120,10 @@ module GLI
   # Wraps the line at the given column length, using the given line padding.
   # Assumes that the first line doesn't need the padding, as its filled
   # up with other stuff
-  def wrap(line,pad_length=0,line_length=80)
+  def wrap(line,pad_length=0,line_length=nil)
+    if line_length.nil?
+      line_length = Terminal.instance.size[0]
+    end
     line_padding = sprintf("%#{pad_length}s",'')
     words = line.split(/\s+/)
     return line if !words || words.empty?
