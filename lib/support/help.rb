@@ -25,7 +25,7 @@ module GLI
           memo << obj[1].aliases
           memo = memo.flatten
         end
-        names.map!(&:to_s)
+        names.map! { |name| name.to_s } 
         if arguments && arguments.size > 0
           names = names.select { |name| name =~ /^#{arguments[0]}/ }
         end

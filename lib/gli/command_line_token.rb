@@ -35,7 +35,7 @@ module GLI
     # it into the primary name and aliases list
     def parse_names(names)
       # Allow strings; convert to symbols
-      names = [names].flatten.map(&:to_sym)
+      names = [names].flatten.map { |name| name.to_sym } 
       names_hash = Hash.new
       names.each do |n| 
         raise ArgumentError.new("#{n} has spaces; they are not allowed") if n.to_s =~ /\s/
