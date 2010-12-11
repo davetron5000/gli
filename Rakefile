@@ -49,23 +49,24 @@ end
 desc "Generates the changelog from annotated tags"
 task :changelog do
   raise "You must check out gli.wiki to this directory first" unless File.exists? 'gli.wiki'
-  log = `git tag -n100`
   start = false
   version = nil
   message = nil
   changelog = {}
-  log.split(/\n/).each do |line|
+  `git tag -n100`.split(/\n/).each do |line|
+    # Don't have changelog prior to 1.1.3
     start = true if line =~ /v1.1.3/
     next unless start
     if line =~ /^v/
       changelog[version] = message unless version.nil?
       version,message = line.split(/\s+/,2)
     else
-      message += "\n" + line.strip
+      message << "\n"
+      message << line.strip
     end
   end
+  changelog[version] = message
   File.open('gli.wiki/Changelog.md','w') do |file|
-    changelog[version] = message
     changelog.keys.sort.reverse.each do |version|
       dates = `git show #{version} | grep ^Date`
       date_parts = dates.split(/\n/)[-1].split
