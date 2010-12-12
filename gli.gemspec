@@ -16,6 +16,7 @@ lib/gli/command_line_token.rb
 lib/gli/flag.rb
 lib/gli/switch.rb
 lib/gli/options.rb
+lib/gli/exceptions.rb
 lib/gli.rb
 lib/gli_version.rb
 lib/support/help.rb
