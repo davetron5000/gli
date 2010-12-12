@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>GLI::Terminal</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
+    <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>     
+    <div class="banner">
+        <h1>
+            <span class="type">Class</span> 
+            GLI::Terminal 
+            
+                <span class="parent">&lt; 
+                    
+                    Object
+                    
+                </span>
+            
+        </h1>
+        <ul class="files">
+            
+            <li><a href="../../files/lib/gli/terminal_rb.html">lib/gli/terminal.rb</a></li>
+            
+        </ul>
+    </div>
+    <div id="bodyContent">
+        <div id="content">
+    
+    <div class="description">
+        <p>
+Class to encapsulate stuff about the terminal. This is a singleton, mostly
+to facilitate testing.
+</p>
+<p>
+Example:
+</p>
+<pre>
+    Terminal.instance.size[0] # =&gt; columns in the terminal
+    Terminal.default_size = [128,24] # =&gt; change default when we can't figure it out
+    raise &quot;no ls?!?!?&quot; unless Terminal.instance.command_exists?(&quot;ls&quot;)
+</pre>
+
+    </div>
+    
+
+    
+
+    
+    
+
+    
+    
+    <div class="sectiontitle">Methods</div>
+    <dl class="methods">
+    
+        <dt>C</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000037">command_exists?</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>D</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000032">default_size</a>,</li>
+                
+                <li><a href="#M000033">default_size=</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>I</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000034">instance</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>M</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000035">make_unsafe!</a></li>
+                
+            </ul>
+        </dd>
+    
+        <dt>S</dt>
+        <dd>
+            <ul>
+                
+                <li><a href="#M000038">size</a></li>
+                
+            </ul>
+        </dd>
+    
+    </dl>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+            <div class="sectiontitle">Class Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000032">
+                    
+                    <a name="M000032"></a><b>default_size</b>()
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Get the default size of the terminal when we can&#8217;t figure it out
+</p>
+<p>
+Returns an array of int [cols,rows]
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000032_source')" id="l_M000032_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/48a5cce9219a07ec6673f4653a152d0433009ac1/lib/gli/terminal.rb#L17" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000032_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 17</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">default_size</span>
+      <span class="ruby-ivar">@@default_size</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000033">
+                    
+                    <a name="M000033"></a><b>default_size=</b>(size)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Set the default size of the terminal to use when we can&#8217;t figure it
+out
+</p>
+<p>
+size - array of two int [cols,rows]
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000033_source')" id="l_M000033_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/48a5cce9219a07ec6673f4653a152d0433009ac1/lib/gli/terminal.rb#L24" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000033_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 24</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">default_size=</span>(<span class="ruby-identifier">size</span>)
+      <span class="ruby-ivar">@@default_size</span> = <span class="ruby-identifier">size</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000034">
+                    
+                    <a name="M000034"></a><b>instance</b>()
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Provide access to the shared instance
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000034_source')" id="l_M000034_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/48a5cce9219a07ec6673f4653a152d0433009ac1/lib/gli/terminal.rb#L29" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000034_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 29</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">instance</span>; <span class="ruby-ivar">@@instance</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">new</span>; <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="sectiontitle">Instance Public methods</div>
+            
+            <div class="method">
+                <div class="title" id="M000037">
+                    
+                    <a name="M000037"></a><b>command_exists?</b>(command)
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Returns true if the given command exists on this system
+</p>
+<p>
+command - The command to check for
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000037_source')" id="l_M000037_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/48a5cce9219a07ec6673f4653a152d0433009ac1/lib/gli/terminal.rb#L40" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000037_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 40</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">command_exists?</span>(<span class="ruby-identifier">command</span>)
+      <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'PATH'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">PATH_SEPARATOR</span>).<span class="ruby-identifier">any?</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">d</span>, <span class="ruby-identifier">command</span>) }
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000035">
+                    
+                    <a name="M000035"></a><b>make_unsafe!</b>()
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Call this to cause methods to throw exceptions rather than return a sane
+default. You probably don&#8217;t want to call this unless you are writing
+tests
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000035_source')" id="l_M000035_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/48a5cce9219a07ec6673f4653a152d0433009ac1/lib/gli/terminal.rb#L33" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000035_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 33</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">make_unsafe!</span>;
+      <span class="ruby-ivar">@unsafe</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="method">
+                <div class="title" id="M000038">
+                    
+                    <a name="M000038"></a><b>size</b>()
+                    
+                </div>
+                
+                <div class="description">
+                  <p>
+Ripped from hirb <a
+href="https://github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb">github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb</a>
+Returns an array of size two ints representing the terminal width and
+height
+</p>
+
+                </div>
+                
+                
+                
+                
+                <div class="sourcecode">
+                    <p class="source-link">
+                        Source: <a href="javascript:toggleSource('M000038_source')" id="l_M000038_source">show</a>
+                        
+                        | <a href="http://github.com/davetron5000/gli/blob/48a5cce9219a07ec6673f4653a152d0433009ac1/lib/gli/terminal.rb#L46" target="_blank" class="github_url">on GitHub</a>
+                        
+                    </p>
+                    <div id="M000038_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 46</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>
+      <span class="ruby-keyword kw">if</span> (<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'COLUMNS'</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\d+$/</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'LINES'</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\d+$/</span>)
+        [<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'COLUMNS'</span>].<span class="ruby-identifier">to_i</span>, <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'LINES'</span>].<span class="ruby-identifier">to_i</span>]
+      <span class="ruby-keyword kw">elsif</span> (<span class="ruby-identifier">jruby?</span> <span class="ruby-operator">||</span> (<span class="ruby-operator">!</span><span class="ruby-constant">STDIN</span>.<span class="ruby-identifier">tty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'TERM'</span>])) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">command_exists?</span>(<span class="ruby-value str">'tput'</span>)
+        [<span class="ruby-identifier">run_command</span>(<span class="ruby-value str">'tput cols'</span>).<span class="ruby-identifier">to_i</span>, <span class="ruby-identifier">run_command</span>(<span class="ruby-value str">'tput lines'</span>).<span class="ruby-identifier">to_i</span>]
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-constant">STDIN</span>.<span class="ruby-identifier">tty?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">command_exists?</span>(<span class="ruby-value str">'stty'</span>)
+        <span class="ruby-identifier">run_command</span>(<span class="ruby-value str">'stty size'</span>).<span class="ruby-identifier">scan</span>(<span class="ruby-regexp re">/\d+/</span>).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">s</span><span class="ruby-operator">|</span> <span class="ruby-identifier">s</span>.<span class="ruby-identifier">to_i</span> }.<span class="ruby-identifier">reverse</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">default_size</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-identifier">ex</span> <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@unsafe</span>
+      <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">default_size</span>
+    <span class="ruby-keyword kw">end</span></pre>
+                    </div>
+                </div>
+                
+            </div>
+            
+</div>
+    </div>
+  </body>
+</html>    
