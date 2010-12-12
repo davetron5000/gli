@@ -48,6 +48,7 @@ end
 
 desc "Generates the changelog from annotated tags"
 task :changelog do
+  raise "This doesn't work well, don't do it"
   raise "You must check out gli.wiki to this directory first" unless File.exists? 'gli.wiki'
   start = false
   version = nil
