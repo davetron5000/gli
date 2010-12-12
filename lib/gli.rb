@@ -159,10 +159,8 @@ module GLI
       raise ex if ENV['GLI_DEBUG'] == 'true'
 
       case ex
-      when BadCommandLine: 
-        -1
-      when CustomExit:
-        ex.exit_code
+      when BadCommandLine then -1
+      when CustomExit then ex.exit_code
       else 
         -2
       end
