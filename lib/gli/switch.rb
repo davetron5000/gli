@@ -2,7 +2,7 @@ require 'gli/command_line_token.rb'
 
 module GLI
   # Defines a command line switch
-  class Switch < CommandLineToken
+  class Switch < CommandLineToken #:nodoc:
 
     def initialize(names,description,long_desc=nil)
       super(names,description,long_desc)

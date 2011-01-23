@@ -3,7 +3,7 @@
 # have this method, so we add it so we get resolved symlinks
 # and compatibility
 unless File.respond_to? :realpath
-  class File
+  class File #:nodoc:
     def self.realpath path
       return realpath(File.readlink(path)) if symlink?(path)
       path

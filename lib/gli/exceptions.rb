@@ -15,11 +15,11 @@ module GLI
   #     raise CustomExit.new("Bad SQL",-6) unless valid_sql?(args[0])
   #
   class CustomExit < Exception
-    attr_reader :exit_code
+    attr_reader :exit_code #:nodoc:
     # Create a custom exit exception
     #
-    # message - String containing error message to show the user
-    # exit_code - the exit code to use, overridding GLI's default
+    # +message+:: String containing error message to show the user
+    # +exit_code+:: the exit code to use (as an Int), overridding GLI's default
     def initialize(message,exit_code)
       super(message)
       @exit_code = exit_code

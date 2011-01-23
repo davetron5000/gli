@@ -2,7 +2,7 @@ require 'gli/command_line_token.rb'
 
 module GLI
   # Defines a flag, which is to say a switch that takes an argument
-  class Flag < Switch
+  class Flag < Switch # :nodoc:
 
     attr_reader :default_value
 

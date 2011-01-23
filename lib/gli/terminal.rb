@@ -1,5 +1,10 @@
 module GLI
-  # Class to encapsulate stuff about the terminal.  This is a singleton, mostly to facilitate testing.
+  # Class to encapsulate stuff about the terminal. This is useful to application developers
+  # as a canonical means to get information about the user's current terminal configuraiton.
+  # GLI uses this to determine the number of columns to use when printing to the screen.
+  #
+  # To access it, use Terminal#instance.  This is a singleton mostly to facilitate testing, but
+  # it seems reasonable enough, since there's only one terminal in effect
   #
   # Example:
   #
@@ -20,29 +25,31 @@ module GLI
 
     # Set the default size of the terminal to use when we can't figure it out
     #
-    # size - array of two int [cols,rows]
+    # +size+:: array of two int [cols,rows]
     def self.default_size=(size)
       @@default_size = size
     end
 
-    # Provide access to the shared instance
+    # Provide access to the shared instance.  
     def self.instance; @@instance ||= Terminal.new; end
 
     # Call this to cause methods to throw exceptions rather than return a sane default.  You
     # probably don't want to call this unless you are writing tests
-    def make_unsafe!;
+    def make_unsafe!
       @unsafe = true
     end
 
     # Returns true if the given command exists on this system
     #
-    # command - The command to check for
+    # +command+:: The command, as a String, to check for, without any path information.
     def command_exists?(command)
       ENV['PATH'].split(File::PATH_SEPARATOR).any? {|d| File.exists? File.join(d, command) }
     end
 
-    # Ripped from hirb https://github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb
-    # Returns an array of size two ints representing the terminal width and height
+    # Get the size of the current terminal.
+    # Ripped from hirb[https://github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb]
+    #
+    # Returns an Array of size two Ints representing the terminal width and height
     def size
       if (ENV['COLUMNS'] =~ /^\d+$/) && (ENV['LINES'] =~ /^\d+$/)
         [ENV['COLUMNS'].to_i, ENV['LINES'].to_i]

@@ -3,7 +3,7 @@ require 'gli/command'
 require 'yaml'
 
 module GLI
-  class InitConfig < Command
+  class InitConfig < Command # :nodoc:
     COMMANDS_KEY = 'commands'
 
     def initialize(config_file_name)

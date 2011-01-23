@@ -7,6 +7,8 @@ require 'rake/rdoctask'
 require 'sdoc'
 require 'grancher/task'
 
+CLEAN << "cruddo.rdoc"
+
 Grancher::Task.new do |g|
   g.branch = 'gh-pages'
   g.push_to = 'origin'

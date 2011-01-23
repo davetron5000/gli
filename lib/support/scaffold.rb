@@ -2,7 +2,7 @@ require 'gli'
 require 'fileutils'
 
 module GLI
-  class Scaffold
+  class Scaffold #:nodoc:
 
     def self.create_scaffold(root_dir,create_test_dir,create_ext_dir,project_name,commands,force=false,dry_run=false)
       dirs = [File.join(root_dir,project_name,'lib')]
@@ -156,7 +156,7 @@ EOS
 # have this method, so we add it so we get resolved symlinks
 # and compatibility
 unless File.respond_to? :realpath
-  class File
+  class File #:nodoc:
     def self.realpath path
       return realpath(File.readlink(path)) if symlink?(path)
       path

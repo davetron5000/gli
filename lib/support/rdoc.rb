@@ -2,7 +2,7 @@ require 'gli'
 require 'fileutils'
 
 module GLI
-  class RDocCommand < Command
+  class RDocCommand < Command # :nodoc:
 
     def initialize
       super(:rdoc,'Generates RDoc for your command line interface')

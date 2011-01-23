@@ -1,22 +1,23 @@
 module GLI
-  # Logical element of a command line, mostly so that subclasses can have similar
+  # Abstract base class for a logical element of a command line, mostly so that subclasses can have similar
   # initialization and interface
   class CommandLineToken
-    attr_reader :name
-    attr_reader :aliases
-    attr_reader :description
-    attr_reader :long_description
+    attr_reader :name #:ndoc:
+    attr_reader :aliases #:ndoc:
+    attr_reader :description #:ndoc:
+    attr_reader :long_description #:ndoc:
 
-    def initialize(names,description,long_description=nil)
+    def initialize(names,description,long_description=nil) #:ndoc:
       @description = description
       @long_description = long_description
       @name,@aliases,@names = parse_names(names)
     end
 
-    def usage
+    def usage #:nodoc:
       all_forms
     end
 
+    # Sort based on name
     def <=>(other)
       self.name.to_s <=> other.name.to_s
     end

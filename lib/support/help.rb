@@ -3,9 +3,9 @@ require 'gli/command'
 require 'gli/terminal'
 
 module GLI
-  class DefaultHelpCommand < Command
+  class DefaultHelpCommand < Command #:nodoc:
     @@output = $stdout
-    # Exposed for testing :nodoc:
+    # Exposed for testing
     def self.output_device=(o); @@output = o; end
 
     def initialize(version,*omit_from_list)

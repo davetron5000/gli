@@ -24,8 +24,8 @@ module GLI
   @@use_openstruct = false
   @@version = nil
 
-  # Reset the GLI module internal data structures; mostly for testing
-  def reset
+  # Reset the GLI module internal data structures; mostly useful for testing
+  def reset # :nodoc:
     switches.clear
     flags.clear
     commands.clear
@@ -35,21 +35,51 @@ module GLI
     clear_nexts
   end
 
-  # describe the next switch, flag, or command.  This should be a
+  # Describe the next switch, flag, or command.  This should be a
   # short, one-line description
+  #
+  # +description+:: A String of the short descripiton of the switch, flag, or command following
   def desc(description); @@next_desc = description; end
 
   # Provide a longer, more detailed description.  This
-  # will be reformatted and wrapped to fit in 80 columns
+  # will be reformatted and wrapped to fit in the terminal's columns
+  #
+  # +long_desc+:: A String that is s longer description of the switch, flag, or command following.
   def long_desc(long_desc); @@next_long_desc = long_desc; end
 
-  # describe the argument name of the next flag
+  # Describe the argument name of the next flag.  It's important to keep
+  # this VERY short and, ideally, without any spaces (see Example).
+  #
+  # +name+:: A String that *briefly* describes the argument given to the following command or flag.
+  #
+  # Example:
+  #     desc 'Set the filename'
+  #     arg_name 'file_name'
+  #     flag [:f,:filename]
+  #
+  # Produces:
+  #     -f, --filename=file_name      Set the filename
   def arg_name(name); @@next_arg_name = name; end
 
   # set the default value of the next flag
+  #
+  # +val+:: A String reprensenting the default value to be used for the following flag if the user doesn't specify one
+  #         and, when using a config file, the config also doesn't specify one
   def default_value(val); @@next_default_value = val; end
 
   # Create a flag, which is a switch that takes an argument
+  #
+  # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names
+  #           and aliases for this flag.
+  #
+  # Example:
+  #
+  #     desc 'Set the filename'
+  #     flag [:f,:filename,'file-name']
+  #
+  # Produces:
+  #
+  #     -f, --filename, --file-name=arg     Set the filename
   def flag(*names)
     names = [names].flatten
     verify_unused(names,flags,switches,"in global options")
@@ -58,7 +88,10 @@ module GLI
     clear_nexts
   end
 
-  # Create a switch
+  # Create a switch, which is a command line flag that takes no arguments (thus, it _switches_ something on)
+  #
+  # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names
+  #           and aliases for this switch.
   def switch(*names)
     names = [names].flatten
     verify_unused(names,flags,switches,"in global options")
@@ -67,8 +100,11 @@ module GLI
     clear_nexts
   end
 
-  # Sets the config file.  If not an absolute path
-  # sets the path to the user's home directory
+  # Sets that this app uses a config file as well as the name of the config file.  
+  #
+  # +filename+:: A String representing the path to the file to use for the config file.  If it's an absolute
+  #              path, this is treated as the path to the file.  If it's *not*, it's treated as relative to the user's home
+  #              directory as produced by <code>Etc.getpwuid.dir</code>.
   def config_file(filename)
     if filename =~ /^\//
       @@config_file = filename
@@ -79,7 +115,11 @@ module GLI
     @@config_file
   end
 
-  # Define a command.
+  # Define a new command.  This takes a block that will be given an instance of the Command that was created.
+  # You then may call methods on this object to define aspects of that Command.
+  #
+  # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases for this command.
+  #
   def command(*names)
     command = Command.new([names].flatten,@@next_desc,@@next_arg_name,@@next_long_desc)
     commands[command.name] = command
@@ -113,21 +153,25 @@ module GLI
   end
 
   # Indicate the version of your application
+  #
+  # +version+:: String containing the version of your application.  
   def version(version)
     @@version = version
   end
 
-  # Call this with "true" will cause the <tt>global_options</tt> and
-  # <tt>options</tt> passed to your code to be wrapped in
-  # GLI::Option, which is a subclass of OpenStruct that adds
+  # Call this with +true+ will cause the +global_options+ and
+  # +options+ passed to your code to be wrapped in
+  # Options, which is a subclass of +OpenStruct+ that adds
   # <tt>[]</tt> and <tt>[]=</tt> methods.
+  #
+  # +use_openstruct+:: a Boolean indicating if we should use OpenStruct instead of Hashes
   def use_openstruct(use_openstruct)
     @@use_openstruct = use_openstruct
   end
 
   # Runs whatever command is needed based on the arguments. 
   #
-  # args - the command line ARGV array
+  # +args+:: the command line ARGV array
   #
   # Returns a number that would be a reasonable exit code
   def run(args)
@@ -174,17 +218,36 @@ module GLI
     raise CustomExit.new(message,exit_code)
   end
 
+  # Set or get the name of the program, if you don't want the default (which is
+  # the name of the command line program).  This
+  # is only used currently in the help and rdoc commands.
+  #
+  # +override+:: A String that represents the name of the program to use, other than the default.
+  #
+  # Returns the current program name, as a String
+  def program_name(override=nil)
+    if override
+      @@program_name = override
+    end
+    @@program_name
+  end
+
+  alias :d :desc
+  alias :f :flag
+  alias :s :switch
+  alias :c :command
+
   # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
-  # By default, it will *not*, however by putting <tt>use_openstruct true</tt>
+  # By default, it will *not*. However by putting <tt>use_openstruct true</tt>
   # in your CLI definition, it will
-  def convert_to_option?(options)
+  def convert_to_option?(options) # :nodoc:
     @@use_openstruct ? Options.new(options) : options
   end
 
   # Copies all options in both global_options and options to keys for the aliases of those flags.
   # For example, if a flag works with either -f or --flag, this will copy the value from [:f] to [:flag]
   # to allow the user to access the options by any alias
-  def copy_options_to_aliased_versions(global_options,command,options)
+  def copy_options_to_aliased_versions(global_options,command,options) # :nodoc:
     copy_options_to_aliases(global_options,self)
     copy_options_to_aliases(options,command)
   end
@@ -194,7 +257,7 @@ module GLI
   #
   # options - Hash of options parsed from command line; this is an I/O param
   # gli_like - Object resonding to flags and switches in the same way that GLI or a Command instance do
-  def copy_options_to_aliases(options,gli_like)
+  def copy_options_to_aliases(options,gli_like) # :nodoc:
     new_options = {}
     options.each do |key,value|
       if gli_like.flags[key] && gli_like.flags[key].aliases
@@ -210,7 +273,7 @@ module GLI
     options.merge!(new_options)
   end
 
-  def parse_config
+  def parse_config # :nodoc:
     return nil if @@config_file.nil?
     require 'yaml'
     if File.exist?(@@config_file)
@@ -220,19 +283,12 @@ module GLI
     end
   end
 
-  def program_name(override=nil)
-    if override
-      @@program_name = override
-    end
-    @@program_name
-  end
-
   # Returns an array of four values:
   #  * global options (as a Hash)
   #  * Command 
   #  * command options (as a Hash)
   #  * arguments (as an Array)
-  def parse_options(args,config=nil)
+  def parse_options(args,config=nil) # :nodoc:
     command_configs = {}
     if config.nil?
       config = {}
@@ -247,7 +303,7 @@ module GLI
 
   # Finds the index of the first non-flag
   # argument or -1 if there wasn't one.
-  def find_non_flag_index(args)
+  def find_non_flag_index(args) # :nodoc:
     args.each_index do |i|
       return i if args[i] =~ /^[^\-]/;
       return i-1 if args[i] =~ /^\-\-$/;
@@ -255,12 +311,7 @@ module GLI
     -1;
   end
 
-  alias :d :desc
-  alias :f :flag
-  alias :s :switch
-  alias :c :command
-
-  def clear_nexts
+  def clear_nexts # :nodoc:
     @@next_desc = nil
     @@next_arg_name = nil
     @@next_default_value = nil
@@ -269,9 +320,15 @@ module GLI
 
   clear_nexts
 
-  def flags; @@flags ||= {}; end
-  def switches; @@switches ||= {}; end
-  def commands; @@commands ||= {}; end
+  def flags # :nodoc:
+    @@flags ||= {}
+  end
+  def switches # :nodoc:
+    @@switches ||= {}
+  end
+  def commands # :nodoc:
+    @@commands ||= {}
+  end
 
   # Recursive helper for parsing command line options
   # [args] the arguments that have yet to be processed
@@ -292,7 +349,7 @@ module GLI
   #
   # Once the command has been found, we start looking for command-specific flags and switches.
   # When those have been found, we know the rest of the argument list is arguments for the command
-  def parse_options_helper(args,global_options,command,command_options,arguments,command_configs)
+  def parse_options_helper(args,global_options,command,command_options,arguments,command_configs) # :nodoc:
     non_flag_i = find_non_flag_index(args)
     all_flags = false
     if non_flag_i == 0
@@ -388,11 +445,11 @@ module GLI
 
   end
 
-  def default_command_options(command,command_configs)
+  def default_command_options(command,command_configs) # :nodoc:
     options = (command_configs && command_configs[command.name.to_sym]) || {}
   end
 
-  def find_command(name)
+  def find_command(name) # :nodoc:
     sym = name.to_sym
     return commands[name.to_sym] if commands[sym]
     commands.keys.each do |command_name|
@@ -403,7 +460,7 @@ module GLI
   end
 
   # Checks that the names passed in have not been used in another flag or option
-  def verify_unused(names,flags,switches,context)
+  def verify_unused(names,flags,switches,context) # :nodoc:
     names.each do |name|
       verify_unused_in_option(name,flags,"flag",context)
       verify_unused_in_option(name,switches,"switch",context)
@@ -412,7 +469,7 @@ module GLI
 
   private
 
-  def verify_unused_in_option(name,option_like,type,context)
+  def verify_unused_in_option(name,option_like,type,context) # :nodoc:
     raise ArgumentError.new("#{name} has already been specified as a #{type} #{context}") if option_like[name]
     option_like.each do |one_option_name,one_option|
       if one_option.aliases
