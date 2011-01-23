@@ -15,7 +15,6 @@ These options are available for any command and are specified before the name of
                           This is the directory where the projects directory will be made, so if you specify a project name foo and the root dir of ., the directory ./foo will be created
 
 [<tt>-v</tt>] Be verbose
-[<tt>--version</tt>] Show version
 == Commands
 [<tt>help</tt>] Shows list of commands or help for one command
 [<tt>init</tt>] Create a new GLI-based project
