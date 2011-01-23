@@ -5,10 +5,47 @@ module GLI
   class RDocCommand < Command # :nodoc:
 
     def initialize
-      super(:rdoc,'Generates RDoc for your command line interface')
+      super(:rdoc,'Generates RDoc (and other types of documentation) for your command line interface')
+      self.desc 'Create a very basic scaffold for a cheat-style cheatsheet, in addition to rdoc'
+      self.switch 'cheatsheet'
+      self.desc 'Include a manapage suitable for gem man, in addition to rdoc'
+      self.switch 'manpage'
+      self.desc 'Do not create rdoc'
+      self.switch 'no-rdoc'
     end
 
-    def execute(g,o,a)
+    def execute(g,options,a)
+      create_rdoc unless options[:'no-rdoc']
+      create_manpage if options[:manpage]
+      create_cheatsheet if options[:cheatsheet]
+    end
+
+    def create_cheatsheet
+      File.open("#{GLI.program_name}.cheat",'w') do |file|
+        file << GLI.program_name
+        file << "\n"
+        file << GLI.program_name.length.times.inject("") { |a,x| a + "=" }
+        file << "\n"
+        file << "\n"
+        file << "Installation:\n"
+        file << "$ gem install #{GLI.program_name}\n\n"
+        GLI.commands.values.sort.each do |command|
+          next if command == self
+          file << command.description
+          file << "\n"
+          [command.name,command.aliases].flatten.each do |name|
+            next unless name
+            file << "$ #{GLI.program_name} #{name} #{command.arguments_description}\n"
+          end
+          file << "\n"
+        end
+      end
+    end
+
+    def create_manpage
+    end
+
+    def create_rdoc
       File.open("#{GLI.program_name}.rdoc",'w') do |file|
         file << "= <tt>#{GLI.program_name}</tt>\n\n"
         file << "    "
