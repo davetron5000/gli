@@ -58,6 +58,8 @@ bin/#{project_name}
   s.rdoc_options << '--title' << '#{project_name}' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << '#{project_name}'
+  s.add_development_dependency('rake')
+  s.add_development_dependency('rdoc')
 end
 EOS
       end
@@ -137,8 +139,7 @@ EOS
       puts "Created #{root_dir}/#{project_name}/Rakefile"
       File.open("#{root_dir}/#{project_name}/Gemfile",'w') do |bundler_file|
         bundler_file.puts "source :rubygems"
-        bundler_file.puts "gem: 'rake'"
-        bundler_file.puts "gem: 'rdoc'"
+        bundler_file.puts "gemspec"
       end
       puts "Created #{root_dir}/#{project_name}/Gemfile"
     end
