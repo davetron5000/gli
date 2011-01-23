@@ -1,0 +1,26 @@
+gli - create command-suite apps, a la git, using this awesome Ruby DSL
+======================================================================
+
+Installation:
+$ gem install gli
+
+Show list of commands
+$ gli help [command]
+
+Show help for one command
+$ gli help init
+
+Create a new GLI-based project with the commands foo and bar
+$ gli init project_name foo bar
+
+Create a new GLI-based project with an ext directory
+$ gli init -e project_name foo bar
+
+Create a new GLI-based project without a test directory (bad!)
+$ gli init --notest project_name foo bar
+
+Create a new GLI-based project somewhere else than .
+$ gli -r /tmp init project_name foo bar
+
+Just see what GLI would create
+$ gli -n init -e project_name foo bar
