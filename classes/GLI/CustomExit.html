@@ -81,19 +81,6 @@ Example:
     
 
     
-    <div class="sectiontitle">Attributes</div>
-    <table border='0' cellpadding='5'>
-        
-        <tr valign='top'>
-            <td class='attr-rw'>
-                [R]
-            </td>
-            <td class='attr-name'>exit_code</td>
-            <td class='attr-desc'></td>
-        </tr>
-        
-    </table>
-    
 
     
             <div class="sectiontitle">Class Public methods</div>
@@ -109,11 +96,14 @@ Example:
                   <p>
 Create a custom exit exception
 </p>
-<p>
-message - String containing error message to show the user <a
-href="CustomExit.html#exit_code">exit_code</a> - the exit code to use,
-overridding GLI&#8217;s default
-</p>
+<table>
+<tr><td valign="top"><tt>message</tt>:</td><td>String containing error message to show the user
+
+</td></tr>
+<tr><td valign="top"><tt>exit_code</tt>:</td><td>the exit code to use (as an Int), overridding GLI&#8217;s default
+
+</td></tr>
+</table>
 
                 </div>
                 
@@ -124,7 +114,7 @@ overridding GLI&#8217;s default
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000023_source')" id="l_M000023_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/eb4ce499e0aad9841b760a4d12ba970f43275ff0/lib/gli/exceptions.rb#L23" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/exceptions.rb#L23" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000023_source" class="dyn-source">

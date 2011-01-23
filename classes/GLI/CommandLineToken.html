@@ -36,8 +36,8 @@
     
     <div class="description">
         <p>
-Logical element of a command line, mostly so that subclasses can have
-similar initialization and interface
+Abstract base class for a logical element of a command line, mostly so that
+subclasses can have similar initialization and interface
 </p>
 
     </div>
@@ -67,15 +67,6 @@ similar initialization and interface
             <ul>
                 
                 <li><a href="#M000016">new</a></li>
-                
-            </ul>
-        </dd>
-    
-        <dt>U</dt>
-        <dd>
-            <ul>
-                
-                <li><a href="#M000017">usage</a></li>
                 
             </ul>
         </dd>
@@ -147,12 +138,12 @@ similar initialization and interface
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000016_source')" id="l_M000016_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/6de6447d4386d135fb96d97de81c62d91e7acff5/lib/gli/command_line_token.rb#L10" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/command_line_token.rb#L10" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000016_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 10</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_description</span>=<span class="ruby-keyword kw">nil</span>)
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">names</span>,<span class="ruby-identifier">description</span>,<span class="ruby-identifier">long_description</span>=<span class="ruby-keyword kw">nil</span>) <span class="ruby-comment cmt">#:ndoc:</span>
       <span class="ruby-ivar">@description</span> = <span class="ruby-identifier">description</span>
       <span class="ruby-ivar">@long_description</span> = <span class="ruby-identifier">long_description</span>
       <span class="ruby-ivar">@name</span>,<span class="ruby-ivar">@aliases</span>,<span class="ruby-ivar">@names</span> = <span class="ruby-identifier">parse_names</span>(<span class="ruby-identifier">names</span>)
@@ -171,6 +162,13 @@ similar initialization and interface
                     
                 </div>
                 
+                <div class="description">
+                  <p>
+Sort based on name
+</p>
+
+                </div>
+                
                 
                 
                 
@@ -178,40 +176,13 @@ similar initialization and interface
                     <p class="source-link">
                         Source: <a href="javascript:toggleSource('M000018_source')" id="l_M000018_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/6de6447d4386d135fb96d97de81c62d91e7acff5/lib/gli/command_line_token.rb#L20" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/command_line_token.rb#L21" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
                     <div id="M000018_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 20</span>
+                        <pre><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 21</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-operator">&lt;=&gt;</span>(<span class="ruby-identifier">other</span>)
       <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span> <span class="ruby-operator">&lt;=&gt;</span> <span class="ruby-identifier">other</span>.<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>
-    <span class="ruby-keyword kw">end</span></pre>
-                    </div>
-                </div>
-                
-            </div>
-            
-            <div class="method">
-                <div class="title" id="M000017">
-                    
-                    <a name="M000017"></a><b>usage</b>()
-                    
-                </div>
-                
-                
-                
-                
-                <div class="sourcecode">
-                    <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000017_source')" id="l_M000017_source">show</a>
-                        
-                        | <a href="http://github.com/davetron5000/gli/blob/6de6447d4386d135fb96d97de81c62d91e7acff5/lib/gli/command_line_token.rb#L16" target="_blank" class="github_url">on GitHub</a>
-                        
-                    </p>
-                    <div id="M000017_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli/command_line_token.rb, line 16</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">usage</span>
-      <span class="ruby-identifier">all_forms</span>
     <span class="ruby-keyword kw">end</span></pre>
                     </div>
                 </div>

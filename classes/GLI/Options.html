@@ -34,6 +34,14 @@
     <div id="bodyContent">
         <div id="content">
     
+    <div class="description">
+        <p>
+Subclass of OpenStruct that provides hash-like methods for #[] and #[]=.
+Note that is is <b>not</b> a Hash.
+</p>
+
+    </div>
+    
 
     
 
@@ -49,9 +57,9 @@
         <dd>
             <ul>
                 
-                <li><a href="#M000027">[]</a>,</li>
+                <li><a href="#M000024">[]</a>,</li>
                 
-                <li><a href="#M000028">[]=</a></li>
+                <li><a href="#M000025">[]=</a></li>
                 
             </ul>
         </dd>
@@ -73,10 +81,17 @@
             <div class="sectiontitle">Instance Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000027">
+                <div class="title" id="M000024">
                     
-                    <a name="M000027"></a><b>[]</b>(k)
+                    <a name="M000024"></a><b>[]</b>(k)
                     
+                </div>
+                
+                <div class="description">
+                  <p>
+Return the value of an attribute
+</p>
+
                 </div>
                 
                 
@@ -84,13 +99,13 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000027_source')" id="l_M000027_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000024_source')" id="l_M000024_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/af374b055ed9d484018576c64a34df09f1aee9e0/lib/gli/options.rb#L6" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/options.rb#L8" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000027_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli/options.rb, line 6</span>
+                    <div id="M000024_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/options.rb, line 8</span>
     <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]</span>(<span class="ruby-identifier">k</span>)
       <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>]
     <span class="ruby-keyword kw">end</span></pre>
@@ -100,10 +115,17 @@
             </div>
             
             <div class="method">
-                <div class="title" id="M000028">
+                <div class="title" id="M000025">
                     
-                    <a name="M000028"></a><b>[]=</b>(k, v)
+                    <a name="M000025"></a><b>[]=</b>(k, v)
                     
+                </div>
+                
+                <div class="description">
+                  <p>
+Set the value of an attribute
+</p>
+
                 </div>
                 
                 
@@ -111,13 +133,13 @@
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000028_source')" id="l_M000028_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000025_source')" id="l_M000025_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/af374b055ed9d484018576c64a34df09f1aee9e0/lib/gli/options.rb#L10" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/options.rb#L13" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000028_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli/options.rb, line 10</span>
+                    <div id="M000025_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/options.rb, line 13</span>
     <span class="ruby-keyword kw">def</span><span class="ruby-operator">[]=</span>(<span class="ruby-identifier">k</span>, <span class="ruby-identifier">v</span>)
       <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">v</span>
     <span class="ruby-keyword kw">end</span></pre>
