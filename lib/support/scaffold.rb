@@ -254,7 +254,7 @@ EOS
       if !force
         dirs.each do |dir|
           if File.exist? dir
-            puts "#{dir} exists; use --force to override"
+            raise "#{dir} exists; use --force to override"
             exists = true
           end
         end
@@ -263,7 +263,7 @@ EOS
         dirs.each do |dir|
           puts "Creating dir #{dir}..."
           if dry_run
-            $stderr.puts "dry-run; #{dir} not created"
+            puts "dry-run; #{dir} not created"
           else
             FileUtils.mkdir_p dir
           end

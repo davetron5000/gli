@@ -27,8 +27,7 @@ module GLI
           YAML.dump(config,file)
         end
       else
-        puts "Not overwriting existing config file #{@filename}"
-        puts 'Use --force to override'
+        raise "Not overwriting existing config file #{@filename}, use --force to override"
       end
     end
   end
