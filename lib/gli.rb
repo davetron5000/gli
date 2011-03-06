@@ -371,12 +371,12 @@ module GLI
   end
 
   # Recursive helper for parsing command line options
-  # [args] the arguments that have yet to be processed
-  # [global_options] the global options hash
-  # [command] the Command that has been identified (or nil if not identified yet)
-  # [command_options] options for Command
-  # [arguments] the arguments for Command
-  # [command_configs] the configuration file for all commands, used as defaults
+  # <code>args</code>:: the arguments that have yet to be processed
+  # <code>global_options</code>:: the global options hash
+  # <code>command</code>:: the Command that has been identified (or nil if not identified yet)
+  # <code>command_options</code>:: options for Command
+  # <code>arguments</code>:: the arguments for Command
+  # <code>command_configs</code>:: the configuration file for all commands, used as defaults
   #
   # This works by finding the first non-switch/flag argument, and taking that sublist and trying to pick out
   # flags and switches.  After this is done, one of the following is true:

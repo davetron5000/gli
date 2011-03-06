@@ -28,8 +28,8 @@ module GLI
 
     # Finds the switch in the given arg, returning the arg to keep.
     # Returns an array of size 2:
-    # [0] true or false if the arg was found
-    # [1] the remaining arg to keep in the command line or nil to remove it
+    # index 0:: true or false if the arg was found
+    # index 1:: the remaining arg to keep in the command line or nil to remove it
     def find_me(arg)
       if @names[arg]
         return [true,nil]
