@@ -1,5 +1,4 @@
 require 'rake/clean'
-require 'rcov/rcovtask'
 require 'rubygems'
 require 'rake/gempackagetask'
 require 'rake/testtask'
@@ -8,6 +7,7 @@ require 'sdoc'
 require 'grancher/task'
 
 CLEAN << "cruddo.rdoc"
+CLOBBER << FileList['**/*.rbc']
 
 Grancher::Task.new do |g|
   g.branch = 'gh-pages'
@@ -33,19 +33,24 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['test/tc_*.rb']
 end
 
+begin
+  require 'rcov/rcovtask'
+  task :clobber_coverage do
+    rm_rf "coverage"
+  end
 
-task :clobber_coverage do
-  rm_rf "coverage"
-end
+  desc 'Measures test coverage'
+  task :coverage => :rcov do
+    puts "coverage/index.html contains what you need"
+  end
 
-desc 'Measures test coverage'
-task :coverage => :rcov do
-  puts "coverage/index.html contains what you need"
-end
-
-Rcov::RcovTask.new do |t|
-  t.libs << 'lib'
-  t.test_files = FileList['test/tc_*.rb']
+  Rcov::RcovTask.new do |t|
+    t.libs << 'lib'
+    t.test_files = FileList['test/tc_*.rb']
+  end
+rescue LoadError
+  puts "rcov not installed; you won't be able to check code coverage"
+  puts "Since rcov only works on MRI 1.8.7, this shouldn't be a problem"
 end
 
 desc 'Publish rdoc on github pages and push to github'
