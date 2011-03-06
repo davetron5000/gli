@@ -11,6 +11,11 @@ class TC_testCommand < Test::Unit::TestCase
       @strings << string unless string.nil?
     end
 
+    # Returns true if the regexp matches anything in the output
+    def contained?(regexp)
+      strings.find{ |x| x =~ regexp }
+    end
+
     def to_s
       @strings.join("\n")
     end
@@ -52,7 +57,9 @@ class TC_testCommand < Test::Unit::TestCase
       end
     end
     @fake_stdout = FakeStdOut.new
+    @fake_stderr = FakeStdOut.new
     DefaultHelpCommand.output_device=@fake_stdout
+    GLI.error_device=@fake_stderr
   end
 
   def tear_down
@@ -118,18 +125,37 @@ class TC_testCommand < Test::Unit::TestCase
   end
 
   def test_unknown_command
-    args = %w(blah -v)
+    args = %w(blah)
     GLI.run(args)
     assert(!@post_called)
     assert(@error_called)
+    assert_contained(@fake_stderr,/ help/)
+    assert_contained(@fake_stderr,/list of commands/)
+  end
+
+  def test_unknown_global_option
+    args = %w(--quux basic)
+    GLI.run(args)
+    assert(!@post_called)
+    assert(@error_called)
+    assert_contained(@fake_stderr,/ help/)
+    assert_contained(@fake_stderr,/list of global options/)
+  end
+
+  def test_unknown_argument
+    args = %w(basic --quux)
+    GLI.run(args)
+    assert(!@post_called)
+    assert(@error_called)
+    assert_contained(@fake_stderr,/ help basic/)
+    assert_contained(@fake_stderr,/list of command options/)
   end
 
   def test_help
     args = %w(help)
     GLI.run(args)
     ['\[global options\]','\[command options\]','Global Options:'].each do |opt|
-      assert_not_nil @fake_stdout.strings.find{ |x| x =~ /#{opt}/ }, 
-        "Expected to find '#{opt.gsub('\\','')}' in output, which was:\n #{@fake_stdout}"
+      assert_contained(@fake_stdout,/#{opt}/)
     end
   end
 
@@ -144,16 +170,14 @@ class TC_testCommand < Test::Unit::TestCase
     DefaultHelpCommand.output_device=@fake_stdout
 
     GLI.run(%w(help))
-    assert_nil @fake_stdout.strings.find{ |x| x =~ /\[global options\]/ },
-      "Wasn't expecting '[global options]' in the output, but found it!\n#{@fake_stdout}"
+    assert_not_contained(@fake_stdout,/\[global options\]/)
   end
 
   def test_help_one_command
     args = %w(help basic)
     GLI.run(args)
     ['Command Options:','\[command options\]'].each do |opt|
-      assert_not_nil @fake_stdout.strings.find{ |x| x =~ /#{opt}/},
-        "Expected to find '#{opt.gsub('\\','')}' in output, which was:\n #{@fake_stdout}"
+      assert_contained(@fake_stdout,/#{opt}/)
     end
   end
 
@@ -226,6 +250,18 @@ class TC_testCommand < Test::Unit::TestCase
     command = GLI.commands[:baz]
     assert_equal :baz, command.name
     assert_equal [:blah], command.aliases
+  end
+
+  private
+
+  def assert_contained(output,regexp)
+    assert_not_nil output.contained?(regexp),
+      "Expected output to contain #{regexp.inspect}, output was:\n#{output}"
+  end
+
+  def assert_not_contained(output,regexp)
+    assert_nil output.contained?(regexp),
+      "Didn't expected output to contain #{regexp.inspect}, output was:\n#{output}"
   end
 
 end

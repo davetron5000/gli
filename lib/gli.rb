@@ -23,6 +23,10 @@ module GLI
   @@config_file = nil
   @@use_openstruct = false
   @@version = nil
+  @@stderr = $stderr
+
+  # Override the device of stderr; exposed only for testing
+  def error_device=(e); @@stderr = e; end
 
   # Reset the GLI module internal data structures; mostly useful for testing
   def reset # :nodoc:
@@ -183,8 +187,8 @@ module GLI
       global_options,command,options,arguments = parse_options(args,config)
       copy_options_to_aliased_versions(global_options,command,options)
       proceed = true
-      global_options = convert_to_option?(global_options)
-      options = convert_to_option?(options)
+      global_options = convert_to_openstruct?(global_options)
+      options = convert_to_openstruct?(options)
       proceed = @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
       if proceed
         command = commands[:help] if !command
@@ -197,7 +201,16 @@ module GLI
       regular_error_handling = @@error_block.call(ex) if @@error_block
 
       if regular_error_handling
-        $stderr.puts "error: #{ex.message}"
+        error_message = "error: #{ex.message}"
+        case ex
+        when UnknownCommand
+          error_message += ". Use '#{program_name} help' for a list of commands"
+        when UnknownCommandArgument
+          error_message += ". Use '#{program_name} help #{ex.command.name}' for a list of command options"
+        when UnknownGlobalArgument
+          error_message += ". Use '#{program_name} help' for a list of global options"
+        end
+        @@stderr.puts error_message
       end
 
       raise ex if ENV['GLI_DEBUG'] == 'true'
@@ -240,7 +253,7 @@ module GLI
   # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
   # By default, it will *not*. However by putting <tt>use_openstruct true</tt>
   # in your CLI definition, it will
-  def convert_to_option?(options) # :nodoc:
+  def convert_to_openstruct?(options) # :nodoc:
     @@use_openstruct ? Options.new(options) : options
   end
 
@@ -357,7 +370,7 @@ module GLI
       if !command
         command_name = args.shift
         command = find_command(command_name)
-        raise BadCommandLine.new("Unknown command '#{command_name}'") if !command
+        raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
         return parse_options_helper(args,
                                     global_options,
                                     command,
@@ -423,16 +436,16 @@ module GLI
             try_me.delete arg
             break 
           end
-          raise BadCommandLine.new("Unknown argument #{arg}") if arg =~ /^\-/ 
+          raise UnknownCommandArgument.new("Unknown option #{arg}",command) if arg =~ /^\-/ 
         end
         return [global_options,command,command_options,try_me + rest]
       else
         # Now we have our command name
         command_name = try_me.shift
-        raise BadCommandLine.new("Unknown argument #{command_name}") if command_name =~ /^\-/
+        raise UnknownGlobalArgument.new("Unknown option #{command_name}") if command_name =~ /^\-/
 
         command = find_command(command_name)
-        raise BadCommandLine.new("Unknown command '#{command_name}'") if !command
+        raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
 
         return parse_options_helper(rest,
                                     global_options,

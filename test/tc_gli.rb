@@ -90,7 +90,10 @@ class TC_testGLI < Test::Unit::TestCase
     config_file_contents = read_file_contents(config_file)
     GLI.reset
     GLI.config_file(config_file)
-    GLI.run(['initconfig'])
+    ex = assert_raises RuntimeError do
+      GLI.run(['initconfig'])
+    end
+    assert_match /--force/,ex.to_s,"Error message didn't mention --force option"
     config_file_contents_after = read_file_contents(config_file)
     assert_equal(config_file_contents,config_file_contents_after)
   end

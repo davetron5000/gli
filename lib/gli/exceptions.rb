@@ -1,8 +1,24 @@
 module GLI
   # Indicates that the command line invocation was bad
-  class BadCommandLine < Exception
-    def initialize(message)
+  class BadCommandLine < Exception #:nodoc:
+  end
+
+  # Indicates the bad command line was an unknown command
+  class UnknownCommand < BadCommandLine #:nodoc:
+  end
+
+  # Indicates the bad command line was an unknown global argument
+  class UnknownGlobalArgument < BadCommandLine #:nodoc:
+  end
+
+  # Indicates the bad command line was an unknown command argument
+  class UnknownCommandArgument < BadCommandLine #:nodoc:
+    attr_reader :command
+    # [+message+] the error message to show the user
+    # [+command+] the command we were using to parse command-specific options
+    def initialize(message,command)
       super(message)
+      @command = command
     end
   end
 
