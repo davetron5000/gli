@@ -39,7 +39,7 @@ Though likely works on various other versions.
 
 == Documentation
 
-Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki]
+Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].  For API Documentation, start with the GLI module.
 
 == Links
 
