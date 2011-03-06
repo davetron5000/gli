@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    gli (1.2.5)
+    gli (1.2.6)
 
 GEM
   remote: http://rubygems.org/
@@ -10,7 +10,7 @@ GEM
       open4 (>= 0, = 0.9.6)
     grancher (0.1.5)
       gash
-    json (1.4.6)
+    json (1.5.1)
     open4 (0.9.6)
     rake (0.8.7)
     rcov (0.9.9)
