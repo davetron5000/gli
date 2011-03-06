@@ -43,7 +43,7 @@ uses this to determine the number of columns to use when printing to the
 screen.
 </p>
 <p>
-To access it, use <a href="Terminal.html#M000028">Terminal#instance</a>.
+To access it, use <a href="Terminal.html#M000029">Terminal#instance</a>.
 This is a singleton mostly to facilitate testing, but it seems reasonable
 enough, since there&#8217;s only one terminal in effect
 </p>
@@ -73,7 +73,7 @@ Example:
         <dd>
             <ul>
                 
-                <li><a href="#M000030">command_exists?</a></li>
+                <li><a href="#M000031">command_exists?</a></li>
                 
             </ul>
         </dd>
@@ -82,9 +82,9 @@ Example:
         <dd>
             <ul>
                 
-                <li><a href="#M000026">default_size</a>,</li>
+                <li><a href="#M000027">default_size</a>,</li>
                 
-                <li><a href="#M000027">default_size=</a></li>
+                <li><a href="#M000028">default_size=</a></li>
                 
             </ul>
         </dd>
@@ -93,7 +93,7 @@ Example:
         <dd>
             <ul>
                 
-                <li><a href="#M000028">instance</a></li>
+                <li><a href="#M000029">instance</a></li>
                 
             </ul>
         </dd>
@@ -102,7 +102,7 @@ Example:
         <dd>
             <ul>
                 
-                <li><a href="#M000029">make_unsafe!</a></li>
+                <li><a href="#M000030">make_unsafe!</a></li>
                 
             </ul>
         </dd>
@@ -111,7 +111,7 @@ Example:
         <dd>
             <ul>
                 
-                <li><a href="#M000031">size</a></li>
+                <li><a href="#M000032">size</a></li>
                 
             </ul>
         </dd>
@@ -133,9 +133,9 @@ Example:
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000026">
+                <div class="title" id="M000027">
                     
-                    <a name="M000026"></a><b>default_size</b>()
+                    <a name="M000027"></a><b>default_size</b>()
                     
                 </div>
                 
@@ -154,12 +154,12 @@ Returns an array of int [cols,rows]
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000026_source')" id="l_M000026_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000027_source')" id="l_M000027_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/terminal.rb#L22" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000026_source" class="dyn-source">
+                    <div id="M000027_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 22</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">default_size</span>
       <span class="ruby-ivar">@@default_size</span>
@@ -170,9 +170,9 @@ Returns an array of int [cols,rows]
             </div>
             
             <div class="method">
-                <div class="title" id="M000027">
+                <div class="title" id="M000028">
                     
-                    <a name="M000027"></a><b>default_size=</b>(size)
+                    <a name="M000028"></a><b>default_size=</b>(size)
                     
                 </div>
                 
@@ -194,12 +194,12 @@ out
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000027_source')" id="l_M000027_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000028_source')" id="l_M000028_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/terminal.rb#L29" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000027_source" class="dyn-source">
+                    <div id="M000028_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 29</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">default_size=</span>(<span class="ruby-identifier">size</span>)
       <span class="ruby-ivar">@@default_size</span> = <span class="ruby-identifier">size</span>
@@ -210,9 +210,9 @@ out
             </div>
             
             <div class="method">
-                <div class="title" id="M000028">
+                <div class="title" id="M000029">
                     
-                    <a name="M000028"></a><b>instance</b>()
+                    <a name="M000029"></a><b>instance</b>()
                     
                 </div>
                 
@@ -228,12 +228,12 @@ Provide access to the shared instance.
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000028_source')" id="l_M000028_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000029_source')" id="l_M000029_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/terminal.rb#L34" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000028_source" class="dyn-source">
+                    <div id="M000029_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 34</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">instance</span>; <span class="ruby-ivar">@@instance</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">new</span>; <span class="ruby-keyword kw">end</span></pre>
                     </div>
@@ -244,9 +244,9 @@ Provide access to the shared instance.
             <div class="sectiontitle">Instance Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000030">
+                <div class="title" id="M000031">
                     
-                    <a name="M000030"></a><b>command_exists?</b>(command)
+                    <a name="M000031"></a><b>command_exists?</b>(command)
                     
                 </div>
                 
@@ -267,12 +267,12 @@ Returns true if the given command exists on this system
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000030_source')" id="l_M000030_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/terminal.rb#L45" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000030_source" class="dyn-source">
+                    <div id="M000031_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 45</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">command_exists?</span>(<span class="ruby-identifier">command</span>)
       <span class="ruby-constant">ENV</span>[<span class="ruby-value str">'PATH'</span>].<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">PATH_SEPARATOR</span>).<span class="ruby-identifier">any?</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">d</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">d</span>, <span class="ruby-identifier">command</span>) }
@@ -283,9 +283,9 @@ Returns true if the given command exists on this system
             </div>
             
             <div class="method">
-                <div class="title" id="M000029">
+                <div class="title" id="M000030">
                     
-                    <a name="M000029"></a><b>make_unsafe!</b>()
+                    <a name="M000030"></a><b>make_unsafe!</b>()
                     
                 </div>
                 
@@ -303,12 +303,12 @@ tests
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000029_source')" id="l_M000029_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000030_source')" id="l_M000030_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/terminal.rb#L38" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000029_source" class="dyn-source">
+                    <div id="M000030_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 38</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">make_unsafe!</span>
       <span class="ruby-ivar">@unsafe</span> = <span class="ruby-keyword kw">true</span>
@@ -319,9 +319,9 @@ tests
             </div>
             
             <div class="method">
-                <div class="title" id="M000031">
+                <div class="title" id="M000032">
                     
-                    <a name="M000031"></a><b>size</b>()
+                    <a name="M000032"></a><b>size</b>()
                     
                 </div>
                 
@@ -342,12 +342,12 @@ height
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000031_source')" id="l_M000031_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000032_source')" id="l_M000032_source">show</a>
                         
                         | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/terminal.rb#L53" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000031_source" class="dyn-source">
+                    <div id="M000032_source" class="dyn-source">
                         <pre><span class="ruby-comment cmt"># File lib/gli/terminal.rb, line 53</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">size</span>
       <span class="ruby-keyword kw">if</span> (<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'COLUMNS'</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\d+$/</span>) <span class="ruby-operator">&amp;&amp;</span> (<span class="ruby-constant">ENV</span>[<span class="ruby-value str">'LINES'</span>] <span class="ruby-operator">=~</span> <span class="ruby-regexp re">/^\d+$/</span>)

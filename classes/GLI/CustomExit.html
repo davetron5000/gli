@@ -37,7 +37,9 @@
     <div class="description">
         <p>
 Raise this if you want to use an exit status that isn&#8217;t the default
-provided by <a href="../GLI.html">GLI</a>.
+provided by <a href="../GLI.html">GLI</a>. Note that <a
+href="../GLI.html#M000055">GLI#exit_now!</a> might be a bit more to your
+liking.
 </p>
 <p>
 Example:
@@ -64,7 +66,7 @@ Example:
         <dd>
             <ul>
                 
-                <li><a href="#M000023">new</a></li>
+                <li><a href="#M000024">new</a></li>
                 
             </ul>
         </dd>
@@ -86,9 +88,9 @@ Example:
             <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000023">
+                <div class="title" id="M000024">
                     
-                    <a name="M000023"></a><b>new</b>(message,exit_code)
+                    <a name="M000024"></a><b>new</b>(message,exit_code)
                     
                 </div>
                 
@@ -112,13 +114,13 @@ Create a custom exit exception
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000023_source')" id="l_M000023_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000024_source')" id="l_M000024_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/a12b99071e1b14f9b250f57792958c04cfb1bf14/lib/gli/exceptions.rb#L23" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/f6c027f2b7d7110964de8b2400204f236ee18d71/lib/gli/exceptions.rb#L40" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000023_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli/exceptions.rb, line 23</span>
+                    <div id="M000024_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/exceptions.rb, line 40</span>
     <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
       <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">message</span>)
       <span class="ruby-ivar">@exit_code</span> = <span class="ruby-identifier">exit_code</span>

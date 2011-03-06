@@ -3,7 +3,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>GLI::BadCommandLine</title>
+    <title>GLI::UnknownCommandArgument</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
     <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
@@ -16,11 +16,11 @@
     <div class="banner">
         <h1>
             <span class="type">Class</span> 
-            GLI::BadCommandLine 
+            GLI::UnknownCommandArgument 
             
                 <span class="parent">&lt; 
                     
-                    Exception
+                    BadCommandLine
                     
                 </span>
             
@@ -36,7 +36,7 @@
     
     <div class="description">
         <p>
-Indicates that the command line invocation was bad
+Indicates the bad command line was an unknown command argument
 </p>
 
     </div>
@@ -52,11 +52,11 @@ Indicates that the command line invocation was bad
     <div class="sectiontitle">Methods</div>
     <dl class="methods">
     
-        <dt>E</dt>
+        <dt>N</dt>
         <dd>
             <ul>
                 
-                <li><a href="#M000022">exit_code</a></li>
+                <li><a href="#M000023">new</a></li>
                 
             </ul>
         </dd>
@@ -73,15 +73,40 @@ Indicates that the command line invocation was bad
     
 
     
+    <div class="sectiontitle">Attributes</div>
+    <table border='0' cellpadding='5'>
+        
+        <tr valign='top'>
+            <td class='attr-rw'>
+                [R]
+            </td>
+            <td class='attr-name'>command</td>
+            <td class='attr-desc'></td>
+        </tr>
+        
+    </table>
+    
 
     
-            <div class="sectiontitle">Instance Public methods</div>
+            <div class="sectiontitle">Class Public methods</div>
             
             <div class="method">
-                <div class="title" id="M000022">
+                <div class="title" id="M000023">
                     
-                    <a name="M000022"></a><b>exit_code</b>()
+                    <a name="M000023"></a><b>new</b>(message,command)
                     
+                </div>
+                
+                <div class="description">
+                  <table>
+<tr><td valign="top"><tt>message</tt>:</td><td>the error message to show the user
+
+</td></tr>
+<tr><td valign="top"><tt>command</tt>:</td><td>the command we were using to parse command-specific options
+
+</td></tr>
+</table>
+
                 </div>
                 
                 
@@ -89,14 +114,17 @@ Indicates that the command line invocation was bad
                 
                 <div class="sourcecode">
                     <p class="source-link">
-                        Source: <a href="javascript:toggleSource('M000022_source')" id="l_M000022_source">show</a>
+                        Source: <a href="javascript:toggleSource('M000023_source')" id="l_M000023_source">show</a>
                         
-                        | <a href="http://github.com/davetron5000/gli/blob/f6c027f2b7d7110964de8b2400204f236ee18d71/lib/gli/exceptions.rb#L4" target="_blank" class="github_url">on GitHub</a>
+                        | <a href="http://github.com/davetron5000/gli/blob/f6c027f2b7d7110964de8b2400204f236ee18d71/lib/gli/exceptions.rb#L20" target="_blank" class="github_url">on GitHub</a>
                         
                     </p>
-                    <div id="M000022_source" class="dyn-source">
-                        <pre><span class="ruby-comment cmt"># File lib/gli/exceptions.rb, line 4</span>
-    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">exit_code</span>; <span class="ruby-value">-1</span>; <span class="ruby-keyword kw">end</span></pre>
+                    <div id="M000023_source" class="dyn-source">
+                        <pre><span class="ruby-comment cmt"># File lib/gli/exceptions.rb, line 20</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">command</span>)
+      <span class="ruby-keyword kw">super</span>(<span class="ruby-identifier">message</span>)
+      <span class="ruby-ivar">@command</span> = <span class="ruby-identifier">command</span>
+    <span class="ruby-keyword kw">end</span></pre>
                     </div>
                 </div>
                 
