@@ -26,7 +26,9 @@ module GLI
   @@stderr = $stderr
 
   # Override the device of stderr; exposed only for testing
-  def error_device=(e); @@stderr = e; end
+  def error_device=(e) #:nodoc:
+    @@stderr = e
+  end
 
   # Reset the GLI module internal data structures; mostly useful for testing
   def reset # :nodoc:
@@ -141,8 +143,8 @@ module GLI
     @@pre_block = a_proc
   end
 
-  # Define a block to run after command hase been executed, only
-  # if there was not an error.
+  # Define a block to run after the command was executed, <b>only
+  # if there was not an error</b>.
   # The block will receive the global-options,command,options, and arguments
   def post(&a_proc)
     @@post_block = a_proc
@@ -150,8 +152,14 @@ module GLI
 
   # Define a block to run if an error occurs.
   # The block will receive any Exception that was caught.
-  # It should return false to avoid the built-in error handling (which basically just
-  # prints out a message)
+  # It should evaluate to false to avoid the built-in error handling (which basically just
+  # prints out a message). GLI uses a variety of exceptions that you can use to find out what 
+  # errors might've occurred during command-line parsing:
+  # * GLI::CustomExit
+  # * GLI::UnknownCommandArgument
+  # * GLI::UnknownGlobalArgument
+  # * GLI::UnknownCommand
+  # * GLI::BadCommandLine
   def on_error(&a_proc)
     @@error_block = a_proc
   end
@@ -178,49 +186,68 @@ module GLI
   # +args+:: the command line ARGV array
   #
   # Returns a number that would be a reasonable exit code
-  def run(args)
+  def run(args) #:nodoc:
     rdoc = RDocCommand.new
     commands[:rdoc] = rdoc if !commands[:rdoc]
     commands[:help] = DefaultHelpCommand.new(@@version,rdoc) if !commands[:help]
+    exit_code = 0
     begin
       config = parse_config
       global_options,command,options,arguments = parse_options(args,config)
       copy_options_to_aliased_versions(global_options,command,options)
-      proceed = true
       global_options = convert_to_openstruct?(global_options)
       options = convert_to_openstruct?(options)
-      proceed = @@pre_block.call(global_options,command,options,arguments) if @@pre_block 
-      if proceed
+      if proceed?(global_options,command,options,arguments)
         command = commands[:help] if !command
         command.execute(global_options,options,arguments)
         @@post_block.call(global_options,command,options,arguments) if @@post_block 
       end
-      0
     rescue Exception => ex
-      regular_error_handling = true
-      regular_error_handling = @@error_block.call(ex) if @@error_block
 
-      if regular_error_handling
-        error_message = "error: #{ex.message}"
-        case ex
-        when UnknownCommand
-          error_message += ". Use '#{program_name} help' for a list of commands"
-        when UnknownCommandArgument
-          error_message += ". Use '#{program_name} help #{ex.command.name}' for a list of command options"
-        when UnknownGlobalArgument
-          error_message += ". Use '#{program_name} help' for a list of global options"
-        end
-        @@stderr.puts error_message
-      end
+      @@stderr.puts error_message(ex) if regular_error_handling?(ex)
 
       raise ex if ENV['GLI_DEBUG'] == 'true'
 
-      case ex
-      when BadCommandLine then -1
-      when CustomExit then ex.exit_code
-      else 
+      exit_code = if ex.respond_to? :exit_code
+        ex.exit_code
+      else
         -2
       end
+    end
+    exit_code
+  end
+
+  # True if we should proceed with executing the command; this calls
+  # the pre block if it's defined
+  def proceed?(global_options,command,options,arguments) #:nodoc:
+    if @@pre_block 
+      @@pre_block.call(global_options,command,options,arguments) 
+    else
+      true
+    end
+  end
+
+  # Returns true if we should proceed with GLI's basic error handling.
+  # This calls the error block if the user provided one
+  def regular_error_handling?(ex) #:nodoc:
+    if @@error_block
+      @@error_block.call(ex)
+    else
+      true
+    end
+  end
+
+  # Returns a String of the error message to show the user
+  # +ex+:: The exception we caught that launched the error handling routines
+  def error_message(ex) #:nodoc:
+    msg = "error: #{ex.message}"
+    case ex
+    when UnknownCommand
+      msg += ". Use '#{program_name} help' for a list of commands"
+    when UnknownCommandArgument
+      msg += ". Use '#{program_name} help #{ex.command.name}' for a list of command options"
+    when UnknownGlobalArgument
+      msg += ". Use '#{program_name} help' for a list of global options"
     end
   end
 

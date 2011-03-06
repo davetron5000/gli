@@ -1,21 +1,22 @@
 module GLI
   # Indicates that the command line invocation was bad
-  class BadCommandLine < Exception #:nodoc:
+  class BadCommandLine < Exception
+    def exit_code; -1; end
   end
 
   # Indicates the bad command line was an unknown command
-  class UnknownCommand < BadCommandLine #:nodoc:
+  class UnknownCommand < BadCommandLine
   end
 
   # Indicates the bad command line was an unknown global argument
-  class UnknownGlobalArgument < BadCommandLine #:nodoc:
+  class UnknownGlobalArgument < BadCommandLine
   end
 
   # Indicates the bad command line was an unknown command argument
-  class UnknownCommandArgument < BadCommandLine #:nodoc:
+  class UnknownCommandArgument < BadCommandLine
     attr_reader :command
-    # [+message+] the error message to show the user
-    # [+command+] the command we were using to parse command-specific options
+    # +message+:: the error message to show the user
+    # +command+:: the command we were using to parse command-specific options
     def initialize(message,command)
       super(message)
       @command = command
@@ -23,7 +24,7 @@ module GLI
   end
 
   # Raise this if you want to use an exit status that isn't the default
-  # provided by GLI.
+  # provided by GLI.  Note that GLI#exit_now! might be a bit more to your liking.
   #
   # Example:
   #
