@@ -10,6 +10,10 @@ class TC_testCommand < Test::Unit::TestCase
       @strings ||= []
       @strings << string unless string.nil?
     end
+
+    def to_s
+      @strings.join("\n")
+    end
   end
 
   def setup
@@ -121,10 +125,36 @@ class TC_testCommand < Test::Unit::TestCase
   end
 
   def test_help
-    args = %w(help basic)
-    GLI.run(args)
     args = %w(help)
     GLI.run(args)
+    ['\[global options\]','\[command options\]','Global Options:'].each do |opt|
+      assert_not_nil @fake_stdout.strings.find{ |x| x =~ /#{opt}/ }, 
+        "Expected to find '#{opt.gsub('\\','')}' in output, which was:\n #{@fake_stdout}"
+    end
+  end
+
+  def test_help_no_global_options
+    GLI.reset
+    GLI.desc 'Basic Command'
+    GLI.command [:basic,:bs] do |c|
+      c.action do |global_options,options,arguments|
+      end
+    end
+    @fake_stdout = FakeStdOut.new
+    DefaultHelpCommand.output_device=@fake_stdout
+
+    GLI.run(%w(help))
+    assert_nil @fake_stdout.strings.find{ |x| x =~ /\[global options\]/ },
+      "Wasn't expecting '[global options]' in the output, but found it!\n#{@fake_stdout}"
+  end
+
+  def test_help_one_command
+    args = %w(help basic)
+    GLI.run(args)
+    ['Command Options:','\[command options\]'].each do |opt|
+      assert_not_nil @fake_stdout.strings.find{ |x| x =~ /#{opt}/},
+        "Expected to find '#{opt.gsub('\\','')}' in output, which was:\n #{@fake_stdout}"
+    end
   end
 
   def test_version

@@ -30,9 +30,10 @@ module GLI
     end
 
     # Get the usage string
+    # CR: This should probably not be here
     def usage #:nodoc:
       usage = name.to_s
-      usage += ' [options]' if !flags.empty? || !switches.empty?
+      usage += ' [command options]' if !flags.empty? || !switches.empty?
       usage += ' ' + @arguments_description if @arguments_description
       usage
     end

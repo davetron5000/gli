@@ -47,18 +47,20 @@ module GLI
     private
 
     def list_global_flags
-      usage = "usage: #{GLI.program_name} command"
+      usage = "usage: #{GLI.program_name} "
       all_options = GLI.switches.merge(GLI.flags)
       if !all_options.empty?
-        usage += ' [options]'
+          usage += "[global options] "
       end
+      usage += "command"
+      usage += ' [command options]'
       @@output.puts usage
       @@output.puts
       if @version
         @@output.puts "Version: #{@version}"
         @@output.puts
       end
-      @@output.puts 'Options:' if !all_options.empty?
+      @@output.puts 'Global Options:' if !all_options.empty?
       output_command_tokens_for_help(all_options)
       @@output.puts if !all_options.empty?
     end
@@ -85,7 +87,7 @@ module GLI
         all_options = command.switches.merge(command.flags)
         if !all_options.empty?
           @@output.puts
-          @@output.puts "Options:"
+          @@output.puts "Command Options:"
           output_command_tokens_for_help(all_options)
         end
       else
