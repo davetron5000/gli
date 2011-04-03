@@ -47,6 +47,10 @@ module GLI
     private
 
     def list_global_flags
+      if GLI.program_desc
+        @@output.puts wrap(GLI.program_desc,0)
+        @@output.puts
+      end
       usage = "usage: #{GLI.program_name} "
       all_options = GLI.switches.merge(GLI.flags)
       if !all_options.empty?

@@ -48,6 +48,10 @@ module GLI
     def create_rdoc
       File.open("#{GLI.program_name}.rdoc",'w') do |file|
         file << "= <tt>#{GLI.program_name}</tt>\n\n"
+        if GLI.program_desc
+          file << GLI.program_desc
+          file << "\n\n"
+        end
         file << "    "
         file << GLI.program_name
         file << " "

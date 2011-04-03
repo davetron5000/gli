@@ -1,5 +1,6 @@
 = <tt>gli</tt>
 
+gli allows you to create the scaffolding for a GLI-powered application
     gli [global options] command_name [command-specific options] [--] arguments...
 
 * Use the command +help+ to get a summary of commands

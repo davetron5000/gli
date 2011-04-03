@@ -23,6 +23,7 @@ class TC_testCommand < Test::Unit::TestCase
 
   def setup
     GLI.reset
+    GLI.program_desc 'A super awesome program'
     GLI.desc 'Some Global Option'
     GLI.switch :g
     GLI.switch :blah
@@ -154,7 +155,7 @@ class TC_testCommand < Test::Unit::TestCase
   def test_help
     args = %w(help)
     GLI.run(args)
-    ['\[global options\]','\[command options\]','Global Options:'].each do |opt|
+    ['\[global options\]','\[command options\]','Global Options:','A super awesome program'].each do |opt|
       assert_contained(@fake_stdout,/#{opt}/)
     end
   end

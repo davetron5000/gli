@@ -24,6 +24,7 @@ module GLI
   @@use_openstruct = false
   @@version = nil
   @@stderr = $stderr
+  @@program_desc = nil
 
   # Override the device of stderr; exposed only for testing
   def error_device=(e) #:nodoc:
@@ -38,6 +39,7 @@ module GLI
     @@version = nil
     @@config_file = nil
     @@use_openstruct = false
+    @@prog_desc = nil
     clear_nexts
   end
 
@@ -46,6 +48,17 @@ module GLI
   #
   # +description+:: A String of the short descripiton of the switch, flag, or command following
   def desc(description); @@next_desc = description; end
+
+  # Describe the overall application/programm.  This should be a one-sentence summary
+  # of what your program does that will appear in the help output.
+  #
+  # +description+:: A String of the short description of your program's purpose
+  def program_desc(description=nil) 
+    if description
+      @@program_desc = description
+    end
+    @@program_desc
+  end
 
   # Provide a longer, more detailed description.  This
   # will be reformatted and wrapped to fit in the terminal's columns

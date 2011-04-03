@@ -19,6 +19,8 @@ require 'gli_version'
 
 include GLI
 
+program_desc 'gli allows you to create the scaffolding for a GLI-powered application'
+
 version GLI::VERSION
 desc 'Be verbose'
 switch :v
