@@ -95,10 +95,42 @@ class TC_testCommand < Test::Unit::TestCase
       assert_equal('false',@glob_verbose)
       assert_equal('foo',@configure)
       assert_equal(%w(bar baz quux),@args)
-      assert(@pre_called)
-      assert(@post_called)
-      assert(!@error_called)
+      assert(@pre_called,"Pre block should have been called")
+      assert(@post_called,"Post block should have been called")
+      assert(!@error_called,"Error block should not have been called")
     end
+  end
+
+  def test_command_skips_pre
+    GLI.skips_pre
+    skips_pre_called = false
+    runs_pre_called = false
+    GLI.command [:skipspre] do |c| 
+      c.action do |g,o,a|
+        skips_pre_called = true
+      end
+    end
+
+    # Making sure skips_pre doesn't leak to other commands
+    GLI.command [:runspre] do |c|
+      c.action do |g,o,a|
+        runs_pre_called = true
+      end
+    end
+
+    GLI.run(['skipspre'])
+
+    assert(skips_pre_called,"'skipspree' should have been called")
+    assert(!@pre_called,"Pre block should not have been called")
+    assert(@post_called,"Post block SHOULD have been called")
+    assert(!@error_called,"Error block should not have been called")
+
+    GLI.run(['runspre'])
+
+    assert(runs_pre_called,"'runspre' should have been called")
+    assert(@pre_called,"Pre block should not have been called")
+    assert(@post_called,"Post block SHOULD have been called")
+    assert(!@error_called,"Error block should not have been called")
   end
 
   def test_command_no_globals

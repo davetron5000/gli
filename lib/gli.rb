@@ -25,6 +25,7 @@ module GLI
   @@version = nil
   @@stderr = $stderr
   @@program_desc = nil
+  @@skips_pre = false
 
   # Override the device of stderr; exposed only for testing
   def error_device=(e) #:nodoc:
@@ -58,6 +59,13 @@ module GLI
       @@program_desc = description
     end
     @@program_desc
+  end
+
+  # Use this if the following command should not have the pre block executed.
+  # By default, the pre block is executed before each command and can result in
+  # aborting the call.  Using this will avoid that behavior for the following command
+  def skips_pre
+    @@skips_pre = true
   end
 
   # Provide a longer, more detailed description.  This
@@ -140,7 +148,7 @@ module GLI
   # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases for this command.
   #
   def command(*names)
-    command = Command.new([names].flatten,@@next_desc,@@next_arg_name,@@next_long_desc)
+    command = Command.new([names].flatten,@@next_desc,@@next_arg_name,@@next_long_desc,@@skips_pre)
     commands[command.name] = command
     yield command
     clear_nexts
@@ -233,7 +241,9 @@ module GLI
   # True if we should proceed with executing the command; this calls
   # the pre block if it's defined
   def proceed?(global_options,command,options,arguments) #:nodoc:
-    if @@pre_block 
+    if command && command.skips_pre
+      true
+    elsif @@pre_block 
       @@pre_block.call(global_options,command,options,arguments) 
     else
       true
@@ -369,6 +379,7 @@ module GLI
     @@next_arg_name = nil
     @@next_default_value = nil
     @@next_long_desc = nil
+    @@skips_pre = false
   end
 
   clear_nexts

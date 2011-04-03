@@ -13,15 +13,22 @@ module GLI
     # +description+:: short description of this command as a Strign
     # +arguments_name+:: description of the arguments as a String, or nil if this command doesn't take arguments
     # +long_desc+:: a longer description of the command, possibly with multiple lines and text formatting
-    def initialize(names,description,arguments_name=nil,long_desc=nil) # :nodoc:
+    # +skips_pre+:: if true, this command advertises that it doesn't want the pre block called first
+    def initialize(names,description,arguments_name=nil,long_desc=nil,skips_pre=false) # :nodoc:
       super(names,description,long_desc)
       @arguments_description = arguments_name || ''
+      @skips_pre = skips_pre
       clear_nexts
     end
 
     # Return the arguments description
     def arguments_description #:nodoc:
       @arguments_description
+    end
+
+    # If true, this command doesn't want the pre block run before it executes
+    def skips_pre #:nodoc:
+      @skips_pre
     end
 
     # Return the Array of the command's names
