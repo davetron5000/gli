@@ -5,8 +5,23 @@ require 'gli/terminal'
 module GLI
   class DefaultHelpCommand < Command #:nodoc:
     @@output = $stdout
+    @@skips_pre = true
+    @@skips_post = true
+
     # Exposed for testing
     def self.output_device=(o); @@output = o; end
+
+    # To override the default behavior of the help command, which is
+    # to NOT run the pre block, use this.
+    def self.skips_pre=(skips_pre)
+      @@skips_pre = skips_pre
+    end
+
+    # To override the default behavior of the help command, which is
+    # to NOT run the post block, use this.
+    def self.skips_post=(skips_post)
+      @@skips_post = skips_post
+    end
 
     def initialize(version,*omit_from_list)
       @omit_from_list = omit_from_list
@@ -18,6 +33,9 @@ module GLI
       self.desc 'List all commands one line at a time, for use with shell completion ([command] argument is partial command to match)'
       self.switch [:c,:completion]
     end
+
+    def skips_pre; @@skips_pre; end
+    def skips_post; @@skips_post; end
 
     def execute(global_options,options,arguments)
       if options[:c]

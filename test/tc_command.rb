@@ -60,6 +60,8 @@ class TC_testCommand < Test::Unit::TestCase
     @fake_stdout = FakeStdOut.new
     @fake_stderr = FakeStdOut.new
     DefaultHelpCommand.output_device=@fake_stdout
+    DefaultHelpCommand.skips_pre=true
+    DefaultHelpCommand.skips_post=true
     GLI.error_device=@fake_stderr
   end
 
@@ -103,8 +105,11 @@ class TC_testCommand < Test::Unit::TestCase
 
   def test_command_skips_pre
     GLI.skips_pre
+    GLI.skips_post
+
     skips_pre_called = false
     runs_pre_called = false
+
     GLI.command [:skipspre] do |c| 
       c.action do |g,o,a|
         skips_pre_called = true
@@ -120,9 +125,9 @@ class TC_testCommand < Test::Unit::TestCase
 
     GLI.run(['skipspre'])
 
-    assert(skips_pre_called,"'skipspree' should have been called")
+    assert(skips_pre_called,"'skipspre' should have been called")
     assert(!@pre_called,"Pre block should not have been called")
-    assert(@post_called,"Post block SHOULD have been called")
+    assert(!@post_called,"Post block should not have been called")
     assert(!@error_called,"Error block should not have been called")
 
     GLI.run(['runspre'])
@@ -190,6 +195,17 @@ class TC_testCommand < Test::Unit::TestCase
     ['\[global options\]','\[command options\]','Global Options:','A super awesome program'].each do |opt|
       assert_contained(@fake_stdout,/#{opt}/)
     end
+    assert(!@pre_called,"Expected pre block NOT to have been called")
+    assert(!@post_called,"Expected post block NOT to have been called")
+  end
+
+  def test_help_with_pre_called
+    args = %w(help)
+    GLI::DefaultHelpCommand.skips_pre=false
+    GLI::DefaultHelpCommand.skips_post=false
+    GLI.run(args)
+    assert(@pre_called,"Expected pre block to have been called")
+    assert(@post_called,"Expected pre block to have been called")
   end
 
   def test_help_no_global_options

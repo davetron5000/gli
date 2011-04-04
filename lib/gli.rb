@@ -26,6 +26,7 @@ module GLI
   @@stderr = $stderr
   @@program_desc = nil
   @@skips_pre = false
+  @@skips_post = false
 
   # Override the device of stderr; exposed only for testing
   def error_device=(e) #:nodoc:
@@ -66,6 +67,13 @@ module GLI
   # aborting the call.  Using this will avoid that behavior for the following command
   def skips_pre
     @@skips_pre = true
+  end
+
+  # Use this if the following command should not have the post block executed.
+  # By default, the post block is executed after each command.
+  # Using this will avoid that behavior for the following command
+  def skips_post
+    @@skips_post = true
   end
 
   # Provide a longer, more detailed description.  This
@@ -148,7 +156,7 @@ module GLI
   # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases for this command.
   #
   def command(*names)
-    command = Command.new([names].flatten,@@next_desc,@@next_arg_name,@@next_long_desc,@@skips_pre)
+    command = Command.new([names].flatten,@@next_desc,@@next_arg_name,@@next_long_desc,@@skips_pre,@@skips_post)
     commands[command.name] = command
     yield command
     clear_nexts
@@ -221,7 +229,9 @@ module GLI
       if proceed?(global_options,command,options,arguments)
         command = commands[:help] if !command
         command.execute(global_options,options,arguments)
-        @@post_block.call(global_options,command,options,arguments) if @@post_block 
+        if !command.skips_post && @@post_block
+          @@post_block.call(global_options,command,options,arguments)
+        end
       end
     rescue Exception => ex
 
@@ -380,6 +390,7 @@ module GLI
     @@next_default_value = nil
     @@next_long_desc = nil
     @@skips_pre = false
+    @@skips_post = false
   end
 
   clear_nexts
