@@ -7,6 +7,7 @@ require 'sdoc'
 require 'grancher/task'
 
 CLEAN << "cruddo.rdoc"
+CLEAN << "log"
 CLOBBER << FileList['**/*.rbc']
 
 Grancher::Task.new do |g|
