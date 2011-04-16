@@ -13,6 +13,7 @@ GEM
     json (1.5.1)
     json (1.5.1-java)
     open4 (0.9.6)
+    rainbow (1.1.1)
     rake (0.8.7)
     rcov (0.9.9)
     rdoc (2.4.3)
@@ -27,6 +28,7 @@ PLATFORMS
 DEPENDENCIES
   gli!
   grancher
+  rainbow
   rake (>= 0.8.7)
   rcov (>= 0.9.8)
   rdoc (>= 2.4.3)

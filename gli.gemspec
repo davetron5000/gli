@@ -37,5 +37,6 @@ bin/gli
   s.add_development_dependency('rdoc', '>= 2.4.3')
   s.add_development_dependency('sdoc', '>= 0.2.20')
   s.add_development_dependency('grancher')
+  s.add_development_dependency('rainbow')
 end
 
