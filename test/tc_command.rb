@@ -206,7 +206,7 @@ class TC_testCommand < Test::Unit::TestCase
       :blah => true,
       :y => "foo",
     }
-    File.open(config_file,'w') { |file| YAML.dump(config,file) }
+    File.open(config_file.path,'w') { |file| YAML.dump(config,file) }
     GLI.config_file(config_file.path)
     GLI.run(%w(help))
     assert_contained(@fake_stdout,/\(default: foo\)/)
