@@ -115,7 +115,6 @@ EOS
           File.open("#{root_dir}/#{project_name}/test/tc_nothing.rb",'w') do |test_file|
             test_file.puts <<EOS
 require 'test/unit'
-require 'test/unit/ui/console/testrunner'
 
 class TC_testNothing < Test::Unit::TestCase
 
