@@ -49,8 +49,8 @@ begin
     t.test_files = FileList['test/tc_*.rb']
   end
 rescue LoadError
-  puts "rcov not installed; you won't be able to check code coverage"
-  puts "Since rcov only works on MRI 1.8.7, this shouldn't be a problem"
+  $stderr.puts "rcov not installed; you won't be able to check code coverage"
+  $stderr.puts "Since rcov only works on MRI 1.8.7, this shouldn't be a problem"
 end
 
 desc 'Publish rdoc on github pages and push to github'
