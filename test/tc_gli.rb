@@ -64,17 +64,19 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.flag :f
     GLI.switch :s
     GLI.flag :g
+    called = false
     GLI.command :command do |c|
       c.flag :f
       c.switch :s
       c.flag :g
       c.action do |g,o,a|
         begin
+          called = true
           assert_equal "foo",g[:f]
           assert_equal "bar",o[:g]
-          assert_nil g[:g]
-          assert_nil o[:f]
-          assert_nil g[:s]
+          assert !g[:g]
+          assert !o[:f]
+          assert !g[:s]
           assert o[:s]
         rescue Exception => ex
           failure = ex
@@ -82,6 +84,38 @@ class TC_testGLI < Test::Unit::TestCase
       end
     end
     GLI.run(['command'])
+    assert called
+    raise failure if !failure.nil?
+  end
+
+  def test_command_line_overrides_config
+    failure = nil
+    GLI.reset
+    GLI.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
+    GLI.flag :f
+    GLI.switch :s
+    GLI.flag :g
+    called = false
+    GLI.command :command do |c|
+      c.flag :f
+      c.switch :s
+      c.flag :g
+      c.action do |g,o,a|
+        begin
+          called = true
+          assert_equal "baaz",o[:g]
+          assert_equal "bar",g[:f]
+          assert !g[:g]
+          assert !o[:f]
+          assert !g[:s]
+          assert o[:s]
+        rescue Exception => ex
+          failure = ex
+        end
+      end
+    end
+    GLI.run %w(-f bar command -g baaz)
+    assert called
     raise failure if !failure.nil?
   end
 

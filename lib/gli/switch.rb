@@ -6,6 +6,7 @@ module GLI
 
     def initialize(names,description,long_desc=nil)
       super(names,description,long_desc)
+      @default_value = false
     end
 
     # Given the argument list, scans it looking for this switch
@@ -23,7 +24,13 @@ module GLI
           return result[0]
         end
       end
-      false
+      @default_value
+    end
+
+    # Used only to configure what's returned if we do not detect this switch on the command line
+    # This allows the configuration file to set a switch as always on
+    def default_value=(default)
+      @default_value = default
     end
 
     # Finds the switch in the given arg, returning the arg to keep.

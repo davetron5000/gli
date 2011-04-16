@@ -222,7 +222,8 @@ module GLI
     exit_code = 0
     begin
       config = parse_config
-      global_options,command,options,arguments = parse_options(args,config)
+      override_defaults_based_on_config(config)
+      global_options,command,options,arguments = parse_options(args)
       copy_options_to_aliased_versions(global_options,command,options)
       global_options = convert_to_openstruct?(global_options)
       options = convert_to_openstruct?(options)
@@ -361,14 +362,8 @@ module GLI
   #  * Command 
   #  * command options (as a Hash)
   #  * arguments (as an Array)
-  def parse_options(args,config=nil) # :nodoc:
-    command_configs = {}
-    if config.nil?
-      config = {}
-    else
-      command_configs = config.delete(GLI::InitConfig::COMMANDS_KEY) if !config.nil?
-    end
-    global_options,command,options,arguments = parse_options_helper(args.clone,config,nil,Hash.new,Array.new,command_configs)
+  def parse_options(args) # :nodoc:
+    global_options,command,options,arguments = parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
     flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
     command.flags.each { |name,flag| options[name] = flag.default_value if !options[name] }
     return [global_options,command,options,arguments]
@@ -411,7 +406,6 @@ module GLI
   # <code>command</code>:: the Command that has been identified (or nil if not identified yet)
   # <code>command_options</code>:: options for Command
   # <code>arguments</code>:: the arguments for Command
-  # <code>command_configs</code>:: the configuration file for all commands, used as defaults
   #
   # This works by finding the first non-switch/flag argument, and taking that sublist and trying to pick out
   # flags and switches.  After this is done, one of the following is true:
@@ -424,7 +418,7 @@ module GLI
   #
   # Once the command has been found, we start looking for command-specific flags and switches.
   # When those have been found, we know the rest of the argument list is arguments for the command
-  def parse_options_helper(args,global_options,command,command_options,arguments,command_configs) # :nodoc:
+  def parse_options_helper(args,global_options,command,command_options,arguments) # :nodoc:
     non_flag_i = find_non_flag_index(args)
     all_flags = false
     if non_flag_i == 0
@@ -436,9 +430,8 @@ module GLI
         return parse_options_helper(args,
                                     global_options,
                                     command,
-                                    default_command_options(command,command_configs),
-                                    arguments,
-                                    command_configs)
+                                    Hash.new,
+                                    arguments)
       else
         return global_options,command,command_options,arguments + args
       end
@@ -488,7 +481,7 @@ module GLI
       return [global_options,command,command_options,arguments] if rest.empty?
       # If we have no more options we've parsed them all
       # and rest may have more
-      return parse_options_helper(rest,global_options,command,command_options,arguments,command_configs)
+      return parse_options_helper(rest,global_options,command,command_options,arguments)
     else
       if command
         check = rest
@@ -512,16 +505,11 @@ module GLI
         return parse_options_helper(rest,
                                     global_options,
                                     command,
-                                    default_command_options(command,command_configs),
-                                    arguments,
-                                    command_configs)
+                                    Hash.new,
+                                    arguments)
       end
     end
 
-  end
-
-  def default_command_options(command,command_configs) # :nodoc:
-    options = (command_configs && command_configs[command.name.to_sym]) || {}
   end
 
   def find_command(name) # :nodoc:
@@ -552,4 +540,27 @@ module GLI
       end
     end
   end
+
+  # Sets the default values for flags based on the configuration
+  def override_defaults_based_on_config(config)
+    config ||= {}
+    config['commands'] ||= {}
+
+    override_default(flags,config)
+    override_default(switches,config)
+
+    commands.each do |command_name,command|
+      command_config = config['commands'][command_name] || {}
+
+      override_default(command.flags,command_config)
+      override_default(command.switches,command_config)
+    end
+  end
+
+  def override_default(tokens,config)
+    tokens.each do |name,token|
+      token.default_value=config[name] if config[name]
+    end
+  end
+
 end

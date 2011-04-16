@@ -4,7 +4,7 @@ module GLI
   # Defines a flag, which is to say a switch that takes an argument
   class Flag < Switch # :nodoc:
 
-    attr_reader :default_value
+    attr_accessor :default_value
 
     def initialize(names,description,argument_name=nil,default=nil,long_desc=nil)
       super(names,description,long_desc)

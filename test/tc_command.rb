@@ -1,5 +1,6 @@
 require 'gli.rb'
 require 'test/unit'
+require 'tempfile'
 
 include GLI
 class TC_testCommand < Test::Unit::TestCase
@@ -197,6 +198,18 @@ class TC_testCommand < Test::Unit::TestCase
     end
     assert(!@pre_called,"Expected pre block NOT to have been called")
     assert(!@post_called,"Expected post block NOT to have been called")
+  end
+
+  def test_help_with_config_file_shows_config_value
+    config_file = Tempfile.new('gli_config')
+    config = {
+      :blah => true,
+      :y => "foo",
+    }
+    File.open(config_file,'w') { |file| YAML.dump(config,file) }
+    GLI.config_file(config_file.path)
+    GLI.run(%w(help))
+    assert_contained(@fake_stdout,/\(default: foo\)/)
   end
 
   def test_help_with_pre_called
