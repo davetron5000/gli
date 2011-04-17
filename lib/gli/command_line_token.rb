@@ -38,9 +38,9 @@ module GLI
       # Allow strings; convert to symbols
       names = [names].flatten.map { |name| name.to_sym } 
       names_hash = Hash.new
-      names.each do |n| 
-        raise ArgumentError.new("#{n} has spaces; they are not allowed") if n.to_s =~ /\s/
-        names_hash[self.class.name_as_string(n)] = true
+      names.each do |name| 
+        raise ArgumentError.new("#{name} has spaces; they are not allowed") if name.to_s =~ /\s/
+        names_hash[self.class.name_as_string(name)] = true
       end
       name = names.shift
       aliases = names.length > 0 ? names : nil
@@ -50,7 +50,7 @@ module GLI
     def all_forms_a
       forms = [self.class.name_as_string(name)]
       if aliases
-        forms |= aliases.collect { |a| self.class.name_as_string(a) }.sort { |x,y| y.length <=> x.length }
+        forms |= aliases.collect { |one_alias| self.class.name_as_string(one_alias) }.sort { |one,two| two.length <=> one.length }
       end
       forms
     end

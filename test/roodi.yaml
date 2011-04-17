@@ -1,0 +1,9 @@
+# Not the most strict checks, but they pass for now
+AssignmentInConditionalCheck:    { }
+ClassLineCountCheck:             { line_count: 300 }
+ClassNameCheck:                  { pattern: !ruby/regexp /^[A-Z][a-zA-Z0-9]*$/ }
+CyclomaticComplexityBlockCheck:  { complexity: 5 }
+EmptyRescueBodyCheck:            { }
+ForLoopCheck:                    { }
+MethodNameCheck:                 { pattern: !ruby/regexp /^[_a-z<>=\[\]|+-\/\*`]+[_a-z0-9_<>=~@\[\]]*[=!\?]?$/ }
+ModuleNameCheck:                 { pattern: !ruby/regexp /^[A-Z][a-zA-Z0-9]*$/ }

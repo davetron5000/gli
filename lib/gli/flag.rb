@@ -1,4 +1,5 @@
 require 'gli/command_line_token.rb'
+require 'gli/switch.rb'
 
 module GLI
   # Defines a flag, which is to say a switch that takes an argument

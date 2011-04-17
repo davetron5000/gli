@@ -1,9 +1,10 @@
-require 'gli/command_line_token.rb'
 require 'gli/command.rb'
-require 'gli/switch.rb'
+require 'gli/command_line_token.rb'
+require 'gli/copy_options_to_aliases.rb'
+require 'gli/exceptions.rb'
 require 'gli/flag.rb'
 require 'gli/options.rb'
-require 'gli/exceptions.rb'
+require 'gli/switch.rb'
 require 'gli_version.rb'
 require 'support/help.rb'
 require 'support/rdoc.rb'
@@ -15,6 +16,7 @@ require 'etc'
 # specific options, and then command arguments.
 module GLI
   extend self
+  include CopyOptionsToAliases
 
   @@program_name = $0.split(/\//)[-1]
   @@post_block = nil
@@ -322,36 +324,15 @@ module GLI
   # For example, if a flag works with either -f or --flag, this will copy the value from [:f] to [:flag]
   # to allow the user to access the options by any alias
   def copy_options_to_aliased_versions(global_options,command,options) # :nodoc:
-    copy_options_to_aliases(global_options,self)
-    copy_options_to_aliases(options,command)
-  end
-
-  # For each option in options, copies its value to keys for the aliases of the flags or
-  # switches in gli_like
-  #
-  # options - Hash of options parsed from command line; this is an I/O param
-  # gli_like - Object resonding to flags and switches in the same way that GLI or a Command instance do
-  def copy_options_to_aliases(options,gli_like) # :nodoc:
-    new_options = {}
-    options.each do |key,value|
-      if gli_like.flags[key] && gli_like.flags[key].aliases
-        gli_like.flags[key].aliases.each do |alias_name|
-          new_options[alias_name] = value
-        end
-      elsif gli_like.switches[key] && gli_like.switches[key].aliases
-        gli_like.switches[key].aliases.each do |alias_name|
-          new_options[alias_name] = value
-        end
-      end
-    end
-    options.merge!(new_options)
+    copy_options_to_aliases(global_options)
+    command.copy_options_to_aliases(options)
   end
 
   def parse_config # :nodoc:
     return nil if @@config_file.nil?
     require 'yaml'
     if File.exist?(@@config_file)
-      File.open(@@config_file) { |f| YAML::load(f) }
+      File.open(@@config_file) { |file| YAML::load(file) }
     else
       {}
     end
@@ -372,11 +353,11 @@ module GLI
   # Finds the index of the first non-flag
   # argument or -1 if there wasn't one.
   def find_non_flag_index(args) # :nodoc:
-    args.each_index do |i|
-      return i if args[i] =~ /^[^\-]/;
-      return i-1 if args[i] =~ /^\-\-$/;
+    args.each_with_index do |item,index|
+      return index if item =~ /^[^\-]/
+      return index-1 if item =~ /^\-\-$/
     end
-    -1;
+    -1
   end
 
   def clear_nexts # :nodoc:
@@ -515,8 +496,7 @@ module GLI
   def find_command(name) # :nodoc:
     sym = name.to_sym
     return commands[name.to_sym] if commands[sym]
-    commands.keys.each do |command_name|
-      command = commands[command_name]
+    commands.each do |command_name,command|
       return command if (command.aliases && command.aliases.include?(sym))
     end
     nil

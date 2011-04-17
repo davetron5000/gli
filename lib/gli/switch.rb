@@ -13,13 +13,13 @@ module GLI
     # returning true if it's in the argumennt list (and removing it from the argument list)
     def get_value!(args)
       idx = -1
-      args.each_index do |i|
-        result = find_me(args[i])
+      args.each_index do |index|
+        result = find_me(args[index])
         if result[0]
           if result[1]
-            args[i] = result[1]
+            args[index] = result[1]
           else
-            args.delete_at i
+            args.delete_at index
           end
           return result[0]
         end

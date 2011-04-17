@@ -5,6 +5,9 @@ require 'rake/testtask'
 require 'rake/rdoctask'
 require 'sdoc'
 require 'grancher/task'
+require 'reek/rake/task'
+require 'roodi'
+require 'roodi_task'
 
 CLEAN << "cruddo.rdoc"
 CLEAN << "log"
@@ -27,6 +30,17 @@ end
 spec = eval(File.read('gli.gemspec'))
 
 Rake::GemPackageTask.new(spec) do |pkg|
+end
+
+Reek::Rake::Task.new do |t|
+  t.fail_on_error = true
+  t.config_files = ['test/gli.reek']
+  t.source_files = FileList['lib/**/*.rb'] - FileList['lib/support/*.rb']
+end
+
+RoodiTask.new do |t|
+  t.patterns = ['lib/*.rb','lib/gli/*.rb']
+  t.config = 'test/roodi.yaml'
 end
 
 Rake::TestTask.new do |t|
@@ -57,5 +71,5 @@ end
 desc 'Publish rdoc on github pages and push to github'
 task :publish_rdoc => [:rdoc,:publish]
 
-task :default => :test
+task :default => [:test,:roodi,:reek]
 

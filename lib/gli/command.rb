@@ -1,4 +1,5 @@
 require 'gli/command_line_token.rb'
+require 'gli/copy_options_to_aliases.rb'
 
 module GLI
   # A command to be run, in context of global flags and switches.  You are given an instance of this class
@@ -6,6 +7,7 @@ module GLI
   # command-specific command-line arguments, much as you use the methods in GLI to describe the global
   # command-line interface
   class Command < CommandLineToken
+    include CopyOptionsToAliases
 
     # Create a new command
     #
