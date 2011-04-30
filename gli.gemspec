@@ -39,7 +39,8 @@ bin/gli
   s.add_development_dependency('sdoc', '~> 0.2.0')
   s.add_development_dependency('reek', '~> 1.2.0')
   s.add_development_dependency('roodi', '~> 2.1.0')
-  s.add_development_dependency('grancher')
-  s.add_development_dependency('rainbow')
+  s.add_development_dependency('grancher', '~> 0.1.5')
+  s.add_development_dependency('rainbow', '~> 1.1.1')
+  s.add_development_dependency('aruba', '~> 0.3.6')
 end
 

@@ -8,6 +8,8 @@ require 'grancher/task'
 require 'reek/rake/task'
 require 'roodi'
 require 'roodi_task'
+require 'cucumber'
+require 'cucumber/rake/task'
 
 CLEAN << "cruddo.rdoc"
 CLEAN << "log"
@@ -48,6 +50,11 @@ Rake::TestTask.new do |t|
   t.test_files = FileList['test/tc_*.rb']
 end
 
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "features --format pretty -x"
+  t.fork = false
+end
+
 begin
   require 'rcov/rcovtask'
   task :clobber_coverage do
@@ -71,5 +78,5 @@ end
 desc 'Publish rdoc on github pages and push to github'
 task :publish_rdoc => [:rdoc,:publish]
 
-task :default => [:test,:roodi,:reek]
+task :default => [:test,:features,:roodi,:reek]
 

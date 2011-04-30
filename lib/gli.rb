@@ -240,13 +240,12 @@ module GLI
 
       @@stderr.puts error_message(ex) if regular_error_handling?(ex)
 
-      raise ex if ENV['GLI_DEBUG'] == 'true'
-
       exit_code = if ex.respond_to? :exit_code
         ex.exit_code
       else
         -2
       end
+      raise ex if ENV['GLI_DEBUG'] == 'true'
     end
     exit_code
   end
