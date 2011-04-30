@@ -7,10 +7,10 @@ Feature: The GLI executable works as intended
     Given I have GLI installed
       And my terminal size is "80x24"
 
-  Scenario: Getting Help for GLI
-    When I run `gli help`
+  Scenario Outline: Getting Help for GLI
+    When I run `gli <command>`
     Then the exit status should be 0
-    Then the output should contain:
+     And the output should contain:
     """
     usage: gli [global options] command [command options]
 
@@ -28,10 +28,16 @@ Feature: The GLI executable works as intended
         init, scaffold - Create a new GLI-based project
     """
 
+    Examples:
+    |command|
+    |       |
+    |help   |
+
+
   Scenario Outline: Getting help on scaffolding
     When I run `gli help <command>`
     Then the exit status should be 0
-    Then the output should contain exactly:
+     And the output should contain exactly:
     """
     init [command options] project_name [command[ command]*]
         Create a new GLI-based project
@@ -60,5 +66,23 @@ Feature: The GLI executable works as intended
      And the output should contain exactly:
      """
      error: Unknown command 'foobar'. Use 'gli help' for a list of commands
+
+     """
+
+  Scenario: GLI correctly identifies non-existent global flag
+    When I run `gli -q help`
+    Then the exit status should not be 0
+     And the output should contain exactly:
+     """
+     error: Unknown option -q. Use 'gli help' for a list of global options
+
+     """
+
+  Scenario: GLI correctly identifies non-existent command flag
+    When I run `gli init -q`
+    Then the exit status should not be 0
+     And the output should contain exactly:
+     """
+     error: Unknown option -q. Use 'gli help init' for a list of command options
 
      """
