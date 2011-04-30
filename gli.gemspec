@@ -34,11 +34,11 @@ bin/gli
   s.bindir = 'bin'
   s.executables << 'gli'
   s.rubyforge_project = 'gli'
-  s.add_development_dependency('rake', '>= 0.8.7')
-  s.add_development_dependency('rdoc', '>= 2.4.3')
-  s.add_development_dependency('sdoc', '>= 0.2.20')
-  s.add_development_dependency('reek', '>= 1.2.8')
-  s.add_development_dependency('roodi', '>= 2.1.0')
+  s.add_development_dependency('rake', '~> 0.8.0')
+  s.add_development_dependency('rdoc', '~> 2.4.0')
+  s.add_development_dependency('sdoc', '~> 0.2.0')
+  s.add_development_dependency('reek', '~> 1.2.0')
+  s.add_development_dependency('roodi', '~> 2.1.0')
   s.add_development_dependency('grancher')
   s.add_development_dependency('rainbow')
 end

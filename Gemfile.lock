@@ -41,9 +41,9 @@ DEPENDENCIES
   gli!
   grancher
   rainbow
-  rake (>= 0.8.7)
+  rake (~> 0.8.0)
   rcov (>= 0.9.8)
-  rdoc (>= 2.4.3)
-  reek (>= 1.2.8)
-  roodi (>= 2.1.0)
-  sdoc (>= 0.2.20)
+  rdoc (~> 2.4.0)
+  reek (~> 1.2.0)
+  roodi (~> 2.1.0)
+  sdoc (~> 0.2.0)
