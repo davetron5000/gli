@@ -79,7 +79,7 @@ Feature: The scaffold GLI generates works
     And the output should contain:
     """
 
-    1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+    1 tests, 1 assertions, 0 failures, 0 errors
     """
     When I run `bin/todo rdoc`
     Then the file "todo.rdoc" should contain "todo [global options] command_name [command-specific options] [--] arguments..."
