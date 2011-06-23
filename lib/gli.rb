@@ -359,6 +359,13 @@ module GLI
     -1
   end
 
+  def flag_switch_index(args)
+    args.each_with_index do |item,index|
+      return index if item =~ /^[\-]/
+    end
+    -1
+  end
+
   def clear_nexts # :nodoc:
     @@next_desc = nil
     @@next_arg_name = nil
@@ -408,6 +415,15 @@ module GLI
         command = find_command(command_name)
         raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
         return parse_options_helper(args,
+                                    global_options,
+                                    command,
+                                    Hash.new,
+                                    arguments)
+      elsif((index = flag_switch_index(args)) >= 0)
+        try_me = args[0..index-1]
+        rest = args[index..args.length]
+        new_args = rest + try_me
+        return parse_options_helper(new_args,
                                     global_options,
                                     command,
                                     Hash.new,
@@ -489,7 +505,6 @@ module GLI
                                     arguments)
       end
     end
-
   end
 
   def find_command(name) # :nodoc:
