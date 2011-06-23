@@ -74,7 +74,7 @@ class TC_testParsing < Test::Unit::TestCase
       c.flag :v
     end
     argv = %w(-x doit)
-    assert_raises(UnknownGlobalArgument) do 
+    assert_raises(UnknownGlobalArgument) do
       global_options,command,command_options,arguments = GLI.parse_options(argv)
     end
   end
@@ -88,7 +88,7 @@ class TC_testParsing < Test::Unit::TestCase
       c.flag :v
     end
     argv = %w(doit -x)
-    assert_raises(UnknownCommandArgument) do 
+    assert_raises(UnknownCommandArgument) do
       global_options,command,command_options,arguments = GLI.parse_options(argv)
     end
   end
@@ -181,7 +181,23 @@ class TC_testParsing < Test::Unit::TestCase
       c.flag [:l,'stuff']
     end
 
-    argv = %w(doit list -l 10)
+    argv = %w(doit -l 10 list)
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert_equal '10', command_options[:l]
+    assert arguments.include?('list')
+  end
+
+  def test_switch_and_flag_order_with_global
+    GLI.reset
+    argv = %w(-v -f doit list -l 10)
+
+    GLI.switch :v
+    GLI.switch :f
+    GLI.command :doit do |c|
+      c.desc "list stuff"
+      c.flag [:l,'stuff']
+    end
+
     global_options,command,command_options,arguments = GLI.parse_options(argv)
     assert_equal '10', command_options[:l]
     assert arguments.include?('list')
