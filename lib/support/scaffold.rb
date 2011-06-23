@@ -149,7 +149,7 @@ EOS
         if !dry_run
           File.open(bin_file,'w') do |file|
             file.chmod(0755)
-            file.puts '#!/usr/bin/ruby'
+            file.puts '#!/usr/bin/env ruby'
             file.puts <<EOS
 # 1.9 adds realpath to resolve symlinks; 1.8 doesn't
 # have this method, so we add it so we get resolved symlinks
