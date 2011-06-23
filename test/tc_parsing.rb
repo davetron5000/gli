@@ -174,6 +174,19 @@ class TC_testParsing < Test::Unit::TestCase
     assert_equal(0,arguments.size)
   end
 
+  def test_switch_and_flag_order
+    GLI.reset
+    GLI.command :doit do |c|
+      c.desc "list stuff"
+      c.flag [:l,'stuff']
+    end
+
+    argv = %w(doit list -l 10)
+    global_options,command,command_options,arguments = GLI.parse_options(argv)
+    assert_equal '10', command_options[:l]
+    assert arguments.include?('list')
+  end
+
   def test_case_that_busted
     GLI.reset
     GLI.desc 'Some Global Option'
