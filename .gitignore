@@ -6,3 +6,4 @@ coverage
 .bundle
 cruddo.rdoc
 gli.wiki
+Gemfile.lock
