@@ -87,9 +87,8 @@ Feature: The scaffold GLI generates works
      And the file "todo.rdoc" should contain "[<tt>complete</tt>] Describe complete here"
      And the file "todo.rdoc" should contain "[<tt>list</tt>] Describe list here"
 
-      @debug
-  Scenario: Scaffold generates and respects flags to create ext dir and avoid test dir
-    When I run `gli init -e --notest todo add complete list`
+  Scenario Outline: Scaffold generates and respects flags to create ext dir and avoid test dir
+    When I run `<command>`
     Then the exit status should be 0
      And the output should contain exactly:
     """
@@ -120,3 +119,8 @@ Feature: The scaffold GLI generates works
        |todo/Rakefile            |
        |todo/Gemfile             |
        |todo/lib/todo_version.rb |
+
+        Examples:
+            | command                                     |
+            | gli init -e --notest todo add complete list |
+            | gli init todo add complete list -e --notest |
