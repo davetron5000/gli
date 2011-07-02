@@ -284,6 +284,7 @@ module GLI
     when UnknownGlobalArgument
       msg += ". Use '#{program_name} help' for a list of global options"
     end
+    msg
   end
 
   # Simpler means of exiting with a custom exit code.  This will 

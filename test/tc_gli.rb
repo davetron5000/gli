@@ -13,6 +13,7 @@ end
 require 'gli.rb'
 require 'support/initconfig.rb'
 require 'test/unit'
+require 'fake_std_out'
 
 include GLI
 class TC_testGLI < Test::Unit::TestCase
@@ -20,11 +21,14 @@ class TC_testGLI < Test::Unit::TestCase
   def setup
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
     @gli_debug = ENV['GLI_DEBUG']
+    @fake_stderr = FakeStdOut.new
+    GLI.error_device=@fake_stderr
   end
 
   def teardown
     File.delete(@config_file) if File.exist?(@config_file)
     ENV['GLI_DEBUG'] = @gli_debug
+    GLI.error_device=$stderr
   end
 
   def test_flag_create
@@ -402,6 +406,19 @@ class TC_testGLI < Test::Unit::TestCase
       end
     end
     assert_equal 45,GLI.run(['foo'])
+  end
+
+  def test_custom_exception_causes_error_to_be_printed_to_stderr
+    GLI.reset
+    GLI.on_error { true }
+    error_message = "Something went wrong"
+    GLI.command(:foo) do |c|
+      c.action do |g,o,a|
+        raise error_message
+      end
+    end
+    GLI.run(['foo'])
+    assert @fake_stderr.strings.include?("error: #{error_message}"),"STDERR was:\n" + @fake_stderr.to_s
   end
 
   def test_gli_debug_overrides_error_hiding
