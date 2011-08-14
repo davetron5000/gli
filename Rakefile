@@ -35,6 +35,7 @@ Rake::GemPackageTask.new(spec) do |pkg|
 end
 
 Reek::Rake::Task.new do |t|
+  t.ruby_opts << '-rubygems'
   t.fail_on_error = true
   t.config_files = ['test/gli.reek']
   t.source_files = FileList['lib/**/*.rb'] - FileList['lib/support/*.rb']
