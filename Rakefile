@@ -35,6 +35,7 @@ Rake::GemPackageTask.new(spec) do |pkg|
 end
 
 Reek::Rake::Task.new do |t|
+  t.ruby_opts << '-rubygems'
   t.fail_on_error = true
   t.config_files = ['test/gli.reek']
   t.source_files = FileList['lib/**/*.rb'] - FileList['lib/support/*.rb']
@@ -47,7 +48,7 @@ end
 
 Rake::TestTask.new do |t|
   t.libs << "test"
-  t.test_files = FileList['test/tc_*.rb']
+  t.test_files = FileList['test/init_simplecov.rb','test/tc_*.rb']
 end
 
 CUKE_RESULTS = 'results.html'
@@ -73,8 +74,11 @@ begin
     t.test_files = FileList['test/tc_*.rb']
   end
 rescue LoadError
-  $stderr.puts "rcov not installed; you won't be able to check code coverage"
-  $stderr.puts "Since rcov only works on MRI 1.8.7, this shouldn't be a problem"
+  begin
+    require 'simplecov'
+  rescue LoadError
+    $stderr.puts "neither rcov nor simplecov are installed; you won't be able to check code coverage"
+  end
 end
 
 desc 'Publish rdoc on github pages and push to github'
