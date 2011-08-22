@@ -141,12 +141,12 @@ module GLI
   #
   # +filename+:: A String representing the path to the file to use for the config file.  If it's an absolute
   #              path, this is treated as the path to the file.  If it's *not*, it's treated as relative to the user's home
-  #              directory as produced by <code>Etc.getpwuid.dir</code>.
+  #              directory as produced by <code>File.expand_path('~')</code>.
   def config_file(filename)
     if filename =~ /^\//
       @@config_file = filename
     else
-      @@config_file = Etc.getpwuid.dir + '/' + filename
+      @@config_file = File.join(File.expand_path('~'),filename)
     end
     commands[:initconfig] = InitConfig.new(@@config_file)
     @@config_file
