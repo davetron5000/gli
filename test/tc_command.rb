@@ -219,6 +219,17 @@ class TC_testCommand < Test::Unit::TestCase
     assert_not_contained(@fake_stdout,/\[global options\]/)
   end
 
+  def test_help_without_any_descs_still_works
+    GLI.reset
+    GLI.flag :f
+    GLI.command :foo do |c|
+    end
+    exit_status = GLI.run(%w(help foo))
+    assert_not_contained(@fake_stderr,/nil/)
+    assert_not_contained(@fake_stdout,/nil/)
+    assert_equal exit_status,0
+  end
+
   def test_help_one_command
     args = %w(help basic)
     GLI.run(args)

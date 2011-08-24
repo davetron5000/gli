@@ -145,6 +145,7 @@ module GLI
   # Assumes that the first line doesn't need the padding, as its filled
   # up with other stuff
   def wrap(line,pad_length=0,line_length=nil)
+    line ||= ''
     if line_length.nil?
       line_length = Terminal.instance.size[0]
     end
