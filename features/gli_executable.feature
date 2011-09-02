@@ -43,8 +43,8 @@ Feature: The GLI executable works as intended
         Create a new GLI-based project
 
         This will create a scaffold command line project that uses GLI for command 
-        line processing. Specifically, this will create an executable ready to go, as
-        well as a lib and test directory, all inside the directory named for your
+        line processing. Specifically, this will create an executable ready to go,
+        as well as a lib and test directory, all inside the directory named for your
         project
 
     Command Options:
