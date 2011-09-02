@@ -42,6 +42,16 @@ class TC_testCommand < Test::Unit::TestCase
         @args = arguments
       end
     end
+    GLI.desc "Testing long help wrapping"
+    GLI.long_desc <<-EOS
+    This will create a scaffold command line project that uses GLI
+    for command line processing.  Specifically, this will create
+    an executable ready to go, as well as a lib and test directory, all
+    inside the directory named for your project
+    EOS
+    GLI.command [:test_wrap] do |c|
+      c.action {}
+    end
     @fake_stdout = FakeStdOut.new
     @fake_stderr = FakeStdOut.new
     DefaultHelpCommand.output_device=@fake_stdout
@@ -238,6 +248,19 @@ class TC_testCommand < Test::Unit::TestCase
     end
   end
 
+  def test_long_help_wrapping
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_wrap)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      str.split("\n").each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i, 
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+  end
+
   def test_version
     GLI.command :foo, :bar do |c|; end
     GLI.command :ls, :list do |c|; end
@@ -260,8 +283,8 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.command :ls, :list do |c|; end
     args = %w(help -c)
     GLI.run(args)
-    assert_equal 7,@fake_stdout.strings.size
-    assert_equal ['bar','basic','bs','foo','help','list','ls'],@fake_stdout.strings
+    assert_equal 8,@fake_stdout.strings.size
+    assert_equal ['bar','basic','bs','foo','help','list','ls', 'test_wrap'],@fake_stdout.strings
   end
 
   def test_help_completion_partial
