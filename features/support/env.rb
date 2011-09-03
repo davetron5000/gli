@@ -10,6 +10,7 @@ TMP_PATH = 'tmp/aruba'
 Before do
   # Not sure how else to get this dynamically
   @dirs = [TMP_PATH]
+  @aruba_timeout_seconds = 5
 end
 
 After do |scenario|
