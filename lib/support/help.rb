@@ -166,7 +166,7 @@ module GLI
     wrapped += "\n"
     this_line = line_padding
     words.each do |word|
-      if this_line.length + word.length > line_length
+      if this_line.length + word.length >= line_length
         wrapped += this_line
         wrapped += "\n"
         this_line = line_padding + word
