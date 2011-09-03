@@ -54,7 +54,9 @@ end
 CUKE_RESULTS = 'results.html'
 CLEAN << CUKE_RESULTS
 Cucumber::Rake::Task.new(:features) do |t|
-  t.cucumber_opts = "features --format html -o #{CUKE_RESULTS} --format progress -x"
+  opts = "features --format html -o #{CUKE_RESULTS} --format progress -x"
+  opts += " --tags #{ENV['TAGS']}" if ENV['TAGS']
+  t.cucumber_opts =  opts
   t.fork = false
 end
 
