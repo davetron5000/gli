@@ -1,15 +1,16 @@
 require 'rake/clean'
 require 'rubygems'
-require 'rake/gempackagetask'
+require 'rubygems/package_task'
 require 'rake/testtask'
-require 'rake/rdoctask'
-require 'sdoc'
+require 'rdoc/task'
 require 'grancher/task'
 require 'reek/rake/task'
 require 'roodi'
 require 'roodi_task'
 require 'cucumber'
 require 'cucumber/rake/task'
+
+include Rake::DSL
 
 CLEAN << "cruddo.rdoc"
 CLEAN << "log"
@@ -24,14 +25,12 @@ end
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
-  rd.options << '--fmt' << 'shtml'
-  rd.template = 'direct'
   rd.title = 'Git Like Interface'
 end
 
 spec = eval(File.read('gli.gemspec'))
 
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
 end
 
 Reek::Rake::Task.new do |t|

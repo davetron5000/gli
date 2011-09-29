@@ -73,7 +73,6 @@ Feature: The scaffold GLI generates works
     When I run `rake test`
     Then the output should contain:
     """
-    Started
     .
     """
     And the output should contain:
