@@ -5,6 +5,7 @@ Feature: The scaffold GLI generates works
 
   Background:
     Given I have GLI installed
+      And GLI's libs are in my path
       And my terminal size is "80x24"
 
   Scenario: Scaffold generates and things look good
@@ -39,9 +40,7 @@ Feature: The scaffold GLI generates works
        |todo/Rakefile            |
        |todo/Gemfile             |
        |todo/lib/todo_version.rb |
-   Given "todo/lib" is in my load path
     When I cd to "todo"
-     
      And I run `bin/todo`
     Then the output should contain:
     """
