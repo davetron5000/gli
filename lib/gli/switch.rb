@@ -4,6 +4,8 @@ module GLI
   # Defines a command line switch
   class Switch < CommandLineToken #:nodoc:
 
+    attr_accessor :default_value
+
     def initialize(names,description,long_desc=nil)
       super(names,description,long_desc)
       @default_value = false
@@ -25,12 +27,6 @@ module GLI
         end
       end
       @default_value
-    end
-
-    # Used only to configure what's returned if we do not detect this switch on the command line
-    # This allows the configuration file to set a switch as always on
-    def default_value=(default)
-      @default_value = default
     end
 
     # Finds the switch in the given arg, returning the arg to keep.
