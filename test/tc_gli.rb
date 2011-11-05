@@ -362,7 +362,7 @@ class TC_testGLI < Test::Unit::TestCase
         assert_equal "a", o[:s],o.inspect
       end
     end
-    GLI.run(['foo', '-i=5','-s=a'])
+    GLI.run(['foo', '-i5','-sa'])
   end
 
   def test_exits_zero_on_success
