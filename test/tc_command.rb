@@ -86,15 +86,16 @@ class TC_testCommand < Test::Unit::TestCase
   def test_basic_command
     args_args = [%w(-g basic -v -c foo bar baz quux), %w(-g basic -v --configure=foo bar baz quux)]
     args_args.each do |args|
+      args_orig = args.clone
       GLI.run(args)
-      assert_equal('true',@glob)
-      assert_equal('true',@verbose)
-      assert_equal('false',@glob_verbose)
-      assert_equal('foo',@configure)
-      assert_equal(%w(bar baz quux),@args)
-      assert(@pre_called,"Pre block should have been called")
-      assert(@post_called,"Post block should have been called")
-      assert(!@error_called,"Error block should not have been called")
+      assert_equal('true',@glob,"For args #{args_orig}")
+      assert_equal('true',@verbose,"For args #{args_orig}")
+      assert_equal('false',@glob_verbose,"For args #{args_orig}")
+      assert_equal('foo',@configure,"For args #{args_orig}")
+      assert_equal(%w(bar baz quux),@args,"For args #{args_orig}")
+      assert(@pre_called,"Pre block should have been called for args #{args_orig}")
+      assert(@post_called,"Post block should have been called for args #{args_orig}")
+      assert(!@error_called,"Error block should not have been called for args #{args_orig}")
     end
   end
 
@@ -170,7 +171,7 @@ class TC_testCommand < Test::Unit::TestCase
     args = %w(--quux basic)
     GLI.run(args)
     assert(!@post_called)
-    assert(@error_called)
+    assert(@error_called,"Expected error callback to be called")
     assert_contained(@fake_stderr,/ help/)
     assert_contained(@fake_stderr,/list of global options/)
   end
