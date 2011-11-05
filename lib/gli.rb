@@ -379,15 +379,15 @@ module GLI
     options = {}
     option_parser = OptionParser.new do |opts|
       {
-        switches => lambda { |x| x },
-        flags    => lambda { |x| "#{x} VAL" },
+        switches => lambda { |_| _ },
+        flags    => lambda { |_| "#{_} VAL" },
       }.each do |tokens,string_maker|
         tokens.each do |_,token|
-          token_names = [token.name,token.aliases].flatten.reject { |x| x.nil? }
+          token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
           token_names.each do |name|
-            option_name = name_to_option(name)
+            option_name = GLI.name_to_option(name)
             opts.on(string_maker.call(option_name)) do |arg|
-              token_names.each { |x| options[x] = arg }
+              token_names.each { |_| options[_] = arg }
             end
           end
         end
@@ -420,7 +420,7 @@ module GLI
     [global_options,command,args]
   end
 
-  def name_to_option(name)
+  def self.name_to_option(name)
     if name.size == 1
       "-#{name}"
     else
