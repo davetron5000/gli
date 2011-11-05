@@ -1,6 +1,8 @@
 begin
   require 'simplecov'
-  SimpleCov.start
+  SimpleCov.start do
+    add_filter "/test"
+  end
 
   MIN_COVERAGE = 97
   SimpleCov.at_exit do
