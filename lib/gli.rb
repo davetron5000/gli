@@ -421,7 +421,7 @@ module GLI
   end
 
   def self.name_to_option(name)
-    if name.size == 1
+    if name.to_s.size == 1
       "-#{name}"
     else
       "--#{name}"
