@@ -408,7 +408,7 @@ class TC_testGLI < Test::Unit::TestCase
     assert_equal(description,object.flags[:f].description)
     assert_equal(long_desc,object.flags[:f].long_description)
     assert(nil != object.flags[:f].usage)
-    assert(object.usage != nil) if object.respond_to? :usage;
+    assert(object.usage != nil) if object.respond_to? :usage
   end
 
   def do_test_switch_create(object)
@@ -420,7 +420,7 @@ class TC_testGLI < Test::Unit::TestCase
     assert (object.switches[:f] )
     assert_equal(description,object.switches[:f].description)
     assert_equal(long_description,object.switches[:f].long_description)
-    assert(object.usage != nil) if object.respond_to? :usage;
+    assert(object.usage != nil) if object.respond_to? :usage
   end
 
   def do_test_switch_create_twice(object)
@@ -432,7 +432,7 @@ class TC_testGLI < Test::Unit::TestCase
     object.switch :g
     assert (object.switches[:g])
     assert_equal(nil,object.switches[:g].description)
-    assert(object.usage != nil) if object.respond_to? :usage;
+    assert(object.usage != nil) if object.respond_to? :usage
   end
 
 
