@@ -69,6 +69,7 @@ LongMethod:
   - initialize
   - parse_options
   - run
+  - reset
   enabled: true
 Duplication: 
   allow_calls: []

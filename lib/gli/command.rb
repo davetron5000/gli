@@ -1,5 +1,6 @@
 require 'gli/command_line_token.rb'
 require 'gli/copy_options_to_aliases.rb'
+require 'gli/dsl.rb'
 
 module GLI
   # A command to be run, in context of global flags and switches.  You are given an instance of this class
@@ -8,6 +9,7 @@ module GLI
   # command-line interface
   class Command < CommandLineToken
     include CopyOptionsToAliases
+    include DSL
 
     # Create a new command
     #
@@ -63,33 +65,6 @@ module GLI
       @switches ||= {}
     end
 
-    # describe the next switch or flag just as GLI#desc does.
-    def desc(description); @next_desc = description; end
-    # set the long description of this flag/switch, just as GLI#long_desc does.
-    def long_desc(long_desc); @next_long_desc = long_desc; end
-    # describe the argument name of the next flag, just as GLI#arg_name does.
-    def arg_name(name); @next_arg_name = name; end
-    # set the default value of the next flag, just as GLI#default_value does.
-    def default_value(val); @next_default_value = val; end
-
-    # Create a command-specific flag, similar to GLI#flag
-    def flag(*names)
-      names = [names].flatten
-      GLI.verify_unused(names,flags,switches,"in command #{name}")
-      flag = Flag.new(names,@next_desc,@next_arg_name,@next_default_value,@next_long_desc)
-      flags[flag.name] = flag
-      clear_nexts
-    end
-
-    # Create a command-specific switch, similar to GLI#switch
-    def switch(*names)
-      names = [names].flatten
-      GLI.verify_unused(names,flags,switches,"in command #{name}")
-      switch = Switch.new(names,@next_desc,@next_long_desc)
-      switches[switch.name] = switch
-      clear_nexts
-    end
-
     # Define the action to take when the user executes this command
     #
     # +block+:: A block of code to execute.  The block will be given 3 arguments:
@@ -107,13 +82,6 @@ module GLI
 
     def self.name_as_string(name) #:nodoc:
       name.to_s
-    end
-
-    def clear_nexts #:nodoc:
-      @next_desc = nil
-      @next_arg_name = nil
-      @next_default_value = nil
-      @next_long_desc = nil
     end
 
     # Executes the command
