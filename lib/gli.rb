@@ -148,13 +148,10 @@ module GLI
   # Returns a number that would be a reasonable exit code
   def run(args) #:nodoc:
     rdoc = RDocCommand.new(commands,program_name,program_desc,flags,switches)
-    commands[:rdoc] = rdoc if !commands[:rdoc]
-    commands[:help] = DefaultHelpCommand.new(@version,self,rdoc) if !commands[:help]
-    exit_code = 0
+    commands[:rdoc] ||= rdoc
+    commands[:help] ||= DefaultHelpCommand.new(@version,self,rdoc)
     begin
-      config = parse_config
-
-      override_defaults_based_on_config(config)
+      override_defaults_based_on_config(parse_config)
 
       global_options,command,options,arguments = parse_options(args)
 
@@ -164,24 +161,22 @@ module GLI
 
       options = convert_to_openstruct?(options)
       if proceed?(global_options,command,options,arguments)
-        command = commands[:help] if !command
+        command ||= commands[:help]
         command.execute(global_options,options,arguments)
-        if !command.skips_post && @post_block
-          @post_block.call(global_options,command,options,arguments)
+        unless command.skips_post
+          post_block.call(global_options,command,options,arguments)
         end
       end
+      0
     rescue Exception => ex
 
       stderr.puts error_message(ex) if regular_error_handling?(ex)
 
-      exit_code = if ex.respond_to? :exit_code
-        ex.exit_code
-      else
-        -2
-      end
       raise ex if ENV['GLI_DEBUG'] == 'true'
+
+      ex.extend(GLI::StandardException)
+      ex.exit_code
     end
-    exit_code
   end
 
   # True if we should proceed with executing the command; this calls
@@ -189,10 +184,8 @@ module GLI
   def proceed?(global_options,command,options,arguments) #:nodoc:
     if command && command.skips_pre
       true
-    elsif @pre_block 
-      @pre_block.call(global_options,command,options,arguments) 
     else
-      true
+      pre_block.call(global_options,command,options,arguments) 
     end
   end
 
@@ -259,13 +252,14 @@ module GLI
   end
 
   def parse_config # :nodoc:
-    return nil if @config_file.nil?
-    require 'yaml'
-    if File.exist?(@config_file)
-      File.open(@config_file) { |file| YAML::load(file) }
-    else
-      {}
+    config = {
+      'commands' => {},
+    }
+    if @config_file && File.exist?(@config_file)
+      require 'yaml'
+      config.merge!(File.open(@config_file) { |file| YAML::load(file) })
     end
+    config
   end
 
   # Given the command-line argument array, returns and array of size 4:
@@ -285,9 +279,9 @@ module GLI
     flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
     #g,c,o,a = old_parse_options(args_clone)
 
-    command_name = 'help' if command_name.nil?
+    command_name ||= 'help'
     command = find_command(command_name)
-    raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
+    raise UnknownCommand.new("Unknown command '#{command_name}'") unless command
 
     command_options,args = parse_command_options(command,args)
     command.flags.each { |name,flag| command_options[name] = flag.default_value unless command_options[name] }
@@ -376,6 +370,17 @@ module GLI
     @commands ||= {}
   end
 
+  def pre_block
+    @pre_block ||= Proc.new do
+      true
+    end
+  end
+
+  def post_block
+    @post_block ||= Proc.new do
+    end
+  end
+
   def find_command(name) # :nodoc:
     sym = name.to_sym
     return commands[name.to_sym] if commands[sym]
@@ -387,9 +392,6 @@ module GLI
 
   # Sets the default values for flags based on the configuration
   def override_defaults_based_on_config(config)
-    config ||= {}
-    config['commands'] ||= {}
-
     override_default(flags,config)
     override_default(switches,config)
 
