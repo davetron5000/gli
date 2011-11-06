@@ -389,25 +389,6 @@ module GLI
     nil
   end
 
-  # Checks that the names passed in have not been used in another flag or option
-  def self.verify_unused(names,flags,switches,context) # :nodoc:
-    names.each do |name|
-      verify_unused_in_option(name,flags,"flag",context)
-      verify_unused_in_option(name,switches,"switch",context)
-    end
-  end
-
-  private
-
-  def self.verify_unused_in_option(name,option_like,type,context) # :nodoc:
-    raise ArgumentError.new("#{name} has already been specified as a #{type} #{context}") if option_like[name]
-    option_like.each do |one_option_name,one_option|
-      if one_option.aliases
-        raise ArgumentError.new("#{name} has already been specified as an alias of #{type} #{one_option_name} #{context}") if one_option.aliases.include? name
-      end
-    end
-  end
-
   # Sets the default values for flags based on the configuration
   def override_defaults_based_on_config(config)
     config ||= {}

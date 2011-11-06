@@ -49,7 +49,7 @@ module GLI
     #     -f, --filename, --file-name=arg     Set the filename
     def flag(*names)
       names = [names].flatten
-      GLI.verify_unused(names,flags,switches,"in global options")
+      verify_unused(names,flags,switches,"in global options")
       flag = Flag.new(names,@next_desc,@next_arg_name,@next_default_value,@next_long_desc)
       flags[flag.name] = flag
       clear_nexts
@@ -61,7 +61,7 @@ module GLI
     #           and aliases for this switch.
     def switch(*names)
       names = [names].flatten
-      GLI.verify_unused(names,flags,switches,"in global options")
+      verify_unused(names,flags,switches,"in global options")
       switch = Switch.new(names,@next_desc,@next_long_desc)
       switches[switch.name] = switch
       clear_nexts
@@ -73,5 +73,24 @@ module GLI
       @next_default_value = nil
       @next_long_desc = nil
     end
+
+    private
+    # Checks that the names passed in have not been used in another flag or option
+    def verify_unused(names,flags,switches,context) # :nodoc:
+      names.each do |name|
+        verify_unused_in_option(name,flags,"flag",context)
+        verify_unused_in_option(name,switches,"switch",context)
+      end
+    end
+
+    def verify_unused_in_option(name,option_like,type,context) # :nodoc:
+      raise ArgumentError.new("#{name} has already been specified as a #{type} #{context}") if option_like[name]
+      option_like.each do |one_option_name,one_option|
+        if one_option.aliases
+          raise ArgumentError.new("#{name} has already been specified as an alias of #{type} #{one_option_name} #{context}") if one_option.aliases.include? name
+        end
+      end
+    end
+
   end
 end
