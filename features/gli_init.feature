@@ -51,7 +51,7 @@ Feature: The scaffold GLI generates works
     Global Options:
         -f, --flagname=The name of the argument - Describe some flag here (default: 
                                                   the default)
-        -s, --switch                            - Describe some switch here
+        -s, --[no-]switch                       - Describe some switch here
     
     Commands:
         add      - Describe add here

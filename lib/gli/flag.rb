@@ -27,5 +27,10 @@ module GLI
       string += @argument_name
       return string
     end
+
+    def self.name_as_string(name)
+      string = name.to_s
+      string.length == 1 ? "-#{string}" : "--#{string}"
+    end
   end
 end

@@ -150,6 +150,16 @@ class TC_testCommand < Test::Unit::TestCase
     assert_equal(%w(bar baz quux),@args)
   end
 
+  def test_negatable_gets_created
+    GLI.command [:foo] do |c|
+      c.action do |g,o,a|
+        assert !g[:blah]
+      end
+    end
+    exit_status = GLI.run(%w(--no-blah foo))
+    assert_equal 0,exit_status
+  end
+
   def test_no_arguments
     args = %w(basic -v)
     GLI.run(args)

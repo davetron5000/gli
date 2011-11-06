@@ -13,7 +13,7 @@ module GLI
 
     def self.name_as_string(name)
       string = name.to_s
-      string.length == 1 ? "-#{string}" : "--#{string}"
+      string.length == 1 ? "-#{string}" : "--[no-]#{string}"
     end
   end
 end

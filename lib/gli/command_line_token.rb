@@ -37,7 +37,7 @@ module GLI
     def parse_names(names)
       # Allow strings; convert to symbols
       names = [names].flatten.map { |name| name.to_sym } 
-      names_hash = Hash.new
+      names_hash = {}
       names.each do |name| 
         raise ArgumentError.new("#{name} has spaces; they are not allowed") if name.to_s =~ /\s/
         names_hash[self.class.name_as_string(name)] = true
