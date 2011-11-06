@@ -297,8 +297,8 @@ module GLI
     options = {}
     option_parser = OptionParser.new do |opts|
       {
-        switches => lambda { |_| GLI.name_to_option(_,true) },
-        flags    => lambda { |_| "#{GLI.name_to_option(_)} VAL" },
+        switches => lambda { |_| Switch.name_as_string(_) },
+        flags    => lambda { |_| "#{Flag.name_as_string(_)} VAL" },
       }.each do |tokens,string_maker|
         tokens.each do |_,token|
           token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
@@ -335,16 +335,6 @@ module GLI
       raise UnknownGlobalArgument.new("Unknown option #{ex.args.join(',')}")
     end
     [global_options,command,args]
-  end
-
-  def self.name_to_option(name,include_negtable=false)
-    if name.to_s.size == 1
-      "-#{name}"
-    elsif include_negtable
-      "--[no-]#{name}"
-    else
-      "--#{name}"
-    end
   end
 
   def clear_nexts # :nodoc:
