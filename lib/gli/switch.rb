@@ -6,8 +6,14 @@ module GLI
 
     attr_accessor :default_value
 
-    def initialize(names,description,long_desc=nil)
-      super(names,description,long_desc)
+    # Creates a new switch
+    #
+    # names - Array of symbols or strings representing the names of this switch
+    # options - hash of options:
+    #           :desc - the short description
+    #           :long_desc - the long description
+    def initialize(names,options = {})
+      super(names,options[:desc],options[:long_desc])
       @default_value = false
     end
 

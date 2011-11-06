@@ -20,6 +20,10 @@ module GLI
   include CopyOptionsToAliases
   include DSL
 
+  def context_description
+    "in global context"
+  end
+
   # Override the device of stderr; exposed only for testing
   def error_device=(e) #:nodoc:
     @stderr = e

@@ -11,6 +11,10 @@ module GLI
     include CopyOptionsToAliases
     include DSL
 
+    def context_description
+      "in the command #{name}"
+    end
+
     # Create a new command
     #
     # +names+:: A String, Symbol, or Array of String or Symbol that represents the name(s) of this command.

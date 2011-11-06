@@ -5,17 +5,17 @@ include GLI
 class TC_testFlag < Test::Unit::TestCase
 
   def test_basics_simple
-    flag = Flag.new(:f,'Filename','file','~/.blah.rc')
+    flag = Flag.new(:f,:desc => 'Filename',:arg_name => 'file',:default_value => '~/.blah.rc')
     do_basic_asserts(flag,:f,nil,'Filename','file','~/.blah.rc')
   end
 
   def test_basics_kinda_complex
-    flag = Flag.new([:f],'Filename','file','~/.blah.rc')
+    flag = Flag.new([:f],:desc => 'Filename',:arg_name => 'file',:default_value => '~/.blah.rc')
     do_basic_asserts(flag,:f,nil,'Filename','file','~/.blah.rc')
   end
 
   def test_basics_complex
-    flag = Flag.new([:f,:file,:filename],'Filename','file','~/.blah.rc')
+    flag = Flag.new([:f,:file,:filename],:desc => 'Filename',:arg_name => 'file',:default_value => '~/.blah.rc')
     do_basic_asserts(flag,:f,[:file,:filename],'Filename','file','~/.blah.rc')
   end
 

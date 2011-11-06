@@ -14,9 +14,10 @@ require 'gli.rb'
 require 'support/initconfig.rb'
 require 'test/unit'
 require 'fake_std_out'
+require 'test/unit/given'
 
 include GLI
-class TC_testGLI < Test::Unit::TestCase
+class TC_testGLI < Test::Unit::Given::TestCase
 
   def setup
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
@@ -412,15 +413,42 @@ class TC_testGLI < Test::Unit::TestCase
   end
 
   def do_test_switch_create(object)
-    description = 'this is a description'
-    long_description = 'this is a very long description'
-    object.desc description
-    object.long_desc long_description
-    object.switch :f
-    assert (object.switches[:f] )
-    assert_equal(description,object.switches[:f].description)
-    assert_equal(long_description,object.switches[:f].long_description)
-    assert(object.usage != nil) if object.respond_to? :usage
+    do_test_switch_create_classic(object)
+    do_test_switch_create_compact(object)
+  end
+
+  def some_descriptions
+    lambda {
+      @description = 'this is a description'
+      @long_description = 'this is a very long description'
+    }
+  end
+
+  def assert_switch_was_made(object,switch) 
+    lambda {
+      assert object.switches[switch]
+      assert_equal @description,object.switches[switch].description,"For switch #{switch}"
+      assert_equal @long_description,object.switches[switch].long_description,"For switch #{switch}"
+      assert(object.usage != nil) if object.respond_to? :usage
+    }
+  end
+
+  def do_test_switch_create_classic(object)
+    Given some_descriptions
+    When {
+      object.desc @description
+      object.long_desc @long_description
+      object.switch :f
+    }
+    Then assert_switch_was_made(object,:f)
+  end
+
+  def do_test_switch_create_compact(object)
+    Given some_descriptions
+    When {
+      object.switch :g, :desc => @description, :long_desc => @long_description
+    }
+    Then assert_switch_was_made(object,:g)
   end
 
   def do_test_switch_create_twice(object)

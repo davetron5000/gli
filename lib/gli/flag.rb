@@ -7,10 +7,10 @@ module GLI
 
     attr_accessor :default_value
 
-    def initialize(names,description,argument_name=nil,default=nil,long_desc=nil)
-      super(names,description,long_desc)
-      @argument_name = argument_name || "arg"
-      @default_value = default
+    def initialize(names,options)
+      super(names,options)
+      @argument_name = options[:arg_name] || "arg"
+      @default_value = options[:default_value]
     end
 
     # Returns a string of all possible forms

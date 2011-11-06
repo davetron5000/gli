@@ -5,17 +5,17 @@ include GLI
 class TC_testSwitch < Test::Unit::TestCase
 
   def test_basics_simple
-    switch = Switch.new(:filename,'Use filename')
+    switch = Switch.new(:filename,:desc => 'Use filename')
     do_basic_asserts(switch,:filename,nil,'Use filename')
   end
 
   def test_basics_kinda_complex
-    switch = Switch.new([:f],'Use filename')
+    switch = Switch.new([:f],:desc => 'Use filename')
     do_basic_asserts(switch,:f,nil,'Use filename')
   end
 
   def test_basics_complex
-    switch = Switch.new([:f,:file,:filename],'Use filename')
+    switch = Switch.new([:f,:file,:filename],:desc => 'Use filename')
     do_basic_asserts(switch,:f,[:file,:filename],'Use filename')
   end
 
