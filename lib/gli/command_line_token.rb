@@ -47,10 +47,14 @@ module GLI
       [name,aliases,names_hash]
     end
 
+    def negatable?
+      false;
+    end
+
     def all_forms_a
-      forms = [self.class.name_as_string(name)]
+      forms = [self.class.name_as_string(name,negatable?)]
       if aliases
-        forms |= aliases.collect { |one_alias| self.class.name_as_string(one_alias) }.sort { |one,two| two.length <=> one.length }
+        forms |= aliases.map { |one_alias| self.class.name_as_string(one_alias,negatable?) }.sort { |one,two| two.length <=> one.length }
       end
       forms
     end

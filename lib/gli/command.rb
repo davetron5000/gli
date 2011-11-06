@@ -84,7 +84,11 @@ module GLI
       @action = block
     end
 
-    def self.name_as_string(name) #:nodoc:
+    def negatable?
+      false
+    end
+
+    def self.name_as_string(name,negatable=false) #:nodoc:
       name.to_s
     end
 

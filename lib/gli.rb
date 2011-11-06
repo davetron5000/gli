@@ -301,13 +301,13 @@ module GLI
     options = {}
     option_parser = OptionParser.new do |opts|
       {
-        switches => lambda { |_| Switch.name_as_string(_) },
-        flags    => lambda { |_| "#{Flag.name_as_string(_)} VAL" },
+        switches => lambda { |switch,name| Switch.name_as_string(name,switch.negatable?) },
+        flags    => lambda { |switch,name| "#{Flag.name_as_string(name)} VAL" },
       }.each do |tokens,string_maker|
         tokens.each do |_,token|
           token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
           token_names.each do |name|
-            opts.on(string_maker.call(name)) do |arg|
+            opts.on(string_maker.call(token,name)) do |arg|
               token_names.each { |_| options[_] = arg }
             end
           end

@@ -100,6 +100,7 @@ class TC_testGLI < Test::Unit::Given::TestCase
     GLI.flag :f
     GLI.switch :s
     GLI.flag :g
+    GLI.switch :bleorgh
     called = false
     GLI.command :command do |c|
       c.flag :f
@@ -114,12 +115,14 @@ class TC_testGLI < Test::Unit::Given::TestCase
           assert !o[:f],o.inspect
           assert !g[:s],o.inspect
           assert o[:s],o.inspect
+          assert g[:bleorgh] != nil,"Expected :bleorgh to have a value"
+          assert g[:bleorgh] == false,"Expected :bleorgh to be false"
         rescue Exception => ex
           failure = ex
         end
       end
     end
-    GLI.run %w(-f bar command -g baaz)
+    assert_equal 0,GLI.run(%w(-f bar --no-bleorgh command -g baaz)),@fake_stderr.to_s
     assert called
     raise failure if !failure.nil?
   end

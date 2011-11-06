@@ -12,14 +12,26 @@ module GLI
     # options - hash of options:
     #           :desc - the short description
     #           :long_desc - the long description
+    #           :negatable - true or false if this switch is negatable; defaults to true
     def initialize(names,options = {})
       super(names,options[:desc],options[:long_desc])
       @default_value = false
+      @negatable = options[:negatable].nil? ? true : options[:negatable]
     end
 
-    def self.name_as_string(name)
+    def negatable?
+      @negatable
+    end
+
+    def self.name_as_string(name,negatable=true)
       string = name.to_s
-      string.length == 1 ? "-#{string}" : "--[no-]#{string}"
+      if string.length == 1 
+        "-#{string}" 
+      elsif negatable
+        "--[no-]#{string}"
+      else
+        "--#{string}"
+      end
     end
   end
 end

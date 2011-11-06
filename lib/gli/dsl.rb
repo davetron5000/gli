@@ -68,8 +68,9 @@ module GLI
     #
     # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names
     #           and aliases for this switch.  The last element can be a hash of options:
-    #           +:desc +:: the description, instead of using #desc
-    #           +:long_desc +:: the long_description, instead of using #long_desc
+    #           +:desc+:: the description, instead of using #desc
+    #           +:long_desc+:: the long_description, instead of using #long_desc
+    #           +:negatable+:: if true, this switch will get a negatable form, false it will not.  Default is true
     def switch(*names)
       options = extract_options(names)
       names = [names].flatten

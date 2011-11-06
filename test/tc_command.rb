@@ -160,6 +160,24 @@ class TC_testCommand < Test::Unit::TestCase
     assert_equal 0,exit_status
   end
 
+  def test_negatable_can_be_avoided
+    called = false
+    GLI.switch :bar, :negatable => false
+    GLI.command [:foo] do |c|
+      c.action do |g,o,a|
+        called = true
+      end
+    end
+
+    assert_equal 0,GLI.run(%w(help))
+    assert_contained(@fake_stdout,/--bar/)
+    assert_not_contained(@fake_stdout,/--[no-]bar/)
+
+    exit_status = GLI.run(%w(--no-bar foo))
+    assert !called,"Should not have called action block"
+    assert_equal -1,exit_status
+  end
+
   def test_no_arguments
     args = %w(basic -v)
     GLI.run(args)

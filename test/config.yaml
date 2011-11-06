@@ -7,3 +7,4 @@ commands:
     :g: foobar
     :f: barfoo
 :f: foo
+:bleorgh: true
