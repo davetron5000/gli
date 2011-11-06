@@ -91,6 +91,7 @@ module GLI
     yield command
     clear_nexts
   end
+  alias :c :command
 
   # Define a block to run after command line arguments are parsed
   # but before any command is run.  If this block raises an exception
@@ -241,11 +242,6 @@ module GLI
     end
     @program_name
   end
-
-  alias :d :desc
-  alias :f :flag
-  alias :s :switch
-  alias :c :command
 
   # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
   # By default, it will *not*. However by putting <tt>use_openstruct true</tt>

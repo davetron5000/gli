@@ -7,6 +7,7 @@ module GLI
     #
     # +description+:: A String of the short descripiton of the switch, flag, or command following
     def desc(description); @next_desc = description; end
+    alias :d :desc
 
     # Provide a longer, more detailed description.  This
     # will be reformatted and wrapped to fit in the terminal's columns
@@ -54,6 +55,7 @@ module GLI
       flags[flag.name] = flag
       clear_nexts
     end
+    alias :f :flag
 
     # Create a switch, which is a command line flag that takes no arguments (thus, it _switches_ something on)
     #
@@ -66,6 +68,7 @@ module GLI
       switches[switch.name] = switch
       clear_nexts
     end
+    alias :s :switch
 
     def clear_nexts # :nodoc:
       @next_desc = nil
