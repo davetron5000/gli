@@ -4,7 +4,7 @@ require 'fileutils'
 module GLI
   class RDocCommand < Command # :nodoc:
 
-    def initialize
+    def initialize(commands,program_name,program_desc,flags,switches)
       super(:rdoc,'Generates RDoc (and other types of documentation) for your command line interface')
       self.desc 'Create a very basic scaffold for a cheat-style cheatsheet, in addition to rdoc'
       self.switch 'cheatsheet'
@@ -12,6 +12,11 @@ module GLI
       self.switch 'manpage'
       self.desc 'Do not create rdoc'
       self.switch 'no-rdoc'
+      @commands = commands
+      @program_name = program_name
+      @program_desc = program_desc
+      @flags = flags
+      @switches = switches
     end
 
     def execute(g,options,a)
@@ -21,21 +26,21 @@ module GLI
     end
 
     def create_cheatsheet
-      File.open("#{GLI.program_name}.cheat",'w') do |file|
-        file << GLI.program_name
+      File.open("#{@program_name}.cheat",'w') do |file|
+        file << @program_name
         file << "\n"
-        file << GLI.program_name.length.times.inject("") { |a,x| a + "=" }
+        file << @program_name.length.times.inject("") { |a,x| a + "=" }
         file << "\n"
         file << "\n"
         file << "Installation:\n"
-        file << "$ gem install #{GLI.program_name}\n\n"
-        GLI.commands.values.sort.each do |command|
+        file << "$ gem install #{@program_name}\n\n"
+        @commands.values.sort.each do |command|
           next if command == self
           file << command.description
           file << "\n"
           [command.name,command.aliases].flatten.each do |name|
             next unless name
-            file << "$ #{GLI.program_name} #{name} #{command.arguments_description}\n"
+            file << "$ #{@program_name} #{name} #{command.arguments_description}\n"
           end
           file << "\n"
         end
@@ -46,16 +51,16 @@ module GLI
     end
 
     def create_rdoc
-      File.open("#{GLI.program_name}.rdoc",'w') do |file|
-        file << "= <tt>#{GLI.program_name}</tt>\n\n"
-        if GLI.program_desc
-          file << GLI.program_desc
+      File.open("#{@program_name}.rdoc",'w') do |file|
+        file << "= <tt>#{@program_name}</tt>\n\n"
+        if @program_desc
+          file << @program_desc
           file << "\n\n"
         end
         file << "    "
-        file << GLI.program_name
+        file << @program_name
         file << " "
-        global_options = GLI.switches.merge(GLI.flags)
+        global_options = @switches.merge(@flags)
         if (global_options && global_options.length > 0)
           file << "[global options] "
         end
@@ -72,13 +77,13 @@ module GLI
           output_flags(file,global_options)
         end
         file << "== Commands\n"
-        GLI.commands.values.sort.each do |command|
+        @commands.values.sort.each do |command|
           next if command == self
           file << "[<tt>#{command.name}</tt>] #{command.description}\n"
         end
         file << "\n"
 
-        GLI.commands.values.sort.each do |command|
+        @commands.values.sort.each do |command|
           next if command == self
           file << "=== <tt>#{command.name} #{command.arguments_description}</tt>\n\n"
           file << "#{command.description}\n\n"

@@ -68,5 +68,4 @@ end
 post do |global,command,options,args|
   puts "Executed #{command.name}" if global[:v]
 end
-
 exit run(ARGV)

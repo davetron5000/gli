@@ -128,10 +128,8 @@ class TC_testGLI < Test::Unit::TestCase
     config_file_contents = File.read(config_file)
     GLI.reset
     GLI.config_file(config_file)
-    ex = assert_raises RuntimeError do
-      GLI.run(['initconfig'])
-    end
-    assert_match /--force/,ex.to_s,"Error message didn't mention --force option"
+    assert_equal -2,GLI.run(['initconfig'])
+    assert @fake_stderr.strings.grep(/--force/),@fake_stderr.strings.inspect
     config_file_contents_after = File.read(config_file)
     assert_equal(config_file_contents,config_file_contents_after)
   end

@@ -23,9 +23,10 @@ module GLI
       @@skips_post = skips_post
     end
 
-    def initialize(version,*omit_from_list)
+    def initialize(version,gli,*omit_from_list)
       @omit_from_list = omit_from_list
       @version = version
+      @gli = gli
       super(:help,
             'Shows list of commands or help for one command',
             '[command]',
@@ -65,12 +66,12 @@ module GLI
     private
 
     def list_global_flags
-      if GLI.program_desc
-        @@output.puts wrap(GLI.program_desc,0)
+      if @gli.program_desc
+        @@output.puts wrap(@gli.program_desc,0)
         @@output.puts
       end
-      usage = "usage: #{GLI.program_name} "
-      all_options = GLI.switches.merge(GLI.flags)
+      usage = "usage: #{@gli.program_name} "
+      all_options = @gli.switches.merge(@gli.flags)
       if !all_options.empty?
           usage += "[global options] "
       end
@@ -93,11 +94,11 @@ module GLI
     end
 
     def commands_to_show
-      GLI.commands.reject{ |name,c| @omit_from_list.include?(c) }
+      @gli.commands.reject{ |name,c| @omit_from_list.include?(c) }
     end
 
     def list_one_command_help(command_name)
-      command = GLI.find_command(command_name)
+      command = @gli.find_command(command_name)
       if command
         @@output.puts command.usage
         description = wrap(command.description,4)
