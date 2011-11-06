@@ -1,5 +1,6 @@
 require 'gli/command.rb'
 require 'gli/command_line_token.rb'
+require 'gli/command_line_option.rb'
 require 'gli/copy_options_to_aliases.rb'
 require 'gli/exceptions.rb'
 require 'gli/flag.rb'

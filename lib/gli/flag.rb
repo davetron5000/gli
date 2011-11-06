@@ -1,12 +1,17 @@
-require 'gli/command_line_token.rb'
-require 'gli/switch.rb'
+require 'gli/command_line_option.rb'
 
 module GLI
   # Defines a flag, which is to say a switch that takes an argument
-  class Flag < Switch # :nodoc:
+  class Flag < CommandLineOption # :nodoc:
 
-    attr_accessor :default_value
-
+    # Creates a new option
+    #
+    # names - Array of symbols or strings representing the names of this switch
+    # options - hash of options:
+    #           :desc - the short description
+    #           :long_desc - the long description
+    #           :default_value - the default value of this option
+    #           :arg_name - the name of the flag's argument, default is "arg"
     def initialize(names,options)
       super(names,options)
       @argument_name = options[:arg_name] || "arg"
@@ -26,10 +31,6 @@ module GLI
       end
       string += @argument_name
       return string
-    end
-
-    def negatable?
-      false
     end
   end
 end

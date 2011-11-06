@@ -1,8 +1,8 @@
-require 'gli/command_line_token.rb'
+require 'gli/command_line_option.rb'
 
 module GLI
   # Defines a command line switch
-  class Switch < CommandLineToken #:nodoc:
+  class Switch < CommandLineOption #:nodoc:
 
     attr_accessor :default_value
 
@@ -13,25 +13,15 @@ module GLI
     #           :desc - the short description
     #           :long_desc - the long description
     #           :negatable - true or false if this switch is negatable; defaults to true
+    #           :default_value - ignored, switches default to false
     def initialize(names,options = {})
-      super(names,options[:desc],options[:long_desc])
+      super(names,options)
       @default_value = false
       @negatable = options[:negatable].nil? ? true : options[:negatable]
     end
 
     def negatable?
       @negatable
-    end
-
-    def self.name_as_string(name,negatable=true)
-      string = name.to_s
-      if string.length == 1 
-        "-#{string}" 
-      elsif negatable
-        "--[no-]#{string}"
-      else
-        "--#{string}"
-      end
     end
   end
 end

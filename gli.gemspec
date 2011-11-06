@@ -13,6 +13,7 @@ spec = Gem::Specification.new do |s|
   s.files = %w(
 lib/gli/command.rb
 lib/gli/command_line_token.rb
+lib/gli/command_line_option.rb
 lib/gli/copy_options_to_aliases.rb
 lib/gli/flag.rb
 lib/gli/switch.rb
