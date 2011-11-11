@@ -53,9 +53,10 @@ Create a flag (option that takes an argument)
   desc 'Location of the config file'
   arg_name 'path_to_file'
   default_value '~/.glirc'
-  flag [:c,:conf]
+  flag [:c,:conf], :must_match => /^\..*rc$/
   # Both -c and --conf work, if this flag is omitted
   # then the default of ~/.glirc is avaialble to the code
+  # The argument must match the given regex
   # Access in code via global_options[:c] (or :conf)
 
 Create a flag in a more compact style
