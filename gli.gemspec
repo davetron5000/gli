@@ -13,12 +13,14 @@ spec = Gem::Specification.new do |s|
   s.files = %w(
 lib/gli/command.rb
 lib/gli/command_line_token.rb
+lib/gli/command_line_option.rb
 lib/gli/copy_options_to_aliases.rb
 lib/gli/flag.rb
 lib/gli/switch.rb
 lib/gli/options.rb
 lib/gli/exceptions.rb
 lib/gli/terminal.rb
+lib/gli/dsl.rb
 lib/gli.rb
 lib/gli_version.rb
 lib/support/help.rb
@@ -41,5 +43,6 @@ bin/gli
   s.add_development_dependency('grancher', '~> 0.1.5')
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('aruba', '~> 0.4.6')
+  s.add_development_dependency('test_unit-given')
 end
 

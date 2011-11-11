@@ -14,9 +14,10 @@ require 'gli.rb'
 require 'support/initconfig.rb'
 require 'test/unit'
 require 'fake_std_out'
+require 'test/unit/given'
 
 include GLI
-class TC_testGLI < Test::Unit::TestCase
+class TC_testGLI < Test::Unit::Given::TestCase
 
   def setup
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
@@ -99,6 +100,7 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.flag :f
     GLI.switch :s
     GLI.flag :g
+    GLI.switch :bleorgh
     called = false
     GLI.command :command do |c|
       c.flag :f
@@ -113,26 +115,26 @@ class TC_testGLI < Test::Unit::TestCase
           assert !o[:f],o.inspect
           assert !g[:s],o.inspect
           assert o[:s],o.inspect
+          assert g[:bleorgh] != nil,"Expected :bleorgh to have a value"
+          assert g[:bleorgh] == false,"Expected :bleorgh to be false"
         rescue Exception => ex
           failure = ex
         end
       end
     end
-    GLI.run %w(-f bar command -g baaz)
+    assert_equal 0,GLI.run(%w(-f bar --no-bleorgh command -g baaz)),@fake_stderr.to_s
     assert called
     raise failure if !failure.nil?
   end
 
   def test_no_overwrite_config
     config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml')
-    config_file_contents = read_file_contents(config_file)
+    config_file_contents = File.read(config_file)
     GLI.reset
     GLI.config_file(config_file)
-    ex = assert_raises RuntimeError do
-      GLI.run(['initconfig'])
-    end
-    assert_match /--force/,ex.to_s,"Error message didn't mention --force option"
-    config_file_contents_after = read_file_contents(config_file)
+    assert_equal -2,GLI.run(['initconfig'])
+    assert @fake_stderr.strings.grep(/--force/),@fake_stderr.strings.inspect
+    config_file_contents_after = File.read(config_file)
     assert_equal(config_file_contents,config_file_contents_after)
   end
 
@@ -179,37 +181,10 @@ class TC_testGLI < Test::Unit::TestCase
 
   end
 
-  def do_test_flag_create(object)
-    description = 'this is a description'
-    long_desc = 'this is a very long description'
-    object.desc description
-    object.long_desc long_desc
-    object.arg_name 'filename'
-    object.default_value '~/.blah.rc'
-    object.flag :f
-    assert (object.flags[:f] )
-    assert_equal(description,object.flags[:f].description)
-    assert_equal(long_desc,object.flags[:f].long_description)
-    assert(nil != object.flags[:f].usage)
-    assert(object.usage != nil) if object.respond_to? :usage;
-  end
-
   def test_switch_create
     GLI.reset
     do_test_switch_create(GLI)
     do_test_switch_create(Command.new(:f,'Some command'))
-  end
-
-  def do_test_switch_create(object)
-    description = 'this is a description'
-    long_description = 'this is a very long description'
-    object.desc description
-    object.long_desc long_description
-    object.switch :f
-    assert (object.switches[:f] )
-    assert_equal(description,object.switches[:f].description)
-    assert_equal(long_description,object.switches[:f].long_description)
-    assert(object.usage != nil) if object.respond_to? :usage;
   end
 
   def test_switch_create_twice
@@ -258,6 +233,66 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.run(%w(-g command -f))
   end
 
+  def test_flag_array_of_options_global
+    GLI.reset
+    GLI.flag :foo, :must_match => ['bar','blah','baz']
+    GLI.command :command do |c|
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+    assert_equal 0,GLI.run(%w(--foo=blah command)),@fake_stderr.to_s
+  end
+
+  def test_flag_hash_of_options_global
+    GLI.reset
+    GLI.flag :foo, :must_match => { 'bar' => "BAR", 'blah' => "BLAH" }
+    @foo_arg_value = nil
+    GLI.command :command do |c|
+      c.action do |g,o,a|
+        @foo_arg_value = g[:foo]
+      end
+    end
+    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+    assert_equal 0,GLI.run(%w(--foo=blah command)),@fake_stderr.to_s
+    assert_equal 'BLAH',@foo_arg_value
+  end
+
+  def test_flag_regexp_global
+    GLI.reset
+    GLI.flag :foo, :must_match => /bar/
+    GLI.command :command do |c|
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+  end
+
+  def test_flag_regexp_global_short_form
+    GLI.reset
+    GLI.flag :f, :must_match => /bar/
+    GLI.command :command do |c|
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(-f cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: -f cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+  end
+
+  def test_flag_regexp_command
+    GLI.reset
+    GLI.command :command do |c|
+      c.flag :foo, :must_match => /bar/
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(command --foo=cruddo)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+  end
+
   def test_use_openstruct
     GLI.reset
     GLI.switch :g
@@ -270,18 +305,6 @@ class TC_testGLI < Test::Unit::TestCase
       end
     end
     GLI.run(%w(-g command -f))
-  end
-
-  def do_test_switch_create_twice(object)
-    description = 'this is a description'
-    object.desc description
-    object.switch :f
-    assert (object.switches[:f] )
-    assert_equal(description,object.switches[:f].description)
-    object.switch :g
-    assert (object.switches[:g])
-    assert_equal(nil,object.switches[:g].description)
-    assert(object.usage != nil) if object.respond_to? :usage;
   end
 
   def test_repeated_option_names
@@ -437,10 +460,71 @@ class TC_testGLI < Test::Unit::TestCase
 
   private
 
-  def read_file_contents(filename)
-    contents = ""
-    File.open(filename) { |file| file.readlines.each { |line| contents += line }}
-    contents
+  def do_test_flag_create(object)
+    description = 'this is a description'
+    long_desc = 'this is a very long description'
+    object.desc description
+    object.long_desc long_desc
+    object.arg_name 'filename'
+    object.default_value '~/.blah.rc'
+    object.flag :f
+    assert (object.flags[:f] )
+    assert_equal(description,object.flags[:f].description)
+    assert_equal(long_desc,object.flags[:f].long_description)
+    assert(nil != object.flags[:f].usage)
+    assert(object.usage != nil) if object.respond_to? :usage
   end
+
+  def do_test_switch_create(object)
+    do_test_switch_create_classic(object)
+    do_test_switch_create_compact(object)
+  end
+
+  def some_descriptions
+    lambda {
+      @description = 'this is a description'
+      @long_description = 'this is a very long description'
+    }
+  end
+
+  def assert_switch_was_made(object,switch) 
+    lambda {
+      assert object.switches[switch]
+      assert_equal @description,object.switches[switch].description,"For switch #{switch}"
+      assert_equal @long_description,object.switches[switch].long_description,"For switch #{switch}"
+      assert(object.usage != nil) if object.respond_to? :usage
+    }
+  end
+
+  def do_test_switch_create_classic(object)
+    Given some_descriptions
+    When {
+      object.desc @description
+      object.long_desc @long_description
+      object.switch :f
+    }
+    Then assert_switch_was_made(object,:f)
+  end
+
+  def do_test_switch_create_compact(object)
+    Given some_descriptions
+    When {
+      object.switch :g, :desc => @description, :long_desc => @long_description
+    }
+    Then assert_switch_was_made(object,:g)
+  end
+
+  def do_test_switch_create_twice(object)
+    description = 'this is a description'
+    object.desc description
+    object.switch :f
+    assert (object.switches[:f] )
+    assert_equal(description,object.switches[:f].description)
+    object.switch :g
+    assert (object.switches[:g])
+    assert_equal(nil,object.switches[:g].description)
+    assert(object.usage != nil) if object.respond_to? :usage
+  end
+
 
 end

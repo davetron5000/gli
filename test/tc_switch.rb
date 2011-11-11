@@ -1,28 +1,59 @@
 require 'gli.rb'
-require 'test/unit'
+require 'test/unit/given'
+require 'option_test_helper'
 
 include GLI
-class TC_testSwitch < Test::Unit::TestCase
+class TC_testSwitch < Test::Unit::Given::TestCase
+  include OptionTestHelper
 
   def test_basics_simple
-    switch = Switch.new(:filename,'Use filename')
-    do_basic_asserts(switch,:filename,nil,'Use filename')
+    Given switch_with_names(:filename)
+    Then attributes_should_be_set
+    And name_should_be(:filename)
+    And aliases_should_be(nil)
   end
 
   def test_basics_kinda_complex
-    switch = Switch.new([:f],'Use filename')
-    do_basic_asserts(switch,:f,nil,'Use filename')
+    Given switch_with_names([:f])
+    Then attributes_should_be_set
+    And name_should_be(:f)
+    And aliases_should_be(nil)
   end
 
   def test_basics_complex
-    switch = Switch.new([:f,:file,:filename],'Use filename')
-    do_basic_asserts(switch,:f,[:file,:filename],'Use filename')
+    Given switch_with_names([:f,:file,:filename])
+    Then attributes_should_be_set
+    And name_should_be(:f)
+    And aliases_should_be([:file,:filename])
+    And {
+      assert_equal ["-f","--[no-]file","--[no-]filename"],@switch.arguments_for_option_parser
+    }
   end
 
-  def do_basic_asserts(switch,name,aliases,desc)
-    assert_equal(name,switch.name)
-    assert_equal(aliases,switch.aliases)
-    assert_equal(desc,switch.description)
-    assert(switch.usage != nil)
+  def test_includes_negatable
+    assert_equal '-a',Switch.name_as_string('a')
+    assert_equal '--[no-]foo',Switch.name_as_string('foo')
   end
+
+  private 
+
+  def switch_with_names(names)
+    lambda do
+      @options = {
+        :desc => 'Filename',
+        :long_desc => 'The Filename',
+      }
+      @switch = Switch.new(names,@options)
+      @cli_option = @switch
+    end
+  end
+
+  def attributes_should_be_set
+    lambda {
+      assert_equal(@options[:desc],@switch.description)
+      assert_equal(@options[:long_desc],@switch.long_description)
+      assert(@switch.usage != nil)
+    }
+  end
+
 end

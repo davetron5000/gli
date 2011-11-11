@@ -67,7 +67,7 @@ class TC_testCommand < Test::Unit::TestCase
 
   def test_names
     command = Command.new([:ls,:list,:'list-them-all'],"List")
-    assert_equal "ls, list-them-all, list",command.names
+    assert_equal "ls, list, list-them-all",command.names
   end
 
   def test_command_sort
@@ -148,6 +148,34 @@ class TC_testCommand < Test::Unit::TestCase
     assert_equal('false',@verbose)
     assert_equal('crud',@configure)
     assert_equal(%w(bar baz quux),@args)
+  end
+
+  def test_negatable_gets_created
+    GLI.command [:foo] do |c|
+      c.action do |g,o,a|
+        assert !g[:blah]
+      end
+    end
+    exit_status = GLI.run(%w(--no-blah foo))
+    assert_equal 0,exit_status
+  end
+
+  def test_negatable_can_be_avoided
+    called = false
+    GLI.switch :bar, :negatable => false
+    GLI.command [:foo] do |c|
+      c.action do |g,o,a|
+        called = true
+      end
+    end
+
+    assert_equal 0,GLI.run(%w(help))
+    assert_contained(@fake_stdout,/--bar/)
+    assert_not_contained(@fake_stdout,/--[no-]bar/)
+
+    exit_status = GLI.run(%w(--no-bar foo))
+    assert !called,"Should not have called action block"
+    assert_equal -1,exit_status
   end
 
   def test_no_arguments

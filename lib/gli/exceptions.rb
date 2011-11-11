@@ -1,6 +1,10 @@
 module GLI
+  module StandardException
+    def exit_code; -2; end
+  end
   # Indicates that the command line invocation was bad
-  class BadCommandLine < Exception
+  class BadCommandLine < StandardError
+    include StandardException
     def exit_code; -1; end
   end
 
@@ -31,7 +35,8 @@ module GLI
   #     raise CustomExit.new("Not connected to DB",-5) unless connected?
   #     raise CustomExit.new("Bad SQL",-6) unless valid_sql?(args[0])
   #
-  class CustomExit < Exception
+  class CustomExit < StandardError
+    include StandardException
     attr_reader :exit_code #:nodoc:
     # Create a custom exit exception
     #

@@ -48,9 +48,9 @@ Feature: The GLI executable works as intended
         project
 
     Command Options:
-        -e, --ext - Create an ext dir
-        --force   - Overwrite/ignore existing files and directories
-        --notest  - Do not create a test dir
+        -e, --[no-]ext - Create an ext dir
+        --[no-]force   - Overwrite/ignore existing files and directories
+        --[no-]notest  - Do not create a test dir
 
     """
 

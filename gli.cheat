@@ -37,7 +37,16 @@ Create a switch (option that takes no args)
   desc 'Dry-run; don't change the disk
   switch [:n,'dry-run']
   # Both -n and --dry-run will work
+  * --no-dry-run will set the switch to false
   # Access in code via global_options[:n]
+  # or global_options[:'dry-run']
+
+Create it on one line
+  switch :n,'dry-run', :desc => 'Dry-run; don't change the disk
+
+Don't create a negatable version
+  switch :n,'dry-run', :negatable => false, :desc => 'Dry-run; don't change the disk
+  # --no-dry-run is not accepted 
 
 Create a flag (option that takes an argument)
 
@@ -48,6 +57,11 @@ Create a flag (option that takes an argument)
   # Both -c and --conf work, if this flag is omitted
   # then the default of ~/.glirc is avaialble to the code
   # Access in code via global_options[:c] (or :conf)
+
+Create a flag in a more compact style
+
+  flag :c,:conf, :desc => 'Location of the config file', 
+                 :arg_name => 'path_to_file', :default_value =>  '~/.glirc'
 
 Create a command
 

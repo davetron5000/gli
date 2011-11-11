@@ -1,16 +1,32 @@
-require 'gli/command_line_token.rb'
-require 'gli/switch.rb'
+require 'gli/command_line_option.rb'
 
 module GLI
   # Defines a flag, which is to say a switch that takes an argument
-  class Flag < Switch # :nodoc:
+  class Flag < CommandLineOption # :nodoc:
 
-    attr_accessor :default_value
+    # Regexp that is used to see if the flag's argument matches
+    attr_reader :must_match
 
-    def initialize(names,description,argument_name=nil,default=nil,long_desc=nil)
-      super(names,description,long_desc)
-      @argument_name = argument_name || "arg"
-      @default_value = default
+    # Creates a new option
+    #
+    # names - Array of symbols or strings representing the names of this switch
+    # options - hash of options:
+    #           :desc - the short description
+    #           :long_desc - the long description
+    #           :default_value - the default value of this option
+    #           :arg_name - the name of the flag's argument, default is "arg"
+    #           :must_match - a regexp that the flag's value must match
+    def initialize(names,options)
+      super(names,options)
+      @argument_name = options[:arg_name] || "arg"
+      @default_value = options[:default_value]
+      @must_match = options[:must_match]
+    end
+
+    def arguments_for_option_parser
+      args = all_forms_a.map { |_| "#{_} VAL" }
+      args << @must_match if @must_match
+      args
     end
 
     # Returns a string of all possible forms
