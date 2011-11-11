@@ -109,10 +109,10 @@ class TC_testGLI < Test::Unit::TestCase
           called = true
           assert_equal "baaz",o[:g]
           assert_equal "bar",g[:f]
-          assert !g[:g]
-          assert !o[:f]
-          assert !g[:s]
-          assert o[:s]
+          assert !g[:g],o.inspect
+          assert !o[:f],o.inspect
+          assert !g[:s],o.inspect
+          assert o[:s],o.inspect
         rescue Exception => ex
           failure = ex
         end
@@ -358,11 +358,11 @@ class TC_testGLI < Test::Unit::TestCase
       c.flag :i
       c.flag :s
       c.action do |g,o,a|
-        assert_equal "5", o[:i]
-        assert_equal "a", o[:s]
+        assert_equal "5", o[:i],o.inspect
+        assert_equal "a", o[:s],o.inspect
       end
     end
-    GLI.run(['foo', '-i=5','-s=a'])
+    GLI.run(['foo', '-i5','-sa'])
   end
 
   def test_exits_zero_on_success

@@ -1,6 +1,6 @@
 --- 
 UncommunicativeParameterName: 
-  accept: []
+  accept: S[]
 
   exclude: []
 
@@ -58,10 +58,11 @@ UncommunicativeModuleName:
 NestedIterators: 
   ignore_iterators: []
 
-  exclude: []
+  exclude:
+  - option_parser
 
   enabled: true
-  max_allowed_nesting: 1
+  max_allowed_nesting: 2
 LongMethod: 
   max_statements: 10
   exclude: 
@@ -86,7 +87,7 @@ Attribute:
 
   enabled: false
 UncommunicativeVariableName: 
-  accept: []
+  accept: ['_']
 
   exclude: []
 

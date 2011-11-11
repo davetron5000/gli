@@ -10,6 +10,7 @@ require 'support/help.rb'
 require 'support/rdoc.rb'
 require 'support/initconfig.rb'
 require 'etc'
+require 'optparse'
 
 # A means to define and parse a command line interface that works as
 # Git's does, in that you specify global options, a command name, command
@@ -224,10 +225,15 @@ module GLI
     exit_code = 0
     begin
       config = parse_config
+
       override_defaults_based_on_config(config)
+
       global_options,command,options,arguments = parse_options(args)
+
       copy_options_to_aliased_versions(global_options,command,options)
+
       global_options = convert_to_openstruct?(global_options)
+
       options = convert_to_openstruct?(options)
       if proceed?(global_options,command,options,arguments)
         command = commands[:help] if !command
@@ -338,33 +344,88 @@ module GLI
     end
   end
 
-  # Returns an array of four values:
-  #  * global options (as a Hash)
-  #  * Command 
-  #  * command options (as a Hash)
-  #  * arguments (as an Array)
+  # Given the command-line argument array, returns and array of size 4:
+  #
+  # 0:: global options
+  # 1:: command, as a Command
+  # 2:: command-specific options
+  # 3:: unparsed arguments
   def parse_options(args) # :nodoc:
-    global_options,command,options,arguments = parse_options_helper(args.clone,Hash.new,nil,Hash.new,Array.new)
-    flags.each { |name,flag| global_options[name] = flag.default_value if !global_options[name] }
-    command.flags.each { |name,flag| options[name] = flag.default_value if !options[name] }
-    return [global_options,command,options,arguments]
+    args_clone = args.clone
+    global_options = {}
+    command = nil
+    command_options = {}
+    remaining_args = nil
+
+    global_options,command_name,args = parse_global_options(args)
+    flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
+    #g,c,o,a = old_parse_options(args_clone)
+
+    command_name = 'help' if command_name.nil?
+    command = find_command(command_name)
+    raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
+
+    command_options,args = parse_command_options(command,args)
+    command.flags.each { |name,flag| command_options[name] = flag.default_value unless command_options[name] }
+    command.switches.each do |name,switch| 
+      command_options[name] = switch.default_value unless command_options[name] 
+    end
+
+    [global_options,command,command_options,args]
   end
 
-  # Finds the index of the first non-flag
-  # argument or -1 if there wasn't one.
-  def find_non_flag_index(args) # :nodoc:
-    args.each_with_index do |item,index|
-      return index if item =~ /^[^\-]/
-      return index-1 if item =~ /^\-\-$/
+  # Get an OptionParser that will parse the given flags and switches
+  def option_parser(flags,switches)
+    options = {}
+    option_parser = OptionParser.new do |opts|
+      {
+        switches => lambda { |_| _ },
+        flags    => lambda { |_| "#{_} VAL" },
+      }.each do |tokens,string_maker|
+        tokens.each do |_,token|
+          token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
+          token_names.each do |name|
+            option_name = GLI.name_to_option(name)
+            opts.on(string_maker.call(option_name)) do |arg|
+              token_names.each { |_| options[_] = arg }
+            end
+          end
+        end
+      end
     end
-    -1
+    [option_parser,options]
   end
 
-  def flag_switch_index(args)
-    args.each_with_index do |item,index|
-      return index if item =~ /^[\-]/
+  def parse_command_options(command,args)
+    option_parser,command_options = option_parser(command.flags,command.switches)
+    begin
+      option_parser.parse!(args)
+    rescue OptionParser::InvalidOption => ex
+      raise UnknownCommandArgument.new("Unknown option #{ex.args.join(',')}",command)
     end
-    -1
+    [command_options,args]
+  end
+
+  def parse_global_options(args)
+    option_parser,global_options = option_parser(flags,switches)
+    command = nil
+    begin
+      option_parser.order!(args) do |non_option|
+        command = non_option
+        break
+      end
+    rescue OptionParser::InvalidOption => ex
+      raise UnknownGlobalArgument.new("Unknown option #{ex.args.join(',')}")
+    end
+    [global_options,command,args]
+  end
+
+  def self.name_to_option(name)
+    if name.to_s.size == 1
+      "-#{name}"
+    else
+      "--#{name}"
+    end
   end
 
   def clear_nexts # :nodoc:
@@ -386,126 +447,6 @@ module GLI
   end
   def commands # :nodoc:
     @@commands ||= {}
-  end
-
-  # Recursive helper for parsing command line options
-  # <code>args</code>:: the arguments that have yet to be processed
-  # <code>global_options</code>:: the global options hash
-  # <code>command</code>:: the Command that has been identified (or nil if not identified yet)
-  # <code>command_options</code>:: options for Command
-  # <code>arguments</code>:: the arguments for Command
-  #
-  # This works by finding the first non-switch/flag argument, and taking that sublist and trying to pick out
-  # flags and switches.  After this is done, one of the following is true:
-  #   * the sublist is empty - in this case, go again, as there might be more flags to parse
-  #   * the sublist has a flag left in it - unknown flag; we bail
-  #   * the sublist has a non-flag left in it - this is the command (or the start of the arguments list)
-  #
-  # This sort of does the same thing in two phases; in the first phase, the command hasn't been identified, so
-  # we are looking for global switches and flags, ending when we get the command.
-  #
-  # Once the command has been found, we start looking for command-specific flags and switches.
-  # When those have been found, we know the rest of the argument list is arguments for the command
-  def parse_options_helper(args,global_options,command,command_options,arguments) # :nodoc:
-    non_flag_i = find_non_flag_index(args)
-    all_flags = false
-    if non_flag_i == 0
-      # no flags
-      if !command
-        command_name = args.shift
-        command = find_command(command_name)
-        raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
-        return parse_options_helper(args,
-                                    global_options,
-                                    command,
-                                    Hash.new,
-                                    arguments)
-      elsif((index = flag_switch_index(args)) >= 0)
-        try_me = args[0..index-1]
-        rest = args[index..args.length]
-        new_args = rest + try_me
-        return parse_options_helper(new_args,
-                                    global_options,
-                                    command,
-                                    Hash.new,
-                                    arguments)
-      else
-        return global_options,command,command_options,arguments + args
-      end
-    elsif non_flag_i == -1
-      all_flags = true
-    end
-
-    try_me = args[0..non_flag_i]
-    rest = args[(non_flag_i+1)..args.length]
-    if all_flags
-      try_me = args 
-      rest = []
-    end
-
-    # Suck up whatever options we can
-    switch_hash = switches
-    flag_hash = flags
-    options = global_options
-    if command
-      switch_hash = command.switches
-      flag_hash = command.flags
-      options = command_options
-    end
-
-    switch_hash.each do |name,switch|
-      value = switch.get_value!(try_me)
-      options[name] = value if !options[name]
-    end
-
-    flag_hash.each do |name,flag|
-      value = flag.get_value!(try_me)
-      # So, there's a case where the first time we request the value for a flag,
-      # we get the default and not the user-provided value.  The next time we request
-      # it, we want to override it with the real value.
-      # HOWEVER, sometimes this happens in reverse, so we want to err on taking the
-      # user-provided, non-default value where possible.
-      if value 
-        if options[name]
-          options[name] = value if options[name] == flag.default_value
-        else
-          options[name] = value
-        end
-      end
-    end
-
-    if try_me.empty?
-      return [global_options,command,command_options,arguments] if rest.empty?
-      # If we have no more options we've parsed them all
-      # and rest may have more
-      return parse_options_helper(rest,global_options,command,command_options,arguments)
-    else
-      if command
-        check = rest
-        check = rest + try_me if all_flags 
-        check.each() do |arg| 
-          if arg =~ /^\-\-$/
-            try_me.delete arg
-            break 
-          end
-          raise UnknownCommandArgument.new("Unknown option #{arg}",command) if arg =~ /^\-/ 
-        end
-        return [global_options,command,command_options,try_me + rest]
-      else
-        # Now we have our command name
-        command_name = try_me.shift
-        raise UnknownGlobalArgument.new("Unknown option #{command_name}") if command_name =~ /^\-/
-
-        command = find_command(command_name)
-        raise UnknownCommand.new("Unknown command '#{command_name}'") if !command
-
-        return parse_options_helper(rest,
-                                    global_options,
-                                    command,
-                                    Hash.new,
-                                    arguments)
-      end
-    end
   end
 
   def find_command(name) # :nodoc:

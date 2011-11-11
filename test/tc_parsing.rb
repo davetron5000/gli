@@ -267,7 +267,7 @@ class TC_testParsing < Test::Unit::TestCase
     global_options,command,command_options,arguments = GLI.parse_options(args)
     assert(global_options.empty?)
     assert_equal(:data,command.name)
-    assert_equal('bill',command_options[:t])
+    assert_equal('bill',command_options[:t],command_options.inspect)
     assert_equal('10',command_options[:n])
     assert_equal(['1234'],arguments)
 
