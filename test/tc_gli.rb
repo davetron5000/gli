@@ -233,6 +233,66 @@ class TC_testGLI < Test::Unit::Given::TestCase
     GLI.run(%w(-g command -f))
   end
 
+  def test_flag_array_of_options_global
+    GLI.reset
+    GLI.flag :foo, :must_match => ['bar','blah','baz']
+    GLI.command :command do |c|
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+    assert_equal 0,GLI.run(%w(--foo=blah command)),@fake_stderr.to_s
+  end
+
+  def test_flag_hash_of_options_global
+    GLI.reset
+    GLI.flag :foo, :must_match => { 'bar' => "BAR", 'blah' => "BLAH" }
+    @foo_arg_value = nil
+    GLI.command :command do |c|
+      c.action do |g,o,a|
+        @foo_arg_value = g[:foo]
+      end
+    end
+    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+    assert_equal 0,GLI.run(%w(--foo=blah command)),@fake_stderr.to_s
+    assert_equal 'BLAH',@foo_arg_value
+  end
+
+  def test_flag_regexp_global
+    GLI.reset
+    GLI.flag :foo, :must_match => /bar/
+    GLI.command :command do |c|
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+  end
+
+  def test_flag_regexp_global_short_form
+    GLI.reset
+    GLI.flag :f, :must_match => /bar/
+    GLI.command :command do |c|
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(-f cruddo command)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: -f cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+  end
+
+  def test_flag_regexp_command
+    GLI.reset
+    GLI.command :command do |c|
+      c.flag :foo, :must_match => /bar/
+      c.action do
+      end
+    end
+    assert_equal -1,GLI.run(%w(command --foo=cruddo)),@fake_stderr.to_s
+    assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
+  end
+
   def test_use_openstruct
     GLI.reset
     GLI.switch :g

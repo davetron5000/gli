@@ -67,7 +67,7 @@ class TC_testCommand < Test::Unit::TestCase
 
   def test_names
     command = Command.new([:ls,:list,:'list-them-all'],"List")
-    assert_equal "ls, list-them-all, list",command.names
+    assert_equal "ls, list, list-them-all",command.names
   end
 
   def test_command_sort

@@ -20,6 +20,10 @@ module GLI
       @negatable = options[:negatable].nil? ? true : options[:negatable]
     end
 
+    def arguments_for_option_parser
+      all_forms_a
+    end
+
     def negatable?
       @negatable
     end

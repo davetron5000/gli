@@ -301,14 +301,11 @@ module GLI
   def option_parser(flags,switches)
     options = {}
     option_parser = OptionParser.new do |opts|
-      {
-        switches => lambda { |switch,name| Switch.name_as_string(name,switch.negatable?) },
-        flags    => lambda { |switch,name| "#{Flag.name_as_string(name)} VAL" },
-      }.each do |tokens,string_maker|
+      [ switches, flags ].each do |tokens,string_maker|
         tokens.each do |_,token|
-          token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
-          token_names.each do |name|
-            opts.on(string_maker.call(token,name)) do |arg|
+          opts.on(*token.arguments_for_option_parser) do |arg|
+            token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
+            token_names.each do |name|
               token_names.each { |_| options[_] = arg }
             end
           end
@@ -323,7 +320,9 @@ module GLI
     begin
       option_parser.parse!(args)
     rescue OptionParser::InvalidOption => ex
-      raise UnknownCommandArgument.new("Unknown option #{ex.args.join(',')}",command)
+      raise UnknownCommandArgument.new("Unknown option #{ex.args.join(' ')}",command)
+    rescue OptionParser::InvalidArgument => ex
+      raise UnknownCommandArgument.new("#{ex.reason}: #{ex.args.join(' ')}",command)
     end
     [command_options,args]
   end
@@ -337,7 +336,9 @@ module GLI
         break
       end
     rescue OptionParser::InvalidOption => ex
-      raise UnknownGlobalArgument.new("Unknown option #{ex.args.join(',')}")
+      raise UnknownGlobalArgument.new("Unknown option #{ex.args.join(' ')}")
+    rescue OptionParser::InvalidArgument => ex
+      raise UnknownGlobalArgument.new("#{ex.reason}: #{ex.args.join(' ')}")
     end
     [global_options,command,args]
   end

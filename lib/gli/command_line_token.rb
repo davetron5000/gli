@@ -54,7 +54,7 @@ module GLI
     def all_forms_a
       forms = [self.class.name_as_string(name,negatable?)]
       if aliases
-        forms |= aliases.map { |one_alias| self.class.name_as_string(one_alias,negatable?) }.sort { |one,two| two.length <=> one.length }
+        forms |= aliases.map { |one_alias| self.class.name_as_string(one_alias,negatable?) }.sort { |one,two| one.length <=> two.length }
       end
       forms
     end
