@@ -1,3 +1,6 @@
+require 'psych'
+gem 'rdoc'
+gem 'rake'
 require 'rake/clean'
 require 'rubygems'
 require 'rubygems/package_task'
