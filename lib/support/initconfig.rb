@@ -23,7 +23,7 @@ module GLI
             config[COMMANDS_KEY][name.to_sym] = {} if command != self
           end
         end
-        File.open(@filename,'w') do |file|
+        File.open(@filename,'w', 0600) do |file|
           YAML.dump(config,file)
         end
       else

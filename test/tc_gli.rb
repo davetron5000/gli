@@ -179,6 +179,14 @@ class TC_testGLI < Test::Unit::TestCase
 
   end
 
+  def test_initconfig_permissions
+    GLI.reset
+    GLI.config_file(@config_file)
+    GLI.run(['initconfig'])
+    oct_mode = "%o" % File.stat(@config_file).mode
+    assert_match /0600$/, oct_mode
+  end
+
   def do_test_flag_create(object)
     description = 'this is a description'
     long_desc = 'this is a very long description'
