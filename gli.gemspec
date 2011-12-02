@@ -41,5 +41,6 @@ bin/gli
   s.add_development_dependency('grancher', '~> 0.1.5')
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('aruba', '~> 0.4.6')
+  s.add_development_dependency('psych')
 end
 
