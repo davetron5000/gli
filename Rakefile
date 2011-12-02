@@ -1,4 +1,6 @@
-require 'psych'
+if RUBY_VERSION =~ /^1.9/
+  require 'psych'
+end
 gem 'rdoc'
 gem 'rake'
 require 'rake/clean'
