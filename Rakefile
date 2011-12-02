@@ -7,7 +7,6 @@ require 'rake/clean'
 require 'rubygems'
 require 'rubygems/package_task'
 require 'rake/testtask'
-gem 'rdoc' # I need to use the installed RDoc gem, not what comes with the system
 require 'rdoc/task'
 require 'grancher/task'
 require 'reek/rake/task'
