@@ -1,3 +1,3 @@
 module GLI
-  VERSION = '1.3.7'
+  VERSION = '1.4.0'
 end
