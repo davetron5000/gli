@@ -302,6 +302,9 @@ class TC_testGLI < Test::Unit::TestCase
     GLI.switch [:x,:y]
     assert_raises(ArgumentError) { GLI.flag [:x] }
     assert_raises(ArgumentError) { GLI.flag [:y] }
+
+    # This shouldn't raise; :help is special
+    GLI.switch :help
   end
 
   def test_repeated_option_names_on_command
