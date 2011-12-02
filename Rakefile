@@ -1,3 +1,8 @@
+if RUBY_VERSION =~ /^1.9/
+  require 'psych'
+end
+gem 'rdoc'
+gem 'rake'
 require 'rake/clean'
 require 'rubygems'
 require 'rubygems/package_task'

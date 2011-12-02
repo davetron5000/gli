@@ -32,17 +32,17 @@ bin/gli
   s.require_paths << 'lib'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc', 'gli.rdoc']
-  s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc' << '-R'
+  s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc'
   s.bindir = 'bin'
   s.executables << 'gli'
   s.rubyforge_project = 'gli'
-  s.add_development_dependency('rake', '~> 0.9.2')
-  s.add_development_dependency('rdoc', '~> 3.9.4')
+  s.add_development_dependency('rake', '~> 0.9.2.2')
+  s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('reek', '~> 1.2.0')
   s.add_development_dependency('roodi', '~> 2.1.0')
   s.add_development_dependency('grancher', '~> 0.1.5')
   s.add_development_dependency('rainbow', '~> 1.1.1')
-  s.add_development_dependency('aruba', '~> 0.4.6')
   s.add_development_dependency('test_unit-given')
+  s.add_development_dependency('aruba', '~> 0.4.7')
 end
 
