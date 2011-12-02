@@ -51,6 +51,27 @@ Feature: The scaffold GLI generates works
     Global Options:
         -f, --flagname=The name of the argument - Describe some flag here (default: 
                                                   the default)
+        --help                                  - Show this message
+        -s, --switch                            - Describe some switch here
+    
+    Commands:
+        add      - Describe add here
+        complete - Describe complete here
+        help     - Shows list of commands or help for one command
+        list     - Describe list here
+
+    """
+     And I run `bin/todo --help`
+    Then the output should contain:
+    """
+    usage: todo [global options] command [command options]
+    
+    Version: 0.0.1
+    
+    Global Options:
+        -f, --flagname=The name of the argument - Describe some flag here (default: 
+                                                  the default)
+        --help                                  - Show this message
         -s, --switch                            - Describe some switch here
     
     Commands:

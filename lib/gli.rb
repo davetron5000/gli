@@ -558,4 +558,7 @@ module GLI
     end
   end
 
+  desc 'Show this message'
+  switch :help
+
 end

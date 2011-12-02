@@ -19,6 +19,7 @@ Feature: The GLI executable works as intended
      And the output should contain:
     """
     Global Options:
+        --help         - Show this message
         -n             - Dry run; dont change the disk
         -r, --root=arg - Root dir of project (default: .)
         -v             - Be verbose
