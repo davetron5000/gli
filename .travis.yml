@@ -1,4 +1,4 @@
-script: 'rake test features'
+script: 'bundle exec rake test features'
 rvm: 
   - 1.9.2
   - 1.9.3
