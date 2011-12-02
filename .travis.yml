@@ -4,7 +4,6 @@ rvm:
   - 1.9.3
   - 1.8.7
   - ree
-  - rbx-19mode
   - ruby-head
 branches:
   only:
