@@ -15,7 +15,6 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 
 require 'gli'
 require 'support/scaffold'
-require 'gli_version'
 
 include GLI
 
