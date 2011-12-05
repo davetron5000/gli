@@ -1,5 +1,5 @@
 # Make sure we get the gli that's local
-require File.join([File.dirname(__FILE__),'lib','gli_version.rb'])
+require File.join([File.dirname(__FILE__),'lib','gli','version.rb'])
 
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
@@ -22,7 +22,7 @@ lib/gli/exceptions.rb
 lib/gli/terminal.rb
 lib/gli/dsl.rb
 lib/gli.rb
-lib/gli_version.rb
+lib/gli/version.rb
 lib/support/help.rb
 lib/support/rdoc.rb
 lib/support/scaffold.rb

@@ -23,7 +23,7 @@ Feature: The scaffold GLI generates works
     Created ./todo/test/tc_nothing.rb
     Created ./todo/Rakefile
     Created ./todo/Gemfile
-    Created ./todo/lib/todo_version.rb
+    Created ./todo/lib/todo/version.rb
 
     """
      And the following directories should exist:
@@ -39,7 +39,7 @@ Feature: The scaffold GLI generates works
        |todo/test/tc_nothing.rb  |
        |todo/Rakefile            |
        |todo/Gemfile             |
-       |todo/lib/todo_version.rb |
+       |todo/lib/todo/version.rb |
     When I cd to "todo"
      And I run `bin/todo`
     Then the output should contain:
@@ -121,7 +121,7 @@ Feature: The scaffold GLI generates works
     Created ./todo/todo.gemspec
     Created ./todo/Rakefile
     Created ./todo/Gemfile
-    Created ./todo/lib/todo_version.rb
+    Created ./todo/lib/todo/version.rb
 
     """
      And the following directories should exist:
@@ -138,7 +138,7 @@ Feature: The scaffold GLI generates works
        |todo/todo.gemspec        |
        |todo/Rakefile            |
        |todo/Gemfile             |
-       |todo/lib/todo_version.rb |
+       |todo/lib/todo/version.rb |
 
         Examples:
             | command                                     |

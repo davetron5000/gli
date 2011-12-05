@@ -39,7 +39,7 @@ module GLI
       File.open("#{root_dir}/#{project_name}/#{project_name}.gemspec",'w') do |file|
         file.puts <<EOS
 # Ensure we require the local version and not one we might have installed already
-require File.join([File.dirname(__FILE__),'lib','#{project_name}_version.rb'])
+require File.join([File.dirname(__FILE__),'lib','#{project_name}','version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = '#{project_name}'
   s.version = #{project_name_as_module_name(project_name)}::VERSION
@@ -72,14 +72,15 @@ EOS
 
     def self.mk_version(root_dir,dry_run,project_name)
       return if dry_run
-      File.open("#{root_dir}/#{project_name}/lib/#{project_name}_version.rb",'w') do |file|
+      FileUtils.mkdir("#{root_dir}/#{project_name}/lib/#{project_name}")
+      File.open("#{root_dir}/#{project_name}/lib/#{project_name}/version.rb",'w') do |file|
         file.puts <<EOS
 module #{project_name_as_module_name(project_name)}
   VERSION = '0.0.1'
 end
 EOS
       end
-      puts "Created #{root_dir}/#{project_name}/lib/#{project_name}_version.rb"
+      puts "Created #{root_dir}/#{project_name}/lib/#{project_name}/version.rb"
     end
     def self.mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
       return if dry_run
@@ -168,7 +169,7 @@ EOS
             file.puts <<EOS
 require 'rubygems'
 require 'gli'
-require '#{project_name}_version'
+require '#{project_name}/version'
 
 include GLI
 
