@@ -100,6 +100,7 @@ module GLI
     end
 
     def verify_unused_in_option(name,option_like,type) # :nodoc:
+      return if name.to_s == 'help'
       raise ArgumentError.new("#{name} has already been specified as a #{type} #{context_description}") if option_like[name]
       option_like.each do |one_option_name,one_option|
         if one_option.aliases

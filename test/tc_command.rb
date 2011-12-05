@@ -244,20 +244,6 @@ class TC_testCommand < Test::Unit::TestCase
     assert(@post_called,"Expected pre block to have been called")
   end
 
-  def test_help_no_global_options
-    GLI.reset
-    GLI.desc 'Basic Command'
-    GLI.command [:basic,:bs] do |c|
-      c.action do |global_options,options,arguments|
-      end
-    end
-    @fake_stdout = FakeStdOut.new
-    DefaultHelpCommand.output_device=@fake_stdout
-
-    GLI.run(%w(help))
-    assert_not_contained(@fake_stdout,/\[global options\]/)
-  end
-
   def test_help_without_any_descs_still_works
     GLI.reset
     GLI.flag :f

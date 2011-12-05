@@ -1,5 +1,5 @@
 module GLI
   unless const_defined? :VERSION
-    VERSION = '1.3.7'
+    VERSION = '2.0.0'
   end
 end

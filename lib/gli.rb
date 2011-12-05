@@ -43,6 +43,9 @@ module GLI
     @pre_block = false
     @post_block = false
     clear_nexts
+
+    desc 'Show this message'
+    switch :help
   end
 
   # Describe the overall application/programm.  This should be a one-sentence summary
@@ -280,6 +283,11 @@ module GLI
     command_options = {}
     remaining_args = nil
 
+    unless switches.values.find { |_| _.name.to_s == 'help' || Array(_.aliases).find { |a| a.to_s == 'help' } }
+      desc 'Show this message'
+      switch :help, :negatable => false
+    end
+
     global_options,command_name,args = parse_global_options(args)
     flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
     #g,c,o,a = old_parse_options(args_clone)
@@ -349,7 +357,7 @@ module GLI
     @skips_pre = false
   end
 
-  def self.included(klass);
+  def self.included(klass)
     @stderr = $stderr
   end
 
