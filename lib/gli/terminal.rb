@@ -73,7 +73,12 @@ module GLI
     end
 
     # True if we are JRuby; exposed to allow for testing
-    def jruby?; RUBY_PLATFORM =~ /java/; end
-
+    def jruby?
+      if RUBY_PLATFORM =~ /java/
+        true
+      else
+        false
+      end
+    end
   end
 end

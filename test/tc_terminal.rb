@@ -54,12 +54,7 @@ class TC_testTerminal < Test::Unit::TestCase
     terminal.instance_eval do
       def run_command(command)
 
-        if RUBY_PLATFORM == 'java'
-          return '5678' if command == 'tput cols'
-          return '1234' if command == 'tput lines'
-        else 
-          return '1234 5678' if command == 'stty size'
-        end
+        return '1234 5678' if command == 'stty size'
 
         raise "Unexpected command called: #{command} for #{RUBY_PLATFORM}"
       end
