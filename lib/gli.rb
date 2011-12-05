@@ -283,7 +283,7 @@ module GLI
     command_options = {}
     remaining_args = nil
 
-    unless switches.values.find { |_| _.name.to_s == 'help' || Array(_.aliases).find { |a| a.to_s == 'help' } }
+    unless switches.values.find { |_| _.name.to_s == 'help' || Array(_.aliases).find { |an_alias| an_alias.to_s == 'help' } }
       desc 'Show this message'
       switch :help, :negatable => false
     end
