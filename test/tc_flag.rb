@@ -26,7 +26,7 @@ class TC_testFlag < Test::Unit::Given::TestCase
     And name_should_be(:f)
     And aliases_should_be([:file,:filename])
     And {
-      assert_equal ["-f VAL","--file VAL","--filename VAL",/foobar/],@flag.arguments_for_option_parser
+      assert_equal ["-f VAL","--file VAL","--filename VAL",/foobar/,Float],@flag.arguments_for_option_parser
     }
   end
 
@@ -38,6 +38,7 @@ class TC_testFlag < Test::Unit::Given::TestCase
         :arg_name => 'file',
         :default_value => '~/.blah.rc',
         :must_match => /foobar/,
+        :type => Float,
       }
       @flag = Flag.new(names,@options)
       @cli_option = @flag
@@ -50,6 +51,7 @@ class TC_testFlag < Test::Unit::Given::TestCase
       assert_equal(@options[:long_desc],@flag.long_description)
       assert_equal(@options[:default_value],@flag.default_value)
       assert_equal(@options[:must_match],@flag.must_match)
+      assert_equal(@options[:type],@flag.type)
       assert(@flag.usage != nil)
     }
   end

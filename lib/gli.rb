@@ -149,6 +149,33 @@ module GLI
     @use_openstruct = use_openstruct
   end
 
+  # Configure a type conversion not already provided by the underlying OptionParser.
+  # This works more or less like the OptionParser version.
+  #
+  # object - the class (or whatever) that triggers the type conversion
+  # block - the block that will be given the string argument and is expected
+  #         to return the converted value
+  #
+  # Example
+  #
+  #     accept(Hash) do |value|
+  #       result = {}
+  #       value.split(/,/) do |pair|
+  #         k,v = pair.split(/:/)
+  #         result[k] = v
+  #       end
+  #       result
+  #     end
+  #
+  #     flag :properties, :type => Hash
+  def accept(object,&block)
+    accepts[object] = block
+  end
+
+  def accepts
+    @accepts ||= {}
+  end
+
   # Runs whatever command is needed based on the arguments. 
   #
   # +args+:: the command line ARGV array
@@ -309,6 +336,7 @@ module GLI
   def option_parser(flags,switches)
     options = {}
     option_parser = OptionParser.new do |opts|
+      accepts.each { |object,block| opts.accept(object) { |_| block.call(_) } }
       [ switches, flags ].each do |tokens,string_maker|
         tokens.each do |_,token|
           opts.on(*token.arguments_for_option_parser) do |arg|

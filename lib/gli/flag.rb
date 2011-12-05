@@ -7,6 +7,9 @@ module GLI
     # Regexp that is used to see if the flag's argument matches
     attr_reader :must_match
 
+    # Type to which we want to cast the values
+    attr_reader :type
+
     # Creates a new option
     #
     # names - Array of symbols or strings representing the names of this switch
@@ -16,16 +19,19 @@ module GLI
     #           :default_value - the default value of this option
     #           :arg_name - the name of the flag's argument, default is "arg"
     #           :must_match - a regexp that the flag's value must match
+    #           :type - a class to convert the value to
     def initialize(names,options)
       super(names,options)
       @argument_name = options[:arg_name] || "arg"
       @default_value = options[:default_value]
       @must_match = options[:must_match]
+      @type = options[:type]
     end
 
     def arguments_for_option_parser
       args = all_forms_a.map { |_| "#{_} VAL" }
       args << @must_match if @must_match
+      args << @type if @type
       args
     end
 

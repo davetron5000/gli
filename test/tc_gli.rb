@@ -484,6 +484,40 @@ class TC_testGLI < Test::Unit::Given::TestCase
     assert_raises(CustomExit) { GLI.run(['foo']) }
   end
 
+  class ConvertMe
+    attr_reader :value
+    def initialize(value)
+      @value = value
+    end
+  end
+
+  def test_that_we_can_add_new_casts_for_flags
+    GLI.reset
+    GLI.accept(ConvertMe) do |value|
+      ConvertMe.new(value)
+    end
+    GLI.flag :foo, :type => ConvertMe
+
+    @foo = nil
+    @baz = nil
+
+    GLI.command(:bar) do |c|
+      c.flag :baz, :type => ConvertMe
+      c.action do |g,o,a|
+        @foo = g[:foo]
+        @baz = o[:baz]
+      end
+    end
+
+    assert_equal 0,GLI.run(['--foo','blah','bar','--baz=crud']),@fake_stderr.to_s
+
+    assert @foo.kind_of?(ConvertMe),"Expected a ConvertMe, but get a #{@foo.class}"
+    assert_equal 'blah',@foo.value
+
+    assert @baz.kind_of?(ConvertMe),"Expected a ConvertMe, but get a #{@foo.class}"
+    assert_equal 'crud',@baz.value
+  end
+
   private
 
   def do_test_flag_create(object)
