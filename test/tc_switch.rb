@@ -1,10 +1,8 @@
-require 'gli.rb'
-require 'test/unit/given'
-require 'option_test_helper'
+require 'test_helper'
 
-include GLI
 class TC_testSwitch < Test::Unit::Given::TestCase
-  include OptionTestHelper
+  include TestHelper
+  include GLI
 
   def test_basics_simple
     Given switch_with_names(:filename)

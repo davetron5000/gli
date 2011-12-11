@@ -1,10 +1,8 @@
-require 'gli.rb'
-require 'test/unit/given'
-require 'option_test_helper'
+require 'test_helper'
 
-include GLI
 class TC_testFlag < Test::Unit::Given::TestCase
-  include OptionTestHelper
+  include TestHelper
+  include GLI
 
   def test_basics_simple
     Given flag_with_names(:f)
@@ -55,6 +53,4 @@ class TC_testFlag < Test::Unit::Given::TestCase
       assert(@flag.usage != nil)
     }
   end
-
-
 end

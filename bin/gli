@@ -16,7 +16,7 @@ $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib')
 require 'gli'
 require 'support/scaffold'
 
-include GLI
+include GLI::App
 
 program_desc 'gli allows you to create the scaffolding for a GLI-powered application'
 
@@ -50,7 +50,7 @@ command [:init,:scaffold] do |c|
     if args.length < 1
       raise 'You must specify the name of your project'
     end
-    Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+    GLI::Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
   end
 end
 

@@ -171,7 +171,7 @@ require 'rubygems'
 require 'gli'
 require '#{project_name}/version'
 
-include GLI
+include GLI::App
 
 program_desc 'Describe your application here'
 

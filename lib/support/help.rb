@@ -73,7 +73,7 @@ module GLI
       usage = "usage: #{@gli.program_name} "
       all_options = @gli.switches.merge(@gli.flags)
       if !all_options.empty?
-          usage += "[global options] "
+        usage += "[global options] "
       end
       usage += "command"
       usage += ' [command options]'
@@ -138,45 +138,44 @@ module GLI
         @@output.puts string
       end
     end
-  end
 
-  private
-
-  # Wraps the line at the given column length, using the given line padding.
-  # Assumes that the first line doesn't need the padding, as its filled
-  # up with other stuff
-  def wrap(line,pad_length=0,line_length=nil)
-    line ||= ''
-    if line_length.nil?
-      line_length = Terminal.instance.size[0]
-    end
-    line_padding = sprintf("%#{pad_length}s",'')
-    words = line.split(/\s+/)
-    return line if !words || words.empty?
-    wrapped = ''
-    while wrapped.length + line_padding.length < line_length
-      wrapped += ' ' if wrapped.length > 0
-      word = words.shift
-      if (wrapped.length + line_padding.length + word.length > line_length)
-        words.unshift word
-        break;
+    # Wraps the line at the given column length, using the given line padding.
+    # Assumes that the first line doesn't need the padding, as its filled
+    # up with other stuff
+    def wrap(line,pad_length=0,line_length=nil)
+      line ||= ''
+      if line_length.nil?
+        line_length = Terminal.instance.size[0]
       end
-      wrapped += word
-      return wrapped if words.empty?
-    end
-    wrapped += "\n"
-    this_line = line_padding
-    words.each do |word|
-      if this_line.length + word.length >= line_length
-        wrapped += this_line
-        wrapped += "\n"
-        this_line = line_padding + word
-      else
-        this_line += ' ' if this_line.length > line_padding.length
-        this_line += word
+      line_padding = sprintf("%#{pad_length}s",'')
+      words = line.split(/\s+/)
+      return line if !words || words.empty?
+      wrapped = ''
+      while wrapped.length + line_padding.length < line_length
+        wrapped += ' ' if wrapped.length > 0
+        word = words.shift
+        if (wrapped.length + line_padding.length + word.length > line_length)
+          words.unshift word
+          break;
+        end
+        wrapped += word
+        return wrapped if words.empty?
       end
+      wrapped += "\n"
+      this_line = line_padding
+      words.each do |word|
+        if this_line.length + word.length >= line_length
+          wrapped += this_line
+          wrapped += "\n"
+          this_line = line_padding + word
+        else
+          this_line += ' ' if this_line.length > line_padding.length
+          this_line += word
+        end
+      end
+      wrapped.chomp!
+      wrapped + "\n" + this_line
     end
-    wrapped.chomp!
-    wrapped + "\n" + this_line
   end
 end
+

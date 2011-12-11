@@ -1,7 +1,9 @@
-require 'gli.rb'
-require 'test/unit'
+require 'test_helper'
 
 class TC_testTerminal < Test::Unit::TestCase
+  include TestHelper
+  include GLI
+
   def test_command_exists
     assert Terminal.instance.command_exists?('ls')
     assert !Terminal.instance.command_exists?('asdfasfasdf')

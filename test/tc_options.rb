@@ -1,8 +1,8 @@
-require 'gli.rb'
-require 'test/unit'
+require 'test_helper'
 
-include GLI
 class TC_testOptions < Test::Unit::TestCase
+  include TestHelper
+  include GLI
 
   def test_by_method
     o = Options.new

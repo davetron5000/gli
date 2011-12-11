@@ -10,67 +10,65 @@ unless File.respond_to? :realpath
   end
 end
 
-require 'gli.rb'
-require 'support/initconfig.rb'
-require 'test/unit'
-require 'fake_std_out'
-require 'test/unit/given'
+require 'test_helper'
 
-include GLI
 class TC_testGLI < Test::Unit::Given::TestCase
+  include TestHelper
+  include GLI
 
   def setup
+    @app = CLIApp.new
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
     @gli_debug = ENV['GLI_DEBUG']
     @fake_stderr = FakeStdOut.new
-    GLI.error_device=@fake_stderr
+    @app.error_device=@fake_stderr
   end
 
   def teardown
     File.delete(@config_file) if File.exist?(@config_file)
     ENV['GLI_DEBUG'] = @gli_debug
-    GLI.error_device=$stderr
+    @app.error_device=$stderr
   end
 
   def test_flag_create
-    GLI.reset
-    do_test_flag_create(GLI)
+    @app.reset
+    do_test_flag_create(@app)
     do_test_flag_create(Command.new(:f,'Some command'))
   end
 
   def test_create_commands_using_strings
-    GLI.reset
-    GLI.flag ['f','flag']
-    GLI.switch ['s','some-switch']
-    GLI.command 'command','command-with-dash' do |c|
+    @app.reset
+    @app.flag ['f','flag']
+    @app.switch ['s','some-switch']
+    @app.command 'command','command-with-dash' do |c|
     end
-    assert GLI.commands.include? :command
-    assert GLI.flags.include? :f
-    assert GLI.switches.include? :s
-    assert GLI.commands[:command].aliases.include? :'command-with-dash'
-    assert GLI.flags[:f].aliases.include? :flag
-    assert GLI.switches[:s].aliases.include? :'some-switch'
+    assert @app.commands.include? :command
+    assert @app.flags.include? :f
+    assert @app.switches.include? :s
+    assert @app.commands[:command].aliases.include? :'command-with-dash'
+    assert @app.flags[:f].aliases.include? :flag
+    assert @app.switches[:s].aliases.include? :'some-switch'
   end
 
   def test_flag_with_space_barfs
-    GLI.reset
-    assert_raises(ArgumentError) { GLI.flag ['some flag'] }
-    assert_raises(ArgumentError) { GLI.flag ['f','some flag'] }
-    assert_raises(ArgumentError) { GLI.switch ['some switch'] }
-    assert_raises(ArgumentError) { GLI.switch ['f','some switch'] }
-    assert_raises(ArgumentError) { GLI.command ['some command'] }
-    assert_raises(ArgumentError) { GLI.command ['f','some command'] }
+    @app.reset
+    assert_raises(ArgumentError) { @app.flag ['some flag'] }
+    assert_raises(ArgumentError) { @app.flag ['f','some flag'] }
+    assert_raises(ArgumentError) { @app.switch ['some switch'] }
+    assert_raises(ArgumentError) { @app.switch ['f','some switch'] }
+    assert_raises(ArgumentError) { @app.command ['some command'] }
+    assert_raises(ArgumentError) { @app.command ['f','some command'] }
   end
 
   def test_init_from_config
     failure = nil
-    GLI.reset
-    GLI.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
-    GLI.flag :f
-    GLI.switch :s
-    GLI.flag :g
+    @app.reset
+    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
+    @app.flag :f
+    @app.switch :s
+    @app.flag :g
     called = false
-    GLI.command :command do |c|
+    @app.command :command do |c|
       c.flag :f
       c.switch :s
       c.flag :g
@@ -88,21 +86,21 @@ class TC_testGLI < Test::Unit::Given::TestCase
         end
       end
     end
-    GLI.run(['command'])
+    @app.run(['command'])
     assert called
     raise failure if !failure.nil?
   end
 
   def test_command_line_overrides_config
     failure = nil
-    GLI.reset
-    GLI.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
-    GLI.flag :f
-    GLI.switch :s
-    GLI.flag :g
-    GLI.switch :bleorgh
+    @app.reset
+    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
+    @app.flag :f
+    @app.switch :s
+    @app.flag :g
+    @app.switch :bleorgh
     called = false
-    GLI.command :command do |c|
+    @app.command :command do |c|
       c.flag :f
       c.switch :s
       c.flag :g
@@ -122,7 +120,7 @@ class TC_testGLI < Test::Unit::Given::TestCase
         end
       end
     end
-    assert_equal 0,GLI.run(%w(-f bar --no-bleorgh command -g baaz)),@fake_stderr.to_s
+    assert_equal 0,@app.run(%w(-f bar --no-bleorgh command -g baaz)),@fake_stderr.to_s
     assert called
     raise failure if !failure.nil?
   end
@@ -130,42 +128,42 @@ class TC_testGLI < Test::Unit::Given::TestCase
   def test_no_overwrite_config
     config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml')
     config_file_contents = File.read(config_file)
-    GLI.reset
-    GLI.config_file(config_file)
-    assert_equal -2,GLI.run(['initconfig'])
+    @app.reset
+    @app.config_file(config_file)
+    assert_equal -2,@app.run(['initconfig'])
     assert @fake_stderr.strings.grep(/--force/),@fake_stderr.strings.inspect
     config_file_contents_after = File.read(config_file)
     assert_equal(config_file_contents,config_file_contents_after)
   end
 
   def test_config_file_name
-    GLI.reset
-    file = GLI.config_file("foo")
+    @app.reset
+    file = @app.config_file("foo")
     assert_equal(Etc.getpwuid.dir + "/foo",file)
-    file = GLI.config_file("/foo")
+    file = @app.config_file("/foo")
     assert_equal "/foo",file
-    init_command = GLI.commands[:initconfig]
+    init_command = @app.commands[:initconfig]
     assert init_command
   end
 
   def test_initconfig_command
-    GLI.reset
-    GLI.config_file(@config_file)
-    GLI.flag :f
-    GLI.switch :s
-    GLI.switch :w
-    GLI.flag :bigflag
-    GLI.flag :biggestflag
-    GLI.command :foo do |c|
+    @app.reset
+    @app.config_file(@config_file)
+    @app.flag :f
+    @app.switch :s
+    @app.switch :w
+    @app.flag :bigflag
+    @app.flag :biggestflag
+    @app.command :foo do |c|
     end
-    GLI.command :bar do |c|
+    @app.command :bar do |c|
     end
-    GLI.command :blah do |c|
+    @app.command :blah do |c|
     end
-    GLI.on_error do |ex|
+    @app.on_error do |ex|
       raise ex
     end
-    GLI.run(['-f','foo','-s','--bigflag=bleorgh','initconfig'])
+    @app.run(['-f','foo','-s','--bigflag=bleorgh','initconfig'])
 
     written_config = File.open(@config_file) { |f| YAML::load(f) }
 
@@ -182,9 +180,9 @@ class TC_testGLI < Test::Unit::Given::TestCase
   end
 
   def test_initconfig_permissions
-    GLI.reset
-    GLI.config_file(@config_file)
-    GLI.run(['initconfig'])
+    @app.reset
+    @app.config_file(@config_file)
+    @app.run(['initconfig'])
     oct_mode = "%o" % File.stat(@config_file).mode
     assert_match /0600$/, oct_mode
   end
@@ -205,23 +203,23 @@ class TC_testGLI < Test::Unit::Given::TestCase
   end
 
   def test_switch_create
-    GLI.reset
-    do_test_switch_create(GLI)
+    @app.reset
+    do_test_switch_create(@app)
     do_test_switch_create(Command.new(:f,'Some command'))
   end
 
   def test_switch_create_twice
-    GLI.reset
-    do_test_switch_create_twice(GLI)
+    @app.reset
+    do_test_switch_create_twice(@app)
     do_test_switch_create_twice(Command.new(:f,'Some command'))
   end
 
   def test_all_aliases_in_options
-    GLI.reset
-    GLI.on_error { |ex| raise ex }
-    GLI.flag [:f,:flag,:'big-flag-name']
-    GLI.switch [:s,:switch,:'big-switch-name']
-    GLI.command [:com,:command] do |c|
+    @app.reset
+    @app.on_error { |ex| raise ex }
+    @app.flag [:f,:flag,:'big-flag-name']
+    @app.switch [:s,:switch,:'big-switch-name']
+    @app.command [:com,:command] do |c|
       c.flag [:g,:gflag]
       c.switch [:h,:hswitch]
       c.action do |global,options,args|
@@ -240,122 +238,122 @@ class TC_testGLI < Test::Unit::Given::TestCase
         assert options[:hswitch]
       end
     end
-    GLI.run(%w(-f foo -s command -g bar -h some_arg))
+    @app.run(%w(-f foo -s command -g bar -h some_arg))
   end
 
   def test_use_hash_by_default
-    GLI.reset
-    GLI.switch :g
-    GLI.command :command do |c|
+    @app.reset
+    @app.switch :g
+    @app.command :command do |c|
       c.switch :f
       c.action do |global,options,args|
         assert_equal Hash,global.class
         assert_equal Hash,options.class
       end
     end
-    GLI.run(%w(-g command -f))
+    @app.run(%w(-g command -f))
   end
 
   def test_flag_array_of_options_global
-    GLI.reset
-    GLI.flag :foo, :must_match => ['bar','blah','baz']
-    GLI.command :command do |c|
+    @app.reset
+    @app.flag :foo, :must_match => ['bar','blah','baz']
+    @app.command :command do |c|
       c.action do
       end
     end
-    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert_equal -1,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
-    assert_equal 0,GLI.run(%w(--foo=blah command)),@fake_stderr.to_s
+    assert_equal 0,@app.run(%w(--foo=blah command)),@fake_stderr.to_s
   end
 
   def test_flag_hash_of_options_global
-    GLI.reset
-    GLI.flag :foo, :must_match => { 'bar' => "BAR", 'blah' => "BLAH" }
+    @app.reset
+    @app.flag :foo, :must_match => { 'bar' => "BAR", 'blah' => "BLAH" }
     @foo_arg_value = nil
-    GLI.command :command do |c|
+    @app.command :command do |c|
       c.action do |g,o,a|
         @foo_arg_value = g[:foo]
       end
     end
-    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert_equal -1,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
-    assert_equal 0,GLI.run(%w(--foo=blah command)),@fake_stderr.to_s
+    assert_equal 0,@app.run(%w(--foo=blah command)),@fake_stderr.to_s
     assert_equal 'BLAH',@foo_arg_value
   end
 
   def test_flag_regexp_global
-    GLI.reset
-    GLI.flag :foo, :must_match => /bar/
-    GLI.command :command do |c|
+    @app.reset
+    @app.flag :foo, :must_match => /bar/
+    @app.command :command do |c|
       c.action do
       end
     end
-    assert_equal -1,GLI.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert_equal -1,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
   end
 
   def test_flag_regexp_global_short_form
-    GLI.reset
-    GLI.flag :f, :must_match => /bar/
-    GLI.command :command do |c|
+    @app.reset
+    @app.flag :f, :must_match => /bar/
+    @app.command :command do |c|
       c.action do
       end
     end
-    assert_equal -1,GLI.run(%w(-f cruddo command)),@fake_stderr.to_s
+    assert_equal -1,@app.run(%w(-f cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: -f cruddo/),"STDERR was:\n" + @fake_stderr.to_s
   end
 
   def test_flag_regexp_command
-    GLI.reset
-    GLI.command :command do |c|
+    @app.reset
+    @app.command :command do |c|
       c.flag :foo, :must_match => /bar/
       c.action do
       end
     end
-    assert_equal -1,GLI.run(%w(command --foo=cruddo)),@fake_stderr.to_s
+    assert_equal -1,@app.run(%w(command --foo=cruddo)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
   end
 
   def test_use_openstruct
-    GLI.reset
-    GLI.switch :g
-    GLI.use_openstruct true
-    GLI.command :command do |c|
+    @app.reset
+    @app.switch :g
+    @app.use_openstruct true
+    @app.command :command do |c|
       c.switch :f
       c.action do |global,options,args|
         assert_equal GLI::Options,global.class
         assert_equal GLI::Options,options.class
       end
     end
-    GLI.run(%w(-g command -f))
+    @app.run(%w(-g command -f))
   end
 
   def test_repeated_option_names
-    GLI.reset
-    GLI.on_error { |ex| raise ex }
-    GLI.flag [:f,:flag]
-    assert_raises(ArgumentError) { GLI.switch [:foo,:flag] }
-    assert_raises(ArgumentError) { GLI.switch [:f] }
+    @app.reset
+    @app.on_error { |ex| raise ex }
+    @app.flag [:f,:flag]
+    assert_raises(ArgumentError) { @app.switch [:foo,:flag] }
+    assert_raises(ArgumentError) { @app.switch [:f] }
 
-    GLI.switch [:x,:y]
-    assert_raises(ArgumentError) { GLI.flag [:x] }
-    assert_raises(ArgumentError) { GLI.flag [:y] }
+    @app.switch [:x,:y]
+    assert_raises(ArgumentError) { @app.flag [:x] }
+    assert_raises(ArgumentError) { @app.flag [:y] }
 
     # This shouldn't raise; :help is special
-    GLI.switch :help
+    @app.switch :help
   end
 
   def test_repeated_option_names_on_command
-    GLI.reset
-    GLI.on_error { |ex| raise ex }
-    GLI.command :command do |c|
+    @app.reset
+    @app.on_error { |ex| raise ex }
+    @app.command :command do |c|
       c.flag [:f,:flag]
       assert_raises(ArgumentError) { c.switch [:foo,:flag] }
       assert_raises(ArgumentError) { c.switch [:f] }
       assert_raises(ArgumentError) { c.flag [:foo,:flag] }
       assert_raises(ArgumentError) { c.flag [:f] }
     end
-    GLI.command :command3 do |c|
+    @app.command :command3 do |c|
       c.switch [:s,:switch]
       assert_raises(ArgumentError) { c.switch [:switch] }
       assert_raises(ArgumentError) { c.switch [:s] }
@@ -365,11 +363,11 @@ class TC_testGLI < Test::Unit::Given::TestCase
   end
 
   def test_two_flags
-    GLI.reset
-    GLI.on_error do |ex|
+    @app.reset
+    @app.on_error do |ex|
       raise ex
     end
-    GLI.command [:foo] do |c|
+    @app.command [:foo] do |c|
       c.flag :i
       c.flag :s
       c.action do |g,o,a|
@@ -377,15 +375,15 @@ class TC_testGLI < Test::Unit::Given::TestCase
         assert_equal "a", o[:s]
       end
     end
-    GLI.run(['foo', '-i','5','-s','a'])
+    @app.run(['foo', '-i','5','-s','a'])
   end
 
   def test_two_flags_with_a_default
-    GLI.reset
-    GLI.on_error do |ex|
+    @app.reset
+    @app.on_error do |ex|
       raise ex
     end
-    GLI.command [:foo] do |c|
+    @app.command [:foo] do |c|
       c.default_value "1"
       c.flag :i
       c.flag :s
@@ -394,15 +392,15 @@ class TC_testGLI < Test::Unit::Given::TestCase
         assert_equal "a", o[:s]
       end
     end
-    GLI.run(['foo', '-i','5','-s','a'])
+    @app.run(['foo', '-i','5','-s','a'])
   end
 
   def test_two_flags_using_equals_with_a_default
-    GLI.reset
-    GLI.on_error do |ex|
+    @app.reset
+    @app.on_error do |ex|
       raise ex
     end
-    GLI.command [:foo] do |c|
+    @app.command [:foo] do |c|
       c.default_value "1"
       c.flag :i
       c.flag :s
@@ -411,77 +409,77 @@ class TC_testGLI < Test::Unit::Given::TestCase
         assert_equal "a", o[:s],o.inspect
       end
     end
-    GLI.run(['foo', '-i5','-sa'])
+    @app.run(['foo', '-i5','-sa'])
   end
 
   def test_exits_zero_on_success
-    assert_equal 0,GLI.run([])
+    assert_equal 0,@app.run([])
   end
 
   def test_exits_nonzero_on_bad_command_line
-    GLI.reset
-    GLI.on_error { true }
-    assert_equal -1,GLI.run(['asdfasdfasdf'])
+    @app.reset
+    @app.on_error { true }
+    assert_equal -1,@app.run(['asdfasdfasdf'])
   end
 
   def test_exists_nonzero_on_raise_from_command
-    GLI.reset
-    GLI.on_error { true }
-    GLI.command(:foo) do |c|
+    @app.reset
+    @app.on_error { true }
+    @app.command(:foo) do |c|
       c.action do |g,o,a|
         raise "Problem"
       end
     end
-    assert_equal -2,GLI.run(['foo'])
+    assert_equal -2,@app.run(['foo'])
   end
 
   def test_exits_nonzero_with_custom_exception
-    GLI.reset
-    GLI.on_error { true }
-    GLI.command(:foo) do |c|
+    @app.reset
+    @app.on_error { true }
+    @app.command(:foo) do |c|
       c.action do |g,o,a|
         raise CustomExit.new("Problem",45)
       end
     end
-    assert_equal 45,GLI.run(['foo'])
+    assert_equal 45,@app.run(['foo'])
   end
 
   def test_exits_nonzero_with_exit_method
-    GLI.reset
-    GLI.on_error { true }
-    GLI.command(:foo) do |c|
+    @app.reset
+    @app.on_error { true }
+    @app.command(:foo) do |c|
       c.action do |g,o,a|
-        exit_now!("Problem",45)
+        @app.exit_now!("Problem",45)
       end
     end
-    assert_equal 45,GLI.run(['foo'])
+    assert_equal 45,@app.run(['foo'])
   end
 
   def test_custom_exception_causes_error_to_be_printed_to_stderr
-    GLI.reset
-    GLI.on_error { true }
+    @app.reset
+    @app.on_error { true }
     error_message = "Something went wrong"
-    GLI.command(:foo) do |c|
+    @app.command(:foo) do |c|
       c.action do |g,o,a|
         raise error_message
       end
     end
-    GLI.run(['foo'])
+    @app.run(['foo'])
     assert @fake_stderr.strings.include?("error: #{error_message}"),"STDERR was:\n" + @fake_stderr.to_s
   end
 
   def test_gli_debug_overrides_error_hiding
     ENV['GLI_DEBUG'] = 'true'
 
-    GLI.reset
-    GLI.on_error { true }
-    GLI.command(:foo) do |c|
+    @app.reset
+    @app.on_error { true }
+    @app.command(:foo) do |c|
       c.action do |g,o,a|
-        exit_now!("Problem",45)
+        @app.exit_now!("Problem",45)
       end
     end
 
-    assert_raises(CustomExit) { GLI.run(['foo']) }
+    assert_raises(CustomExit) { @app.run(['foo']) }
   end
 
   class ConvertMe
@@ -492,16 +490,16 @@ class TC_testGLI < Test::Unit::Given::TestCase
   end
 
   def test_that_we_can_add_new_casts_for_flags
-    GLI.reset
-    GLI.accept(ConvertMe) do |value|
+    @app.reset
+    @app.accept(ConvertMe) do |value|
       ConvertMe.new(value)
     end
-    GLI.flag :foo, :type => ConvertMe
+    @app.flag :foo, :type => ConvertMe
 
     @foo = nil
     @baz = nil
 
-    GLI.command(:bar) do |c|
+    @app.command(:bar) do |c|
       c.flag :baz, :type => ConvertMe
       c.action do |g,o,a|
         @foo = g[:foo]
@@ -509,7 +507,7 @@ class TC_testGLI < Test::Unit::Given::TestCase
       end
     end
 
-    assert_equal 0,GLI.run(['--foo','blah','bar','--baz=crud']),@fake_stderr.to_s
+    assert_equal 0,@app.run(['--foo','blah','bar','--baz=crud']),@fake_stderr.to_s
 
     assert @foo.kind_of?(ConvertMe),"Expected a ConvertMe, but get a #{@foo.class}"
     assert_equal 'blah',@foo.value
