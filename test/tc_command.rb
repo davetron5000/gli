@@ -56,6 +56,7 @@ class TC_testCommand < Test::Unit::TestCase
     GLI::DefaultHelpCommand.skips_pre=true
     GLI::DefaultHelpCommand.skips_post=true
     @app.error_device=@fake_stderr
+    ENV.delete('GLI_DEBUG')
   end
 
   def tear_down
@@ -321,6 +322,18 @@ class TC_testCommand < Test::Unit::TestCase
     args = %w(help foo)
     @app.run(args)
     assert_equal('cruddo',@app.program_name)
+  end
+
+  def test_forgot_action_block
+    @app.reset
+    @app.command :foo do
+    end
+
+    ENV['GLI_DEBUG'] = 'true'
+    assert_raises RuntimeError do
+      @app.run(['foo'])
+    end
+    assert_match /Command 'foo' has no action block/,@fake_stderr.to_s
   end
 
   def test_command_create

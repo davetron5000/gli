@@ -77,28 +77,16 @@ module GLI
       @config_file
     end
 
-    # Define a new command.  This takes a block that will be given an instance of the Command that was created.
-    # You then may call methods on this object to define aspects of that Command.
-    #
-    # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases for this command.
-    #
-    def command(*names)
-      command = Command.new([names].flatten,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
-      commands[command.name] = command
-        yield command
-        clear_nexts
-    end
-    alias :c :command
 
-      # Define a block to run after command line arguments are parsed
-      # but before any command is run.  If this block raises an exception
-      # the command specified will not be executed.
-      # The block will receive the global-options,command,options, and arguments
-      # If this block evaluates to true, the program will proceed; otherwise
-      # the program will end immediately
-      def pre(&a_proc)
-        @pre_block = a_proc
-      end
+    # Define a block to run after command line arguments are parsed
+    # but before any command is run.  If this block raises an exception
+    # the command specified will not be executed.
+    # The block will receive the global-options,command,options, and arguments
+    # If this block evaluates to true, the program will proceed; otherwise
+    # the program will end immediately
+    def pre(&a_proc)
+      @pre_block = a_proc
+    end
 
     # Define a block to run after the command was executed, <b>only
     # if there was not an error</b>.
@@ -352,7 +340,12 @@ module GLI
       [command_options,args]
     end
 
-    def parse_global_options(args)
+    def parse_global_options(args,&error_handler)
+      if error_handler.nil?
+        error_handler = lambda { |message|
+          raise UnknownGlobalArgument.new(message)
+        }
+      end
       option_parser,global_options = option_parser(flags,switches)
       command = nil
       begin
@@ -361,9 +354,9 @@ module GLI
           break
         end
       rescue OptionParser::InvalidOption => ex
-        raise UnknownGlobalArgument.new("Unknown option #{ex.args.join(' ')}")
+        error_handler.call("Unknown option #{ex.args.join(' ')}")
       rescue OptionParser::InvalidArgument => ex
-        raise UnknownGlobalArgument.new("#{ex.reason}: #{ex.args.join(' ')}")
+        error_handler.call("#{ex.reason}: #{ex.args.join(' ')}")
       end
       [global_options,command,args]
     end

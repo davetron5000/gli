@@ -22,6 +22,7 @@ class TC_testGLI < Test::Unit::Given::TestCase
     @gli_debug = ENV['GLI_DEBUG']
     @fake_stderr = FakeStdOut.new
     @app.error_device=@fake_stderr
+    ENV.delete('GLI_DEBUG')
   end
 
   def teardown

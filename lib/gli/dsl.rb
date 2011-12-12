@@ -90,6 +90,20 @@ module GLI
       @next_long_desc = nil
     end
 
+    # Define a new command.  This takes a block that will be given an instance of the Command that was created.
+    # You then may call methods on this object to define aspects of that Command.
+    #
+    # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases for this command.
+    #
+    def command(*names)
+      command = Command.new([names].flatten,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
+      command.parent = self
+      commands[command.name] = command
+      yield command
+      clear_nexts
+    end
+    alias :c :command
+
     private
     # Checks that the names passed in have not been used in another flag or option
     def verify_unused(names) # :nodoc:

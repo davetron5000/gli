@@ -11,6 +11,9 @@ module GLI
     include CopyOptionsToAliases
     include DSL
 
+    # The parent of this command, either the GLI app, or another command
+    attr_accessor :parent
+
     def context_description
       "in the command #{name}"
     end
@@ -51,6 +54,22 @@ module GLI
       all_forms
     end
 
+    def flag(*names)
+      if parent.kind_of? Command
+        parent.flag(*names)
+      else
+        super(*names)
+      end
+    end
+
+    def switch(*names)
+      if parent.kind_of? Command
+        parent.switch(*names)
+      else
+        super(*names)
+      end
+    end
+
     # Get the usage string
     # CR: This should probably not be here
     def usage #:nodoc:
@@ -67,6 +86,10 @@ module GLI
     # Return the switches as a Hash
     def switches #:nodoc:
       @switches ||= {}
+    end
+
+    def commands # :nodoc:
+      @commands ||= {}
     end
 
     # Define the action to take when the user executes this command
@@ -94,7 +117,42 @@ module GLI
 
     # Executes the command
     def execute(global_options,options,arguments) #:nodoc:
-      @action.call(global_options,options,arguments)
+      subcommand = find_subcommand(arguments)
+      if subcommand
+        subcommand.execute(global_options,options,arguments[1..-1])
+      else
+        get_action(arguments).call(global_options,options,arguments)
+      end
+    end
+
+    private
+
+    def get_action(arguments)
+      return @action if @action
+      if parent.kind_of?(Command)
+        if arguments.size > 0
+          lambda do |global_options,options,arguments|
+            raise UnknownCommand,"Unknown command '#{arguments[0]}'"
+          end
+        else
+          lambda do |global_options,options,arguments|
+            raise BadCommandLine,"Command '#{name}' requires a subcommand"
+          end
+        end
+      else
+        lambda do |global_options,options,arguments|
+          raise "Command '#{name}' has no action block"
+        end
+      end
+    end
+
+    def find_subcommand(arguments)
+      arguments = Array(arguments)
+      return false if arguments.empty?
+      subcommand = arguments.first
+      self.commands.values.find do |command|
+        [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |_| _ == subcommand }
+      end
     end
   end
 end
