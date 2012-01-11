@@ -87,8 +87,8 @@ EOS
         file.puts <<EOS
 require 'rake/clean'
 require 'rubygems'
-require 'rake/gempackagetask'
-require 'rake/rdoctask'
+require 'rubygems/package_task'
+require 'rdoc/task'
 
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
@@ -98,7 +98,7 @@ end
 
 spec = eval(File.read('#{project_name}.gemspec'))
 
-Rake::GemPackageTask.new(spec) do |pkg|
+Gem::PackageTask.new(spec) do |pkg|
 end
 
 EOS
