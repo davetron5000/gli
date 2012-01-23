@@ -77,6 +77,11 @@ module GLI
       @config_file
     end
 
+    # Return the name of the config file; mostly useful for generating help docs
+    def config_file_name #:nodoc:
+      @config_file
+    end
+
 
     # Define a block to run after command line arguments are parsed
     # but before any command is run.  If this block raises an exception
@@ -149,7 +154,7 @@ module GLI
       accepts[object] = block
     end
 
-    def accepts
+    def accepts #:nodoc:
       @accepts ||= {}
     end
 
@@ -161,7 +166,7 @@ module GLI
     def run(args) #:nodoc:
       rdoc = RDocCommand.new(commands,program_name,program_desc,flags,switches)
       commands[:rdoc] ||= rdoc
-      commands[:help] ||= DefaultHelpCommand.new(@version,self,rdoc)
+      #commands[:help] ||= GLI::Commands::Help.new(self)#DefaultHelpCommand.new(@version,self,rdoc)
       begin
         override_defaults_based_on_config(parse_config)
 
@@ -382,7 +387,7 @@ module GLI
       @switches ||= {}
     end
     def commands # :nodoc:
-      @commands ||= {}
+      @commands ||= {:help => GLI::Commands::Help.new(self)}
     end
 
     def pre_block

@@ -10,6 +10,9 @@ module GLI
     # Type to which we want to cast the values
     attr_reader :type
 
+    # Name of the argument that user configured
+    attr_reader :argument_name
+
     # Creates a new option
     #
     # names - Array of symbols or strings representing the names of this switch

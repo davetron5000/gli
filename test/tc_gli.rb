@@ -414,7 +414,7 @@ class TC_testGLI < Test::Unit::Given::TestCase
   end
 
   def test_exits_zero_on_success
-    assert_equal 0,@app.run([])
+    assert_equal 0,@app.run([]),@fake_stderr.to_s
   end
 
   def test_exits_nonzero_on_bad_command_line
