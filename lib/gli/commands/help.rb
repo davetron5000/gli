@@ -1,10 +1,11 @@
 require 'gli/command'
+require 'erb'
 
 module GLI
   module Commands
     # The help command used for the two-level interactive help system
     class Help < Command
-      def initialize(app)
+      def initialize(app,output=$stdout,error=$stderr)
         super(:help,
               'Shows a list of commands or help for one command',
               'command',
@@ -13,7 +14,7 @@ module GLI
               true)
         @app = app
         action do |global_options,options,arguments|
-          show_help(global_options,options,arguments,$stdout)
+          show_help(global_options,options,arguments,output,error)
         end
       end
 
@@ -27,6 +28,7 @@ module GLI
 
         # Output the list to the output_device
         def output(output_device)
+          return if @list.empty?
           max_width = @list.map { |_| _[0].length }.max
           wrapper = TextWrapper.new(Terminal.instance.size[0],4 + max_width + 3)
           @list.each do |(name,description)|
@@ -47,6 +49,7 @@ module GLI
         # Return a wrapped version of text, assuming that the first line has already been
         # indented by @indent characters.  Resulting text does NOT have a newline in it.
         def wrap(text)
+          return text if text.nil?
           wrapped_text = ''
           current_line = ''
           current_line_length = @indent
@@ -75,35 +78,48 @@ module GLI
           wrapped_text
         end
       end
-
-      def show_help(global_options,options,arguments,out)
+      
+      def show_help(global_options,options,arguments,out,error)
         if arguments.empty?
-          out.puts @app.program_desc
-          out.puts
-          out.puts usage_string
-          unless global_flags_and_switches.empty?
-            output_global_flags_and_switches(out)
-          end
-          out.puts
-          out.puts "Commands:"
-          command_formatter = ListFormatter.new(@app.commands.values.map { |command|
-            [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
-          })
-          command_formatter.output(out)
+          out.puts global_help(global_options,options,arguments)
         else
           command = find_command(arguments[0])
           if command.nil?
-            $stderr.puts "error: Unknown command '#{arguments[0]}'.  Use 'gli help' for a list of commands."
-          else
-            out.puts command.name
-            out.puts command.description
-            out.puts command.long_description
-            command.switches.merge(command.flags).values.each do |option|
-              puts "-#{option.name}"
-              puts option.description
-            end
+            error.puts "error: Unknown command '#{arguments[0]}'.  Use 'gli help' for a list of commands."
+            return
           end
+          out.puts command_help(command)
         end
+      end
+
+      GLOBAL_HELP = ERB.new(%q(NAME
+    <%= File.basename($0) %> - <%= program_desc %>
+
+SYNOPSIS
+    <%= usage_string %>
+
+<% unless global_flags_and_switches.empty? %>
+GLOBAL OPTIONS
+<%= global_option_descriptions %>
+
+<% end %>
+COMMANDS
+<%= commands %>),nil,'<>')
+
+      def global_help(global_options,options,arguments)
+        program_desc = @app.program_desc
+
+        command_formatter = ListFormatter.new(@app.commands.values.map { |command|
+          [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
+        })
+        stringio = StringIO.new
+        command_formatter.output(stringio)
+        commands = stringio.string
+
+        global_option_descriptions = format_options(global_flags_and_switches)
+
+
+        GLOBAL_HELP.result(binding)
       end
 
       def find_command(command_name)
@@ -114,10 +130,9 @@ module GLI
         }.first
       end
 
-      def output_global_flags_and_switches(out)
-        out.puts
-        out.puts "Global Options:"
-        list_formatter = ListFormatter.new(global_flags_and_switches.values.sort { |a,b| 
+      def format_options(flags_and_switches)
+
+        list_formatter = ListFormatter.new(flags_and_switches.values.sort { |a,b| 
           a.name.to_s <=> b.name.to_s 
         }.map { |option|
           if option.respond_to? :argument_name
@@ -126,7 +141,44 @@ module GLI
             [option_names_for_help_string(option),option.description]
           end
         })
-        list_formatter.output(out)
+        stringio = StringIO.new
+        list_formatter.output(stringio)
+        stringio.string
+      end
+
+      COMMAND_HELP = ERB.new(%q(NAME
+    <%= command.name %> - <%= command_wrapper.wrap(command.description) %>
+
+SYNOPSIS
+
+    <%= File.basename($0) %> <%= command.name %> <%= one_line_usage %>
+<% unless command.long_description.nil? %>
+
+DESCRIPTION
+
+    <%= wrapper.wrap(command.long_description) %> 
+<% end %> 
+OPTIONS
+
+<%= options_description %>
+      ),nil,'<>')
+
+      def command_help(command)
+        command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + command.name.size + 3)
+        wrapper = TextWrapper.new(Terminal.instance.size[0],4)
+        flags_and_switches = command.flags.merge(command.switches)
+        options_description = format_options(flags_and_switches)
+        one_line_usage = ""
+        one_line_usage << "[options] " unless flags_and_switches.empty?
+        one_line_usage << command.arguments_description
+        COMMAND_HELP.result(binding)
+        #out.puts command.name
+        #out.puts command.description
+        #out.puts command.long_description
+        #command.switches.merge(command.flags).values.each do |option|
+        #  puts "-#{option.name}"
+        #  puts option.description
+        #end
       end
 
       def global_flags_and_switches

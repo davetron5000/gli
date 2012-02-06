@@ -5,17 +5,13 @@ class TC_testHelp < Test::Unit::Given::TestCase
 
   def setup
     @option_index = 0
-    @original_stdout = $stdout
-    $stdout = StringIO.new
-    @original_stderr = $stderr
-    $stderr = StringIO.new
     @real_columns = ENV['COLUMNS']
     ENV['COLUMNS'] = '1024'
+    @output = StringIO.new
+    @error = StringIO.new
   end
 
   def teardown
-    $stdout = @original_stdout
-    $stderr = @original_stderr
     ENV['COLUMNS'] = @real_columns
   end
 
@@ -25,7 +21,7 @@ class TC_testHelp < Test::Unit::Given::TestCase
 
   test_that "the help command is configured properly when created" do
     Given {
-      @command = GLI::Commands::Help.new(TestApp.new)
+      @command = GLI::Commands::Help.new(TestApp.new,@output,@error)
     }
     Then {
       assert_equal   'help',@command.name.to_s
@@ -41,7 +37,7 @@ class TC_testHelp < Test::Unit::Given::TestCase
   test_that "invoking help with no arguments results in listing all commands and global options" do
     Given a_GLI_app
     And {
-      @command = GLI::Commands::Help.new(@app)
+      @command = GLI::Commands::Help.new(@app,@output,@error)
     }
     When {
       @command.execute({},{},[])
@@ -54,7 +50,7 @@ class TC_testHelp < Test::Unit::Given::TestCase
   test_that "invoking help with a command that doesn't exist shows an error" do
     Given a_GLI_app
     And {
-      @command = GLI::Commands::Help.new(@app)
+      @command = GLI::Commands::Help.new(@app,@output,@error)
       @unknown_command_name = any_command_name
     }
     When {
@@ -90,7 +86,7 @@ class TC_testHelp < Test::Unit::Given::TestCase
           c.action {}
         end
       end
-      @command = GLI::Commands::Help.new(@app)
+      @command = GLI::Commands::Help.new(@app,@output,@error)
     }
     When {
       @command.execute({},{},[@command_name])
@@ -109,15 +105,15 @@ class TC_testHelp < Test::Unit::Given::TestCase
   test_that 'invoking help for an app with no global options omits [global options] from the usage string' do
     Given a_GLI_app(:no_options)
     And {
-      @command = GLI::Commands::Help.new(@app)
+      @command = GLI::Commands::Help.new(@app,@output,@error)
     }
     When {
       @command.execute({},{},[])
     }
     Then {
-      refute_output_contained(/usage:\s+(\S+)\s+\[global options\] command \[command options\] \[arguments\.\.\.\]/)
-      refute_output_contained('Global Options:')
-      assert_output_contained(/usage:\s+(\S+)\s+command \[command options\] \[arguments\.\.\.\]/)
+      refute_output_contained(/\[global options\] command \[command options\] \[arguments\.\.\.\]/)
+      refute_output_contained('GLOBAL OPTIONS')
+      assert_output_contained(/command \[command options\] \[arguments\.\.\.\]/)
     }
   end
 
@@ -185,24 +181,24 @@ private
       assert_output_contained(/#{expected_flag_names}[ =]#{arg}\s+-\s+#{description}/,"For flag #{flag_names.join(',')}")
     end
 
-    assert_output_contained('Global Options:')
-    assert_output_contained('Commands:')
-    assert_output_contained(/usage:\s+(\S+)\s+\[global options\] command \[command options\] \[arguments\.\.\.\]/)
+    assert_output_contained('GLOBAL OPTIONS')
+    assert_output_contained('COMMANDS')
+    assert_output_contained(/\[global options\] command \[command options\] \[arguments\.\.\.\]/)
   end
 
   def assert_error_contained(string_or_regexp,desc='')
     string_or_regexp = /#{string_or_regexp}/ if string_or_regexp.kind_of?(String)
-    assert_match string_or_regexp,$stderr.string,desc
+    assert_match string_or_regexp,@error.string,desc
   end
 
   def assert_output_contained(string_or_regexp,desc='')
     string_or_regexp = /#{string_or_regexp}/ if string_or_regexp.kind_of?(String)
-    assert_match string_or_regexp,$stdout.string,desc
+    assert_match string_or_regexp,@output.string,desc
   end
 
   def refute_output_contained(string_or_regexp,desc='')
     string_or_regexp = /#{string_or_regexp}/ if string_or_regexp.kind_of?(String)
-    assert_no_match string_or_regexp,$stdout.string,desc
+    assert_no_match string_or_regexp,@output.string,desc
   end
 
   def any_option
@@ -218,7 +214,7 @@ private
   end
 
   def any_desc
-    Faker::Lorem.words(10).join(' ')[0..30]
+    Faker::Lorem.words(10).join(' ')[0..30].gsub(/\s*$/,'')
   end
 
   def any_command_name

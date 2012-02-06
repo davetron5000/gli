@@ -16,7 +16,6 @@ require 'cucumber'
 require 'cucumber/rake/task'
 
 include Rake::DSL
-
 CLEAN << "cruddo.rdoc"
 CLEAN << "log"
 CLOBBER << FileList['**/*.rbc']
