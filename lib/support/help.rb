@@ -150,32 +150,40 @@ module GLI
       line_length = Terminal.instance.size[0]
     end
     line_padding = sprintf("%#{pad_length}s",'')
-    words = line.split(/\s+/)
-    return line if !words || words.empty?
-    wrapped = ''
-    while wrapped.length + line_padding.length < line_length
-      wrapped += ' ' if wrapped.length > 0
-      word = words.shift
-      if (wrapped.length + line_padding.length + word.length > line_length)
-        words.unshift word
-        break;
-      end
-      wrapped += word
-      return wrapped if words.empty?
-    end
-    wrapped += "\n"
-    this_line = line_padding
-    words.each do |word|
-      if this_line.length + word.length >= line_length
-        wrapped += this_line
-        wrapped += "\n"
-        this_line = line_padding + word
+    paragraphs = line.split("\n\n")
+    return line if !paragraphs || paragraphs.empty?
+    wrapped_paragraphs = paragraphs.map do |paragraph|
+      wrapped = ''
+      words = paragraph.split(/\s+/)
+      if !words || words.empty?
+        wrapped
       else
-        this_line += ' ' if this_line.length > line_padding.length
-        this_line += word
+        while wrapped.length + line_padding.length < line_length
+          wrapped += ' ' if wrapped.length > 0
+          word = words.shift
+          if (wrapped.length + line_padding.length + word.length > line_length)
+            words.unshift word
+            break;
+          end
+          wrapped += word
+          return wrapped if words.empty?
+        end
+        wrapped += "\n"
+        this_line = line_padding
+        words.each do |word|
+          if this_line.length + word.length >= line_length
+            wrapped += this_line
+            wrapped += "\n"
+            this_line = line_padding + word
+          else
+            this_line += ' ' if this_line.length > line_padding.length
+            this_line += word
+          end
+        end
+        wrapped.chomp!
+        wrapped + "\n" + this_line
       end
     end
-    wrapped.chomp!
-    wrapped + "\n" + this_line
+    wrapped_paragraphs.reject { |para| para.empty? }.join("\n\n#{''.ljust(pad_length)}")
   end
 end
