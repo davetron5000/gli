@@ -49,7 +49,7 @@ Feature: The scaffold GLI generates works
     Version: 0.0.1
     
     Global Options:
-        -f, --flagname=The name of the argument - Describe some flag here (default: 
+        -f, --flagname=The name of the argument - Describe some flag here (default:
                                                   the default)
         --help                                  - Show this message
         -s, --switch                            - Describe some switch here
@@ -69,7 +69,7 @@ Feature: The scaffold GLI generates works
     Version: 0.0.1
     
     Global Options:
-        -f, --flagname=The name of the argument - Describe some flag here (default: 
+        -f, --flagname=The name of the argument - Describe some flag here (default:
                                                   the default)
         --help                                  - Show this message
         -s, --switch                            - Describe some switch here

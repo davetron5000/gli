@@ -52,6 +52,61 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.command [:test_wrap] do |c|
       c.action {}
     end
+    GLI.desc "Testing paragraph help wrapping"
+    GLI.long_desc <<-EOS
+    This will create a scaffold command line project that uses GLI
+    for command line processing.  Specifically, this will create
+    an executable ready to go, as well as a lib and test directory, all
+    inside the directory named for your project.
+
+    However, it should maintain the whitespace between paragraphs even
+    when fixing the wrapping.
+    EOS
+    GLI.command [:test_para] do |c|
+      c.action {}
+    end
+
+    GLI.desc "Testing paragraph help wrapping - multiple lines between paragraphs"
+    GLI.long_desc <<-EOS
+    This will create a scaffold command line project that uses GLI
+    for command line processing.  Specifically, this will create
+    an executable ready to go, as well as a lib and test directory, all
+    inside the directory named for your project.
+
+
+
+    However, it should maintain the whitespace between paragraphs even
+    when fixing the wrapping. Ignoring multiple blank lines.
+    EOS
+    GLI.command [:test_para_multi] do |c|
+      c.action {}
+    end
+
+    GLI.desc "Testing line and paragraph wrapping - bounds checks"
+    GLI.long_desc <<-EOS
+    Many short sentences
+    Trailing spaces     
+        Leading spaces
+    Multi     spaces
+    Single line
+
+    77wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vitae
+
+    76wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vita
+
+    Roll over properly with no trailing spaces a a a a a a a a a a a a a a a a a a
+    74wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vi
+
+    75wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vit
+
+    75wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vit
+    77wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vitae
+    76wide lobortis elit arcu fringilla dictum. Pellentesque volutpat felis vita
+    EOS
+    GLI.command [:test_para_bounds] do |c|
+      c.action {}
+    end
+
     @fake_stdout = FakeStdOut.new
     @fake_stderr = FakeStdOut.new
     DefaultHelpCommand.output_device=@fake_stdout
@@ -247,6 +302,57 @@ class TC_testCommand < Test::Unit::TestCase
     end
   end
 
+  def test_paragraph_help_wrapping
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_para)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      lines = str.split("\n")
+      lines.each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i,
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+    total_lines = @fake_stdout.strings.inject(0) { |total, string| total + string.split("\n").size }
+    expected_lines = 9
+    assert_equal expected_lines, total_lines, "Help message should maintain paragraphs and span #{expected_lines} lines, but spanned #{total_lines} lines"
+  end
+
+  def test_paragraph_help_wrapping_multi_line
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_para_multi)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      lines = str.split("\n")
+      lines.each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i,
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+    total_lines = @fake_stdout.strings.inject(0) { |total, string| total + string.split("\n").size }
+    expected_lines = 9
+    assert_equal expected_lines, total_lines, "Help message should maintain paragraphs, ignoring multiple blank lines, and span #{expected_lines} lines, but spanned #{total_lines} lines"
+  end
+
+  def test_paragraph_wrapping_bounds
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_para_bounds)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      lines = str.split("\n")
+      lines.each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i,
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+    total_lines = @fake_stdout.strings.inject(0) { |total, string| total + string.split("\n").size }
+    expected_lines = 18
+    assert_equal expected_lines, total_lines, "Help message should maintain paragraphs, ignoring varying line lengths, multiple spaces and span #{expected_lines} lines, but spanned #{total_lines} lines"
+  end
+
   def test_version
     GLI.command :foo, :bar do |c|; end
     GLI.command :ls, :list do |c|; end
@@ -269,8 +375,8 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.command :ls, :list do |c|; end
     args = %w(help -c)
     GLI.run(args)
-    assert_equal 8,@fake_stdout.strings.size
-    assert_equal ['bar','basic','bs','foo','help','list','ls', 'test_wrap'],@fake_stdout.strings
+    assert_equal 11,@fake_stdout.strings.size
+    assert_equal ['bar','basic','bs','foo','help','list','ls', 'test_para', 'test_para_bounds', 'test_para_multi', 'test_wrap'],@fake_stdout.strings
   end
 
   def test_help_completion_partial

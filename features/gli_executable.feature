@@ -43,7 +43,7 @@ Feature: The GLI executable works as intended
     init [command options] project_name [command[ command]*]
         Create a new GLI-based project
 
-        This will create a scaffold command line project that uses GLI for command 
+        This will create a scaffold command line project that uses GLI for command
         line processing. Specifically, this will create an executable ready to go,
         as well as a lib and test directory, all inside the directory named for your
         project

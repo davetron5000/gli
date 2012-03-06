@@ -150,32 +150,30 @@ module GLI
       line_length = Terminal.instance.size[0]
     end
     line_padding = sprintf("%#{pad_length}s",'')
-    words = line.split(/\s+/)
-    return line if !words || words.empty?
-    wrapped = ''
-    while wrapped.length + line_padding.length < line_length
-      wrapped += ' ' if wrapped.length > 0
-      word = words.shift
-      if (wrapped.length + line_padding.length + word.length > line_length)
-        words.unshift word
-        break;
-      end
-      wrapped += word
-      return wrapped if words.empty?
+    paragraphs = line.split("\n\n").map { |l| l.chomp }.reject { |l| l.empty? }
+    wrapped = paragraphs.map do |para|
+      paragraph_lines(para, line_length - pad_length).join("\n#{line_padding}")
     end
-    wrapped += "\n"
-    this_line = line_padding
-    words.each do |word|
-      if this_line.length + word.length >= line_length
-        wrapped += this_line
-        wrapped += "\n"
-        this_line = line_padding + word
+    wrapped.join("\n\n#{line_padding}")
+  end
+
+  # Creates lines of the given column length using the words from the
+  # provided paragraph.
+  def paragraph_lines(paragraph,line_length)
+    lines = []
+    this_line = ''
+
+    paragraph.split(/\s+/).each do |word|
+      if this_line.length + word.length + 1 > line_length
+        lines << this_line
+        this_line = word
       else
-        this_line += ' ' if this_line.length > line_padding.length
+        this_line += ' ' unless this_line.empty?
         this_line += word
       end
     end
-    wrapped.chomp!
-    wrapped + "\n" + this_line
+
+    lines << this_line
   end
+
 end
