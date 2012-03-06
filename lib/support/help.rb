@@ -155,9 +155,7 @@ module GLI
     wrapped_paragraphs = paragraphs.map do |paragraph|
       wrapped = ''
       words = paragraph.split(/\s+/)
-      if !words || words.empty?
-        wrapped
-      else
+      unless !words || words.empty?
         while wrapped.length + line_padding.length < line_length
           wrapped += ' ' if wrapped.length > 0
           word = words.shift
@@ -181,9 +179,10 @@ module GLI
           end
         end
         wrapped.chomp!
-        wrapped + "\n" + this_line
+        wrapped += "\n" + this_line
       end
+      wrapped
     end
-    wrapped_paragraphs.reject { |para| para.empty? }.join("\n\n#{''.ljust(pad_length)}")
+    wrapped_paragraphs.reject { |para| para.empty? }.join("\n\n#{line_padding}")
   end
 end
