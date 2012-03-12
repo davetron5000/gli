@@ -185,7 +185,7 @@ class TC_testCommand < Test::Unit::TestCase
   end
 
   def test_help_is_default_if_not_supplied
-    args = %w(help)
+    args = %w()
     GLI.run(args)
     assert_contained(@fake_stdout,/A super awesome program/)
   end
