@@ -20,6 +20,7 @@ require 'gli_version'
 include GLI
 
 program_desc 'gli allows you to create the scaffolding for a GLI-powered application'
+default_command :init
 
 version GLI::VERSION
 desc 'Be verbose'

@@ -29,6 +29,7 @@ module GLI
   @@program_desc = nil
   @@skips_pre = false
   @@skips_post = false
+  @@default_command = :help
 
   # Override the device of stderr; exposed only for testing
   def error_device=(e) #:nodoc:
@@ -44,10 +45,22 @@ module GLI
     @@config_file = nil
     @@use_openstruct = false
     @@prog_desc = nil
+    @@default_command = :help
     clear_nexts
 
     desc 'Show this message'
     switch :help
+  end
+
+  # Sets a default command to run when none is specified on the command line.  Note that
+  # if you use this, you won't be able to pass arguments, flags, or switches
+  # to the command when run in default mode.  All flags and switches are treated
+  # as global, and any argument will be interpretted as the command name and likely
+  # fail.
+  #
+  # +command+:: Command to run as default
+  def default_command(command)
+    @@default_command = command.to_sym
   end
 
   # Describe the next switch, flag, or command.  This should be a
@@ -60,7 +73,7 @@ module GLI
   # of what your program does that will appear in the help output.
   #
   # +description+:: A String of the short description of your program's purpose
-  def program_desc(description=nil) 
+  def program_desc(description=nil)
     if description
       @@program_desc = description
     end
@@ -140,7 +153,7 @@ module GLI
     clear_nexts
   end
 
-  # Sets that this app uses a config file as well as the name of the config file.  
+  # Sets that this app uses a config file as well as the name of the config file.
   #
   # +filename+:: A String representing the path to the file to use for the config file.  If it's an absolute
   #              path, this is treated as the path to the file.  If it's *not*, it's treated as relative to the user's home
@@ -187,7 +200,7 @@ module GLI
   # Define a block to run if an error occurs.
   # The block will receive any Exception that was caught.
   # It should evaluate to false to avoid the built-in error handling (which basically just
-  # prints out a message). GLI uses a variety of exceptions that you can use to find out what 
+  # prints out a message). GLI uses a variety of exceptions that you can use to find out what
   # errors might've occurred during command-line parsing:
   # * GLI::CustomExit
   # * GLI::UnknownCommandArgument
@@ -200,7 +213,7 @@ module GLI
 
   # Indicate the version of your application
   #
-  # +version+:: String containing the version of your application.  
+  # +version+:: String containing the version of your application.
   def version(version)
     @@version = version
   end
@@ -215,7 +228,7 @@ module GLI
     @@use_openstruct = use_openstruct
   end
 
-  # Runs whatever command is needed based on the arguments. 
+  # Runs whatever command is needed based on the arguments.
   #
   # +args+:: the command line ARGV array
   #
@@ -233,7 +246,7 @@ module GLI
       global_options = convert_to_openstruct?(global_options)
       options = convert_to_openstruct?(options)
       if proceed?(global_options,command,options,arguments)
-        command = commands[:help] if !command
+        command = commands[@@default_command] if !command
         command.execute(global_options,options,arguments)
         if !command.skips_post && @@post_block
           @@post_block.call(global_options,command,options,arguments)
@@ -258,8 +271,8 @@ module GLI
   def proceed?(global_options,command,options,arguments) #:nodoc:
     if command && command.skips_pre
       true
-    elsif @@pre_block 
-      @@pre_block.call(global_options,command,options,arguments) 
+    elsif @@pre_block
+      @@pre_block.call(global_options,command,options,arguments)
     else
       true
     end
@@ -290,7 +303,7 @@ module GLI
     msg
   end
 
-  # Simpler means of exiting with a custom exit code.  This will 
+  # Simpler means of exiting with a custom exit code.  This will
   # raise a CustomExit with the given message and exit code, which will ultimatley
   # cause your application to exit with the given exit_code as its exit status
   def exit_now!(message,exit_code)
@@ -343,7 +356,7 @@ module GLI
 
   # Returns an array of four values:
   #  * global options (as a Hash)
-  #  * Command 
+  #  * Command
   #  * command options (as a Hash)
   #  * arguments (as an Array)
   def parse_options(args) # :nodoc:
@@ -442,7 +455,7 @@ module GLI
     try_me = args[0..non_flag_i]
     rest = args[(non_flag_i+1)..args.length]
     if all_flags
-      try_me = args 
+      try_me = args
       rest = []
     end
 
@@ -468,7 +481,7 @@ module GLI
       # it, we want to override it with the real value.
       # HOWEVER, sometimes this happens in reverse, so we want to err on taking the
       # user-provided, non-default value where possible.
-      if value 
+      if value
         if options[name]
           options[name] = value if options[name] == flag.default_value
         else
@@ -485,13 +498,13 @@ module GLI
     else
       if command
         check = rest
-        check = rest + try_me if all_flags 
-        check.each() do |arg| 
+        check = rest + try_me if all_flags
+        check.each() do |arg|
           if arg =~ /^\-\-$/
             try_me.delete arg
-            break 
+            break
           end
-          raise UnknownCommandArgument.new("Unknown option #{arg}",command) if arg =~ /^\-/ 
+          raise UnknownCommandArgument.new("Unknown option #{arg}",command) if arg =~ /^\-/
         end
         return [global_options,command,command_options,try_me + rest]
       else
