@@ -160,7 +160,7 @@ class TC_testCommand < Test::Unit::TestCase
     skips_pre_called = false
     runs_pre_called = false
 
-    GLI.command [:skipspre] do |c| 
+    GLI.command [:skipspre] do |c|
       c.action do |g,o,a|
         skips_pre_called = true
       end
@@ -239,6 +239,19 @@ class TC_testCommand < Test::Unit::TestCase
     assert_contained(@fake_stderr,/list of command options/)
   end
 
+  def test_help_is_default_if_not_supplied
+    args = %w()
+    GLI.run(args)
+    assert_contained(@fake_stdout,/A super awesome program/)
+  end
+
+  def test_default_command
+    args = %w(-g)
+    GLI.default_command :basic
+    GLI.run(args)
+    assert_equal('true',@glob)
+  end
+
   def test_help
     args = %w(help)
     GLI.run(args)
@@ -296,7 +309,7 @@ class TC_testCommand < Test::Unit::TestCase
     GLI.run(args)
     @fake_stdout.strings.each do |str|
       str.split("\n").each do |line|
-        assert(line.size <= ENV['COLUMNS'].to_i, 
+        assert(line.size <= ENV['COLUMNS'].to_i,
                "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
       end
     end
@@ -408,7 +421,7 @@ class TC_testCommand < Test::Unit::TestCase
     command = GLI.commands[:single]
     assert_equal :single, command.name
     assert_equal nil, command.aliases
-  
+
     description = 'implicit array'
     GLI.desc description
     GLI.command :foo, :bar do |c|; end
