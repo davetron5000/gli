@@ -61,6 +61,7 @@ lib/#{project_name}_version.rb
   s.executables << '#{project_name}'
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
+  s.add_runtime_dependency('gli')
 end
 EOS
       end
