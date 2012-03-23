@@ -5,6 +5,8 @@ module GLI
   class CommandLineOption < CommandLineToken #:nodoc:
 
     attr_accessor :default_value
+    # Command to which this option "belongs", nil if it's a global option
+    attr_accessor :associated_command
 
     # Creates a new option
     #

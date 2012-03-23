@@ -61,6 +61,7 @@ module GLI
       flags[flag.name] = flag
 
       clear_nexts
+      flag
     end
     alias :f :flag
 
@@ -80,6 +81,7 @@ module GLI
       switches[switch.name] = switch
 
       clear_nexts
+      switch
     end
     alias :s :switch
 

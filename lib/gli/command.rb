@@ -55,18 +55,54 @@ module GLI
     end
 
     def flag(*names)
-      if parent.kind_of? Command
-        parent.flag(*names)
-      else
-        super(*names)
-      end
+      f = if parent.kind_of? Command
+            parent.flag(*names)
+          else
+            super(*names)
+          end
+      f.associated_command = self
+      f
     end
 
     def switch(*names)
+      s = if parent.kind_of? Command
+            parent.switch(*names)
+          else
+            super(*names)
+          end
+      s.associated_command = self
+      s
+    end
+
+    def desc(d)
       if parent.kind_of? Command
-        parent.switch(*names)
+        parent.desc(d)
       else
-        super(*names)
+        super(d)
+      end
+    end
+
+    def long_desc(d)
+      if parent.kind_of? Command
+        parent.long_desc(d)
+      else
+        super(d)
+      end
+    end
+
+    def arg_name(d)
+      if parent.kind_of? Command
+        parent.arg_name(d)
+      else
+        super(d)
+      end
+    end
+
+    def default_value(d)
+      if parent.kind_of? Command
+        parent.default_value(d)
+      else
+        super(d)
       end
     end
 

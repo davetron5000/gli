@@ -174,9 +174,9 @@ module GLI
 
         copy_options_to_aliased_versions(global_options,command,options)
 
-        global_options = convert_to_openstruct?(global_options)
+        global_options = convert_to_openstruct_if_needed(global_options)
+        options        = convert_to_openstruct_if_needed(options)
 
-        options = convert_to_openstruct?(options)
         if proceed?(global_options,command,options,arguments)
           command ||= commands[:help]
           command.execute(global_options,options,arguments)
@@ -256,7 +256,7 @@ module GLI
     # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
     # By default, it will *not*. However by putting <tt>use_openstruct true</tt>
     # in your CLI definition, it will
-    def convert_to_openstruct?(options) # :nodoc:
+    def convert_to_openstruct_if_needed(options) # :nodoc:
       @use_openstruct ? Options.new(options) : options
     end
 
@@ -299,13 +299,13 @@ module GLI
 
       global_options,command_name,args = parse_global_options(args)
       flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
-      #g,c,o,a = old_parse_options(args_clone)
 
       command_name ||= 'help'
       command = find_command(command_name)
       raise UnknownCommand.new("Unknown command '#{command_name}'") unless command
 
-        command_options,args = parse_command_options(command,args)
+      command_options,args = parse_command_options(command,args)
+
       command.flags.each { |name,flag| command_options[name] = flag.default_value unless command_options[name] }
       command.switches.each do |name,switch| 
         command_options[name] = switch.default_value unless command_options[name] 
