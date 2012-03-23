@@ -19,6 +19,10 @@ module GLI
       @switches = switches
     end
 
+    def nodoc
+      true
+    end
+
     def execute(g,options,a)
       create_rdoc unless options[:'no-rdoc']
       create_manpage if options[:manpage]

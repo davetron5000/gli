@@ -11,9 +11,9 @@ module GLI
             a.name.to_s <=> b.name.to_s 
           }.map { |option|
             if option.respond_to? :argument_name
-              [option_names_for_help_string(option,option.argument_name),option.description]
+              [option_names_for_help_string(option,option.argument_name),description_with_default(option)]
             else
-              [option_names_for_help_string(option),option.description]
+              [option_names_for_help_string(option),description_with_default(option)]
             end
           })
           stringio = StringIO.new
@@ -21,13 +21,19 @@ module GLI
           stringio.string
         end
 
-        private
+      private
+
+        def description_with_default(option)
+          if option.kind_of? Flag
+            option.description + " (default: #{option.default_value || 'none'})"
+          else
+            option.description
+          end
+        end
 
         def option_names_for_help_string(option,arg_name=nil)
           names = [option.name,Array(option.aliases)].flatten
-          names = names.map { |name|
-            name.length == 1 ? "-#{name}" : "--#{name}"
-          }
+          names = names.map { |name| CommandLineOption.name_as_string(name,option.kind_of?(Switch) ? option.negatable? : false) }
           if arg_name.nil?
             names.join(', ')
           else

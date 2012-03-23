@@ -11,7 +11,7 @@ module GLI
         def format
           program_desc = @app.program_desc
 
-          command_formatter = ListFormatter.new(@app.commands.values.map { |command|
+          command_formatter = ListFormatter.new(@app.commands.values.reject(&:nodoc).map { |command|
             [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
           })
           stringio = StringIO.new
@@ -31,13 +31,17 @@ module GLI
 SYNOPSIS
     <%= usage_string %>
 
+<% unless @app.version_string.nil? %>
+VERSION
+    <%= @app.version_string %>
+
+<% end %>
 <% unless global_flags_and_switches.empty? %>
 GLOBAL OPTIONS
 <%= global_option_descriptions %>
 
 <% end %>
 COMMANDS
-
 <%= commands %>),nil,'<>')
 
         def global_flags_and_switches
@@ -45,7 +49,7 @@ COMMANDS
         end
 
         def usage_string
-          "usage: #{File.basename($0)} ".tap do |string|
+          "#{File.basename($0)} ".tap do |string|
             string << "[global options] " unless global_flags_and_switches.empty?
             string << "command "
             string << "[command options] [arguments...]"

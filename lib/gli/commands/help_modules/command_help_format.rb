@@ -4,59 +4,53 @@ module GLI
   module Commands
     module HelpModules
       class CommandHelpFormat
-        def initialize(command,app)
+        def initialize(command,app,basic_invocation)
+          @basic_invocation = basic_invocation
+          @app = app
           @command = command
-            @app = app
         end
 
         def format
-          command_help(@command)
+          command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + @command.name.size + 3)
+          wrapper = TextWrapper.new(Terminal.instance.size[0],4)
+          flags_and_switches = @command.flags.merge(@command.switches).select { |_,option| option.associated_command == @command }
+          options_description = OptionsFormatter.new(flags_and_switches).format
+          commands_description = format_subcommands(@command)
+
+          synopses = []
+          if @command.commands.empty?
+            one_line_usage = basic_usage(@command,flags_and_switches)
+            one_line_usage << @command.arguments_description
+            synopses << one_line_usage
+          else
+            @command.commands.each do |name,sub|
+              synopses << command_with_subcommand_usage(@command,sub,flags_and_switches)
+            end
+          end
+
+          COMMAND_HELP.result(binding)
         end
 
       private
         COMMAND_HELP = ERB.new(%q(NAME
-    <%= cmd.name %> - <%= command_wrapper.wrap(cmd.description) %>
+    <%= @command.name %> - <%= command_wrapper.wrap(@command.description) %>
 
 SYNOPSIS
-
 <% synopses.each do |s| %>
     <%= s %>
-<% end  %>
-<% unless cmd.long_description.nil? %>
+<% end %>
+<% unless @command.long_description.nil? %>
 
 DESCRIPTION
-
-    <%= wrapper.wrap(cmd.long_description) %> 
+    <%= wrapper.wrap(@command.long_description) %> 
 <% end %> 
-OPTIONS
-
+COMMAND OPTIONS
 <%= options_description %>
-<% unless cmd.commands.empty? %>
+<% unless @command.commands.empty? %>
 
 COMMANDS
-
 <%= commands_description %>
-<% end %>
-                                 ),nil,'<>')
-
-       def command_help(cmd)
-         command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + cmd.name.size + 3)
-         wrapper = TextWrapper.new(Terminal.instance.size[0],4)
-         flags_and_switches = cmd.flags.merge(cmd.switches).select { |_,option| option.associated_command == cmd }
-         options_description = OptionsFormatter.new(flags_and_switches).format
-         commands_description = format_subcommands(cmd)
-
-         synopses = []
-         if cmd.commands.empty?
-           synopses << one_line_usage(cmd,flags_and_switches)
-         else
-           cmd.commands.each do |name,sub|
-             synopses << command_with_subcommand_usage(cmd,sub,flags_and_switches)
-           end
-         end
-
-         COMMAND_HELP.result(binding)
-       end
+<% end %>),nil,'<>')
 
        def command_with_subcommand_usage(cmd,sub,flags_and_switches)
          usage = basic_usage(cmd,flags_and_switches)
@@ -69,17 +63,13 @@ COMMANDS
          }.map { |_| "[#{_}]" }.join(' ')
          usage << ' '
          usage << sub.name.to_s
-       end
-
-       def one_line_usage(cmd,flags_and_switches)
-         one_line_usage = basic_usage(cmd,flags_and_switches)
-         one_line_usage << cmd.arguments_description
+         usage
        end
 
        def basic_usage(cmd,flags_and_switches)
-         usage = File.basename($0).to_s
-         usage << " #{cmd.name} "
-         usage << "[options] " unless flags_and_switches.empty?
+         usage = @basic_invocation.dup
+         usage << " [global options] #{cmd.name} "
+         usage << "[command options] " unless global_flags_and_switches.empty?
          usage
        end
 

@@ -35,10 +35,9 @@ module GLI
             error.puts "error: Unknown command '#{arguments[0]}'.  Use 'gli help' for a list of commands."
             return
           end
-          out.puts HelpModules::CommandHelpFormat.new(command,@app).format
+          out.puts HelpModules::CommandHelpFormat.new(command,@app,File.basename($0).to_s).format
         end
       end
-
 
       def find_command(command_name)
         @app.commands.values.select { |command|

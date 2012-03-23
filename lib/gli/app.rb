@@ -121,6 +121,11 @@ module GLI
       @version = version
     end
 
+    # Get the version string
+    def version_string #:nodoc
+      @version
+    end
+
     # Call this with +true+ will cause the +global_options+ and
     # +options+ passed to your code to be wrapped in
     # Options, which is a subclass of +OpenStruct+ that adds

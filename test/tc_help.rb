@@ -172,7 +172,7 @@ private
     assert_output_contained(/help\s+-\s+#{@command.description}/)
 
     @switches.each do |(description,switch_names)|
-      expected_switch_names = switch_names.map { |_| _.length == 1 ? "-#{_}" : "--#{_}" }.join(', ')
+      expected_switch_names = switch_names.map { |_| _.length == 1 ? "-#{_}" : "--\\[no-\\]#{_}" }.join(', ')
       assert_output_contained(/#{expected_switch_names}\s+-\s+#{description}/,"For switch #{switch_names.join(',')}")
     end
 

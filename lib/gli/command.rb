@@ -18,6 +18,11 @@ module GLI
       "in the command #{name}"
     end
 
+    # Return true to avoid including this command in your help strings
+    def nodoc
+      false
+    end
+
     # Create a new command
     #
     # +names+:: A String, Symbol, or Array of String or Symbol that represents the name(s) of this command.

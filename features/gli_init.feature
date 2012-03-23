@@ -44,50 +44,67 @@ Feature: The scaffold GLI generates works
      And I run `bin/todo`
     Then the output should contain:
     """
-    usage: todo [global options] command [command options]
+    NAME
+        todo - Describe your application here
+
+    SYNOPSIS
+        todo [global options] command [command options] [arguments...]
     
-    Version: 0.0.1
+    VERSION
+        0.0.1
     
-    Global Options:
-        -f, --flagname=The name of the argument - Describe some flag here (default: 
+    GLOBAL OPTIONS
+        -f, --flagname=The name of the argument - Describe some flag here (default:
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
     
-    Commands:
+    COMMANDS
+        help     - Shows a list of commands or help for one command
         add      - Describe add here
         complete - Describe complete here
-        help     - Shows list of commands or help for one command
         list     - Describe list here
 
     """
      And I run `bin/todo --help`
     Then the output should contain:
     """
-    usage: todo [global options] command [command options]
+    NAME
+        todo - Describe your application here
+
+    SYNOPSIS
+        todo [global options] command [command options] [arguments...]
     
-    Version: 0.0.1
+    VERSION
+        0.0.1
     
-    Global Options:
-        -f, --flagname=The name of the argument - Describe some flag here (default: 
+    GLOBAL OPTIONS
+        -f, --flagname=The name of the argument - Describe some flag here (default:
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
     
-    Commands:
+    COMMANDS
+        help     - Shows a list of commands or help for one command
         add      - Describe add here
         complete - Describe complete here
-        help     - Shows list of commands or help for one command
         list     - Describe list here
 
     """
     When I run `bin/todo help add`
     Then the output should contain:
     """
-    add [command options] Describe arguments to add here
-        Describe add here
-
-    Command Options:
+    NAME
+        add - Describe add here
+    """
+    And the output should contain:
+    """
+    SYNOPSIS
+        todo [global options] add [command options] Describe arguments to add here
+    """
+    And the output should contain:
+    """
+    COMMAND OPTIONS
         -f arg - Describe a flag to add (default: default)
         -s     - Describe a switch to add
     """

@@ -12,20 +12,24 @@ Feature: The GLI executable works as intended
     Then the exit status should be 0
      And the output should contain:
     """
-    usage: gli [global options] command [command options]
+    NAME
+        gli - gli allows you to create the scaffolding for a GLI-powered application
 
-    Version:
+    SYNOPSIS
+        gli [global options] command [command options] [arguments...]
+
+    VERSION
     """
      And the output should contain:
     """
-    Global Options:
+    GLOBAL OPTIONS
         --help         - Show this message
         -n             - Dry run; dont change the disk
         -r, --root=arg - Root dir of project (default: .)
         -v             - Be verbose
 
-    Commands:
-        help           - Shows list of commands or help for one command
+    COMMANDS
+        help           - Shows a list of commands or help for one command
         init, scaffold - Create a new GLI-based project
     """
 
@@ -38,21 +42,24 @@ Feature: The GLI executable works as intended
   Scenario Outline: Getting help on scaffolding
     When I run `gli help <command>`
     Then the exit status should be 0
-     And the output should contain exactly:
+     And the output should contain:
     """
-    init [command options] project_name [command[ command]*]
-        Create a new GLI-based project
+    NAME
+        init - Create a new GLI-based project
 
-        This will create a scaffold command line project that uses GLI for command 
+    SYNOPSIS
+        gli [global options] init [command options] project_name [command[ command]*]
+
+    DESCRIPTION
+        This will create a scaffold command line project that uses GLI for command
         line processing. Specifically, this will create an executable ready to go,
         as well as a lib and test directory, all inside the directory named for your
-        project
-
-    Command Options:
+        project 
+     
+    COMMAND OPTIONS
         -e, --[no-]ext - Create an ext dir
         --[no-]force   - Overwrite/ignore existing files and directories
         --[no-]notest  - Do not create a test dir
-
     """
 
     Examples:
