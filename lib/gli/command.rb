@@ -10,18 +10,7 @@ module GLI
   class Command < CommandLineToken
     include CopyOptionsToAliases
     include DSL
-
-    # The parent of this command, either the GLI app, or another command
-    attr_accessor :parent
-
-    def context_description
-      "in the command #{name}"
-    end
-
-    # Return true to avoid including this command in your help strings
-    def nodoc
-      false
-    end
+    include CommandSupport
 
     # Create a new command
     #
@@ -39,98 +28,13 @@ module GLI
       clear_nexts
     end
 
-    # Return the arguments description
-    def arguments_description #:nodoc:
-      @arguments_description
-    end
-
-    # If true, this command doesn't want the pre block run before it executes
-    def skips_pre #:nodoc:
-      @skips_pre
-    end
-
-    # If true, this command doesn't want the post block run before it executes
-    def skips_post #:nodoc:
-      @skips_post
-    end
-
-    # Return the Array of the command's names
-    def names #:nodoc:
-      all_forms
-    end
-
-    def flag(*names)
-      f = if parent.kind_of? Command
-            parent.flag(*names)
-          else
-            super(*names)
-          end
-      f.associated_command = self
-      f
-    end
-
-    def switch(*names)
-      s = if parent.kind_of? Command
-            parent.switch(*names)
-          else
-            super(*names)
-          end
-      s.associated_command = self
-      s
-    end
-
-    def desc(d)
-      if parent.kind_of? Command
-        parent.desc(d)
-      else
-        super(d)
-      end
-    end
-
-    def long_desc(d)
-      if parent.kind_of? Command
-        parent.long_desc(d)
-      else
-        super(d)
-      end
-    end
-
-    def arg_name(d)
-      if parent.kind_of? Command
-        parent.arg_name(d)
-      else
-        super(d)
-      end
-    end
-
-    def default_value(d)
-      if parent.kind_of? Command
-        parent.default_value(d)
-      else
-        super(d)
-      end
-    end
-
-    # Get the usage string
-    # CR: This should probably not be here
-    def usage #:nodoc:
-      usage = name.to_s
-      usage += ' [command options]' if !flags.empty? || !switches.empty?
-      usage += ' ' + @arguments_description if @arguments_description
-      usage
-    end
-
-    # Return the flags as a Hash
-    def flags #:nodoc:
-      @flags ||= {}
-    end
-    # Return the switches as a Hash
-    def switches #:nodoc:
-      @switches ||= {}
-    end
-
-    def commands # :nodoc:
-      @commands ||= {}
+    # Set the default command if this command has subcommands and the user doesn't 
+    # provide a subcommand when invoking THIS command.  When nil, this will show an error and the help
+    # for this command; when set, the command with this name will be executed.
+    #
+    # +command_name+:: The primary name of the subcommand of this command that should be run by default.
+    def default_command(command_name)
+      @default_command = command_name
     end
 
     # Define the action to take when the user executes this command
@@ -148,52 +52,8 @@ module GLI
       @action = block
     end
 
-    def negatable?
-      false
-    end
-
     def self.name_as_string(name,negatable=false) #:nodoc:
       name.to_s
-    end
-
-    # Executes the command
-    def execute(global_options,options,arguments) #:nodoc:
-      subcommand = find_subcommand(arguments)
-      if subcommand
-        subcommand.execute(global_options,options,arguments[1..-1])
-      else
-        get_action(arguments).call(global_options,options,arguments)
-      end
-    end
-
-    private
-
-    def get_action(arguments)
-      return @action if @action
-      if parent.kind_of?(Command)
-        if arguments.size > 0
-          lambda do |global_options,options,arguments|
-            raise UnknownCommand,"Unknown command '#{arguments[0]}'"
-          end
-        else
-          lambda do |global_options,options,arguments|
-            raise BadCommandLine,"Command '#{name}' requires a subcommand"
-          end
-        end
-      else
-        lambda do |global_options,options,arguments|
-          raise "Command '#{name}' has no action block"
-        end
-      end
-    end
-
-    def find_subcommand(arguments)
-      arguments = Array(arguments)
-      return false if arguments.empty?
-      subcommand = arguments.first
-      self.commands.values.find do |command|
-        [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |_| _ == subcommand }
-      end
     end
   end
 end

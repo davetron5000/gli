@@ -15,31 +15,37 @@ module GLI
         def wrap(text)
           return text if text.nil?
           wrapped_text = ''
-          current_line = ''
-          current_line_length = @indent
+          current_graf = ''
 
-          words = text.split(/\s+/)
-          current_line = words.shift || ''
-          current_line_length += current_line.length
+          paragraphs = text.split(/\n\n+/)
+          paragraphs.each do |graf|
+            current_line = ''
+            current_line_length = @indent
 
-          words.each do |word|
-            if current_line_length + word.length + 1 > @width
-              wrapped_text << current_line << "\n"
-              current_line = ''
-              @indent.times { current_line << ' ' }
-              current_line << word
-              current_line_length = @indent + word.length
-            else
-              if current_line == ''
-                current_line << word
+            words = graf.split(/\s+/)
+            current_line = words.shift || ''
+            current_line_length += current_line.length
+
+            words.each do |word|
+              if current_line_length + word.length + 1 > @width
+                current_graf << current_line << "\n"
+                current_line = ''
+                current_line << ' ' * @indent << word
+                current_line_length = @indent + word.length
               else
-                current_line << ' ' << word
+                if current_line == ''
+                  current_line << word
+                else
+                  current_line << ' ' << word
+                end
+                current_line_length += (word.length + 1)
               end
-              current_line_length += (word.length + 1)
             end
+            current_graf << current_line
+            wrapped_text << current_graf  << "\n\n" << ' ' * @indent
+            current_graf = ''
           end
-          wrapped_text << current_line
-          wrapped_text
+          wrapped_text.gsub(/[\n\s]*\Z/,'')
         end
       end
     end

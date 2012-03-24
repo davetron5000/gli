@@ -13,18 +13,18 @@ module GLI
         def format
           command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + @command.name.size + 3)
           wrapper = TextWrapper.new(Terminal.instance.size[0],4)
-          flags_and_switches = @command.flags.merge(@command.switches).select { |_,option| option.associated_command == @command }
+          flags_and_switches = @command.topmost_ancestor.flags.merge(@command.topmost_ancestor.switches).select { |_,option| option.associated_command == @command }
           options_description = OptionsFormatter.new(flags_and_switches).format
           commands_description = format_subcommands(@command)
 
           synopses = []
           if @command.commands.empty?
-            one_line_usage = basic_usage(@command,flags_and_switches)
+            one_line_usage = basic_usage(flags_and_switches)
             one_line_usage << @command.arguments_description
             synopses << one_line_usage
           else
             @command.commands.each do |name,sub|
-              synopses << command_with_subcommand_usage(@command,sub,flags_and_switches)
+              synopses << command_with_subcommand_usage(sub,flags_and_switches)
             end
           end
 
@@ -52,9 +52,9 @@ COMMANDS
 <%= commands_description %>
 <% end %>),nil,'<>')
 
-       def command_with_subcommand_usage(cmd,sub,flags_and_switches)
-         usage = basic_usage(cmd,flags_and_switches)
-         sub_options = cmd.flags.merge(cmd.switches).select { |_,o| o.associated_command == sub }
+       def command_with_subcommand_usage(sub,flags_and_switches)
+         usage = basic_usage(flags_and_switches)
+         sub_options = @command.flags.merge(@command.switches).select { |_,o| o.associated_command == sub }
          usage << sub_options.map { |option_name,option| 
            all_names = [option.name,Array(option.aliases)].flatten
            all_names.map { |_| 
@@ -66,11 +66,21 @@ COMMANDS
          usage
        end
 
-       def basic_usage(cmd,flags_and_switches)
+       def basic_usage(flags_and_switches)
          usage = @basic_invocation.dup
-         usage << " [global options] #{cmd.name} "
+         usage << " [global options] #{path_to_command} "
          usage << "[command options] " unless global_flags_and_switches.empty?
          usage
+       end
+
+       def path_to_command
+         path = []
+         c = @command
+         while c.kind_of? Command
+           path.unshift(c.name)
+           c = c.parent
+         end
+         path.join(' ')
        end
 
        def global_flags_and_switches

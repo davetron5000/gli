@@ -170,8 +170,9 @@ module GLI
     # Returns a number that would be a reasonable exit code
     def run(args) #:nodoc:
       rdoc = RDocCommand.new(commands,program_name,program_desc,flags,switches)
+
       commands[:rdoc] ||= rdoc
-      #commands[:help] ||= GLI::Commands::Help.new(self)#DefaultHelpCommand.new(@version,self,rdoc)
+      command = nil
       begin
         override_defaults_based_on_config(parse_config)
 
@@ -192,7 +193,13 @@ module GLI
         0
       rescue Exception => ex
 
-        stderr.puts error_message(ex) if regular_error_handling?(ex)
+        if regular_error_handling?(ex)
+          stderr.puts error_message(ex) 
+          unless command.nil?
+            stderr.puts 
+            commands[:help] and commands[:help].execute([],[],[command.name.to_s])
+          end
+        end
 
         raise ex if ENV['GLI_DEBUG'] == 'true'
 

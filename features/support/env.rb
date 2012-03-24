@@ -1,6 +1,7 @@
 require 'aruba/cucumber'
 require 'fileutils'
 
+# Adds GLI's bin dir to our path
 ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 GLI_LIB_PATH = File.expand_path(File.join(File.dirname(__FILE__),'..','..','lib'))
 
@@ -11,6 +12,7 @@ Before do
   # Not sure how else to get this dynamically
   @dirs = [TMP_PATH]
   @aruba_timeout_seconds = 5
+  @original_path = ENV['PATH'].split(File::PATH_SEPARATOR)
 end
 
 After do |scenario|
@@ -19,4 +21,9 @@ After do |scenario|
   if File.exists? todo_app_dir
     FileUtils.rm_rf(todo_app_dir)
   end
+  ENV['PATH'] = @original_path.join(File::PATH_SEPARATOR)
+end
+
+def add_to_path(dir)
+  ENV['PATH'] = "#{dir}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 end

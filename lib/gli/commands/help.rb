@@ -30,17 +30,29 @@ module GLI
         if arguments.empty?
           out.puts HelpModules::GlobalHelpFormat.new(@app).format
         else
-          command = find_command(arguments[0])
-          if command.nil?
-            error.puts "error: Unknown command '#{arguments[0]}'.  Use 'gli help' for a list of commands."
-            return
+          name = arguments.shift
+          command = find_command(name,@app)
+          return if unknown_command(command,name,error)
+          while !arguments.empty?
+            name = arguments.shift
+            command = find_command(name,command)
+            return if unknown_command(command,name,error)
           end
           out.puts HelpModules::CommandHelpFormat.new(command,@app,File.basename($0).to_s).format
         end
       end
 
-      def find_command(command_name)
-        @app.commands.values.select { |command|
+      def unknown_command(command,name,error)
+        if command.nil?
+          error.puts "error: Unknown command '#{name}'.  Use 'gli help' for a list of commands."
+          true
+        else
+          false
+        end
+      end
+
+      def find_command(command_name,base)
+        base.commands.values.select { |command|
           if [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |_| _ == command_name }
             command
           end

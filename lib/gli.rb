@@ -1,4 +1,5 @@
 require 'gli/app.rb'
+require 'gli/command_support.rb'
 require 'gli/command.rb'
 require 'gli/command_line_token.rb'
 require 'gli/command_line_option.rb'
