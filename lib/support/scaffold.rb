@@ -51,6 +51,7 @@ spec = Gem::Specification.new do |s|
 # Add your other files here if you make them
   s.files = %w(
 bin/#{project_name}
+lib/#{project_name}_version.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
