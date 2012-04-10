@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'tempfile'
 
-class TC_testCompounCommand < Test::Unit::Given::TestCase
+class TC_testCompounCommand < Clean::Test::TestCase
   include TestHelper
 
   test_that "when we create a CompoundCommand where some commands are missing, we get an exception" do

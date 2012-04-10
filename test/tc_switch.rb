@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TC_testSwitch < Test::Unit::Given::TestCase
+class TC_testSwitch < Clean::Test::TestCase
   include TestHelper
   include GLI
 

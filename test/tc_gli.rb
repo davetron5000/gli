@@ -12,7 +12,7 @@ end
 
 require 'test_helper'
 
-class TC_testGLI < Test::Unit::Given::TestCase
+class TC_testGLI < Clean::Test::TestCase
   include TestHelper
   include GLI
 

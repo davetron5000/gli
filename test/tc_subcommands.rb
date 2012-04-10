@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TC_testSubCommand < Test::Unit::Given::TestCase
+class TC_testSubCommand < Clean::Test::TestCase
   include TestHelper
 
   def setup

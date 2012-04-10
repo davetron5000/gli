@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class TC_testFlag < Test::Unit::Given::TestCase
+class TC_testFlag < Clean::Test::TestCase
   include TestHelper
   include GLI
 

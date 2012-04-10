@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'tempfile'
 
-class TC_testCommand < Test::Unit::TestCase
+class TC_testCommand < Clean::Test::TestCase
   include TestHelper
   def setup
     @app = CLIApp.new

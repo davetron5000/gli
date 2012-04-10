@@ -1,6 +1,6 @@
 require 'gli.rb'
 require 'test/unit'
-require 'test/unit/given'
+require 'clean_test/test_case'
 require 'fake_std_out'
 require 'option_test_helper'
 
