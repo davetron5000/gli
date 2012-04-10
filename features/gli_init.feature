@@ -60,9 +60,9 @@ Feature: The scaffold GLI generates works
         -s, --[no-]switch                       - Describe some switch here
     
     COMMANDS
-        help     - Shows a list of commands or help for one command
         add      - Describe add here
         complete - Describe complete here
+        help     - Shows a list of commands or help for one command
         list     - Describe list here
 
     """
@@ -85,9 +85,9 @@ Feature: The scaffold GLI generates works
         -s, --[no-]switch                       - Describe some switch here
     
     COMMANDS
-        help     - Shows a list of commands or help for one command
         add      - Describe add here
         complete - Describe complete here
+        help     - Shows a list of commands or help for one command
         list     - Describe list here
 
     """
@@ -118,11 +118,6 @@ Feature: The scaffold GLI generates works
 
     1 tests, 1 assertions, 0 failures, 0 errors
     """
-    When I run `bin/todo rdoc`
-    Then the file "todo.rdoc" should contain "todo [global options] command_name [command-specific options] [--] arguments..."
-     And the file "todo.rdoc" should contain "[<tt>add</tt>] Describe add here"
-     And the file "todo.rdoc" should contain "[<tt>complete</tt>] Describe complete here"
-     And the file "todo.rdoc" should contain "[<tt>list</tt>] Describe list here"
 
   Scenario Outline: Scaffold generates and respects flags to create ext dir and avoid test dir
     When I run `<command>`
