@@ -25,10 +25,14 @@ Feature: The todo app has a nice user interface
         --help - Show this message
 
     COMMANDS
-        help        - Shows a list of commands or help for one command
-        list        - List things, such as tasks or contexts
-        ls          - LS things, such as tasks or contexts
-        create, new - Create a new task or context
+        chained       - 
+        chained2, ch2 - 
+        create, new   - Create a new task or context
+        first         - 
+        help          - Shows a list of commands or help for one command
+        list          - List things, such as tasks or contexts
+        ls            - LS things, such as tasks or contexts
+        second        - 
     """
 
   Scenario: Getting Help for a top level command of todo
@@ -82,6 +86,30 @@ Feature: The todo app has a nice user interface
   Scenario: Running list w/out subcommand or any arguments performs list tasks by default
     When I successfully run `todo list`
     Then the output should contain "list tasks:"
+
+  Scenario: Running chained commands works
+    When I successfully run `todo chained foo bar`
+    Then the output should contain:
+    """
+    first: foo,bar
+    second: foo,bar
+    """
+
+  Scenario: Running chained commands works and is ordered
+    When I successfully run `todo chained2 foo bar`
+    Then the output should contain:
+    """
+    second: foo,bar
+    first: foo,bar
+    """
+
+  Scenario: Running chained commands works and is ordered
+    When I successfully run `todo ch2 foo bar`
+    Then the output should contain:
+    """
+    second: foo,bar
+    first: foo,bar
+    """
 
   Scenario: Running ls w/out subcommand shows help and an error
     When I run `todo ls`

@@ -92,16 +92,52 @@ module GLI
       @next_long_desc = nil
     end
 
-    # Define a new command.  This takes a block that will be given an instance of the Command that was created.
+    # Define a new command.  This can be done in a few ways, but the most common method is
+    # to pass a symbol (or Array of symbols) representing the command name (or names) and a block.  
+    # The block will be given an instance of the Command that was created.
     # You then may call methods on this object to define aspects of that Command.
     #
-    # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases for this command.
+    # Alternatively, you can call this with a one element Hash, where the key is the symbol representing the name
+    # of the command, and the value being an Array of symbols representing the commands to call in order, as a 
+    # chained or compound command.  Note that these commands must exist already, and that only those command-specific
+    # options defined in *this* command will be parsed and passed to the chained commands.  This might not be what you expect
+    #
+    # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names and aliases 
+    #           for this command *or* a Hash, as described above.
+    #
+    # ==Examples
+    #
+    #     # Make a command named list
+    #     command :list do |c|
+    #       c.action do |global_options,options,args|
+    #         # your command code
+    #       end
+    #     end
+    #
+    #     # Make a command named list, callable by ls as well
+    #     command [:list,:ls] do |c|
+    #       c.action do |global_options,options,args|
+    #         # your command code
+    #       end
+    #     end
+    #
+    #     # Make a command named all, that calls list and list_contexts
+    #     command :all => [ :list, :list_contexts ]
+    #
+    #     # Make a command named all, aliased as :a:, that calls list and list_contexts
+    #     command [:all,:a] => [ :list, :list_contexts ]
     #
     def command(*names)
-      command = Command.new([names].flatten,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
-      command.parent = self
-      commands[command.name] = command
-      yield command
+      if names.first.kind_of? Hash
+        command = GLI::Commands::CompoundCommand.new(names.first,self,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
+        command.parent = self
+        commands[command.name] = command
+      else
+        command = Command.new([names].flatten,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
+        command.parent = self
+        commands[command.name] = command
+        yield command
+      end
       clear_nexts
     end
     alias :c :command

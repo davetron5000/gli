@@ -11,7 +11,7 @@ module GLI
         def format
           program_desc = @app.program_desc
 
-          command_formatter = ListFormatter.new(@app.commands.values.reject(&:nodoc).map { |command|
+          command_formatter = ListFormatter.new(@app.commands.values.sort.reject(&:nodoc).map { |command|
             [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
           })
           stringio = StringIO.new

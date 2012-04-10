@@ -31,10 +31,30 @@ module GLI
       @error_block = false
       @pre_block = false
       @post_block = false
+      @default_command = :help
       clear_nexts
 
       desc 'Show this message'
       switch :help
+    end
+
+    # Loads ruby files in the load path that start with 
+    # +path+, which are presumed to be commands for your executable.
+    # This is a glorified +require+, but could also be used as a plugin mechanism.
+    # You could manipualte the load path at runtime and this call
+    # would find those files
+    def commands_from(path)
+      $LOAD_PATH.each do |load_path|
+        commands_path = File.join(load_path,path)
+        if File.exists? commands_path
+          Dir.entries(commands_path).each do |entry|
+            file = File.join(commands_path,entry)
+            if file =~ /\.rb$/
+              require file
+            end
+          end
+        end
+      end
     end
 
     # Describe the overall application/programm.  This should be a one-sentence summary
@@ -262,6 +282,18 @@ module GLI
       @program_name
     end
 
+    # Sets a default command to run when none is specified on the command line.  Note that
+    # if you use this, you won't be able to pass arguments, flags, or switches
+    # to the command when run in default mode.  All flags and switches are treated
+    # as global, and any argument will be interpretted as the command name and likely
+    # fail.
+    #
+    # +command+:: Command as a Symbol to run as default
+    def default_command(command)
+      @default_command = command.to_sym
+    end
+
+
     # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
     # By default, it will *not*. However by putting <tt>use_openstruct true</tt>
     # in your CLI definition, it will
@@ -309,7 +341,7 @@ module GLI
       global_options,command_name,args = parse_global_options(args)
       flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
 
-      command_name ||= 'help'
+      command_name ||= @default_command || :help
       command = find_command(command_name)
       raise UnknownCommand.new("Unknown command '#{command_name}'") unless command
 

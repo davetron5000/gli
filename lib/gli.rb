@@ -11,6 +11,7 @@ require 'gli/switch.rb'
 require 'gli/dsl.rb'
 require 'gli/version.rb'
 require 'gli/commands/help'
+require 'gli/commands/compound_command'
 require 'support/initconfig.rb'
 
 module GLI
