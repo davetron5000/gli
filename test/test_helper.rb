@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'gli.rb'
 require 'test/unit'
 require 'clean_test/test_case'

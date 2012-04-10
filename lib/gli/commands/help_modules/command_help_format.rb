@@ -11,9 +11,9 @@ module GLI
         end
 
         def format
-          command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + @command.name.size + 3)
+          command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
           wrapper = TextWrapper.new(Terminal.instance.size[0],4)
-          flags_and_switches = @command.topmost_ancestor.flags.merge(@command.topmost_ancestor.switches).select { |_,option| option.associated_command == @command }
+          flags_and_switches = Hash[@command.topmost_ancestor.flags.merge(@command.topmost_ancestor.switches).select { |_,option| option.associated_command == @command }]
           options_description = OptionsFormatter.new(flags_and_switches).format
           commands_description = format_subcommands(@command)
 
@@ -60,7 +60,7 @@ COMMANDS
            all_names.map { |_| 
              CommandLineOption.name_as_string(_,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
            }.join('|')
-         }.map { |_| "[#{_}]" }.join(' ')
+         }.map { |_| "[#{_}]" }.sort.join(' ')
          usage << ' '
          usage << sub.name.to_s
          usage

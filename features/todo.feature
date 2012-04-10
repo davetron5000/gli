@@ -44,7 +44,7 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] list [command options] [-x arg] tasks
-        todo [global options] list [command options] [-f|--foobar] [-b] contexts
+        todo [global options] list [command options] [-b] [-f|--foobar] contexts
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
@@ -122,7 +122,7 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] ls [command options] [-x arg] tasks
-        todo [global options] ls [command options] [-f|--foobar] [-b] contexts
+        todo [global options] ls [command options] [-b] [-f|--foobar] contexts
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
