@@ -52,9 +52,6 @@ class TC_testCommand < Test::Unit::TestCase
     end
     @fake_stdout = FakeStdOut.new
     @fake_stderr = FakeStdOut.new
-    GLI::DefaultHelpCommand.output_device=@fake_stdout
-    GLI::DefaultHelpCommand.skips_pre=true
-    GLI::DefaultHelpCommand.skips_post=true
     @app.error_device=@fake_stderr
     ENV.delete('GLI_DEBUG')
     @original_stdout = $stdout
@@ -67,7 +64,6 @@ class TC_testCommand < Test::Unit::TestCase
     $stdout = @original_stdout
     $stderr = @original_stderr
     FileUtils.rm_f "cruddo.rdoc"
-    GLI::DefaultHelpCommand.output_device=$stdout
   end
 
   def test_names
@@ -220,119 +216,6 @@ class TC_testCommand < Test::Unit::TestCase
     assert_contained(@fake_stderr,/list of command options/)
   end
 
-=begin
-  def test_help
-    args = %w(help)
-    @app.run(args)
-    ['\[global options\]','\[command options\]','Global Options:','A super awesome program'].each do |opt|
-      assert_contained(@fake_stdout,/#{opt}/)
-    end
-    assert(!@pre_called,"Expected pre block NOT to have been called")
-    assert(!@post_called,"Expected post block NOT to have been called")
-  end
-
-  def test_help_with_config_file_shows_config_value
-    config_file = Tempfile.new('gli_config')
-    config = {
-      :blah => true,
-      :y => "foo",
-    }
-    File.open(config_file.path,'w') { |file| YAML.dump(config,file) }
-    @app.config_file(config_file.path)
-    @app.run(%w(help))
-    assert_contained(@fake_stdout,/\(default: foo\)/)
-  end
-
-  def test_help_with_pre_called
-    args = %w(help)
-    GLI::DefaultHelpCommand.skips_pre=false
-    GLI::DefaultHelpCommand.skips_post=false
-    @app.run(args)
-    assert(@pre_called,"Expected pre block to have been called")
-    assert(@post_called,"Expected pre block to have been called")
-  end
-
-  def test_help_without_any_descs_still_works
-    @app.reset
-    @app.flag :f
-    @app.command :foo do |c|
-    end
-    exit_status = @app.run(%w(help foo))
-    assert_not_contained(@fake_stderr,/nil/)
-    assert_not_contained(@fake_stdout,/nil/)
-    assert_equal exit_status,0
-  end
-
-  def test_help_one_command
-    args = %w(help basic)
-    @app.run(args)
-    ['Command Options:','\[command options\]'].each do |opt|
-      assert_contained(@fake_stdout,/#{opt}/)
-    end
-  end
-
-  def test_long_help_wrapping
-    ENV['COLUMNS'] = '80'
-    ENV['LINES'] = '24'
-    args = %w(help test_wrap)
-    @app.run(args)
-    @fake_stdout.strings.each do |str|
-      str.split("\n").each do |line|
-        assert(line.size <= ENV['COLUMNS'].to_i, 
-               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
-      end
-    end
-  end
-  def test_version
-    @app.command :foo, :bar do |c|; end
-    @app.command :ls, :list do |c|; end
-    @app.version '1.3.4'
-    args = %w(help)
-    @app.run(args)
-    assert_not_nil @fake_stdout.strings.find{ |x| x =~ /^Version: 1.3.4/ }
-  end
-
-  def test_version_not_specified
-    @app.command :foo, :bar do |c|; end
-    @app.command :ls, :list do |c|; end
-    args = %w(help)
-    @app.run(args)
-    assert_nil @fake_stdout.strings.find{ |x| x =~ /^Version: 1.3.4/ }
-  end
-
-  def test_help_completion
-    @app.command :foo, :bar do |c|; end
-    @app.command :ls, :list do |c|; end
-    args = %w(help -c)
-    @app.run(args)
-    assert_equal 8,@fake_stdout.strings.size
-    assert_equal ['bar','basic','bs','foo','help','list','ls', 'test_wrap'],@fake_stdout.strings
-  end
-
-  def test_help_completion_partial
-    @app.command :foo, :bar do |c|; end
-    @app.command :ls, :list do |c|; end
-    args = %w(help -c b)
-    @app.run(args)
-    assert_equal 3,@fake_stdout.strings.size
-    assert_equal ['bar','basic','bs'],@fake_stdout.strings
-  end
-
-=end
-  def test_rdoc
-    @app.program_name 'cruddo'
-    args = %w(rdoc)
-    @app.run(args)
-    assert File.exists?("cruddo.rdoc")
-  end
-=begin
-  def test_help_no_command
-    @app.program_name 'cruddo'
-    args = %w(help foo)
-    @app.run(args)
-    assert_equal('cruddo',@app.program_name)
-  end
-=end
   def test_forgot_action_block
     @app.reset
     @app.command :foo do

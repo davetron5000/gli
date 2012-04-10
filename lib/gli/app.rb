@@ -169,9 +169,6 @@ module GLI
     #
     # Returns a number that would be a reasonable exit code
     def run(args) #:nodoc:
-      rdoc = RDocCommand.new(commands,program_name,program_desc,flags,switches)
-
-      commands[:rdoc] ||= rdoc
       command = nil
       begin
         override_defaults_based_on_config(parse_config)
