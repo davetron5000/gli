@@ -9,7 +9,6 @@ require 'rubygems/package_task'
 require 'rake/testtask'
 require 'rdoc/task'
 require 'grancher/task'
-require 'reek/rake/task'
 require 'roodi'
 require 'roodi_task'
 require 'cucumber'
@@ -35,13 +34,6 @@ end
 spec = eval(File.read('gli.gemspec'))
 
 Gem::PackageTask.new(spec) do |pkg|
-end
-
-Reek::Rake::Task.new do |t|
-  t.ruby_opts << '-rubygems'
-  t.fail_on_error = true
-  t.config_files = ['test/gli.reek']
-  t.source_files = FileList['lib/**/*.rb'] - FileList['lib/support/*.rb']
 end
 
 RoodiTask.new do |t|
@@ -89,5 +81,5 @@ end
 desc 'Publish rdoc on github pages and push to github'
 task :publish_rdoc => [:rdoc,:publish]
 
-task :default => [:test,:features,:roodi,:reek]
+task :default => [:test,:features,:roodi]
 
