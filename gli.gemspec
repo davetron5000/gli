@@ -11,22 +11,29 @@ spec = Gem::Specification.new do |s|
   s.summary = 'A Git Like Interface for building command line apps'
   s.description = 'An application and API for describing command line interfaces that can be used to quickly create a shell for executing command-line tasks.  The command line user interface is similar to Git''s, in that it takes global options, a command, command-specific options, and arguments'
   s.files = %w(
+lib/gli/app.rb
 lib/gli/command.rb
-lib/gli/command_line_token.rb
 lib/gli/command_line_option.rb
+lib/gli/command_line_token.rb
+lib/gli/command_support.rb
+lib/gli/commands/compound_command.rb
+lib/gli/commands/help.rb
+lib/gli/commands/help_modules/command_help_format.rb
+lib/gli/commands/help_modules/global_help_format.rb
+lib/gli/commands/help_modules/list_formatter.rb
+lib/gli/commands/help_modules/options_formatter.rb
+lib/gli/commands/help_modules/text_wrapper.rb
 lib/gli/copy_options_to_aliases.rb
-lib/gli/flag.rb
-lib/gli/switch.rb
-lib/gli/options.rb
-lib/gli/exceptions.rb
-lib/gli/terminal.rb
 lib/gli/dsl.rb
-lib/gli.rb
+lib/gli/exceptions.rb
+lib/gli/flag.rb
+lib/gli/options.rb
+lib/gli/switch.rb
+lib/gli/terminal.rb
 lib/gli/version.rb
-lib/support/help.rb
-lib/support/rdoc.rb
-lib/support/scaffold.rb
+lib/gli.rb
 lib/support/initconfig.rb
+lib/support/scaffold.rb
 bin/gli
   )
   s.require_paths << 'lib'
