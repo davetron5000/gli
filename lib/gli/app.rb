@@ -345,7 +345,11 @@ module GLI
 
       command_name ||= @default_command || :help
       command = find_command(command_name)
-      raise UnknownCommand.new("Unknown command '#{command_name}'") unless command
+      if command.nil? || Array(command).empty?
+        raise UnknownCommand.new("Unknown command '#{command_name}'")
+      elsif command.kind_of? Array
+        raise UnknownCommand.new("Ambiguous command '#{command_name}'. It matches #{command.join(',')}")
+      end
 
       command_options,args = parse_command_options(command,args)
 
@@ -445,12 +449,19 @@ module GLI
     end
 
     def find_command(name) # :nodoc:
-      sym = name.to_sym
-      return commands[name.to_sym] if commands[sym]
+      names_to_commands = {}
       commands.each do |command_name,command|
-        return command if (command.aliases && command.aliases.include?(sym))
+        names_to_commands[command_name.to_s] = command
+        Array(command.aliases).each do |command_alias|
+          names_to_commands[command_alias.to_s] = command
+        end
       end
-      nil
+      name = name.to_s
+      return names_to_commands[name] if names_to_commands[name]
+      # Now try to match on partial names
+      partial_matches = names_to_commands.keys.select { |command_name| command_name =~ /^#{name}/ }
+      return names_to_commands[partial_matches[0]] if partial_matches.size == 1
+      partial_matches
     end
 
     # Sets the default values for flags based on the configuration

@@ -166,3 +166,32 @@ Feature: The scaffold GLI generates works
             | command                                     |
             | gli init -e --notest todo add complete list |
             | gli init todo add complete list -e --notest |
+
+  Scenario: Running commands the normal way
+    Given I successfully run `gli init todo add complete compute list`
+      And I cd to "todo"
+     When I successfully run `bin/todo add`
+     Then the output should contain "add command ran"
+     When I successfully run `bin/todo complete`
+     Then the output should contain "complete command ran"
+     When I run `bin/todo foobar`
+     Then the stderr should contain "error: Unknown command 'foobar'. Use 'todo help' for a list of commands"
+      And the exit status should not be 0
+     
+  Scenario: Running commands using short form
+    Given I successfully run `gli init todo add complete compute list`
+      And I cd to "todo"
+     When I successfully run `bin/todo a`
+     Then the output should contain "add command ran"
+     When I successfully run `bin/todo l`
+     Then the output should contain "list command ran"
+     When I successfully run `bin/todo compl`
+     Then the output should contain "complete command ran"
+     
+  Scenario: Ambiguous commands give helpful output
+    Given I successfully run `gli init todo add complete compute list`
+      And I cd to "todo"
+     When I run `bin/todo comp`
+     Then the stderr should contain "Ambiguous command 'comp'. It matches complete,compute"
+     And the exit status should not be 0
+     

@@ -290,6 +290,8 @@ command :#{command} do |c|
      
     # If you have any errors, just raise them
     # raise "that command made no sense"
+
+    puts "#{command} command ran"
   end
 end
 EOS
@@ -297,6 +299,7 @@ EOS
                 file.puts <<EOS
 command :#{command} do |c|
   c.action do |global_options,options,args|
+    puts "#{command} command ran"
   end
 end
 EOS
