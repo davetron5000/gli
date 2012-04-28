@@ -14,7 +14,7 @@ end
 $: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib') 
 
 require 'gli'
-require 'support/scaffold'
+require 'gli/commands/scaffold'
 
 include GLI::App
 
@@ -42,7 +42,7 @@ command [:init,:scaffold] do |c|
 
   c.switch :e,:ext, :desc => 'Create an ext dir'
 
-  c.switch :notest, :desc => 'Do not create a test dir'
+  c.switch :notest, :desc => 'Do not create a test or features dir', :negatable => false
 
   c.switch :force, :desc => 'Overwrite/ignore existing files and directories'
 
@@ -50,7 +50,7 @@ command [:init,:scaffold] do |c|
     if args.length < 1
       raise 'You must specify the name of your project'
     end
-    GLI::Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+    GLI::Commands::Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
   end
 end
 

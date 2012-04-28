@@ -23,6 +23,7 @@ Feature: The scaffold GLI generates works
     Created ./todo/test/tc_nothing.rb
     Created ./todo/Rakefile
     Created ./todo/Gemfile
+    Created ./todo/features
     Created ./todo/lib/todo/version.rb
 
     """
@@ -117,6 +118,15 @@ Feature: The scaffold GLI generates works
     """
 
     1 tests, 1 assertions, 0 failures, 0 errors
+    """
+    When I run `rake features`
+    Then the output should contain:
+    """
+    1 scenario (1 passed)
+    """
+    And the output should contain:
+    """
+    2 steps (2 passed)
     """
 
   Scenario Outline: Scaffold generates and respects flags to create ext dir and avoid test dir

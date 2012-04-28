@@ -43,6 +43,8 @@ module GLI
     # This is a glorified +require+, but could also be used as a plugin mechanism.
     # You could manipualte the load path at runtime and this call
     # would find those files
+    #
+    # path:: a path relative to somewhere in the <code>LOAD_PATH</code>, from which all <code>.rb</code> files will be required.
     def commands_from(path)
       $LOAD_PATH.each do |load_path|
         commands_path = File.join(load_path,path)

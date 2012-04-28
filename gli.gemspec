@@ -18,6 +18,7 @@ lib/gli/command_line_token.rb
 lib/gli/command_support.rb
 lib/gli/commands/compound_command.rb
 lib/gli/commands/help.rb
+lib/gli/commands/scaffold.rb
 lib/gli/commands/help_modules/command_help_format.rb
 lib/gli/commands/help_modules/global_help_format.rb
 lib/gli/commands/help_modules/list_formatter.rb
@@ -33,7 +34,6 @@ lib/gli/terminal.rb
 lib/gli/version.rb
 lib/gli.rb
 lib/support/initconfig.rb
-lib/support/scaffold.rb
 bin/gli
   )
   s.require_paths << 'lib'
