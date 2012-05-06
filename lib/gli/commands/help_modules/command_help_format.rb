@@ -18,11 +18,14 @@ module GLI
           commands_description = format_subcommands(@command)
 
           synopses = []
+          one_line_usage = basic_usage(flags_and_switches)
+          one_line_usage << @command.arguments_description
           if @command.commands.empty?
-            one_line_usage = basic_usage(flags_and_switches)
-            one_line_usage << @command.arguments_description
             synopses << one_line_usage
           else
+            if @command.has_action?
+              synopses << one_line_usage
+            end
             @command.commands.each do |name,sub|
               synopses << command_with_subcommand_usage(sub,flags_and_switches)
             end
@@ -91,7 +94,11 @@ COMMANDS
        end
 
        def format_subcommands(command)
-         formatter = ListFormatter.new(command.commands.values.map { |_| [ _.names,_.description] })
+         commands_array = command.commands.values.map { |_| [ _.names,_.description] }
+         if command.has_action?
+           commands_array.unshift(["<default>",command.default_description])
+         end
+         formatter = ListFormatter.new(commands_array)
          StringIO.new.tap { |_| formatter.output(_) }.string
        end
       end

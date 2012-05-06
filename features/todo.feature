@@ -87,12 +87,14 @@ Feature: The todo app has a nice user interface
         create - Create a new task or context
 
     SYNOPSIS
+        todo [global options] create [command options] 
         todo [global options] create [command options]  tasks
         todo [global options] create [command options]  contexts
 
     COMMANDS
-        tasks    - Make a new task
-        contexts - Make a new context
+        <default> - Makes a new task
+        tasks     - Make a new task
+        contexts  - Make a new context
     """
     And the output should not contain "COMMAND OPTIONS"
 

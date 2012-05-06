@@ -13,5 +13,10 @@ command [:create,:new] do |c|
       puts "#{args}"
     end
   end
+
+  c.default_desc "Makes a new task"
+  c.action do 
+    puts "default action"
+  end
 end
 

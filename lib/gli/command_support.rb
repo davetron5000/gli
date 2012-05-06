@@ -109,6 +109,10 @@ module GLI
       @commands ||= {}
     end
 
+    def default_description
+      @default_desc
+    end
+
     # Executes the command
     def execute(global_options,options,arguments) 
       subcommand,arguments = find_subcommand(arguments)
@@ -127,6 +131,10 @@ module GLI
         c = c.parent
       end
       top
+    end
+
+    def has_action?
+      !!@action
     end
 
   private

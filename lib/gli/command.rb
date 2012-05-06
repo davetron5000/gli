@@ -52,6 +52,13 @@ module GLI
       @action = block
     end
 
+    # For commands with subcommands AND action blocks, this is the description
+    # of what the default action will be if no subcommand was included.  This is ignored
+    # if this command has no subcommands or has no action block
+    def default_desc(desc)
+      @default_desc = desc
+    end
+
     def self.name_as_string(name,negatable=false) #:nodoc:
       name.to_s
     end
