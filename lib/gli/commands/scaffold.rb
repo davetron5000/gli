@@ -157,16 +157,16 @@ EOS
 require 'rake/testtask'
 Rake::TestTask.new do |t|
   t.libs << "test"
-  t.test_files = FileList['test/tc_*.rb']
+  t.test_files = FileList['test/*_test.rb']
 end
 
-task :default => :test
+task :default => [:test,:features]
 EOS
-          File.open("#{root_dir}/#{project_name}/test/tc_nothing.rb",'w') do |test_file|
+          File.open("#{root_dir}/#{project_name}/test/default_test.rb",'w') do |test_file|
             test_file.puts <<EOS
-require 'test/unit'
+require 'test_helper'
 
-class TC_testNothing < Test::Unit::TestCase
+class DefaultTest < Test::Unit::TestCase
 
   def setup
   end
@@ -180,7 +180,21 @@ class TC_testNothing < Test::Unit::TestCase
 end
 EOS
           end
-          puts "Created #{root_dir}/#{project_name}/test/tc_nothing.rb"
+          puts "Created #{root_dir}/#{project_name}/test/default_test.rb"
+          File.open("#{root_dir}/#{project_name}/test/test_helper.rb",'w') do |test_file|
+            test_file.puts <<EOS
+require 'test/unit'
+
+# Add test libraries you want to use here, e.g. mocha
+
+class Test::Unit::TestCase
+
+  # Add global extensions to the test case class here
+  
+end
+EOS
+          end
+          puts "Created #{root_dir}/#{project_name}/test/test_helper.rb"
         else
           file.puts "task :default => :package\n"
         end

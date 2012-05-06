@@ -20,7 +20,8 @@ Feature: The scaffold GLI generates works
     Created ./todo/README.rdoc
     Created ./todo/todo.rdoc
     Created ./todo/todo.gemspec
-    Created ./todo/test/tc_nothing.rb
+    Created ./todo/test/default_test.rb
+    Created ./todo/test/test_helper.rb
     Created ./todo/Rakefile
     Created ./todo/Gemfile
     Created ./todo/features
@@ -34,15 +35,16 @@ Feature: The scaffold GLI generates works
        |todo/test |
        |todo/lib  |
      And the following files should exist:
-       |todo/bin/todo            |
-       |todo/README.rdoc         |
-       |todo/todo.rdoc           |
-       |todo/todo.gemspec        |
-       |todo/test/tc_nothing.rb  |
-       |todo/Rakefile            |
-       |todo/Gemfile             |
-       |todo/lib/todo/version.rb |
-       |todo/.rvmrc              |
+       |todo/bin/todo              |
+       |todo/README.rdoc           |
+       |todo/todo.rdoc             |
+       |todo/todo.gemspec          |
+       |todo/test/default_test.rb  |
+       |todo/test/test_helper.rb   |
+       |todo/Rakefile              |
+       |todo/Gemfile               |
+       |todo/lib/todo/version.rb   |
+       |todo/.rvmrc                |
     When I cd to "todo"
      And I make sure todo's lib dir is in my lib path
      And I run `bin/todo`
