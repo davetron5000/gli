@@ -34,6 +34,8 @@ end
 spec = eval(File.read('gli.gemspec'))
 
 Gem::PackageTask.new(spec) do |pkg|
+  pkg.need_zip = false
+  pkg.need_tar = false
 end
 
 RoodiTask.new do |t|
