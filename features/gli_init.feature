@@ -44,6 +44,7 @@ Feature: The scaffold GLI generates works
        |todo/lib/todo/version.rb |
        |todo/.rvmrc              |
     When I cd to "todo"
+     And I make sure todo's lib dir is in my lib path
      And I run `bin/todo`
     Then the output should contain:
     """
@@ -121,6 +122,7 @@ Feature: The scaffold GLI generates works
 
     1 tests, 1 assertions, 0 failures, 0 errors
     """
+    Given todo's libs are no longer in my load path
     When I run `rake features`
     Then the output should contain:
     """
@@ -172,6 +174,7 @@ Feature: The scaffold GLI generates works
   Scenario: Running commands the normal way
     Given I successfully run `gli init todo add complete compute list`
       And I cd to "todo"
+      And I make sure todo's lib dir is in my lib path
      When I successfully run `bin/todo add`
      Then the output should contain "add command ran"
      When I successfully run `bin/todo complete`
@@ -183,6 +186,7 @@ Feature: The scaffold GLI generates works
   Scenario: Running commands using short form
     Given I successfully run `gli init todo add complete compute list`
       And I cd to "todo"
+      And I make sure todo's lib dir is in my lib path
      When I successfully run `bin/todo a`
      Then the output should contain "add command ran"
      When I successfully run `bin/todo l`
@@ -193,7 +197,17 @@ Feature: The scaffold GLI generates works
   Scenario: Ambiguous commands give helpful output
     Given I successfully run `gli init todo add complete compute list`
       And I cd to "todo"
+      And I make sure todo's lib dir is in my lib path
      When I run `bin/todo comp`
      Then the stderr should contain "Ambiguous command 'comp'. It matches complete,compute"
      And the exit status should not be 0
+     
+  Scenario: Running generated command without bundler gives a helpful error message
+    Given I successfully run `gli init todo add complete compute list`
+      And I cd to "todo"
+     When I run `bin/todo comp`
+     Then the exit status should not be 0
+     Then the stderr should contain "In development, you need to use `bundle exec bin/todo` to run your app"
+     And the stderr should contain "At install-time, RubyGems will make sure lib, etc. are in the load path"
+     And the stderr should contain "Feel free to remove this message from bin/todo now"
      

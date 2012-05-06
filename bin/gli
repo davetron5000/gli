@@ -1,17 +1,4 @@
 #!/usr/bin/env ruby
-# 1.9 adds realpath to resolve symlinks; 1.8 doesn't
-# have this method, so we add it so we get resolved symlinks
-# and compatibility
-unless File.respond_to? :realpath
-  class File #:nodoc:
-    def self.realpath path
-      return realpath(File.readlink(path)) if symlink?(path)
-      path
-    end
-  end
-end
-
-$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + '/../lib') 
 
 require 'gli'
 require 'gli/commands/scaffold'
@@ -46,11 +33,13 @@ command [:init,:scaffold] do |c|
 
   c.switch :force, :desc => 'Overwrite/ignore existing files and directories'
 
+  c.switch :rvmrc, :desc => 'Create an .rvmrc based on your current RVM setup'
+
   c.action do |g,o,args|
     if args.length < 1
       raise 'You must specify the name of your project'
     end
-    GLI::Commands::Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n])
+    GLI::Commands::Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n],o[:rvmrc])
   end
 end
 

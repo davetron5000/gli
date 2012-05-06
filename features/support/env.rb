@@ -27,3 +27,11 @@ end
 def add_to_path(dir)
   ENV['PATH'] = "#{dir}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 end
+
+def add_to_lib_path(path)
+  ENV["RUBYLIB"] = (String(ENV["RUBYLIB"]).split(File::PATH_SEPARATOR) + [path]).join(File::PATH_SEPARATOR)
+end
+
+def remove_from_lib_path(path)
+  ENV["RUBYLIB"] = (String(ENV["RUBYLIB"]).split(File::PATH_SEPARATOR) - [path]).join(File::PATH_SEPARATOR)
+end

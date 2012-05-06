@@ -1,4 +1,5 @@
 Given /^I have GLI installed$/ do
+  add_to_lib_path(GLI_LIB_PATH)
 end
 
 Given /^my terminal size is "([^"]*)"$/ do |terminal_size|
@@ -9,4 +10,3 @@ Given /^my terminal size is "([^"]*)"$/ do |terminal_size|
     raise "Terminal size should be COLxLines, e.g. 80x24" 
   end
 end
-
