@@ -161,25 +161,23 @@ class TC_testCommand < Clean::Test::TestCase
     assert_equal 0,exit_status
   end
 
-=begin
-  def test_negatable_can_be_avoided
-    called = false
-    @app.switch :bar, :negatable => false
+  def test_arguments_are_not_frozen
+    @args = []
+
+
     @app.command [:foo] do |c|
       c.action do |g,o,a|
-        called = true
+        @args = a
       end
     end
+    exit_status = @app.run(%w(foo a b c d e).map { |arg| arg.freeze })
+    assert_equal 0,exit_status
+    assert_equal 5,@args.length,"Action block was not called"
 
-    assert_equal 0,@app.run(%w(help)),@fake_stdout.to_s + "\n\n\n" + @fake_stderr.to_s
-    assert_contained(@fake_stdout,/--bar/)
-    assert_not_contained(@fake_stdout,/--[no-]bar/)
-
-    exit_status = @app.run(%w(--no-bar foo))
-    assert !called,"Should not have called action block"
-    assert_equal -1,exit_status
+    @args.each_with_index do |arg,index|
+      assert !arg.frozen?,"Expected argument at index #{index} to not be frozen"
+    end
   end
-=end
 
   def test_no_arguments
     args = %w(basic -v)
@@ -194,8 +192,7 @@ class TC_testCommand < Clean::Test::TestCase
     @app.run(args)
     assert(!@post_called)
     assert(@error_called)
-    assert_contained(@fake_stderr,/ help/)
-    assert_contained(@fake_stderr,/list of commands/)
+    assert_contained(@fake_stderr,/Unknown command 'blah'/)
   end
 
   def test_unknown_global_option
@@ -203,8 +200,7 @@ class TC_testCommand < Clean::Test::TestCase
     @app.run(args)
     assert(!@post_called)
     assert(@error_called,"Expected error callback to be called")
-    assert_contained(@fake_stderr,/ help/)
-    assert_contained(@fake_stderr,/list of global options/)
+    assert_contained(@fake_stderr,/Unknown option --quux/)
   end
 
   def test_unknown_argument
@@ -212,8 +208,7 @@ class TC_testCommand < Clean::Test::TestCase
     @app.run(args)
     assert(!@post_called)
     assert(@error_called)
-    assert_contained(@fake_stderr,/ help basic/)
-    assert_contained(@fake_stderr,/list of command options/)
+    assert_contained(@fake_stderr,/ Unknown option --quux/)
   end
 
   def test_forgot_action_block

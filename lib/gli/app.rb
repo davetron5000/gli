@@ -204,6 +204,7 @@ module GLI
 
         if proceed?(global_options,command,options,arguments)
           command ||= commands[:help]
+          arguments = unfreeze(arguments)
           command.execute(global_options,options,arguments)
           unless command.skips_post
             post_block.call(global_options,command,options,arguments)
@@ -488,6 +489,13 @@ module GLI
         token.default_value=config[name] if config[name]
       end
     end
+
+  private
+
+    def unfreeze(args)
+      args.map { |arg| arg.dup }
+    end
+
 
   end
 end
