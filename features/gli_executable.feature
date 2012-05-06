@@ -71,26 +71,14 @@ Feature: The GLI executable works as intended
   Scenario: GLI correctly identifies non-existent command
     When I run `gli foobar`
     Then the exit status should not be 0
-     And the output should contain exactly:
-     """
-     error: Unknown command 'foobar'. Use 'gli help' for a list of commands
-
-     """
+     And the stderr should contain "error: Unknown command 'foobar'"
 
   Scenario: GLI correctly identifies non-existent global flag
     When I run `gli -q help`
     Then the exit status should not be 0
-     And the output should contain exactly:
-     """
-     error: Unknown option -q. Use 'gli help' for a list of global options
-
-     """
+     And the stderr should contain "error: Unknown option -q"
 
   Scenario: GLI correctly identifies non-existent command flag
     When I run `gli init -q`
     Then the exit status should not be 0
-     And the output should contain exactly:
-     """
-     error: Unknown option -q. Use 'gli help init' for a list of command options
-
-     """
+     And the stderr should contain "error: Unknown option -q"

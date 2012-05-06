@@ -180,7 +180,7 @@ Feature: The scaffold GLI generates works
      When I successfully run `bin/todo complete`
      Then the output should contain "complete command ran"
      When I run `bin/todo foobar`
-     Then the stderr should contain "error: Unknown command 'foobar'. Use 'todo help' for a list of commands"
+     Then the stderr should contain "error: Unknown command 'foobar'"
       And the exit status should not be 0
      
   Scenario: Running commands using short form

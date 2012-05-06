@@ -456,6 +456,28 @@ class TC_testGLI < Clean::Test::TestCase
     assert_equal 45,@app.run(['foo'])
   end
 
+  def test_exits_nonzero_with_exit_method_by_default
+    @app.reset
+    @app.on_error { true }
+    @app.command(:foo) do |c|
+      c.action do |g,o,a|
+        @app.exit_now!("Problem")
+      end
+    end
+    assert_equal 1,@app.run(['foo'])
+  end
+
+  def test_help_now_exits_and_shows_help
+    @app.reset
+    @app.on_error { true }
+    @app.command(:foo) do |c|
+      c.action do |g,o,a|
+        @app.help_now!("Problem")
+      end
+    end
+    assert_equal 64,@app.run(['foo']),@fake_stderr.strings.join("\n")
+  end
+
   def test_custom_exception_causes_error_to_be_printed_to_stderr
     @app.reset
     @app.on_error { true }

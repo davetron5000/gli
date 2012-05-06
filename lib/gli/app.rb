@@ -214,9 +214,9 @@ module GLI
 
         if regular_error_handling?(ex)
           stderr.puts error_message(ex) 
-          unless command.nil?
+          if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
             stderr.puts 
-            commands[:help] and commands[:help].execute([],[],[command.name.to_s])
+            commands[:help] and commands[:help].execute([],[],command.nil? ? [] : [command.name.to_s])
           end
         end
 
@@ -250,23 +250,29 @@ module GLI
     # Returns a String of the error message to show the user
     # +ex+:: The exception we caught that launched the error handling routines
     def error_message(ex) #:nodoc:
-      msg = "error: #{ex.message}"
-      case ex
-      when UnknownCommand
-        msg += ". Use '#{program_name} help' for a list of commands"
-      when UnknownCommandArgument
-        msg += ". Use '#{program_name} help #{ex.command.name}' for a list of command options"
-      when UnknownGlobalArgument
-        msg += ". Use '#{program_name} help' for a list of global options"
-      end
-      msg
+      "error: #{ex.message}"
     end
 
     # Simpler means of exiting with a custom exit code.  This will 
     # raise a CustomExit with the given message and exit code, which will ultimatley
     # cause your application to exit with the given exit_code as its exit status
-    def exit_now!(message,exit_code)
+    # Use #help_now! if you want to show the help in addition to the error message
+    #
+    # message:: message to show the user
+    # exit_code:: exit code to exit as, defaults to 1
+    def exit_now!(message,exit_code=1)
       raise CustomExit.new(message,exit_code)
+    end
+
+    # Exit now, showing the user help for the command they executed.  Use #exit_now! to just show the error message
+    #
+    # message:: message to indicate how the user has messed up the CLI invocation
+    def help_now!(message)
+      exception = OptionParser::ParseError.new(message)
+      class << exception
+        def exit_code; 64; end
+      end
+      raise exception
     end
 
     # Set or get the name of the program, if you don't want the default (which is
