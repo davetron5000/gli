@@ -26,6 +26,7 @@ Feature: The scaffold GLI generates works
     Created ./todo/Gemfile
     Created ./todo/features
     Created ./todo/lib/todo/version.rb
+    Created ./todo/lib/todo.rb
     Created ./todo/.rvmrc
 
     """
@@ -44,6 +45,7 @@ Feature: The scaffold GLI generates works
        |todo/Rakefile              |
        |todo/Gemfile               |
        |todo/lib/todo/version.rb   |
+       |todo/lib/todo.rb           |
        |todo/.rvmrc                |
     When I cd to "todo"
      And I make sure todo's lib dir is in my lib path
@@ -150,6 +152,7 @@ Feature: The scaffold GLI generates works
     Created ./todo/Rakefile
     Created ./todo/Gemfile
     Created ./todo/lib/todo/version.rb
+    Created ./todo/lib/todo.rb
 
     """
      And the following directories should exist:
@@ -167,6 +170,7 @@ Feature: The scaffold GLI generates works
        |todo/Rakefile            |
        |todo/Gemfile             |
        |todo/lib/todo/version.rb |
+       |todo/lib/todo.rb         |
 
         Examples:
             | command                                     |

@@ -23,7 +23,7 @@ module GLI
         mk_readme(root_dir,dry_run,project_name)
         mk_gemspec(root_dir,dry_run,project_name)
         mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
-        mk_version(root_dir,dry_run,project_name)
+        mk_lib_files(root_dir,dry_run,project_name)
         if create_rvmrc
           rvmrc = File.join(root_dir,project_name,".rvmrc")
           File.open(rvmrc,'w') do |file|
@@ -66,7 +66,8 @@ spec = Gem::Specification.new do |s|
 # Add your other files here if you make them
   s.files = %w(
 bin/#{project_name}
-lib/#{project_name}_version.rb
+lib/#{project_name}/version.rb
+lib/#{project_name}.rb
   )
   s.require_paths << 'lib'
   s.has_rdoc = true
@@ -88,7 +89,7 @@ EOS
       project_name.split(/_/).map { |part| part[0..0].upcase + part[1..-1] }.join('')
     end
 
-    def self.mk_version(root_dir,dry_run,project_name)
+    def self.mk_lib_files(root_dir,dry_run,project_name)
       return if dry_run
       FileUtils.mkdir("#{root_dir}/#{project_name}/lib/#{project_name}")
       File.open("#{root_dir}/#{project_name}/lib/#{project_name}/version.rb",'w') do |file|
@@ -99,6 +100,15 @@ end
 EOS
       end
       puts "Created #{root_dir}/#{project_name}/lib/#{project_name}/version.rb"
+      File.open("#{root_dir}/#{project_name}/lib/#{project_name}.rb",'w') do |file|
+        file.puts <<EOS
+require '#{project_name}/version.rb'
+
+# Add requires for other files you add to your project here, so
+# you just need to require this one file in your bin file
+EOS
+      end
+      puts "Created #{root_dir}/#{project_name}/lib/#{project_name}.rb"
     end
     def self.mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
       return if dry_run
@@ -266,7 +276,7 @@ EOS
 require 'rubygems'
 require 'gli'
 begin # XXX: Remove this begin/rescue before distributing your app
-require '#{project_name}/version'
+require '#{project_name}'
 rescue LoadError
   STDERR.puts "In development, you need to use `bundle exec bin/todo` to run your app"
   STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
