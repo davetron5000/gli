@@ -137,6 +137,10 @@ module GLI
       !!@action
     end
 
+    def get_default_command
+      @default_command
+    end
+
   private
 
     def get_action(arguments)

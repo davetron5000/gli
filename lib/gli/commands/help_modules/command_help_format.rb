@@ -27,7 +27,7 @@ module GLI
               synopses << one_line_usage
             end
             @command.commands.each do |name,sub|
-              synopses << command_with_subcommand_usage(sub,flags_and_switches)
+              synopses << command_with_subcommand_usage(sub,flags_and_switches,@command.get_default_command == name)
             end
           end
 
@@ -58,7 +58,7 @@ COMMANDS
 <%= commands_description %>
 <% end %>),nil,'<>')
 
-       def command_with_subcommand_usage(sub,flags_and_switches)
+       def command_with_subcommand_usage(sub,flags_and_switches,is_default_command)
          usage = basic_usage(flags_and_switches)
          sub_options = @command.flags.merge(@command.switches).select { |_,o| o.associated_command == sub }
          usage << sub_options.map { |option_name,option| 
@@ -68,7 +68,11 @@ COMMANDS
            }.join('|')
          }.map { |_| "[#{_}]" }.sort.join(' ')
          usage << ' '
-         usage << sub.name.to_s
+         if is_default_command
+           usage << "[#{sub.name}]"
+         else
+           usage << sub.name.to_s
+         end
          usage
        end
 
@@ -94,7 +98,13 @@ COMMANDS
        end
 
        def format_subcommands(command)
-         commands_array = command.commands.values.map { |_| [ _.names,_.description] }
+         commands_array = command.commands.values.map { |cmd| 
+           if command.get_default_command == cmd.name
+             [cmd.names,cmd.description + " (default)"] 
+           else
+             [cmd.names,cmd.description] 
+           end
+         }
          if command.has_action?
            commands_array.unshift(["<default>",command.default_description])
          end

@@ -43,7 +43,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [-x arg] tasks
+        todo [global options] list [command options] [-x arg] [tasks]
         todo [global options] list [command options] [-b] [-f|--foobar] contexts
 
     DESCRIPTION
@@ -57,7 +57,7 @@ Feature: The todo app has a nice user interface
         -l, --[no-]long - Show long form
 
     COMMANDS
-        tasks    - List tasks
+        tasks    - List tasks (default)
         contexts - List contexts
     """
 
