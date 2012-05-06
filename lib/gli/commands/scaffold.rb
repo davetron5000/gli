@@ -5,7 +5,14 @@ module GLI
   module Commands
   class Scaffold #:nodoc:
 
-    def self.create_scaffold(root_dir,create_test_dir,create_ext_dir,project_name,commands,force=false,dry_run=false)
+    def self.create_scaffold(root_dir,
+                             create_test_dir,
+                             create_ext_dir,
+                             project_name,
+                             commands,
+                             force=false,
+                             dry_run=false,
+                             create_rvmrc=false)
       dirs = [File.join(root_dir,project_name,'lib')]
       dirs << File.join(root_dir,project_name,'bin')
       dirs << File.join(root_dir,project_name,'test') if create_test_dir
@@ -17,6 +24,13 @@ module GLI
         mk_gemspec(root_dir,dry_run,project_name)
         mk_rakefile(root_dir,dry_run,project_name,create_test_dir)
         mk_version(root_dir,dry_run,project_name)
+        if create_rvmrc
+          rvmrc = File.join(root_dir,project_name,".rvmrc")
+          File.open(rvmrc,'w') do |file|
+            file.puts "rvm use #{ENV['rvm_ruby_string']}@#{project_name} --create"
+          end
+          puts "Created #{rvmrc}"
+        end
       end
     end
 
@@ -63,7 +77,7 @@ lib/#{project_name}_version.rb
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
   s.add_development_dependency('aruba')
-  s.add_runtime_dependency('gli')
+  s.add_runtime_dependency('gli','#{GLI::VERSION}')
 end
 EOS
       end
@@ -235,24 +249,16 @@ EOS
             file.chmod(0755)
             file.puts '#!/usr/bin/env ruby'
             file.puts <<EOS
-# 1.9 adds realpath to resolve symlinks; 1.8 doesn't
-# have this method, so we add it so we get resolved symlinks
-# and compatibility
-unless File.respond_to? :realpath
-  class File #:nodoc:
-    def self.realpath path
-      return realpath(File.readlink(path)) if symlink?(path)
-      path
-    end
-  end
-end
-EOS
-            file.puts '$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../lib\')'
-            file.puts '$: << File.expand_path(File.dirname(File.realpath(__FILE__)) + \'/../ext\')' if create_ext_dir
-            file.puts <<EOS
 require 'rubygems'
 require 'gli'
+begin # XXX: Remove this begin/rescue before distributing your app
 require '#{project_name}/version'
+rescue LoadError
+  STDERR.puts "In development, you need to use `bundle exec bin/todo` to run your app"
+  STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
+  STDERR.puts "Feel free to remove this message from bin/todo now"
+  exit 64
+end
 
 include GLI::App
 

@@ -9,7 +9,7 @@ Feature: The scaffold GLI generates works
       And my terminal size is "80x24"
 
   Scenario: Scaffold generates and things look good
-    When I run `gli init todo add complete list`
+    When I run `gli init --rvmrc todo add complete list`
     Then the exit status should be 0
      And the output should contain exactly:
     """
@@ -25,6 +25,7 @@ Feature: The scaffold GLI generates works
     Created ./todo/Gemfile
     Created ./todo/features
     Created ./todo/lib/todo/version.rb
+    Created ./todo/.rvmrc
 
     """
      And the following directories should exist:
@@ -41,6 +42,7 @@ Feature: The scaffold GLI generates works
        |todo/Rakefile            |
        |todo/Gemfile             |
        |todo/lib/todo/version.rb |
+       |todo/.rvmrc              |
     When I cd to "todo"
      And I run `bin/todo`
     Then the output should contain:
