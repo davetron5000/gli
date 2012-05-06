@@ -43,9 +43,12 @@ SYNOPSIS
 
 DESCRIPTION
     <%= wrapper.wrap(@command.long_description) %> 
-<% end %> 
+<% end %>
+<% if options_description.strip.length != 0 %>
+
 COMMAND OPTIONS
 <%= options_description %>
+<% end %>
 <% unless @command.commands.empty? %>
 
 COMMANDS

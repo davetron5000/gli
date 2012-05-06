@@ -55,7 +55,7 @@ Feature: The GLI executable works as intended
         line processing. Specifically, this will create an executable ready to go,
         as well as a lib and test directory, all inside the directory named for your
         project 
-     
+
     COMMAND OPTIONS
         -e, --[no-]ext - Create an ext dir
         --[no-]force   - Overwrite/ignore existing files and directories

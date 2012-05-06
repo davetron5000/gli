@@ -52,7 +52,7 @@ Feature: The todo app has a nice user interface
 
         This is your go-to place or finding all of the things that you might have
         stored in your todo databases. 
-     
+
     COMMAND OPTIONS
         -l, --[no-]long - Show long form
 
@@ -74,10 +74,27 @@ Feature: The todo app has a nice user interface
     DESCRIPTION
         Lists all of your tasks that you have, in varying orders, and all that
         stuff. Yes, this is long, but I need a long description. 
-     
+
     COMMAND OPTIONS
         -x arg - blah blah crud x whatever (default: none)
     """
+
+  Scenario: Getting Help for a sub command with no command options
+    When I successfully run `todo help new`
+    Then the output should contain:
+    """
+    NAME
+        create - Create a new task or context
+
+    SYNOPSIS
+        todo [global options] create [command options]  tasks
+        todo [global options] create [command options]  contexts
+
+    COMMANDS
+        tasks    - Make a new task
+        contexts - Make a new context
+    """
+    And the output should not contain "COMMAND OPTIONS"
 
   Scenario: Running list w/out subcommand performs list tasks by default
     When I successfully run `todo list boo yay`
@@ -130,7 +147,7 @@ Feature: The todo app has a nice user interface
 
         This is your go-to place or finding all of the things that you might have
         stored in your todo databases. 
-     
+
     COMMAND OPTIONS
         -l, --[no-]long - Show long form
 
