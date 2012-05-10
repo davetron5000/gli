@@ -1,3 +1,9 @@
+begin
+  require 'simplecov'
+  SimpleCov.start
+rescue LoadError
+  # Don't care
+end
 require 'aruba/cucumber'
 require 'fileutils'
 

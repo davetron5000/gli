@@ -8,6 +8,18 @@ require 'roodi_task'
 require 'cucumber'
 require 'cucumber/rake/task'
 
+old_verbose = $VERBOSE
+$VERBOSE=0
+require 'reek/rake/task'
+Reek::Rake::Task.new do |t|
+  t.fail_on_error = false
+  t.config_files = ['test/gli.reek']
+  t.ruby_opts=['-W0']
+  t.reek_opts=['-q']
+  t.source_files = FileList['lib/**/*.rb'] - ['lib/gli/commands/scaffold.rb','lib/gli/commands/help.rb'] - FileList['lib/gli/commands/help_modules/*.rb']
+end
+$VERBOSE=old_verbose
+
 include Rake::DSL
 
 CLEAN << "log"
@@ -22,7 +34,7 @@ end
 Bundler::GemHelper.install_tasks
 
 RoodiTask.new do |t|
-  t.patterns = ['lib/*.rb','lib/gli/*.rb']
+  t.patterns = ['lib/**/*.rb']
   t.config = 'test/roodi.yaml'
 end
 

@@ -12,12 +12,12 @@ module GLI
     # The help command used for the two-level interactive help system
     class Help < Command
       def initialize(app,output=$stdout,error=$stderr)
-        super(:help,
-              'Shows a list of commands or help for one command',
-              'command',
-              'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function',
-              true,
-              true)
+        super(:names => :help,
+              :description => 'Shows a list of commands or help for one command',
+              :arguments_name => 'command',
+              :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function',
+              :skips_pre => true,
+              :skips_post => true)
         @app = app
         action do |global_options,options,arguments|
           show_help(global_options,options,arguments,output,error)

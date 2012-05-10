@@ -10,33 +10,7 @@ module GLI
   module App
     include CopyOptionsToAliases
     include DSL
-    def context_description
-      "in global context"
-    end
-
-    # Override the device of stderr; exposed only for testing
-    def error_device=(e) #:nodoc:
-      @stderr = e
-    end
-
-    # Reset the GLI module internal data structures; mostly useful for testing
-    def reset # :nodoc:
-      switches.clear
-      flags.clear
-      commands.clear
-      @version = nil
-      @config_file = nil
-      @use_openstruct = false
-      @prog_desc = nil
-      @error_block = false
-      @pre_block = false
-      @post_block = false
-      @default_command = :help
-      clear_nexts
-
-      desc 'Show this message'
-      switch :help
-    end
+    include AppSupport
 
     # Loads ruby files in the load path that start with 
     # +path+, which are presumed to be commands for your executable.
@@ -99,12 +73,6 @@ module GLI
       @config_file
     end
 
-    # Return the name of the config file; mostly useful for generating help docs
-    def config_file_name #:nodoc:
-      @config_file
-    end
-
-
     # Define a block to run after command line arguments are parsed
     # but before any command is run.  If this block raises an exception
     # the command specified will not be executed.
@@ -143,11 +111,6 @@ module GLI
       @version = version
     end
 
-    # Get the version string
-    def version_string #:nodoc
-      @version
-    end
-
     # Call this with +true+ will cause the +global_options+ and
     # +options+ passed to your code to be wrapped in
     # Options, which is a subclass of +OpenStruct+ that adds
@@ -179,79 +142,6 @@ module GLI
     #     flag :properties, :type => Hash
     def accept(object,&block)
       accepts[object] = block
-    end
-
-    def accepts #:nodoc:
-      @accepts ||= {}
-    end
-
-    # Runs whatever command is needed based on the arguments. 
-    #
-    # +args+:: the command line ARGV array
-    #
-    # Returns a number that would be a reasonable exit code
-    def run(args) #:nodoc:
-      command = nil
-      begin
-        override_defaults_based_on_config(parse_config)
-
-        global_options,command,options,arguments = parse_options(args)
-
-        copy_options_to_aliased_versions(global_options,command,options)
-
-        global_options = convert_to_openstruct_if_needed(global_options)
-        options        = convert_to_openstruct_if_needed(options)
-
-        if proceed?(global_options,command,options,arguments)
-          command ||= commands[:help]
-          arguments = unfreeze(arguments)
-          command.execute(global_options,options,arguments)
-          unless command.skips_post
-            post_block.call(global_options,command,options,arguments)
-          end
-        end
-        0
-      rescue Exception => ex
-
-        if regular_error_handling?(ex)
-          stderr.puts error_message(ex) 
-          if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
-            stderr.puts 
-            commands[:help] and commands[:help].execute([],[],command.nil? ? [] : [command.name.to_s])
-          end
-        end
-
-        raise ex if ENV['GLI_DEBUG'] == 'true'
-
-        ex.extend(GLI::StandardException)
-        ex.exit_code
-      end
-    end
-
-    # True if we should proceed with executing the command; this calls
-    # the pre block if it's defined
-    def proceed?(global_options,command,options,arguments) #:nodoc:
-      if command && command.skips_pre
-        true
-      else
-        pre_block.call(global_options,command,options,arguments) 
-      end
-    end
-
-    # Returns true if we should proceed with GLI's basic error handling.
-    # This calls the error block if the user provided one
-    def regular_error_handling?(ex) #:nodoc:
-      if @error_block
-        @error_block.call(ex)
-      else
-        true
-      end
-    end
-
-    # Returns a String of the error message to show the user
-    # +ex+:: The exception we caught that launched the error handling routines
-    def error_message(ex) #:nodoc:
-      "error: #{ex.message}"
     end
 
     # Simpler means of exiting with a custom exit code.  This will 
@@ -301,201 +191,5 @@ module GLI
     def default_command(command)
       @default_command = command.to_sym
     end
-
-
-    # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
-    # By default, it will *not*. However by putting <tt>use_openstruct true</tt>
-    # in your CLI definition, it will
-    def convert_to_openstruct_if_needed(options) # :nodoc:
-      @use_openstruct ? Options.new(options) : options
-    end
-
-    # Copies all options in both global_options and options to keys for the aliases of those flags.
-    # For example, if a flag works with either -f or --flag, this will copy the value from [:f] to [:flag]
-    # to allow the user to access the options by any alias
-    def copy_options_to_aliased_versions(global_options,command,options) # :nodoc:
-      copy_options_to_aliases(global_options)
-      command.copy_options_to_aliases(options)
-    end
-
-    def parse_config # :nodoc:
-      config = {
-        'commands' => {},
-      }
-      if @config_file && File.exist?(@config_file)
-        require 'yaml'
-        config.merge!(File.open(@config_file) { |file| YAML::load(file) })
-      end
-      config
-    end
-
-    # Given the command-line argument array, returns and array of size 4:
-    #
-    # 0:: global options
-    # 1:: command, as a Command
-    # 2:: command-specific options
-    # 3:: unparsed arguments
-    def parse_options(args) # :nodoc:
-      args_clone = args.clone
-      global_options = {}
-      command = nil
-      command_options = {}
-      remaining_args = nil
-
-      unless switches.values.find { |_| _.name.to_s == 'help' || Array(_.aliases).find { |an_alias| an_alias.to_s == 'help' } }
-        desc 'Show this message'
-        switch :help, :negatable => false
-      end
-
-      global_options,command_name,args = parse_global_options(args)
-      flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
-
-      command_name ||= @default_command || :help
-      command = find_command(command_name)
-      if command.nil? || Array(command).empty?
-        raise UnknownCommand.new("Unknown command '#{command_name}'")
-      elsif command.kind_of? Array
-        raise UnknownCommand.new("Ambiguous command '#{command_name}'. It matches #{command.join(',')}")
-      end
-
-      command_options,args = parse_command_options(command,args)
-
-      command.flags.each { |name,flag| command_options[name] = flag.default_value unless command_options[name] }
-      command.switches.each do |name,switch| 
-        command_options[name] = switch.default_value unless command_options[name] 
-      end
-
-      [global_options,command,command_options,args]
-    end
-
-    # Get an OptionParser that will parse the given flags and switches
-    def option_parser(flags,switches)
-      options = {}
-      option_parser = OptionParser.new do |opts|
-        accepts.each { |object,block| opts.accept(object) { |_| block.call(_) } }
-        [ switches, flags ].each do |tokens,string_maker|
-          tokens.each do |_,token|
-            opts.on(*token.arguments_for_option_parser) do |arg|
-              token_names = [token.name,token.aliases].flatten.reject { |_| _.nil? }
-              token_names.each do |name|
-                token_names.each { |_| options[_] = arg }
-              end
-            end
-          end
-        end
-      end
-      [option_parser,options]
-    end
-
-    def parse_command_options(command,args)
-      option_parser,command_options = option_parser(command.flags,command.switches)
-      begin
-        option_parser.parse!(args)
-      rescue OptionParser::InvalidOption => ex
-        raise UnknownCommandArgument.new("Unknown option #{ex.args.join(' ')}",command)
-      rescue OptionParser::InvalidArgument => ex
-        raise UnknownCommandArgument.new("#{ex.reason}: #{ex.args.join(' ')}",command)
-      end
-      [command_options,args]
-    end
-
-    def parse_global_options(args,&error_handler)
-      if error_handler.nil?
-        error_handler = lambda { |message|
-          raise UnknownGlobalArgument.new(message)
-        }
-      end
-      option_parser,global_options = option_parser(flags,switches)
-      command = nil
-      begin
-        option_parser.order!(args) do |non_option|
-          command = non_option
-          break
-        end
-      rescue OptionParser::InvalidOption => ex
-        error_handler.call("Unknown option #{ex.args.join(' ')}")
-      rescue OptionParser::InvalidArgument => ex
-        error_handler.call("#{ex.reason}: #{ex.args.join(' ')}")
-      end
-      [global_options,command,args]
-    end
-
-    def clear_nexts # :nodoc:
-      super
-      @skips_post = false
-      @skips_pre = false
-    end
-
-    def self.included(klass)
-      @stderr = $stderr
-    end
-
-    def stderr
-      @stderr ||= STDERR
-    end
-
-    def flags # :nodoc:
-      @flags ||= {}
-    end
-    def switches # :nodoc:
-      @switches ||= {}
-    end
-    def commands # :nodoc:
-      @commands ||= {:help => GLI::Commands::Help.new(self)}
-    end
-
-    def pre_block
-      @pre_block ||= Proc.new do
-        true
-      end
-    end
-
-    def post_block
-      @post_block ||= Proc.new do
-      end
-    end
-
-    def find_command(name) # :nodoc:
-      names_to_commands = {}
-      commands.each do |command_name,command|
-        names_to_commands[command_name.to_s] = command
-        Array(command.aliases).each do |command_alias|
-          names_to_commands[command_alias.to_s] = command
-        end
-      end
-      name = name.to_s
-      return names_to_commands[name] if names_to_commands[name]
-      # Now try to match on partial names
-      partial_matches = names_to_commands.keys.select { |command_name| command_name =~ /^#{name}/ }
-      return names_to_commands[partial_matches[0]] if partial_matches.size == 1
-      partial_matches
-    end
-
-    # Sets the default values for flags based on the configuration
-    def override_defaults_based_on_config(config)
-      override_default(flags,config)
-      override_default(switches,config)
-
-      commands.each do |command_name,command|
-        command_config = config['commands'][command_name] || {}
-
-        override_default(command.flags,command_config)
-        override_default(command.switches,command_config)
-      end
-    end
-
-    def override_default(tokens,config)
-      tokens.each do |name,token|
-        token.default_value=config[name] if config[name]
-      end
-    end
-
-  private
-
-    def unfreeze(args)
-      args.map { |arg| arg.dup }
-    end
-
-
   end
 end

@@ -33,7 +33,7 @@ class TC_testTerminal < Clean::Test::TestCase
   def test_size_using_tput
     terminal = Terminal.new
     terminal.make_unsafe!
-    terminal.instance_eval do
+    Terminal.instance_eval do
       def run_command(command)
         if command == 'tput cols'
           return '888'
@@ -53,7 +53,7 @@ class TC_testTerminal < Clean::Test::TestCase
   def test_size_using_stty
     terminal = Terminal.new
     terminal.make_unsafe!
-    terminal.instance_eval do
+    Terminal.instance_eval do
       def run_command(command)
 
         if RUBY_PLATFORM == 'java'
@@ -75,7 +75,7 @@ class TC_testTerminal < Clean::Test::TestCase
   def test_size_using_default
     terminal = Terminal.new
     terminal.make_unsafe!
-    terminal.instance_eval do
+    Terminal.instance_eval do
       def command_exists?(command); false; end
       def jruby?; false; end
     end
@@ -88,7 +88,7 @@ class TC_testTerminal < Clean::Test::TestCase
 
   def test_size_using_default_when_exception
     terminal = Terminal.new
-    terminal.instance_eval do
+    Terminal.instance_eval do
       def jruby?; raise "Problem"; end
     end
     ENV['COLUMNS'] = 'foo'

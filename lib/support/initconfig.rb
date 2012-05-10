@@ -8,7 +8,9 @@ module GLI
 
     def initialize(config_file_name,commands)
       @filename = config_file_name
-      super(:initconfig,"Initialize the config file using current global options",nil,'Initializes a configuration file where you can set default options for command line flags, both globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program')
+      super(:names => :initconfig,
+            :description => "Initialize the config file using current global options",
+            :long_desc => 'Initializes a configuration file where you can set default options for command line flags, both globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program')
 
       self.desc 'force overwrite of existing config file'
       self.switch :force

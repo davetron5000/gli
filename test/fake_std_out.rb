@@ -22,6 +22,8 @@ class FakeStdOut
     strings.find{ |x| x =~ regexp }
   end
 
+  def flush; end
+
   def to_s
     @strings.join("\n")
   end

@@ -24,6 +24,7 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 0.9.2.2')
   s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('roodi', '~> 2.1.0')
+  s.add_development_dependency('reek')
   s.add_development_dependency('grancher', '~> 0.1.5')
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('clean_test')

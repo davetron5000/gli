@@ -1,3 +1,6 @@
+require 'gli/option_parser_factory.rb'
+require 'gli/gli_option_parser.rb'
+require 'gli/app_support.rb'
 require 'gli/app.rb'
 require 'gli/command_support.rb'
 require 'gli/command.rb'

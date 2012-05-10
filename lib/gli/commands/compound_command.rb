@@ -2,9 +2,12 @@ module GLI
   module Commands
     # A command that calls other commands in order
     class CompoundCommand < Command
-      def initialize(configuration,base,desc,arg_name,long_desc,skips_pre,skips_post)
+      # base:: object that respondes to #commands
+      # configuration:: Array of arrays: index 0 is the array of names of this command and index 0
+      #                 is the names of the compound commands.
+      def initialize(base,configuration,options={})
         name = configuration.keys.first
-        super([name].flatten,desc,arg_name,long_desc,skips_pre,skips_post)
+        super(options.merge(:names => [name]))
 
         command_names = configuration[name]
 

@@ -34,7 +34,7 @@ class TC_testGLI < Clean::Test::TestCase
   def test_flag_create
     @app.reset
     do_test_flag_create(@app)
-    do_test_flag_create(Command.new(:f,'Some command'))
+    do_test_flag_create(Command.new(:names => :f))
   end
 
   def test_create_commands_using_strings
@@ -206,13 +206,13 @@ class TC_testGLI < Clean::Test::TestCase
   def test_switch_create
     @app.reset
     do_test_switch_create(@app)
-    do_test_switch_create(Command.new(:f,'Some command'))
+    do_test_switch_create(Command.new(:names => :f))
   end
 
   def test_switch_create_twice
     @app.reset
     do_test_switch_create_twice(@app)
-    do_test_switch_create_twice(Command.new(:f,'Some command'))
+    do_test_switch_create_twice(Command.new(:names => :f))
   end
 
   def test_all_aliases_in_options

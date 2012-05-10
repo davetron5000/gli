@@ -128,12 +128,21 @@ module GLI
     #     command [:all,:a] => [ :list, :list_contexts ]
     #
     def command(*names)
+      command_options = {
+        :description => @next_desc,
+        :arguments_name => @next_arg_name,
+        :long_desc => @next_long_desc,
+        :skips_pre => @skips_pre,
+        :skips_post => @skips_post,
+      }
       if names.first.kind_of? Hash
-        command = GLI::Commands::CompoundCommand.new(names.first,self,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
+        command = GLI::Commands::CompoundCommand.new(self,
+                                                     names.first,
+                                                     command_options)
         command.parent = self
         commands[command.name] = command
       else
-        command = Command.new([names].flatten,@next_desc,@next_arg_name,@next_long_desc,@skips_pre,@skips_post)
+        command = Command.new(command_options.merge(:names => [names].flatten))
         command.parent = self
         commands[command.name] = command
         yield command

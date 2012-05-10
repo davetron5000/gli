@@ -67,15 +67,15 @@ class TC_testCommand < Clean::Test::TestCase
   end
 
   def test_names
-    command = GLI::Command.new([:ls,:list,:'list-them-all'],"List")
+    command = GLI::Command.new(:names => [:ls,:list,:'list-them-all'],:description => "List")
     assert_equal "ls, list, list-them-all",command.names
   end
 
   def test_command_sort
-    commands = [GLI::Command.new(:foo,"foo")]
-    commands << GLI::Command.new(:bar,"bar")
-    commands << GLI::Command.new(:zazz,"zazz")
-    commands << GLI::Command.new(:zaz,"zaz")
+    commands = [GLI::Command.new(:names => :foo)]
+    commands << GLI::Command.new(:names => :bar)
+    commands << GLI::Command.new(:names => :zazz)
+    commands << GLI::Command.new(:names => :zaz)
 
     sorted = commands.sort
     assert_equal :bar,sorted[0].name

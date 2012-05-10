@@ -12,19 +12,20 @@ module GLI
     include DSL
     include CommandSupport
 
-    # Create a new command
+    # Create a new command.
     #
-    # +names+:: A String, Symbol, or Array of String or Symbol that represents the name(s) of this command.
-    # +description+:: short description of this command as a Strign
-    # +arguments_name+:: description of the arguments as a String, or nil if this command doesn't take arguments
-    # +long_desc+:: a longer description of the command, possibly with multiple lines and text formatting
-    # +skips_pre+:: if true, this command advertises that it doesn't want the pre block called first
-    # +skips_post+:: if true, this command advertises that it doesn't want the post block called after it
-    def initialize(names,description,arguments_name=nil,long_desc=nil,skips_pre=false,skips_post=false) # :nodoc:
-      super(names,description,long_desc)
-      @arguments_description = arguments_name || ''
-      @skips_pre = skips_pre
-      @skips_post = skips_post
+    # options:: Keys should be:
+    #           +names+:: A String, Symbol, or Array of String or Symbol that represents the name(s) of this command.
+    #           +description+:: short description of this command as a Strign
+    #           +arguments_name+:: description of the arguments as a String, or nil if this command doesn't take arguments
+    #           +long_desc+:: a longer description of the command, possibly with multiple lines and text formatting
+    #           +skips_pre+:: if true, this command advertises that it doesn't want the pre block called first
+    #           +skips_post+:: if true, this command advertises that it doesn't want the post block called after it
+    def initialize(options)
+      super(options[:names],options[:description],options[:long_desc])
+      @arguments_description = options[:arguments_name] || ''
+      @skips_pre = options[:skips_pre]
+      @skips_post = options[:skips_post]
       clear_nexts
     end
 

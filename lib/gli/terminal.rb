@@ -42,24 +42,39 @@ module GLI
     # Returns true if the given command exists on this system
     #
     # +command+:: The command, as a String, to check for, without any path information.
-    def command_exists?(command)
+    def self.command_exists?(command)
       ENV['PATH'].split(File::PATH_SEPARATOR).any? {|dir| File.exists? File.join(dir, command) }
     end
+
+    def command_exists?(command)
+      self.class.command_exists?(command)
+    end
+
+    SIZE_DETERMINERS = [
+      [
+        lambda { (ENV['COLUMNS'] =~ /^\d+$/) && (ENV['LINES'] =~ /^\d+$/) },
+        lambda { [ENV['COLUMNS'].to_i, ENV['LINES'].to_i] }
+      ],
+      [
+        lambda { (jruby? || (!STDIN.tty? && ENV['TERM'])) && command_exists?('tput') },
+        lambda { [run_command('tput cols').to_i, run_command('tput lines').to_i] }
+      ],
+      [ 
+        lambda { STDIN.tty? && command_exists?('stty') },
+        lambda { run_command('stty size').scan(/\d+/).map { |size_element| size_element.to_i }.reverse }
+      ],
+      [
+        lambda { true },
+        lambda { Terminal.default_size },
+      ],
+    ]
 
     # Get the size of the current terminal.
     # Ripped from hirb[https://github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb]
     #
     # Returns an Array of size two Ints representing the terminal width and height
     def size
-      if (ENV['COLUMNS'] =~ /^\d+$/) && (ENV['LINES'] =~ /^\d+$/)
-        [ENV['COLUMNS'].to_i, ENV['LINES'].to_i]
-      elsif (jruby? || (!STDIN.tty? && ENV['TERM'])) && command_exists?('tput')
-        [run_command('tput cols').to_i, run_command('tput lines').to_i]
-      elsif STDIN.tty? && command_exists?('stty')
-        run_command('stty size').scan(/\d+/).map { |size_element| size_element.to_i }.reverse
-      else
-        Terminal.default_size
-      end
+      SIZE_DETERMINERS.select { |predicate,_| predicate.call }.first[1].call
     rescue Exception => ex
       raise ex if @unsafe
       Terminal.default_size
@@ -68,12 +83,12 @@ module GLI
     private
 
     # Runs a command using backticks.  Extracted to allow for testing
-    def run_command(command)
+    def self.run_command(command)
       `#{command}`
     end
 
     # True if we are JRuby; exposed to allow for testing
-    def jruby?; RUBY_PLATFORM =~ /java/; end
+    def self.jruby?; RUBY_PLATFORM =~ /java/; end
 
   end
 end

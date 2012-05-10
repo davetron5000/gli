@@ -12,7 +12,7 @@ class TC_testCompounCommand < Clean::Test::TestCase
       @base = OpenStruct.new( :commands => { @name => @existing_command })
     }
     When {
-      @code = lambda { GLI::Commands::CompoundCommand.new({:foo => [@name,@unknown_name]},@base,any_string,nil,nil,false,false) }
+      @code = lambda { GLI::Commands::CompoundCommand.new(@base,{:foo => [@name,@unknown_name]}) }
     }
     Then {
       ex = assert_raises(RuntimeError,&@code)
