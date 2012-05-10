@@ -1,48 +1,32 @@
-if RUBY_VERSION =~ /^1.9/
-  require 'psych'
-end
-gem 'rdoc'
-gem 'rake'
+require 'bundler'
 require 'rake/clean'
-require 'rubygems'
-require 'rubygems/package_task'
 require 'rake/testtask'
+gem 'rdoc'
 require 'rdoc/task'
-require 'grancher/task'
 require 'roodi'
 require 'roodi_task'
 require 'cucumber'
 require 'cucumber/rake/task'
 
 include Rake::DSL
-CLEAN << "cruddo.rdoc"
+
 CLEAN << "log"
 CLOBBER << FileList['**/*.rbc']
-
-Grancher::Task.new do |g|
-  g.branch = 'gh-pages'
-  g.push_to = 'origin'
-  g.directory 'html'
-end
 
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
   rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
-  rd.title = 'Git Like Interface'
+  rd.title = 'GLI - Git Like Interface for your command-line apps'
 end
 
-spec = eval(File.read('gli.gemspec'))
-
-Gem::PackageTask.new(spec) do |pkg|
-  pkg.need_zip = false
-  pkg.need_tar = false
-end
+Bundler::GemHelper.install_tasks
 
 RoodiTask.new do |t|
   t.patterns = ['lib/*.rb','lib/gli/*.rb']
   t.config = 'test/roodi.yaml'
 end
 
+desc 'run unit tests'
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = FileList['test/init_simplecov.rb','test/tc_*.rb']
