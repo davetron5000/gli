@@ -12,6 +12,12 @@ include GLI::App
 
 program_desc 'Manages tasks'
 
+config_file "gli_test_todo.rc"
+
+flag :flag
+switch :switch
+switch :otherswitch, :negatable => true
+
 version Todo::VERSION
 
 commands_from 'todo/commands'

@@ -19,6 +19,11 @@ Before do
   @dirs = [TMP_PATH]
   @aruba_timeout_seconds = 5
   @original_path = ENV['PATH'].split(File::PATH_SEPARATOR)
+  @original_home = ENV['HOME']
+  new_home = "/tmp/fakehome"
+  FileUtils.rm_rf new_home
+  FileUtils.mkdir new_home
+  ENV['HOME'] = new_home
 end
 
 After do |scenario|
@@ -28,6 +33,7 @@ After do |scenario|
     FileUtils.rm_rf(todo_app_dir)
   end
   ENV['PATH'] = @original_path.join(File::PATH_SEPARATOR)
+  ENV['HOME'] = @original_home
 end
 
 def add_to_path(dir)

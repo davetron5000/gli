@@ -22,7 +22,10 @@ Feature: The todo app has a nice user interface
         0.0.1
 
     GLOBAL OPTIONS
-        --help - Show this message
+        --flag=arg         - (default: none)
+        --help             - Show this message
+        --[no-]otherswitch - 
+        --[no-]switch      - 
 
     COMMANDS
         chained       - 
@@ -30,6 +33,7 @@ Feature: The todo app has a nice user interface
         create, new   - Create a new task or context
         first         - 
         help          - Shows a list of commands or help for one command
+        initconfig    - Initialize the config file using current global options
         list          - List things, such as tasks or contexts
         ls            - LS things, such as tasks or contexts
         second        - 
@@ -43,8 +47,8 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [-x arg] [tasks]
-        todo [global options] list [command options] [-b] [-f|--foobar] contexts
+        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
+        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
@@ -76,7 +80,8 @@ Feature: The todo app has a nice user interface
         stuff. Yes, this is long, but I need a long description. 
 
     COMMAND OPTIONS
-        -x arg - blah blah crud x whatever (default: none)
+        --flag=arg - (default: none)
+        -x arg     - blah blah crud x whatever (default: none)
     """
 
   Scenario: Getting Help for a sub command with no command options
@@ -158,3 +163,20 @@ Feature: The todo app has a nice user interface
         contexts - List contexts
     """
 
+
+  Scenario: Init Config makes a reasonable config file
+    Given a clean home directory
+    When I successfully run `todo --flag foo --switch --no-otherswitch initconfig`
+    Then the config file should contain a section for each command and subcommand
+
+  Scenario: Configuration percolates to the app
+    Given a clean home directory
+    And a config file that specifies defaults for some commands with subcommands
+    When I successfully run `todo help list tasks`
+    Then I should see the defaults for 'list tasks' from the config file in the help
+
+  Scenario: Do it again because aruba buffers all output
+    Given a clean home directory
+    And a config file that specifies defaults for some commands with subcommands
+    When I successfully run `todo help list contexts`
+    Then I should see the defaults for 'list contexts' from the config file in the help

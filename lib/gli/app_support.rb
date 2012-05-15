@@ -131,11 +131,18 @@ module GLI
       override_default(flags,config)
       override_default(switches,config)
 
-      commands.each do |command_name,command|
-        command_config = config['commands'][command_name] || {}
+      override_command_defaults(commands,config)
+    end
 
-        override_default(command.flags,command_config)
-        override_default(command.switches,command_config)
+    def override_command_defaults(command_list,config)
+      command_list.each do |command_name,command|
+        next if command_name == :initconfig || command.nil?
+        command_config = (config['commands'] || {})[command_name] || {}
+
+        override_default(command.topmost_ancestor.flags,command_config)
+        override_default(command.topmost_ancestor.switches,command_config)
+
+        override_command_defaults(command.commands,command_config)
       end
     end
 
@@ -147,7 +154,7 @@ module GLI
 
   private
 
-    def self.unfreeze(args)
+    def unfreeze(args)
       args.map { |arg| arg.dup }
     end
 

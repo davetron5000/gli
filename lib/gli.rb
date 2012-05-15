@@ -15,7 +15,7 @@ require 'gli/dsl.rb'
 require 'gli/version.rb'
 require 'gli/commands/help'
 require 'gli/commands/compound_command'
-require 'support/initconfig.rb'
+require 'gli/commands/initconfig'
 
 module GLI
 end

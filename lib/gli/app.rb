@@ -69,7 +69,7 @@ module GLI
       else
         @config_file = File.join(File.expand_path('~'),filename)
       end
-      commands[:initconfig] = InitConfig.new(@config_file,commands)
+      commands[:initconfig] = InitConfig.new(@config_file,commands,flags,switches)
       @config_file
     end
 

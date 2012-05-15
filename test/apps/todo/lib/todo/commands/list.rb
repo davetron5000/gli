@@ -22,6 +22,9 @@ command [:list] do |c|
   c.command :tasks do |tasks|
     tasks.desc "blah blah crud x whatever"
     tasks.flag [:x]
+
+    tasks.flag :flag
+
     tasks.action do |global,options,args|
       puts "list tasks: #{args.join(',')}"
     end
@@ -39,6 +42,8 @@ command [:list] do |c|
 
     contexts.desc "Blah"
     contexts.switch [:b]
+
+    contexts.flag :otherflag
 
     contexts.action do |global,options,args|
       puts "list contexts: #{args.join(',')}"
