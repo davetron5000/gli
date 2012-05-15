@@ -27,7 +27,13 @@ CLOBBER << FileList['**/*.rbc']
 
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
-  rd.rdoc_files.include("README.rdoc","lib/**/*.rb","bin/**/*")
+  rd.rdoc_files = FileList["lib/**/*.rb","README.rdoc"] - 
+                  FileList["lib/gli/commands/help_modules/*.rb"] - 
+                  ["lib/gli/commands/help.rb",
+                   "lib/gli/commands/scaffold.rb",
+                   "lib/gli/support/*.rb",
+                   "lib/gli/app_support.rb",
+                   "lib/gli/command_support.rb",]
   rd.title = 'GLI - Git Like Interface for your command-line apps'
 end
 
