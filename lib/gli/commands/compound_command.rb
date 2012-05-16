@@ -2,8 +2,8 @@ module GLI
   module Commands
     # A command that calls other commands in order
     class CompoundCommand < Command
-      # base:: object that respondes to #commands
-      # configuration:: Array of arrays: index 0 is the array of names of this command and index 0
+      # base:: object that respondes to +commands+
+      # configuration:: Array of arrays: index 0 is the array of names of this command and index 1
       #                 is the names of the compound commands.
       def initialize(base,configuration,options={})
         name = configuration.keys.first
@@ -16,7 +16,7 @@ module GLI
         @commands = command_names.map { |_| find_command(base,_) }
       end
 
-      def execute(global_options,options,arguments)
+      def execute(global_options,options,arguments) #:nodoc:
         @commands.each { |_| _.execute(global_options,options,arguments) }
       end
 

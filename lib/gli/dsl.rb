@@ -1,6 +1,6 @@
 module GLI
-  # The common DSL methods that exist between the top-level GLI
-  # module and a command block
+  # The primary DSL for GLI.  This represents the methods shared between your top-level app and
+  # the commands.  See GLI::Command for additional methods that apply only to command objects.
   module DSL
     # Describe the next switch, flag, or command.  This should be a
     # short, one-line description
@@ -39,15 +39,21 @@ module GLI
     #
     # +names+:: a String or Symbol, or an Array of String or Symbol that represent all the different names
     #           and aliases for this flag.  The last element can be a hash of options:
-    #           +:desc +:: the description, instead of using #desc
-    #           +:long_desc +:: the long_description, instead of using #long_desc
-    #           +:default_value +:: the default value, instead of using #default_value
-    #           +:arg_name +:: the arg name, instead of using #arg_name
+    #           +:desc+:: the description, instead of using #desc
+    #           +:long_desc+:: the long_description, instead of using #long_desc
+    #           +:default_value+:: the default value, instead of using #default_value
+    #           +:arg_name+:: the arg name, instead of using #arg_name
+    #           +:must_match+:: A regexp that the flag's value must match
+    #           +:type+:: A Class (or object you passed to GLI::App#accept) to trigger type coversion
     #
     # Example:
     #
     #     desc 'Set the filename'
     #     flag [:f,:filename,'file-name']
+    #
+    #     flag :ipaddress, :desc => "IP Address", :must_match => /\d+\.\d+\.\d+\.\d+/
+    #
+    #     flag :names, :desc => "list of names", :type => Array
     #
     # Produces:
     #
@@ -71,7 +77,7 @@ module GLI
     #           and aliases for this switch.  The last element can be a hash of options:
     #           +:desc+:: the description, instead of using #desc
     #           +:long_desc+:: the long_description, instead of using #long_desc
-    #           +:negatable+:: if true, this switch will get a negatable form, false it will not.  Default is true
+    #           +:negatable+:: if true, this switch will get a negatable form (e.g. <tt>--[no-]switch</tt>, false it will not.  Default is true
     def switch(*names)
       options = extract_options(names)
       names = [names].flatten

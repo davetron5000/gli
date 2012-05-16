@@ -131,7 +131,7 @@ class TC_testGLI < Clean::Test::TestCase
     config_file_contents = File.read(config_file)
     @app.reset
     @app.config_file(config_file)
-    assert_equal -2,@app.run(['initconfig'])
+    assert_equal 1,@app.run(['initconfig'])
     assert @fake_stderr.strings.grep(/--force/),@fake_stderr.strings.inspect
     config_file_contents_after = File.read(config_file)
     assert_equal(config_file_contents,config_file_contents_after)
@@ -262,7 +262,7 @@ class TC_testGLI < Clean::Test::TestCase
       c.action do
       end
     end
-    assert_equal -1,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert_equal 64,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
     assert_equal 0,@app.run(%w(--foo=blah command)),@fake_stderr.to_s
   end
@@ -276,7 +276,7 @@ class TC_testGLI < Clean::Test::TestCase
         @foo_arg_value = g[:foo]
       end
     end
-    assert_equal -1,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert_equal 64,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
     assert_equal 0,@app.run(%w(--foo=blah command)),@fake_stderr.to_s
     assert_equal 'BLAH',@foo_arg_value
@@ -289,7 +289,7 @@ class TC_testGLI < Clean::Test::TestCase
       c.action do
       end
     end
-    assert_equal -1,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
+    assert_equal 64,@app.run(%w(--foo=cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
   end
 
@@ -300,7 +300,7 @@ class TC_testGLI < Clean::Test::TestCase
       c.action do
       end
     end
-    assert_equal -1,@app.run(%w(-f cruddo command)),@fake_stderr.to_s
+    assert_equal 64,@app.run(%w(-f cruddo command)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: -f cruddo/),"STDERR was:\n" + @fake_stderr.to_s
   end
 
@@ -311,7 +311,7 @@ class TC_testGLI < Clean::Test::TestCase
       c.action do
       end
     end
-    assert_equal -1,@app.run(%w(command --foo=cruddo)),@fake_stderr.to_s
+    assert_equal 64,@app.run(%w(command --foo=cruddo)),@fake_stderr.to_s
     assert @fake_stderr.contained?(/error: invalid argument: --foo=cruddo/),"STDERR was:\n" + @fake_stderr.to_s
   end
 
@@ -420,7 +420,7 @@ class TC_testGLI < Clean::Test::TestCase
   def test_exits_nonzero_on_bad_command_line
     @app.reset
     @app.on_error { true }
-    assert_equal -1,@app.run(['asdfasdfasdf'])
+    assert_equal 64,@app.run(['asdfasdfasdf'])
   end
 
   def test_exists_nonzero_on_raise_from_command
@@ -431,7 +431,7 @@ class TC_testGLI < Clean::Test::TestCase
         raise "Problem"
       end
     end
-    assert_equal -2,@app.run(['foo'])
+    assert_equal 1,@app.run(['foo'])
   end
 
   def test_exits_nonzero_with_custom_exception

@@ -166,19 +166,8 @@ module GLI
       raise exception
     end
 
-    # Set or get the name of the program, if you don't want the default (which is
-    # the name of the command line program).  This
-    # is only used currently in the help and rdoc commands.
-    #
-    # +override+:: A String that represents the name of the program to use, other than the default.
-    #
-    # Returns the current program name, as a String
-    def program_name(override=nil)
-      @program_name ||= $0.split(/\//)[-1]
-      if override
-        @program_name = override
-      end
-      @program_name
+    def program_name(override=nil) #:nodoc:
+      warn "#program_name has been deprecated"
     end
 
     # Sets a default command to run when none is specified on the command line.  Note that

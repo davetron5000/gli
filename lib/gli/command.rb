@@ -4,9 +4,29 @@ require 'gli/dsl.rb'
 
 module GLI
   # A command to be run, in context of global flags and switches.  You are given an instance of this class
-  # to the block you use for GLI#command.  You then use the methods described here to describe the 
-  # command-specific command-line arguments, much as you use the methods in GLI to describe the global
-  # command-line interface
+  # to the block you use for GLI::DSL#command.  This class mixes in GLI::DSL so all of those methods are available
+  # to describe the command, in addition to the methods documented here, most importantly
+  # #action.
+  #
+  # Example:
+  #
+  #     command :list do |c| # <- c is an instance of GLI::Command
+  #       c.desc 'use long form'
+  #       c.switch :l
+  #
+  #       c.action do |global,options,args|
+  #         # list things here
+  #       end
+  #
+  #       c.command :tasks do |t| # <- t is an instance of GLI::Command
+  #         # this is a "subcommand" of list
+  #         
+  #         t.action do |global,options,args|
+  #           # do whatever list tasks should do
+  #         end
+  #       end
+  #     end
+  #
   class Command < CommandLineToken
     include CopyOptionsToAliases
     include DSL
@@ -15,10 +35,11 @@ module GLI
     # Create a new command.
     #
     # options:: Keys should be:
-    #           +names+:: A String, Symbol, or Array of String or Symbol that represents the name(s) of this command.
-    #           +description+:: short description of this command as a Strign
+    #           +names+:: A String, Symbol, or Array of String or Symbol that represents the name(s) of this command (required).
+    #           +description+:: short description of this command as a String
     #           +arguments_name+:: description of the arguments as a String, or nil if this command doesn't take arguments
-    #           +long_desc+:: a longer description of the command, possibly with multiple lines and text formatting
+    #           +long_desc+:: a longer description of the command, possibly with multiple lines.  A double line-break is treated
+    #                         as a paragraph break.  No other formatting is respected, though inner whitespace is maintained.
     #           +skips_pre+:: if true, this command advertises that it doesn't want the pre block called first
     #           +skips_post+:: if true, this command advertises that it doesn't want the post block called after it
     def initialize(options)
@@ -33,29 +54,77 @@ module GLI
     # provide a subcommand when invoking THIS command.  When nil, this will show an error and the help
     # for this command; when set, the command with this name will be executed.
     #
-    # +command_name+:: The primary name of the subcommand of this command that should be run by default.
+    # +command_name+:: The primary name of the subcommand of this command that should be run by default as a String or Symbol.
     def default_command(command_name)
       @default_command = command_name
     end
 
-    # Define the action to take when the user executes this command
+    # Define the action to take when the user executes this command.  Every command should either define this 
+    # action block, or have subcommands (or both).
     #
     # +block+:: A block of code to execute.  The block will be given 3 arguments:
-    #           +global_options+:: A Hash (or Options, see GLI#use_openstruct) of the _global_ options specified
+    #           +global_options+:: A Hash of the _global_ options specified
     #                              by the user, with defaults set and config file values used (if using a config file, see
-    #                              GLI#config_file)
-    #           +options+:: A Hash (or Options, see GLI#use_openstruct) of the command-specific options specified by the 
-    #                       user, with defaults set and config file values used (if using a config file, see GLI#config_file)
+    #                              GLI::App#config_file)
+    #           +options+:: A Hash of the command-specific options specified by the 
+    #                       user, with defaults set and config file values used (if using a config file, see 
+    #                       GLI::App#config_file).
     #           +arguments+:: An Array of Strings representing the unparsed command line arguments
     #           The block's result value is not used; raise an exception or use GLI#exit_now! if you need an early exit based
     #           on an error condition
+    #
     def action(&block)
       @action = block
     end
 
-    # For commands with subcommands AND action blocks, this is the description
-    # of what the default action will be if no subcommand was included.  This is ignored
-    # if this command has no subcommands or has no action block
+    # Describes this commands action block when it *also* has subcommands.
+    # In this case, the GLI::DSL#desc value is the general description of the commands
+    # that this command groups, and the value for *this* method documents what
+    # will happen if you omit a subcommand.
+    #
+    # Note that if you omit the action block and specify a subcommand, that subcommand's
+    # description will be used to describe what happens by default.
+    #
+    # desc:: the description of what this command's action block does.
+    #
+    # Example
+    #
+    #     desc 'list things'
+    #     command :list do |c|
+    #
+    #       c.desc 'list tasks'
+    #       c.command :tasks do |t|
+    #         t.action do |global,options,args|
+    #         end
+    #       end
+    #
+    #       c.desc 'list contexts'
+    #       c.command :contexts do |t|
+    #         t.action do |global,options,args|
+    #         end
+    #       end
+    #
+    #       c.default_desc 'list both tasks and contexts'
+    #       c.action do |global,options,args|
+    #         # list everything
+    #       end
+    #     end
+    #
+    #
+    #     > todo help list
+    #     NAME
+    #         list - List things
+    #     
+    #     SYNOPSIS
+    #         todo [global options] list [command options] 
+    #         todo [global options] list [command options]  tasks
+    #         todo [global options] list [command options]  contexts
+    #     
+    #     COMMANDS
+    #         <default> - list both tasks and contexts
+    #         tasks     - list tasks
+    #         contexts  - list contexts
+    #
     def default_desc(desc)
       @default_desc = desc
     end

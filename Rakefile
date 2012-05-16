@@ -33,6 +33,8 @@ Rake::RDocTask.new do |rd|
                    "lib/gli/commands/scaffold.rb",
                    "lib/gli/support/*.rb",
                    "lib/gli/app_support.rb",
+                   "lib/gli/option_parser_factory.rb",
+                   "lib/gli/gli_option_parser.rb",
                    "lib/gli/command_support.rb",]
   rd.title = 'GLI - Git Like Interface for your command-line apps'
 end

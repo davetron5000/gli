@@ -3,7 +3,7 @@ module GLI
   # as a canonical means to get information about the user's current terminal configuraiton.
   # GLI uses this to determine the number of columns to use when printing to the screen.
   #
-  # To access it, use Terminal#instance.  This is a singleton mostly to facilitate testing, but
+  # To access it, use Terminal.instance.  This is a singleton mostly to facilitate testing, but
   # it seems reasonable enough, since there's only one terminal in effect
   #
   # Example:
@@ -35,7 +35,7 @@ module GLI
 
     # Call this to cause methods to throw exceptions rather than return a sane default.  You
     # probably don't want to call this unless you are writing tests
-    def make_unsafe!
+    def make_unsafe! #:nodoc:
       @unsafe = true
     end
 
