@@ -1,10 +1,12 @@
 = Git-Like Interface Command Line Parser
 
-Author::  Dave Copeland (mailto:davetron5000 at g mail dot com)
-Copyright:: Copyright (c) 2010 by Dave Copeland
-License:: Distributes under the Apache License, see LICENSE.txt in the source distro
+<b>This describes the forthcoming GLI2 and might not be 100% accurate</b>
 
-This is a DSL you can use to create a command line interface like git, gem or svn, in that the first argument is a command, and there are global and command specific flags.
+The best way to make a "command-suite" command-line application (for the best way to make a
+simpler command-line application, check out methadone[http://www.github.com/davetron5000/methadone]).
+
+GLI allows you to make a very polished, easy-to-maintain command-line application without a lot
+of syntax, but without restricting you in any way from the power of +OptionParser+.
 
 * {Source on Github}[http://github.com/davetron5000/gli]
 * RDoc[http://davetron5000.github.com/gli]
@@ -17,16 +19,56 @@ Install if you need to:
 
 The simplest way to get started is to create a scaffold project
 
-    gli init my_proj command_name other_command_name
+    gli init todo list add complete
 
-This will create a basic scaffold project in <tt>./my_proj</tt> with:
+This will create a basic scaffold project in <tt>./todo</tt> with:
 
-* executable in <tt>./my_proj/bin/my_proj</tt>.  This file demonstrates most of what you need to describe your command line interface.
-* an empty test in <tt>./my_proj/test/tc_nothing.rb</tt> that can bootstrap your tests
+* executable in <tt>./todo/bin/todo</tt>.  This file demonstrates most of what you need to describe your command line interface.
+* an empty test in <tt>./todo/test/default_test.rb</tt> that can bootstrap your tests
+* an empty feature in <tt>./todo/features/todo.feature</tt> that can bootstrap testing your CLI via Aruba.
 * a gemspec shell
 * a README shell
 * Rakefile that can generate RDoc, package your Gem and run tests
 * A <tt>Gemfile</tt> suitable for use with Bundler to manage development-time dependencies
+
+Now, you are ready to go:
+
+    > cd todo
+    > bundle exec bin/todo help
+    NAME
+        todo - Describe your application here
+
+    SYNOPSIS
+        todo [global options] command [command options] [arguments...]
+
+    VERSION
+        0.0.1
+
+    GLOBAL OPTIONS
+        -f, --flagname=The name of the argument - Describe some flag here (default: the default)
+        --help                                  - Show this message
+        -s, --[no-]switch                       - Describe some switch here
+
+    COMMANDS
+        add      - Describe add here
+        complete - Describe complete here
+        help     - Shows a list of commands or help for one command
+        list     - Describe list here
+
+    > bundle exec bin/todo help list
+    NAME
+        list - Describe list here
+
+    SYNOPSIS
+        todo [global options] list [command options] Describe arguments to list here
+
+    COMMAND OPTIONS
+        -f arg - Describe a flag to list (default: default)
+        -s     - Describe a switch to list
+
+All you need to do is fill in the documentation and your code; the help system, command-line parsing and many other awesome features are all handled for you.
+
+Get a more detailed walkthrough on the {main site}[http://davetron5000.github.com/gli]
 
 == Supported Platforms
 
@@ -43,7 +85,13 @@ If you're interested in other versions of Ruby, let me know, and I'll add them t
 
 == Documentation
 
-Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].  For API Documentation, start with the GLI module.
+Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].
+
+== Credits
+
+Author::  Dave Copeland (mailto:davetron5000 at g mail dot com)
+Copyright:: Copyright (c) 2010 by Dave Copeland
+License:: Distributes under the Apache License, see LICENSE.txt in the source distro
 
 == Links
 
@@ -52,4 +100,3 @@ Extensive documentation is {available at the wiki}[https://github.com/davetron50
 * [http://www.github.com/davetron5000/gli/wiki] - Documentation Wiki
 * [http://www.github.com/davetron5000/gli/wiki/Changelog] - Changelog
 
-:include:gli.rdoc
