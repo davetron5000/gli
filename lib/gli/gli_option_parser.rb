@@ -28,7 +28,7 @@ module GLI
       if command.nil? || Array(command).empty?
         raise UnknownCommand.new("Unknown command '#{command_name}'")
       elsif command.kind_of? Array
-        raise UnknownCommand.new("Ambiguous command '#{command_name}'. It matches #{command.join(',')}")
+        raise UnknownCommand.new("Ambiguous command '#{command_name}'. It matches #{command.sort.join(',')}")
       end
 
       command_options,args = parse_command_options(OptionParserFactory.new(command.flags,command.switches,@accepts),

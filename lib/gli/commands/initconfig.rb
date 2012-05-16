@@ -32,7 +32,7 @@ module GLI
 
     def create_config(global_options,options,arguments)
       config = Hash[global_options.map { |k,v|
-        if v.kind_of? String
+        if v.kind_of?(String) && v.respond_to?(:force_encoding)
           [k,v.force_encoding("utf-8")]
         else
           [k,v]
