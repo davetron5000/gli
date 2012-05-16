@@ -154,10 +154,6 @@ module GLI
 
   private
 
-    def unfreeze(args)
-      args.map { |arg| arg.dup }
-    end
-
     def handle_exception(ex,command)
       if regular_error_handling?(ex)
         stderr.puts error_message(ex) 
@@ -219,7 +215,7 @@ module GLI
     end
 
     def call_command(command,global_options,options,arguments)
-      arguments = unfreeze(arguments)
+      arguments = arguments.map { |arg| arg.dup } # unfreeze
       command.execute(global_options,options,arguments)
       unless command.skips_post
         post_block.call(global_options,command,options,arguments)

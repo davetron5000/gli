@@ -74,7 +74,7 @@ module GLI
     #
     # Returns an Array of size two Ints representing the terminal width and height
     def size
-      SIZE_DETERMINERS.select { |predicate,_| predicate.call }.first[1].call
+      SIZE_DETERMINERS.select { |predicate,ignore| predicate.call }.first[1].call
     rescue Exception => ex
       raise ex if @unsafe
       Terminal.default_size

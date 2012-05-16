@@ -32,7 +32,7 @@ module GLI
     end
 
     def arguments_for_option_parser
-      args = all_forms_a.map { |_| "#{_} VAL" }
+      args = all_forms_a.map { |name| "#{name} VAL" }
       args << @must_match if @must_match
       args << @type if @type
       args

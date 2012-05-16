@@ -3,6 +3,7 @@ require 'gli/command'
 require 'yaml'
 
 module GLI
+  # Command that initializes the configuration file for apps that use it.
   class InitConfig < Command # :nodoc:
     COMMANDS_KEY = 'commands'
 
@@ -31,11 +32,11 @@ module GLI
   private
 
     def create_config(global_options,options,arguments)
-      config = Hash[global_options.map { |k,v|
-        if v.kind_of?(String) && v.respond_to?(:force_encoding)
-          [k,v.force_encoding("utf-8")]
+      config = Hash[global_options.map { |option_name,option_value|
+        if option_value.kind_of?(String) && option_value.respond_to?(:force_encoding)
+          [option_name,option_value.force_encoding("utf-8")]
         else
-          [k,v]
+          [option_name,option_value]
         end
       }]
       config[COMMANDS_KEY] = {}

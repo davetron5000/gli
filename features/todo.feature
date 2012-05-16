@@ -61,8 +61,8 @@ Feature: The todo app has a nice user interface
         -l, --[no-]long - Show long form
 
     COMMANDS
-        tasks    - List tasks (default)
         contexts - List contexts
+        tasks    - List tasks (default)
     """
 
   Scenario: Getting Help for a sub command of todo list
@@ -93,13 +93,13 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] create [command options] 
-        todo [global options] create [command options]  tasks
         todo [global options] create [command options]  contexts
+        todo [global options] create [command options]  tasks
 
     COMMANDS
         <default> - Makes a new task
-        tasks     - Make a new task
         contexts  - Make a new context
+        tasks     - Make a new task
     """
     And the output should not contain "COMMAND OPTIONS"
 
@@ -145,8 +145,8 @@ Feature: The todo app has a nice user interface
         ls - LS things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] ls [command options] [-x arg] tasks
         todo [global options] ls [command options] [-b] [-f|--foobar] contexts
+        todo [global options] ls [command options] [-x arg] tasks
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
@@ -159,8 +159,8 @@ Feature: The todo app has a nice user interface
         -l, --[no-]long - Show long form
 
     COMMANDS
-        tasks    - List tasks
         contexts - List contexts
+        tasks    - List tasks
     """
 
 

@@ -36,23 +36,23 @@ module GLI
     end
 
     def flag(*names)
-      f = if parent.kind_of? Command
-            parent.flag(*names)
-          else
-            super(*names)
-          end
-      f.associated_command = self
-      f
+      new_flag = if parent.kind_of? Command
+                   parent.flag(*names)
+                 else
+                   super(*names)
+                 end
+      new_flag.associated_command = self
+      new_flag
     end
 
     def switch(*names)
-      s = if parent.kind_of? Command
-            parent.switch(*names)
-          else
-            super(*names)
-          end
-      s.associated_command = self
-      s
+      new_switch = if parent.kind_of? Command
+                     parent.switch(*names)
+                   else
+                     super(*names)
+                   end
+      new_switch.associated_command = self
+      new_switch
     end
 
     def desc(d)
@@ -124,11 +124,11 @@ module GLI
     end
 
     def topmost_ancestor
-      c = self
-      top = c
-      while c.kind_of? self.class
-        top = c
-        c = c.parent
+      some_command = self
+      top = some_command
+      while some_command.kind_of? self.class
+        top = some_command
+        some_command = some_command.parent
       end
       top
     end
@@ -152,17 +152,19 @@ module GLI
     end
 
     def generate_error_action(arguments)
-      if am_subcommand?
-        if arguments.size > 0
-          lambda { |global_options,options,arguments| raise UnknownCommand,"Unknown command '#{arguments[0]}'" }
+      lambda { |global_options,options,arguments|
+        if am_subcommand?
+          if arguments.size > 0
+            raise UnknownCommand,"Unknown command '#{arguments[0]}'"
+          else
+            raise BadCommandLine,"Command '#{name}' requires a subcommand"
+          end
+        elsif have_subcommands?
+          raise BadCommandLine,"Command '#{name}' requires a subcommand"
         else
-          lambda { |global_options,options,arguments| raise BadCommandLine,"Command '#{name}' requires a subcommand" }
+          raise "Command '#{name}' has no action block"
         end
-      elsif have_subcommands?
-        lambda { |global_options,options,arguments| raise BadCommandLine,"Command '#{name}' requires a subcommand" }
-      else
-        lambda { |global_options,options,arguments| raise "Command '#{name}' has no action block" }
-      end
+      }
     end
 
     def am_subcommand?
@@ -191,7 +193,7 @@ module GLI
       return false if arguments.empty?
       subcommand_name = arguments.first
       self.commands.values.find { |command|
-        [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |_| _ == subcommand_name }
+        [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |name| name == subcommand_name }
       }
     end
   end

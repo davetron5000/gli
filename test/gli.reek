@@ -1,4 +1,12 @@
 --- 
+ControlCouple: 
+  exclude: 
+  - 'parse_options_helper'
+  - 'program_desc'
+  - 'program_name'
+  - 'name_as_string'
+  - 'GLI::Command'
+  enabled: false
 UncommunicativeParameterName: 
   accept: []
 
@@ -61,7 +69,7 @@ NestedIterators:
   exclude: ['GLI::App']
 
   enabled: true
-  max_allowed_nesting: 1
+  max_allowed_nesting: 3
 LongMethod: 
   max_statements: 10
   exclude: 
@@ -93,7 +101,7 @@ UncommunicativeVariableName:
 
   enabled: true
   reject: 
-  - !ruby/regexp /^.$/
+  - !ruby/regexp /^[a-z]$/
   - !ruby/regexp /[0-9]$/
   - !ruby/regexp /[A-Z]/
 SimulatedPolymorphism: 
@@ -107,14 +115,6 @@ DataClump:
   enabled: false
   max_copies: 2
   min_clump_size: 2
-ControlCouple: 
-  exclude: 
-  - 'parse_options_helper'
-  - 'program_desc'
-  - 'program_name'
-  - 'name_as_string'
-  - 'GLI::Command'
-  enabled: true
 LongYieldList: 
   max_params: 3
   exclude: []

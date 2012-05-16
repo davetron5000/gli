@@ -1,4 +1,5 @@
 module GLI
+  # Parses the command-line options using an actual +OptionParser+
   class GLIOptionParser
     def initialize(commands,flags,switches,accepts)
       @commands = commands
