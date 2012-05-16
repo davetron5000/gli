@@ -15,7 +15,7 @@ Then /^the config file should contain a section for each command and subcommand$
   config[:flag].should == 'foo'
   config[:flag].tap do |flag|
     if flag.respond_to?(:encoding)
-      encoding.name.should == 'UTF-8'
+      flag.encoding.name.should == 'UTF-8'
     end
   end
   config.keys.should include(:switch)
