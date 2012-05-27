@@ -4,6 +4,7 @@ html
 pkg
 coverage
 .bundle
+tmp
 cruddo.rdoc
 gli.wiki
 Gemfile.lock
