@@ -67,7 +67,7 @@ module GLI
       if filename =~ /^\//
         @config_file = filename
       else
-        @config_file = File.join(File.expand_path('~'),filename)
+        @config_file = File.join(File.expand_path(ENV['HOME']),filename)
       end
       commands[:initconfig] = InitConfig.new(@config_file,commands,flags,switches)
       @config_file
@@ -124,8 +124,8 @@ module GLI
     # Configure a type conversion not already provided by the underlying OptionParser.
     # This works more or less like the OptionParser version.
     #
-    # object - the class (or whatever) that triggers the type conversion
-    # block - the block that will be given the string argument and is expected
+    # object:: the class (or whatever) that triggers the type conversion
+    # block:: the block that will be given the string argument and is expected
     #         to return the converted value
     #
     # Example

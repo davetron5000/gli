@@ -22,11 +22,13 @@ module GLI
       remaining_args = nil
 
       global_options,command_name,args = parse_global_options(OptionParserFactory.new(@flags,@switches,@accepts), args)
-      @flags.each { |name,flag| global_options[name] = flag.default_value unless global_options[name] }
+      @flags.each do |name,flag| 
+        global_options[name] = flag.default_value unless global_options[name]
+      end
 
       command_name ||= @default_command || :help
       command = find_command(command_name)
-      if command.nil? || Array(command).empty?
+      if Array(command).empty?
         raise UnknownCommand.new("Unknown command '#{command_name}'")
       elsif command.kind_of? Array
         raise UnknownCommand.new("Ambiguous command '#{command_name}'. It matches #{command.sort.join(',')}")
@@ -36,7 +38,9 @@ module GLI
                                                    command,
                                                    args)
 
-      command.flags.each { |name,flag| command_options[name] = flag.default_value unless command_options[name] }
+      command.flags.each do |name,flag| 
+        command_options[name] = flag.default_value unless command_options[name]
+      end
       command.switches.each do |name,switch| 
         command_options[name] = switch.default_value unless command_options[name] 
       end
@@ -48,14 +52,12 @@ module GLI
 
     def parse_command_options(option_parser_factory,command,args)
       option_parser,command_options = option_parser_factory.option_parser
-      begin
-        option_parser.parse!(args)
-      rescue OptionParser::InvalidOption => ex
-        raise UnknownCommandArgument.new("Unknown option #{ex.args.join(' ')}",command)
-      rescue OptionParser::InvalidArgument => ex
-        raise UnknownCommandArgument.new("#{ex.reason}: #{ex.args.join(' ')}",command)
-      end
+      option_parser.parse!(args)
       [command_options,args]
+    rescue OptionParser::InvalidOption => ex
+      raise UnknownCommandArgument.new("Unknown option #{ex.args.join(' ')}",command)
+    rescue OptionParser::InvalidArgument => ex
+      raise UnknownCommandArgument.new("#{ex.reason}: #{ex.args.join(' ')}",command)
     end
 
     def parse_global_options(option_parser_factory,args,&error_handler)
@@ -66,17 +68,15 @@ module GLI
       end
       option_parser,global_options = option_parser_factory.option_parser
       command = nil
-      begin
-        option_parser.order!(args) do |non_option|
-          command = non_option
-          break
-        end
-      rescue OptionParser::InvalidOption => ex
-        error_handler.call("Unknown option #{ex.args.join(' ')}")
-      rescue OptionParser::InvalidArgument => ex
-        error_handler.call("#{ex.reason}: #{ex.args.join(' ')}")
+      option_parser.order!(args) do |non_option|
+        command = non_option
+        break
       end
       [global_options,command,args]
+    rescue OptionParser::InvalidOption => ex
+      error_handler.call("Unknown option #{ex.args.join(' ')}")
+    rescue OptionParser::InvalidArgument => ex
+      error_handler.call("#{ex.reason}: #{ex.args.join(' ')}")
     end
 
     def find_command(name) # :nodoc:
@@ -94,7 +94,5 @@ module GLI
       return names_to_commands[partial_matches[0]] if partial_matches.size == 1
       partial_matches
     end
-
-
   end
 end
