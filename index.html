@@ -1,14 +1,294 @@
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">    
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html>
+  <head>
+    <title>GLI: Make Awesome Command-Line Applicatison the Easy Way</title>
+    <link href='http://fonts.googleapis.com/css?family=Karla:400,700,400italic,700italic|Alegreya' rel='stylesheet' type='text/css'>
+    <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shCore.js" type="text/javascript"></script>
+    <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shAutoloader.js" type="text/javascript"></script>
+    <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushRuby.js" type="text/javascript"></script>
+    <script src="http://alexgorbatchev.com/pub/sh/current/scripts/shBrushBash.js" type="text/javascript"></script>
+    <link href="http://alexgorbatchev.com/pub/sh/current/styles/shThemeMidnight.css" rel="stylesheet" type="text/css" />
+    <style>
+      body { 
+        margin: 0 auto;
+        width: 768px;
+        background: url(images/bg.png);
+      }
+      #content {
+        background-color: white;
+        padding: 16px;
+        margin-top: -128px;
+        -webkit-border-radius: 16px;
+        -moz-border-radius: 16px;
+        border-radius: 16px;
+      }
+      h1, h2, h3, h4, h5, h6, p, li {
+        font-family: 'Karla', sans-serif;
+      }
+      h1#main-title {
+        display: none;
+      }
+      h2#sub-title {
+        text-align: center;
+        font-weight: bold;
+        font-size: 32px;
+      }
 
-	<title>Git Like Interface</title>
-</head>
-<frameset cols="300,*" frameborder="1" border="1" bordercolor="#666666" framespacing="1">
-    <frame src="panel/index.html" title="Search" name="panel" />
-    <frame src="files/README_rdoc.html" name="docwin" />
-</frameset>
+      h3 {
+        background: #ddd;
+        border: solid thin #aaa;
+        -webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+
+        padding: 8px;
+      }
+      p, li {
+        font-family: 'Karla', sans-serif;
+        font-size: 16px;
+        line-height: 28px;
+        text-align: justify;
+      }
+      p code, li code {
+        font-family: Monaco, courier, monospace;
+        font-weight: bold;
+        font-size: 14px;
+        border: solid thin black;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        padding: 2px;
+        padding-left: 4px;
+        padding-right: 4px;
+        background: #ddd;
+      }
+      div.syntaxhighlighter {
+        margin: 0px;
+        margin-left: -16px;
+        width: 736px;
+        padding: 16px;
+      }
+      .note {
+        font-style: italic;
+        font-size: 14px;
+      }
+      .subsection p { 
+        margin: 32px;
+      }
+      .sidebar {
+        color: #ddd;
+        background-color: #222;
+        background-image: url(images/bg.png);
+        border: solid thin #aaa;
+        -webkit-border-radius: 16px;
+        -moz-border-radius: 16px;
+        border-radius: 16px;
+        margin: 16px;
+      }
+      .sidebar code {
+        color: black;
+        background: white;
+      }
+      .sidebar h4 {
+        font-family: 'Alegreya', serif;
+        margin-left: 32px;
+        font-size: 20px;
+        padding: 0px;
+      }
+      .sidebar p, .sidebar li {
+        font-family: 'Alegreya', serif;
+      }
+
+    </style>
+  </head>
+  <body>
+    <img src="images/logo.png" />
+    <div id="content">
+      <h1 id="main-title">GLI</h1>
+      <h2 id="sub-title">The easy way to make command-suite CLI apps</h2>
+      <p>
+      GLI is the easiest way to make a CLI app that takes commands, in a vein similar to
+      <code>git</code> or <code>gem</code> (GLI stands for "Git-Like Interface").  GLI uses a 
+      simple DSL, but retains all the power you'd expect from the built-int <code>OptionParser</code>.
+      <span class="note">If you're looking to make a vanilla CLI app that doesn't need command support, 
+      be sure to check out <a href="http://davetron5000.github.com/methadone">Methadone</a>, which gives you all the power
+      of <code>OptionParser</code>, but none of the verbosity</span>.
+      </p>
+      <p>
+      Here's a simple todo list application:
+      </p>
+      <pre class="brush: ruby">
+      #!/usr/bin/env ruby
+      require 'gli'
+      require 'hacer'
+
+      include GLI::App
+
+      program_desc 'A simple todo list'
+
+      flag [:t,:tasklist], :default_value => File.join(ENV['HOME'],'.todolist')
+
+      pre do |global_options,command,options,args|
+        $todo_list = Hacer::Todolist.new(global_options[:tasklist])
+      end
+
+      command :add do |c|
+        c.action do |global_options,options,args|
+          $todo_list.create(args)
+        end
+      end
+
+      command :list do |c|
+        c.action do 
+          $todo_list.list.each do |todo|
+            printf("%5d - %s\n",todo.todo_id,todo.text)
+          end
+        end
+      end
+
+      command :done do |c|
+        c.action do |global_options,options,args|
+          id = args.shift.to_i
+          $todo_list.list.each do |todo|
+            $todo_list.complete(todo) if todo.todo_id == id
+          end
+        end
+      end
+
+      exit run(ARGV)
+      </pre>
+      <p>
+      We can now use our app like so:
+      </p>
+      <pre class="brush: bash">
+      $ todo help
+      NAME
+          todo - A simple todo list
+
+      SYNOPSIS
+          todo [global options] command [command options] [arguments...]
+
+      GLOBAL OPTIONS
+          --help             - Show this message
+          -t, --tasklist=arg - (default: /Users/davec/.todolist)
+
+      COMMANDS
+          add  - 
+          done - 
+          help - Shows a list of commands or help for one command
+          list - 
+
+      $ todo add "Take out trash"
+      $ todo add "Rake leaves"
+      $ todo add "Clean Kitchen"
+      $ todo list
+          0 - ["Take out trash"]
+          1 - ["Rake leaves"]
+          2 - ["Clean Kitchen"]
+      $ todo done 1
+      $ todo list
+          0 - ["Take out trash"]
+          2 - ["Clean Kitchen"]
+      </pre>
+      <p>
+      We can make our app so much better.  For a longer demo, or just a quick reference, check out the <a href="todo.html">annotated source</a> for a much more sophisticated application.  Meanwhile, let's tour some of the features.
+      </p>
+      <h3>Commands</h3>
+      <div class="subsection">
+        <p>
+        The entire UI of your app is commands, and you can create them with the <code>command</code> method.  It takes a block, which is given a <code>GLI::Command</code> instance.  You can call DSL methods on this to describe how your command works.  The thing you are required to do is call the <code>action</code> methods, which takes a block.  <strong>This</strong> block is executed when the user executes the command on the command-line.  To access the command-line options and arguments, the block we give
+        to action can accept parameters.  We'll see those in a little bit.
+        </p>
+        <p>
+        One thing we didn't see is how to document our command.  This is done Rake-stye via the methods <code>desc</code> and <code>long_desc</code>.  <code>desc</code> is
+        short one-line description that shows up in the main help, while <code>long_desc</code> is a longer description, possibly multi-paragraph, that shows up in the help
+        for this command (e.g. when the user runs <code>todo help list</code>).  Let's add documentation to our <code>list</code> command.
+        <pre class="brush: ruby">
+        desc 'List tasks'
+        long_desc 'Lists all tasks that have yet to be completed by the user.
+
+        Each task has an id, which you can use to complete it using the "done" command.'
+        command :list do |c|
+          c.action do 
+            $todo_list.list.each do |todo|
+              printf("%5d - %s\n",todo.todo_id,todo.text)
+            end
+          end
+        end
+        </pre>
+      </div>
+      <h3>Command-Line Options</h3>
+      <div class="subsection">
+        <p>
+        Command-line options for a command-suite come in two forms:
+        </p>
+        <ul>
+          <li><strong>Global Options</strong> come before the command on the command-line, and generally affect every command.  In our simple todo app, the option
+          <code>-t</code> (or its long-form equivalent <code>--tasklist</code>) tells <strong>all</strong> commands where tro find the task list.</li>
+          <li><strong>Command Options</strong> come after the command on the command-line, and are specific to the command itself.  For example, we might have a switch
+          that tells <code>list</code> to list completed tasks as well as outstanding tasks.</li>
+        </ul>
+        <p>
+        In GLI, global options are specified outside of any command block (much like we specified <code>-t</code> with <code>flag [:t,:tasklist]</code>.  Command options
+        are specified inside a <code>command</code> block.  Let's add a global switch for verbosity, and a command option to <code>list</code> to show 
+        completed tasks as well. Options can be documented in the same way, using <code>desc</code>.
+        </p>
+        <pre class="brush: ruby">
+        desc 'Be verbose'
+        switch [:v,:verbose]
+
+        desc 'List tasks'
+        long_desc 'Lists all tasks that have yet to be completed by the user.
+
+        Each task has an id, which you can use to complete it using the "done" command.'
+        command :list do |c|
+          c.desc 'Show completed tasks as well as incomplete tasks'
+          c.switch [:a,:all]
+
+          c.action do |global_options,options,args|
+            show = options[:all] ? :all : :incomplete
+            $todo_list.list(show).each do |todo|
+              printf("%5d - %s\n",todo.todo_id,todo.text)
+            end
+          end
+        end
+        </pre>
+        <p>
+        Notice that we changed the parameters to our <code>action</code> block.  It now gets a <code>Hash</code> of the global options, a 
+        <code>Hash</code> of the command options, and the unparsed arguments as an <code>Array</code>.  We reach into <code>options</code>
+        to see if <code>--all</code> (or <code>-a</code>) was specified, and show all tasks if so.
+        </p>
+        <div class="sidebar">
+          <h4>What's a "switch" and what's a "flag"?</h4>
+          <p>
+          GLI differentates options that take arguments from ones that don't.  Options that don't merely <em>switch</em> something on or
+          off, and are called <em>switches</em>.  Options that take an argument are called <em>flags</em>.  The global option
+          <code>tasklist</code> is a flag.  As such, it can have a default value, which we specified by using the <code>:default_value</code>
+          option.
+          </p>
+          <p>
+          <code>flag</code> can take other options as well.  It can take <code>:type</code>, which is a class for type conversion, as well
+          as <code>:must_match</code> which can be a regular expression, <code>Array</code>, or <code>Hash</code>:
+          </p>
+          <ul>
+            <li>If a <code>Regexp</code>, the argument on the command-line must match the regexp, or the app will exit nonzero with an appropriate
+            error message</li>
+            <li>If an <code>Array</code>, the argument must be a member of the array, or the app will exit nonzero with an appropriate error message</li>
+            <li>If a <code>Hash</code>, the argument must be a <em>key</em> of the <code>Hash</code>, or the app will exit nonzero with an appropriate error message.
+            If the value is a key, the <em>value</em> of that key of the <code>Hash</code> is passed in as the flag's value.</li>
+          </ul>
+          <p>
+          If this sounds like <code>OptionParser</code>, that's because it is: GLI uses it under the covers to parse the command-line.
+          </p>
+
+
+        </div>
+      </div>
+    </div>
+    <script>
+      SyntaxHighlighter.defaults['gutter'] = false;
+      SyntaxHighlighter.defaults['toolbar'] = false;
+
+      SyntaxHighlighter.all();
+    </script>
+  </body>
 </html>
