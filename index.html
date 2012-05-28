@@ -1,4 +1,6 @@
 <html>
+
+flag [:t,:tasklist], :type => Hacer::Todolist
   <head>
     <title>GLI: Make Awesome Command-Line Applicatison the Easy Way</title>
     <link href='http://fonts.googleapis.com/css?family=Karla:400,700,400italic,700italic|Alegreya' rel='stylesheet' type='text/css'>
@@ -24,16 +26,21 @@
       h1, h2, h3, h4, h5, h6, p, li {
         font-family: 'Karla', sans-serif;
       }
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: bold;
+      }
       h1#main-title {
         display: none;
       }
       h2#sub-title {
         text-align: center;
-        font-weight: bold;
+      }
+      h2 {
         font-size: 32px;
       }
 
       h3 {
+        font-size: 24px;
         background: #ddd;
         border: solid thin #aaa;
         -webkit-border-radius: 8px;
@@ -41,6 +48,9 @@
         border-radius: 8px;
 
         padding: 8px;
+      }
+      h4 {
+        font-size: 22px;
       }
       p, li {
         font-family: 'Karla', sans-serif;
@@ -60,6 +70,18 @@
         padding-left: 4px;
         padding-right: 4px;
         background: #ddd;
+
+        overflow-x: scroll;
+        white-space: nowrap;
+      }
+      ul {
+        list-style-position: inside;
+        margin-right: 32px;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      li {
+        font-size: 90%;
       }
       div.syntaxhighlighter {
         margin: 0px;
@@ -72,30 +94,39 @@
         font-size: 14px;
       }
       .subsection p { 
-        margin: 32px;
+        margin-left: 32px;
+        margin-right: 32px;
       }
       .sidebar {
-        color: #ddd;
-        background-color: #222;
-        background-image: url(images/bg.png);
+        color: #222;
+        background-color: #eee;
         border: solid thin #aaa;
         -webkit-border-radius: 16px;
         -moz-border-radius: 16px;
         border-radius: 16px;
-        margin: 16px;
+        margin: 8px;
+        box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.60);
+        -moz-box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.60);
+        -webkit-box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.60);
       }
-      .sidebar code {
+      .sidebar p code {
         color: black;
         background: white;
       }
       .sidebar h4 {
         font-family: 'Alegreya', serif;
+        font-weight: bold;
         margin-left: 32px;
-        font-size: 20px;
+        margin-right: 32px;
+        border-bottom: solid thin;
         padding: 0px;
       }
       .sidebar p, .sidebar li {
         font-family: 'Alegreya', serif;
+      }
+      .sidebar div.syntaxhighlighter {
+        margin-left: 0px;
+        width: 687px;
       }
 
     </style>
@@ -282,6 +313,110 @@
 
 
         </div>
+        </div>
+        <div class="subsection">
+        <div class="subsection">
+        <h3>Error Handling</h3>
+        <p>
+        Essentially, you don't need to do anything special; just allow exceptions to bubble up.  The exception's message will
+        be shown to the user, and ther backtrace will be surpressed.  If you need to exit the program with an error message, you
+        can certainly raise an exception, but you can also call either <code>exit_now!</code> or <code>help_now!</code>.
+        The former exits with the message, while the latter also shows the command-line help.  Let's add in some checks
+        in our <code>done</code> command to make sure that the id is passed and that it's an id in our task list.
+        </p>
+        <pre class="brush: ruby">
+        command :done do |c|
+          c.action do |global_options,options,args|
+            help_now!('id is required') if args.empty
+            todo = $todo_list.list.select { |todo| todo.todo_id == id }.first
+            exit_now!("No todo with id #{id}") if todo.nil?
+            $todo_list.complete(todo)
+          end
+        end
+        </pre>
+        <div class="sidebar">
+        <h4>What if I <strong>want</strong> the backtrace?</h4>
+        <p>
+        When developing, it can be handy to see the backtrace of errors that cause your app to 
+        exit.  To show them, set the environment variable <code>GLI_DEBUG</code> when calling your app, e.g.
+        <code>GLI_DEBUG=true todo add 'some new task'</code>.
+        </p>
+        </div>
+        <!-- left off-->
+        </div>
+        <h3>Pre- and Post-Hooks</h3>
+        <p>
+        You may have noticed the call to <code>pre</code> in our simple app.  This is a block of code called <em>after</em> the command-line
+        has been successfully parsed, but <em>before</em> the command is executed.  It has access to the global and command-specific options, as well
+        as the command itself, and the unparsed arguments.  
+        </p>
+        <p>
+        We used it to read our todo list so that each command has access to it.  We set this in a global variable.  You might not like this,
+        and you could, alternatively, set it inside the <code>global_options</code> hash:
+        </p>
+        <pre class="brush: ruby">
+        pre do |global_options,command,options,args|
+          # Replace the string with the actual list object
+          global_options[:taslist] = Hacer::Todolist.new(global_options[:tasklist])
+        end
+
+        command :add do |c|
+          c.action do |global_options,options,args|
+            # Now, we can read it directly
+            global_options[:tasklist].create(args)
+          end
+        end
+        </pre>
+        <p>
+        If we had any cleanup to do, that could go in a <code>post</code> block:
+        </p>
+        <pre class="brush: ruby">
+        post do |global_options,command,options,args|
+          global_options[:taslist].save_to_disk!
+        end
+        </pre>
+        <p>
+        This block is only called if there were no errors.
+        </p>
+        <p>
+        You can also configure how error handling is done by declaring an <code>error</code>
+        block.  The block you give to <code>error</code> doesn't have access to any of the parsed options
+        or arguments (since the error could happen at any time during the lifecycle of your app).  If the block
+        evaluates to true, GLI's normal error handling will occur.  If it evaluates to false, GLI will not do anything.
+        </p>
+        <div class="sidebar">
+          <h4>Could the pre block be done via type-conversion?</h4>
+          <p>
+          If you know <code>OptionParser</code>, you know that it has a configurable type-conversion system.  GLI uses this system, so you could eliminate
+          the <code>pre</code> block by type-converting the value of the <code>--tasklist</code> flag.  GLI's DSL has a method named
+          <code>accept</code> that works just like the one in <code>OptionParser</code>:
+          </p>
+          <pre class="brush: ruby">
+          accept(Hacer::Todolist) do |string|
+            Hacher::Todolist.new(string)
+          end
+
+          flag [:t,:tasklist], :type => Hacer::Todolist,
+                               :default_value => File.join(ENV['HOME'],'.todolist')
+          </pre>
+          <p>
+          Now, the tasklist is set up during type conversion.  
+          </p>
+        </div>
+      </div>
+      <div class="subsection">
+        <h3>How can I learn more?</h3>
+        <p>
+        There are three places to dig deeper into GLI:
+        </p>
+        <ul>
+          <li><a href="todo.html">A code walkthrough</a> of a more sophisticated app that has subcommands</li>
+          <li><a href="http://www.github.com/davetron5000/gli/wiki">The Wiki</a></li>
+          <li><a href="rdoc/index.html">API Documentation</a></li>
+        </ul>
+        <p>
+        Of course, <a href="http://www.github.com/davetron5000/gli">the source code</a> is also available.
+        </p>
       </div>
     </div>
     <script>
