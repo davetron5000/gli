@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>README.rdoc</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
+<script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
+
+</head>
+
+<body>     
+    <div class="banner">
+        
+        <h1>
+            README.rdoc
+        </h1>
+        <ul class="files">
+            <li>README.rdoc</li>
+            <li>Last modified: 2012-05-28 14:50:23 -0400</li>
+        </ul>
+    </div>
+
+    <div id="bodyContent">
+        <div id="content">
+  
+    <div class="description">
+      
+<h1 id="label-Git-Like+Interface+Command+Line+Parser">Git-Like Interface Command Line Parser</h1>
+
+<p><strong>This describes the forthcoming GLI2 and might not be 100%
+accurate</strong></p>
+
+<p>The best way to make a "command-suite" command-line application (for the
+best way to make a simpler command-line application, check out <a
+href="http://www.github.com/davetron5000/methadone">methadone</a>).</p>
+
+<p><a href="../classes/GLI.html">GLI</a> allows you to make a very polished,
+easy-to-maintain command-line application without a lot of syntax, but
+without restricting you in any way from the power of
+<code>OptionParser</code>.</p>
+<ul><li>
+<p><a href="http://davetron5000.github.com/gli">Overview</a></p>
+</li><li>
+<p><a href="http://github.com/davetron5000/gli">Source on Github</a></p>
+</li><li>
+<p><a href="http://davetron5000.github.com/gli">RDoc</a></p>
+</li></ul>
+
+<h2 id="label-Use">Use</h2>
+
+<p>Install if you need to:</p>
+
+<pre>gem install gli</pre>
+
+<p>The simplest way to get started is to create a scaffold project</p>
+
+<pre>gli init todo list add complete</pre>
+
+<p>This will create a basic scaffold project in <code>./todo</code> with:</p>
+<ul><li>
+<p>executable in <code>./todo/bin/todo</code>.  This file demonstrates most of
+what you need to describe your command line interface.</p>
+</li><li>
+<p>an empty test in <code>./todo/test/default_test.rb</code> that can
+bootstrap your tests</p>
+</li><li>
+<p>an empty feature in <code>./todo/features/todo.feature</code> that can
+bootstrap testing your CLI via Aruba.</p>
+</li><li>
+<p>a gemspec shell</p>
+</li><li>
+<p>a <a href="README_rdoc.html">README</a> shell</p>
+</li><li>
+<p>Rakefile that can generate RDoc, package your Gem and run tests</p>
+</li><li>
+<p>A <code>Gemfile</code> suitable for use with Bundler to manage
+development-time dependencies</p>
+</li></ul>
+
+<p>Now, you are ready to go:</p>
+
+<pre>&gt; cd todo
+&gt; bundle exec bin/todo help
+NAME
+    todo - Describe your application here
+
+SYNOPSIS
+    todo [global options] command [command options] [arguments...]
+
+VERSION
+    0.0.1
+
+GLOBAL OPTIONS
+    -f, --flagname=The name of the argument - Describe some flag here (default: the default)
+    --help                                  - Show this message
+    -s, --[no-]switch                       - Describe some switch here
+
+COMMANDS
+    add      - Describe add here
+    complete - Describe complete here
+    help     - Shows a list of commands or help for one command
+    list     - Describe list here
+
+&gt; bundle exec bin/todo help list
+NAME
+    list - Describe list here
+
+SYNOPSIS
+    todo [global options] list [command options] Describe arguments to list here
+
+COMMAND OPTIONS
+    -f arg - Describe a flag to list (default: default)
+    -s     - Describe a switch to list</pre>
+
+<p>All you need to do is fill in the documentation and your code; the help
+system, command-line parsing and many other awesome features are all
+handled for you.</p>
+
+<p>Get a more detailed walkthrough on the <a
+href="http://davetron5000.github.com/gli">main site</a></p>
+
+<h2 id="label-Supported+Platforms">Supported Platforms</h2>
+
+<p>Known to work on</p>
+<ul><li>
+<p>1.8.7</p>
+</li><li>
+<p>1.9.2</p>
+</li><li>
+<p>1.9.3</p>
+</li><li>
+<p>Ruby Enterprise Edition 1.8.7</p>
+</li><li>
+<p>Rubinius 1.0.1</p>
+</li><li>
+<p>JRuby 1.6.4</p>
+</li></ul>
+
+<p>If you're interested in other versions of Ruby, let me know, and I'll add
+them to my test suite</p>
+
+<h2 id="label-Documentation">Documentation</h2>
+
+<p>Extensive documentation is <a
+href="https://github.com/davetron5000/gli/wiki">available at the wiki</a>.</p>
+
+<p>API Documentation is available <a
+href="http://davetron5000.github.com/gli/rdoc/index.html">here</a>. 
+Recommend starting with <a href="../classes/GLI/DSL.html">GLI::DSL</a> or
+<a href="../classes/GLI/App.html">GLI::App</a>.</p>
+
+<h2 id="label-Credits">Credits</h2>
+<dl class="rdoc-list note-list"><dt>Author
+<dd>
+<p>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot
+com)</p>
+</dd><dt>Copyright
+<dd>
+<p>Copyright (c) 2010 by Dave Copeland</p>
+</dd><dt>License
+<dd>
+<p>Distributes under the Apache License, see LICENSE.txt in the source distro</p>
+</dd></dl>
+
+<h2 id="label-Links">Links</h2>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="http://davetron5000.github.com/gli">davetron5000.github.com/gli</a>
+<dd><ul><li>
+<p>RubyDoc</p>
+</li></ul>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="http://www.github.com/davetron5000/gli">www.github.com/davetron5000/gli</a>
+<dd><ul><li>
+<p>Source on GitHub</p>
+</li></ul>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="http://www.github.com/davetron5000/gli/wiki">www.github.com/davetron5000/gli/wiki</a>
+<dd><ul><li>
+<p>Documentation Wiki</p>
+</li></ul>
+</dd></dl>
+</li><li><dl class="rdoc-list label-list"><dt><a href="http://www.github.com/davetron5000/gli/wiki/Changelog">www.github.com/davetron5000/gli/wiki/Changelog</a>
+<dd><ul><li>
+<p>Changelog</p>
+</li></ul>
+</dd></dl>
+</li></ul>
+
+    </div>
+  
+
+
+  
+
+
+  
+  
+
+
+  
+
+
+  
+
+  
+
+
+
+  
+
+    
+
+    
+
+    
+
+
+    
+
+
+    <!-- Methods -->
+              </div>
+    </div>
+  </body>
+</html>

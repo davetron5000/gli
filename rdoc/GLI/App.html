@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=ASCII-8BIT" http-equiv="Content-Type">
+
+<title>module GLI::App - GLI - Git Like Interface for your command-line apps</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/gli/app.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    <!-- Included Modules -->
+<nav id="includes-section" class="section">
+  <h3 class="section-header">Included Modules</h3>
+
+  <ul class="link-list">
+  
+  
+    <li><a class="include" href="DSL.html">GLI::DSL</a>
+  
+  
+  
+    <li><span class="include">AppSupport</span>
+  
+  
+  </ul>
+</nav>
+
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-i-accept">#accept</a>
+    
+    <li><a href="#method-i-commands_from">#commands_from</a>
+    
+    <li><a href="#method-i-config_file">#config_file</a>
+    
+    <li><a href="#method-i-default_command">#default_command</a>
+    
+    <li><a href="#method-i-exit_now-21">#exit_now!</a>
+    
+    <li><a href="#method-i-help_now-21">#help_now!</a>
+    
+    <li><a href="#method-i-on_error">#on_error</a>
+    
+    <li><a href="#method-i-post">#post</a>
+    
+    <li><a href="#method-i-pre">#pre</a>
+    
+    <li><a href="#method-i-program_desc">#program_desc</a>
+    
+    <li><a href="#method-i-skips_post">#skips_post</a>
+    
+    <li><a href="#method-i-skips_pre">#skips_pre</a>
+    
+    <li><a href="#method-i-use_openstruct">#use_openstruct</a>
+    
+    <li><a href="#method-i-version">#version</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../GLI.html">GLI</a>
+  
+    <li><a href="../GLI/App.html">GLI::App</a>
+  
+    <li><a href="../GLI/BadCommandLine.html">GLI::BadCommandLine</a>
+  
+    <li><a href="../GLI/Command.html">GLI::Command</a>
+  
+    <li><a href="../GLI/CommandLineToken.html">GLI::CommandLineToken</a>
+  
+    <li><a href="../GLI/Commands.html">GLI::Commands</a>
+  
+    <li><a href="../GLI/Commands/CompoundCommand.html">GLI::Commands::CompoundCommand</a>
+  
+    <li><a href="../GLI/CustomExit.html">GLI::CustomExit</a>
+  
+    <li><a href="../GLI/DSL.html">GLI::DSL</a>
+  
+    <li><a href="../GLI/Options.html">GLI::Options</a>
+  
+    <li><a href="../GLI/StandardException.html">GLI::StandardException</a>
+  
+    <li><a href="../GLI/Terminal.html">GLI::Terminal</a>
+  
+    <li><a href="../GLI/UnknownCommand.html">GLI::UnknownCommand</a>
+  
+    <li><a href="../GLI/UnknownCommandArgument.html">GLI::UnknownCommandArgument</a>
+  
+    <li><a href="../GLI/UnknownGlobalArgument.html">GLI::UnknownGlobalArgument</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module GLI::App</h1>
+
+  <div id="description" class="description">
+    
+<p>A means to define and parse a command line interface that works as Git's
+does, in that you specify global options, a command name, command specific
+options, and then command arguments.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-accept" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">accept</span><span
+            class="method-args">(object,&block)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Configure a type conversion not already provided by the underlying
+OptionParser. This works more or less like the OptionParser version.</p>
+<dl class="rdoc-list note-list"><dt>object
+<dd>
+<p>the class (or whatever) that triggers the type conversion</p>
+</dd><dt>block
+<dd>
+<p>the block that will be given the string argument and is expected to return
+the converted value</p>
+</dd></dl>
+
+<p>Example</p>
+
+<pre class="ruby"><span class="ruby-identifier">accept</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">result</span> = {}
+  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r,/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r:/</span>)
+    <span class="ruby-identifier">result</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">result</span>
+<span class="ruby-keyword">end</span>
+
+<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">properties</span>, :<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Hash</span>
+</pre>
+          
+
+          
+          <div class="method-source-code" id="accept-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 143</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">accept</span>(<span class="ruby-identifier">object</span>,&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">accepts</span>[<span class="ruby-identifier">object</span>] = <span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- accept-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- accept-method -->
+
+    
+      <div id="method-i-commands_from" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">commands_from</span><span
+            class="method-args">(path)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Loads ruby files in the load path that start with  <code>path</code>, which
+are presumed to be commands for your executable. This is a glorified
+<code>require</code>, but could also be used as a plugin mechanism. You
+could manipualte the load path at runtime and this call would find those
+files</p>
+<dl class="rdoc-list note-list"><dt>path
+<dd>
+<p>a path relative to somewhere in the <code>LOAD_PATH</code>, from which all
+<code>.rb</code> files will be required.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="commands_from-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">commands_from</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">commands_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">load_path</span>,<span class="ruby-identifier">path</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">commands_path</span>
+      <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">commands_path</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">commands_path</span>,<span class="ruby-identifier">entry</span>)
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\.rb$/</span>
+          <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- commands_from-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- commands_from-method -->
+
+    
+      <div id="method-i-config_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">config_file</span><span
+            class="method-args">(filename)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sets that this app uses a config file as well as the name of the config
+file.</p>
+<dl class="rdoc-list note-list"><dt><code>filename</code>
+<dd>
+<p>A String representing the path to the file to use for the config file.  If
+it's an absolute path, this is treated as the path to the file.  If it's
+<strong>not</strong>, it's treated as relative to the user's home directory
+as produced by <code>File.expand_path('~')</code>.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="config_file-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 66</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">config_file</span>(<span class="ruby-identifier">filename</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^\//</span>
+    <span class="ruby-ivar">@config_file</span> = <span class="ruby-identifier">filename</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">'HOME'</span>]),<span class="ruby-identifier">filename</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">commands</span>[<span class="ruby-value">:initconfig</span>] = <span class="ruby-constant">InitConfig</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@config_file</span>,<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">flags</span>,<span class="ruby-identifier">switches</span>)
+  <span class="ruby-ivar">@config_file</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- config_file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- config_file-method -->
+
+    
+      <div id="method-i-default_command" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">default_command</span><span
+            class="method-args">(command)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Sets a default command to run when none is specified on the command line. 
+Note that if you use this, you won't be able to pass arguments, flags, or
+switches to the command when run in default mode.  All flags and switches
+are treated as global, and any argument will be interpretted as the command
+name and likely fail.</p>
+<dl class="rdoc-list note-list"><dt><code>command</code>
+<dd>
+<p><a href="Command.html">Command</a> as a Symbol to run as default</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="default_command-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 180</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">default_command</span>(<span class="ruby-identifier">command</span>)
+  <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- default_command-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- default_command-method -->
+
+    
+      <div id="method-i-exit_now-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">exit_now!</span><span
+            class="method-args">(message,exit_code=1)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Simpler means of exiting with a custom exit code.  This will  raise a <a
+href="CustomExit.html">CustomExit</a> with the given message and exit code,
+which will ultimatley cause your application to exit with the given
+exit_code as its exit status Use <a
+href="App.html#method-i-help_now-21">help_now!</a> if you want to show the
+help in addition to the error message</p>
+<dl class="rdoc-list note-list"><dt>message
+<dd>
+<p>message to show the user</p>
+</dd><dt>exit_code
+<dd>
+<p>exit code to exit as, defaults to 1</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="exit_now-21-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 154</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">exit_now!</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>=<span class="ruby-value">1</span>)
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">CustomExit</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- exit_now-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- exit_now-21-method -->
+
+    
+      <div id="method-i-help_now-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">help_now!</span><span
+            class="method-args">(message)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Exit now, showing the user help for the command they executed.  Use <a
+href="App.html#method-i-exit_now-21">exit_now!</a> to just show the error
+message</p>
+<dl class="rdoc-list note-list"><dt>message
+<dd>
+<p>message to indicate how the user has messed up the CLI invocation</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="help_now-21-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 161</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">help_now!</span>(<span class="ruby-identifier">message</span>)
+  <span class="ruby-identifier">exception</span> = <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
+  <span class="ruby-keyword">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">exception</span>
+    <span class="ruby-keyword">def</span> <span class="ruby-identifier">exit_code</span>; <span class="ruby-value">64</span>; <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-identifier">exception</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- help_now-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- help_now-21-method -->
+
+    
+      <div id="method-i-on_error" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">on_error</span><span
+            class="method-args">(&a_proc)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define a block to run if an error occurs. The block will receive any
+Exception that was caught. It should evaluate to false to avoid the
+built-in error handling (which basically just prints out a message). <a
+href="../GLI.html">GLI</a> uses a variety of exceptions that you can use to
+find out what  errors might've occurred during command-line parsing:</p>
+<ul><li>
+<p><a href="CustomExit.html">GLI::CustomExit</a></p>
+</li><li>
+<p><a href="UnknownCommandArgument.html">GLI::UnknownCommandArgument</a></p>
+</li><li>
+<p><a href="UnknownGlobalArgument.html">GLI::UnknownGlobalArgument</a></p>
+</li><li>
+<p><a href="UnknownCommand.html">GLI::UnknownCommand</a></p>
+</li><li>
+<p><a href="BadCommandLine.html">GLI::BadCommandLine</a></p>
+</li></ul>
+          
+
+          
+          <div class="method-source-code" id="on_error-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">on_error</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+  <span class="ruby-ivar">@error_block</span> = <span class="ruby-identifier">a_proc</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- on_error-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- on_error-method -->
+
+    
+      <div id="method-i-post" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">post</span><span
+            class="method-args">(&a_proc)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define a block to run after the command was executed, <strong>only if there
+was not an error</strong>. The block will receive the
+global-options,command,options, and arguments</p>
+          
+
+          
+          <div class="method-source-code" id="post-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 89</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">post</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+  <span class="ruby-ivar">@post_block</span> = <span class="ruby-identifier">a_proc</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- post-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- post-method -->
+
+    
+      <div id="method-i-pre" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">pre</span><span
+            class="method-args">(&a_proc)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Define a block to run after command line arguments are parsed but before
+any command is run.  If this block raises an exception the command
+specified will not be executed. The block will receive the
+global-options,command,options, and arguments If this block evaluates to
+true, the program will proceed; otherwise the program will end immediately</p>
+          
+
+          
+          <div class="method-source-code" id="pre-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 82</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">pre</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+  <span class="ruby-ivar">@pre_block</span> = <span class="ruby-identifier">a_proc</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- pre-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- pre-method -->
+
+    
+      <div id="method-i-program_desc" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">program_desc</span><span
+            class="method-args">(description=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Describe the overall application/programm.  This should be a one-sentence
+summary of what your program does that will appear in the help output.</p>
+<dl class="rdoc-list note-list"><dt><code>description</code>
+<dd>
+<p>A String of the short description of your program's purpose</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="program_desc-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 40</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">program_desc</span>(<span class="ruby-identifier">description</span>=<span class="ruby-keyword">nil</span>) 
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">description</span>
+    <span class="ruby-ivar">@program_desc</span> = <span class="ruby-identifier">description</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@program_desc</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- program_desc-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- program_desc-method -->
+
+    
+      <div id="method-i-skips_post" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">skips_post</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Use this if the following command should not have the post block executed.
+By default, the post block is executed after each command. Using this will
+avoid that behavior for the following command</p>
+          
+
+          
+          <div class="method-source-code" id="skips_post-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">skips_post</span>
+  <span class="ruby-ivar">@skips_post</span> = <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- skips_post-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- skips_post-method -->
+
+    
+      <div id="method-i-skips_pre" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">skips_pre</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Use this if the following command should not have the pre block executed.
+By default, the pre block is executed before each command and can result in
+aborting the call.  Using this will avoid that behavior for the following
+command</p>
+          
+
+          
+          <div class="method-source-code" id="skips_pre-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 50</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">skips_pre</span>
+  <span class="ruby-ivar">@skips_pre</span> = <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- skips_pre-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- skips_pre-method -->
+
+    
+      <div id="method-i-use_openstruct" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">use_openstruct</span><span
+            class="method-args">(use_openstruct)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Call this with <code>true</code> will cause the <code>global_options</code>
+and <code>options</code> passed to your code to be wrapped in <a
+href="Options.html">Options</a>, which is a subclass of
+<code>OpenStruct</code> that adds <code>[]</code> and <code>[]=</code>
+methods.</p>
+<dl class="rdoc-list note-list"><dt><code>use_openstruct</code>
+<dd>
+<p>a Boolean indicating if we should use OpenStruct instead of Hashes</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="use_openstruct-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 120</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">use_openstruct</span>(<span class="ruby-identifier">use_openstruct</span>)
+  <span class="ruby-ivar">@use_openstruct</span> = <span class="ruby-identifier">use_openstruct</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- use_openstruct-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- use_openstruct-method -->
+
+    
+      <div id="method-i-version" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">version</span><span
+            class="method-args">(version)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Indicate the version of your application</p>
+<dl class="rdoc-list note-list"><dt><code>version</code>
+<dd>
+<p>String containing the version of your application.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="version-source">
+            <pre><span class="ruby-comment"># File lib/gli/app.rb, line 110</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">version</span>(<span class="ruby-identifier">version</span>)
+  <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- version-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- version-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
