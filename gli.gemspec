@@ -29,5 +29,6 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('clean_test')
   s.add_development_dependency('aruba', '~> 0.4.7')
+  s.add_development_dependency('sdoc')
 end
 

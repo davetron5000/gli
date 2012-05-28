@@ -8,6 +8,7 @@ simpler command-line application, check out methadone[http://www.github.com/dave
 GLI allows you to make a very polished, easy-to-maintain command-line application without a lot
 of syntax, but without restricting you in any way from the power of +OptionParser+.
 
+* {Overview}[http://davetron5000.github.com/gli]
 * {Source on Github}[http://github.com/davetron5000/gli]
 * RDoc[http://davetron5000.github.com/gli]
 
@@ -86,6 +87,8 @@ If you're interested in other versions of Ruby, let me know, and I'll add them t
 == Documentation
 
 Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].
+
+API Documentation is available {here}[http://davetron5000.github.com/gli/rdoc/index.html].  Recommend starting with GLI::DSL or GLI::App.
 
 == Credits
 
