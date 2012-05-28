@@ -10,7 +10,7 @@ of syntax, but without restricting you in any way from the power of +OptionParse
 
 * {Overview}[http://davetron5000.github.com/gli]
 * {Source on Github}[http://github.com/davetron5000/gli]
-* RDoc[http://davetron5000.github.com/gli]
+* RDoc[http://davetron5000.github.com/gli/rdoc/index.html]
 
 == Use
 
