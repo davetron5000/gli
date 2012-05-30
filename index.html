@@ -405,6 +405,73 @@ flag [:t,:tasklist], :type => Hacer::Todolist
         </div>
       </div>
       <div class="subsection">
+        <h3>Bootstrapping</h3>
+        <p>
+        In addition to the DSL and other helper methods, GLI is bundled with a command-line app, <code>gli</code>,
+        that you can use to bootstrap your application.  By bootstrapping your app this way, you get, in seconds:
+        </p>
+        <ul>
+          <li>A basic project structure</li>
+          <li>An outline of your executable</li>
+          <li>Gemfile and gemspec</li>
+          <li>Scaffold for unit tests</li>
+          <li>Scaffold for Aruba-and-Cucumber-powered integration tests to make testing your app a snap</li>
+          <li>Rakefile to tie it all together</li>
+        </ul>
+        <p>
+        <code>gli</code> has a command, <code>init</code> that takes the name of your app as an argument, followed by a list of commands your app will have (don't worry, you can easily add more using the methods and techniques we've already discussed):
+        </p>
+        <pre class="brush: shell">
+        $ gli init todo add list complete
+        $ cd todo
+        $ bundle exec bin/todo help
+        NAME
+            todo - A simple todo list
+
+        SYNOPSIS
+            todo [global options] command [command options] [arguments...]
+
+        GLOBAL OPTIONS
+            --help             - Show this message
+            -t, --tasklist=arg - (default: /Users/davec/.todolist)
+
+        COMMANDS
+            add  - 
+            done - 
+            help - Shows a list of commands or help for one command
+            list - 
+        $ rake test
+        Run options: 
+
+        # Running tests:
+
+        .
+
+        Finished tests in 0.151210s, 112.4264 tests/s, 218.2395 assertions/s.
+
+        1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
+        $ rake cucumber
+        .
+
+        1 scenarios (3 passed)
+        3 steps (3 passed)
+        0m0.049s
+        </pre>
+        <p>
+        All you need to do is fill in your logic!
+        </p>
+        <div class="sidebar">
+          <h4>Why do I need <code>bundle exec</code>?</h4>
+          <p>
+          GLI assumes your app distributes with RubyGems.  In that case, you don't need your <code>bin</code> file to 
+          futz with the load path; RubyGems will set everything up after installation.  As such, in development, you can't
+          just run your app directly, because your <code>lib/</code> directory will <strong>not</strong> be in the load
+          path.  You could certainly do <code>RUBYLIB=lib bin/todo help</code>, but it's a bit easier and cleaner
+          to use bundler.
+          </p>
+        </div>
+      </div>
+      <div class="subsection">
         <h3>How can I learn more?</h3>
         <p>
         There are three places to dig deeper into GLI:
