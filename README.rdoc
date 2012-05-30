@@ -1,6 +1,6 @@
 = Git-Like Interface Command Line Parser
 
-<b>This describes the forthcoming GLI2 and might not be 100% accurate</b>
+<b>GLI2 is currently in Release Candidate, so this might change before the official release</b>
 
 The best way to make a "command-suite" command-line application (for the best way to make a
 simpler command-line application, check out methadone[http://www.github.com/davetron5000/methadone]).
