@@ -100,6 +100,18 @@ class TC_testCommand < Clean::Test::TestCase
     end
   end
 
+  def test_wrap_commands_in_block
+    @did_something = false
+    @app.run(%w(basic)) do |global_options, command, options, arguments, &cmd|
+      @did_something = true
+      cmd.call
+    end
+    assert(@did_something, "Wrapper block should have been called")
+    assert(!@pre_called,"Pre block should not have been called")
+    assert(!@post_called,"Post block should not have been called")
+    assert(!@error_called,"Error block should not have been called")
+  end
+
   def test_command_skips_pre
     @app.skips_pre
     @app.skips_post
