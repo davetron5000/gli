@@ -34,9 +34,10 @@ module GLI
     # Runs whatever command is needed based on the arguments. 
     #
     # +args+:: the command line ARGV array
+    # blk::  block wrapping execution of any command (instead of pre and post blocks)
     #
     # Returns a number that would be a reasonable exit code
-    def run(args) #:nodoc:
+    def run(args, &blk) #:nodoc:
       command = nil
       begin
         override_defaults_based_on_config(parse_config)
@@ -50,9 +51,16 @@ module GLI
         global_options = convert_to_openstruct_if_needed(global_options)
         options        = convert_to_openstruct_if_needed(options)
 
-        if proceed?(global_options,command,options,arguments)
-          command ||= commands[:help]
-          call_command(command,global_options,options,arguments)
+        command ||= commands[:help]
+        if blk
+          blk.call(global_options, command, options, arguments) do
+            call_command(command,global_options,options,arguments)
+          end
+        else
+          if proceed?(global_options,command,options,arguments)
+            call_command(command,global_options,options,arguments)
+            call_post(global_options,command,options,arguments) unless command.skips_post
+          end
         end
         0
       rescue Exception => ex
@@ -217,9 +225,10 @@ module GLI
     def call_command(command,global_options,options,arguments)
       arguments = arguments.map { |arg| arg.dup } # unfreeze
       command.execute(global_options,options,arguments)
-      unless command.skips_post
-        post_block.call(global_options,command,options,arguments)
-      end
+    end
+
+    def call_post(global_options,command,options,arguments)
+      post_block.call(global_options,command,options,arguments)
     end
 
   end
