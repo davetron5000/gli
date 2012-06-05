@@ -214,6 +214,18 @@ class TC_testGLI < Clean::Test::TestCase
     do_test_switch_create_twice(@app)
     do_test_switch_create_twice(Command.new(:names => :f))
   end
+  
+  def test_non_negatable_negative_switch
+    @app.reset
+    @app.on_error { |ex| raise ex }
+    @app.switch 'no-color', :negatable => false
+    @app.command :smth do |c|
+      c.action do |global, *args|
+        assert global[:"no-color"], "Expected :'no-color' switch to be true"
+      end
+    end
+    @app.run(%w(--no-color smth))
+  end
 
   def test_all_aliases_in_options
     @app.reset
