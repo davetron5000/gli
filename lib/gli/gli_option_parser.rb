@@ -1,11 +1,12 @@
 module GLI
   # Parses the command-line options using an actual +OptionParser+
   class GLIOptionParser
-    def initialize(commands,flags,switches,accepts)
+    def initialize(commands,flags,switches,accepts,default_command = nil)
       @commands = commands
       @flags = flags
       @switches = switches
       @accepts = accepts
+      @default_command = default_command
     end
 
     # Given the command-line argument array, returns and array of size 4:
