@@ -51,6 +51,19 @@ class TC_testGLI < Clean::Test::TestCase
     assert @app.switches[:s].aliases.include? :'some-switch'
   end
 
+  def test_default_command
+    @app.reset
+    @called = false
+    @app.command :foo do |c|
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    @app.default_command(:foo)
+    assert_equal 0, @app.run([]), "Expected exit status to be 0"
+    assert @called, "Expected default command to be executed"
+  end
+
   def test_flag_with_space_barfs
     @app.reset
     assert_raises(ArgumentError) { @app.flag ['some flag'] }
