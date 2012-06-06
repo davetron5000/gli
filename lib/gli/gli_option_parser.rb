@@ -88,10 +88,13 @@ module GLI
           names_to_commands[command_alias.to_s] = command
         end
       end
-      name = name.to_s
-      return names_to_commands[name] if names_to_commands[name]
-      # Now try to match on partial names
-      partial_matches = names_to_commands.keys.select { |command_name| command_name =~ /^#{name}/ }
+      names_to_commands.fetch(name.to_s) do |command_to_match|
+        find_command_by_partial_name(names_to_commands, command_to_match)
+      end
+    end
+
+    def find_command_by_partial_name(names_to_commands, command_to_match)
+      partial_matches = names_to_commands.keys.select { |command_name| command_name =~ /^#{command_to_match}/ }
       return names_to_commands[partial_matches[0]] if partial_matches.size == 1
       partial_matches
     end
