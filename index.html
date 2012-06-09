@@ -377,6 +377,21 @@
         This block is only called if there were no errors.
         </p>
         <p>
+        You can also use an <em>around</em> hook, which inverts the relationship and makes it easier to manage global
+        setup for certain types of resources.  For example, if you wanted to have a file open during the command execution:
+        </p>
+        <pre class="brush: ruby">
+        around do |global_options,command,options,args,code|
+          File.open(global_options[:filename]) do |file|
+            options[:file] = file
+            code.call
+          end
+        end
+        </pre>
+        <p>
+        This won't stop the pre/post hooks, so you can use all three if it makes the most sense for your app.
+        </p>
+        <p>
         You can also configure how error handling is done by declaring an <code>error</code>
         block.  The block you give to <code>error</code> doesn't have access to any of the parsed options
         or arguments (since the error could happen at any time during the lifecycle of your app).  If the block
