@@ -4,7 +4,15 @@ require 'tempfile'
 class TC_testCommand < Clean::Test::TestCase
   include TestHelper
   def setup
+    @fake_stdout = FakeStdOut.new
+    @fake_stderr = FakeStdOut.new
+    @original_stdout = $stdout
+    $stdout = @fake_stdout
+    @original_stderr = $stderr
+    $stderr = @fake_stderr
     @app = CLIApp.new
+    @app.error_device=@fake_stderr
+    ENV.delete('GLI_DEBUG')
     @app.reset
     @app.program_desc 'A super awesome program'
     @app.desc 'Some Global Option'
@@ -50,17 +58,9 @@ class TC_testCommand < Clean::Test::TestCase
     @app.command [:test_wrap] do |c|
       c.action {}
     end
-    @fake_stdout = FakeStdOut.new
-    @fake_stderr = FakeStdOut.new
-    @app.error_device=@fake_stderr
-    ENV.delete('GLI_DEBUG')
-    @original_stdout = $stdout
-    $stdout = @fake_stdout
-    @original_stderr = $stderr
-    $stderr = @fake_stderr
   end
 
-  def tear_down
+  def teardown
     $stdout = @original_stdout
     $stderr = @original_stderr
     FileUtils.rm_f "cruddo.rdoc"
@@ -98,6 +98,83 @@ class TC_testCommand < Clean::Test::TestCase
       assert(@post_called,"Post block should have been called for args #{args_orig}")
       assert(!@error_called,"Error block should not have been called for args #{args_orig}")
     end
+  end
+
+  def test_around_filter
+    @around_block_called = false
+    @app.around do |global_options, command, options, arguments, code|
+      @around_block_called = true
+      code.call
+    end
+    @app.run(['bs'])
+    assert(@around_block_called, "Wrapper block should have been called")
+  end
+
+  def test_around_filter_can_be_skipped
+    # Given
+    @around_block_called = false
+    @action_called = false
+    @app.skips_around
+    @app.command :skips_around_filter do |c|
+      c.action do |g,o,a|
+        @action_called = true
+      end
+    end
+
+    @app.command :uses_around_filter do |c|
+      c.action do |g,o,a|
+        @action_called = true
+      end
+    end
+
+    @app.around do |global_options, command, options, arguments, code|
+      @around_block_called = true
+      code.call
+    end
+
+    # When
+    exit_status = @app.run(['skips_around_filter'])
+
+    # Then
+    assert_equal 0,exit_status
+    assert(!@around_block_called, "Wrapper block should have been skipped")
+    assert(@action_called,"Action should have been called")
+
+    # When
+    @around_block_called = false
+    @action_called = false
+    exit_status = @app.run(['uses_around_filter'])
+
+    # Then
+    assert_equal 0,exit_status
+    assert(@around_block_called, "Wrapper block should have been called")
+    assert(@action_called,"Action should have been called")
+  end
+
+  def test_around_filter_handles_exit_now
+    @around_block_called = false
+    @error_message = "OH NOES"
+    @app.around do |global_options, command, options, arguments, code|
+      @app.exit_now! @error_message
+      code.call
+    end
+    exit_code = @app.run(['bs'])
+    assert exit_code != 0
+    assert_contained(@fake_stderr,/#{@error_message}/)
+    assert_not_contained(@fake_stdout,/SYNOPSIS/)
+  end
+
+  def test_around_filter_handles_help_now
+    @around_block_called = false
+    @error_message = "OH NOES"
+    @app.around do |global_options, command, options, arguments, code|
+      @app.help_now! @error_message
+      code.call
+    end
+    exit_code = @app.run(['bs'])
+    assert exit_code != 0
+    assert_contained(@fake_stderr,/#{@error_message}/)
+    assert_contained(@fake_stdout,/SYNOPSIS/)
   end
 
   def test_command_skips_pre

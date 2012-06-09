@@ -140,6 +140,7 @@ module GLI
         :long_desc => @next_long_desc,
         :skips_pre => @skips_pre,
         :skips_post => @skips_post,
+        :skips_around => @skips_around,
       }
       if names.first.kind_of? Hash
         command = GLI::Commands::CompoundCommand.new(self,

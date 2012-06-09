@@ -4,11 +4,23 @@ class TC_testSubCommand < Clean::Test::TestCase
   include TestHelper
 
   def setup
+    @fake_stdout = FakeStdOut.new
+    @fake_stderr = FakeStdOut.new
+
+    @original_stdout = $stdout
+    $stdout = @fake_stdout
+    @original_stderr = $stderr
+    $stderr = @fake_stderr
+
     @app = CLIApp.new
     @app.reset
-    @fake_stderr = FakeStdOut.new
     @app.error_device=@fake_stderr
     ENV.delete('GLI_DEBUG')
+  end
+
+  def teardown
+    $stdout = @original_stdout
+    $stderr = @original_stderr
   end
 
   ['add','new'].each do |name|

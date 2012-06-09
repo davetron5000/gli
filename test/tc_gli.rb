@@ -17,10 +17,15 @@ class TC_testGLI < Clean::Test::TestCase
   include GLI
 
   def setup
+    @fake_stdout = FakeStdOut.new
+    @fake_stderr = FakeStdOut.new
+    @original_stdout = $stdout
+    $stdout = @fake_stdout
+    @original_stderr = $stderr
+    $stderr = @fake_stderr
     @app = CLIApp.new
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
     @gli_debug = ENV['GLI_DEBUG']
-    @fake_stderr = FakeStdOut.new
     @app.error_device=@fake_stderr
     ENV.delete('GLI_DEBUG')
   end
@@ -29,6 +34,8 @@ class TC_testGLI < Clean::Test::TestCase
     File.delete(@config_file) if File.exist?(@config_file)
     ENV['GLI_DEBUG'] = @gli_debug
     @app.error_device=$stderr
+    $stdout = @original_stdout
+    $stderr = @original_stderr
   end
 
   def test_flag_create

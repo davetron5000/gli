@@ -58,6 +58,13 @@ module GLI
       @skips_post = true
     end
 
+    # Use this if the following command should not have the around block executed.
+    # By default, the around block is executed, but for commands that might not want the
+    # setup to happen, this can be handy
+    def skips_around
+      @skips_around = true
+    end
+
     # Sets that this app uses a config file as well as the name of the config file.  
     #
     # +filename+:: A String representing the path to the file to use for the config file.  If it's an absolute
@@ -88,6 +95,25 @@ module GLI
     # The block will receive the global-options,command,options, and arguments
     def post(&a_proc)
       @post_block = a_proc
+    end
+
+    # This inverts the pre/post concept.  This is useful when you have a global shared resource that is governed by a block
+    # instead of separate open/close methods.  The block you pass here will be given four parameters:
+    #
+    # global options:: the parsed global options
+    # command:: The GLI::Command that the user is going to invoke
+    # options:: the command specific options
+    # args:: unparsed command-line args
+    # code:: a block that you must +call+ to execute the command.
+    #
+    # #help_now! and #exit_now! work as expected; you can abort the command call by simply not calling it
+    #
+    # Note that if you declare an #around block, #pre and #post blocks will still work.  The #pre is called first, followed by
+    # the around, followed by the #post.
+    #
+    # Call #skips_around before a command that should not have this hook fired
+    def around(&a_proc)
+      @around_block = a_proc
     end
 
     # Define a block to run if an error occurs.

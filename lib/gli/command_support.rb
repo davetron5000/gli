@@ -30,6 +30,11 @@ module GLI
       @skips_post
     end
 
+    # If true, this command doesn't want the around block called
+    def skips_around
+      @skips_around
+    end
+
     # Return the Array of the command's names
     def names 
       all_forms

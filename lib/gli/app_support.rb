@@ -23,6 +23,7 @@ module GLI
       @pre_block = false
       @post_block = false
       @default_command = :help
+      @around_block = nil
       clear_nexts
     end
 
@@ -92,6 +93,7 @@ module GLI
       super
       @skips_post = false
       @skips_pre = false
+      @skips_around = false
     end
 
     def stderr
@@ -122,6 +124,12 @@ module GLI
 
     def post_block
       @post_block ||= Proc.new do
+      end
+    end
+
+    def around_block
+      @around_block ||= Proc.new do |global,command,options,args,code|
+        code.call
       end
     end
 
@@ -215,7 +223,12 @@ module GLI
 
     def call_command(command,global_options,options,arguments)
       arguments = arguments.map { |arg| arg.dup } # unfreeze
-      command.execute(global_options,options,arguments)
+      code = lambda { command.execute(global_options,options,arguments) }
+      if command.skips_around
+        code.call
+      else
+        around_block.call(global_options,command,options,arguments,code)
+      end
       unless command.skips_post
         post_block.call(global_options,command,options,arguments)
       end

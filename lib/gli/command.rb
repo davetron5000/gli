@@ -42,11 +42,13 @@ module GLI
     #                         as a paragraph break.  No other formatting is respected, though inner whitespace is maintained.
     #           +skips_pre+:: if true, this command advertises that it doesn't want the pre block called first
     #           +skips_post+:: if true, this command advertises that it doesn't want the post block called after it
+    #           +skips_around+:: if true, this command advertises that it doesn't want the around block called
     def initialize(options)
       super(options[:names],options[:description],options[:long_desc])
       @arguments_description = options[:arguments_name] || ''
       @skips_pre = options[:skips_pre]
       @skips_post = options[:skips_post]
+      @skips_around = options[:skips_around]
       clear_nexts
     end
 

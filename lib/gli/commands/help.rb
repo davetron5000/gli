@@ -17,7 +17,8 @@ module GLI
               :arguments_name => 'command',
               :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function',
               :skips_pre => true,
-              :skips_post => true)
+              :skips_post => true,
+              :skips_around => true)
         @app = app
         action do |global_options,options,arguments|
           show_help(global_options,options,arguments,output,error)
