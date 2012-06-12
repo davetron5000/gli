@@ -325,7 +325,7 @@
         <pre class="brush: ruby">
         command :done do |c|
           c.action do |global_options,options,args|
-            help_now!('id is required') if args.empty
+            help_now!('id is required') if args.empty?
             todo = $todo_list.list.select { |todo| todo.todo_id == id }.first
             exit_now!("No todo with id #{id}") if todo.nil?
             $todo_list.complete(todo)
