@@ -355,7 +355,7 @@
         <pre class="brush: ruby">
         pre do |global_options,command,options,args|
           # Replace the string with the actual list object
-          global_options[:taslist] = Hacer::Todolist.new(global_options[:tasklist])
+          global_options[:tasklist] = Hacer::Todolist.new(global_options[:tasklist])
         end
 
         command :add do |c|
@@ -370,7 +370,7 @@
         </p>
         <pre class="brush: ruby">
         post do |global_options,command,options,args|
-          global_options[:taslist].save_to_disk!
+          global_options[:tasklist].save_to_disk!
         end
         </pre>
         <p>
