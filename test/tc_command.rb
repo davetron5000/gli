@@ -146,9 +146,77 @@ class TC_testCommand < Clean::Test::TestCase
     exit_status = @app.run(['uses_around_filter'])
 
     # Then
-    assert_equal 0,exit_status
+    assert_equal 0, exit_status
     assert(@around_block_called, "Wrapper block should have been called")
     assert(@action_called,"Action should have been called")
+  end
+
+  def test_around_filter_can_be_nested
+    @calls = []
+
+    @app.around do |global_options, command, options, arguments, code|
+      @calls << "first_pre"
+      code.call
+      @calls << "first_post"
+    end
+
+    @app.around do |global_options, command, options, arguments, code|
+      @calls << "second_pre"
+      code.call
+      @calls << "second_post"
+    end
+
+    @app.around do |global_options, command, options, arguments, code|
+      @calls << "third_pre"
+      code.call
+      @calls << "third_post"
+    end
+
+    @app.command :with_multiple_around_filters do |c|
+      c.action do |g,o,a|
+        @calls << "action!"
+      end
+    end
+
+    @app.run(['with_multiple_around_filters'])
+
+    assert_equal ["first_pre", "second_pre", "third_pre", "action!", "third_post", "second_post", "first_post"], @calls
+  end
+
+  def test_skipping_nested_around_filters
+    @calls = []
+
+    @app.around do |global_options, command, options, arguments, code|
+      begin
+        @calls << "first_pre"
+        code.call
+      ensure
+        @calls << "first_post"
+      end
+    end
+
+    @app.around do |global_options, command, options, arguments, code|
+      @calls << "second_pre"
+      code.call
+      @calls << "second_post"
+    end
+
+    @app.around do |global_options, command, options, arguments, code|
+      @calls << "third_pre"
+      code.call
+      exit_now!
+      @calls << "third_post"
+    end
+
+    @app.command :with_multiple_around_filters do |c|
+      c.action do |g,o,a|
+        @calls << "action!"
+      end
+    end
+
+    @app.run(['with_multiple_around_filters'])
+
+    assert_equal ["first_pre", "second_pre", "third_pre", "action!", "first_post"], @calls
   end
 
   def test_around_filter_handles_exit_now

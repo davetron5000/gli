@@ -127,10 +127,8 @@ module GLI
       end
     end
 
-    def around_block
-      @around_block ||= Proc.new do |global,command,options,args,code|
-        code.call
-      end
+    def around_blocks
+      @around_blocks || []
     end
 
     # Sets the default values for flags based on the configuration
@@ -224,11 +222,21 @@ module GLI
     def call_command(command,global_options,options,arguments)
       arguments = arguments.map { |arg| arg.dup } # unfreeze
       code = lambda { command.execute(global_options,options,arguments) }
-      if command.skips_around
-        code.call
+      nested_arounds = unless command.skips_around
+                         around_blocks.inject do |outer_around, inner_around|
+                           lambda { |*args, code|
+                             inner = lambda { inner_around.call(*args, code) }
+                             outer_around.call(*args, inner)
+                           }
+                         end
+                       end
+
+      if nested_arounds
+        nested_arounds.call(global_options,command, options, arguments, code)
       else
-        around_block.call(global_options,command,options,arguments,code)
+        code.call
       end
+
       unless command.skips_post
         post_block.call(global_options,command,options,arguments)
       end
