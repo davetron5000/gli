@@ -224,9 +224,9 @@ module GLI
       code = lambda { command.execute(global_options,options,arguments) }
       nested_arounds = unless command.skips_around
                          around_blocks.inject do |outer_around, inner_around|
-                           lambda { |global_options, command, options, arguments, code|
-                             inner = lambda { inner_around.call(global_options, command, options, arguments, code) }
-                             outer_around.call(global_options, command, options, arguments, inner)
+                           lambda { |go,c,o,a, code1|
+                             inner = lambda { inner_around.call(go,c,o,a, code1) }
+                             outer_around.call(go,c,o,a, inner)
                            }
                          end
                        end
