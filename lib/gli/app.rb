@@ -106,14 +106,17 @@ module GLI
     # args:: unparsed command-line args
     # code:: a block that you must +call+ to execute the command.
     #
-    # #help_now! and #exit_now! work as expected; you can abort the command call by simply not calling it
+    # #help_now! and #exit_now! work as expected; you can abort the command call by simply not calling it.
     #
-    # Note that if you declare an #around block, #pre and #post blocks will still work.  The #pre is called first, followed by
+    # You can declare as many #around blocks as you want.  They will be called in the order in which they are defined.
+    #
+    # Note that if you declare #around blocks, #pre and #post blocks will still work.  The #pre is called first, followed by
     # the around, followed by the #post.
     #
     # Call #skips_around before a command that should not have this hook fired
     def around(&a_proc)
-      @around_block = a_proc
+      @around_blocks ||= []
+      @around_blocks << a_proc
     end
 
     # Define a block to run if an error occurs.
