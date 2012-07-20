@@ -169,6 +169,14 @@ Feature: The todo app has a nice user interface
     When I successfully run `todo --flag foo --switch --no-otherswitch initconfig`
     Then the config file should contain a section for each command and subcommand
 
+  Scenario: Init Config makes a reasonable config file if one is there and we force it
+    Given a clean home directory
+    And I successfully run `todo --flag foo --switch --no-otherswitch initconfig`
+    When I run `todo --flag foo --switch --no-otherswitch initconfig`
+    Then the exit status should not be 0
+    When I run `todo --flag foo --switch --no-otherswitch initconfig --force`
+    Then the exit status should be 0
+
   Scenario: Configuration percolates to the app
     Given a clean home directory
     And a config file that specifies defaults for some commands with subcommands

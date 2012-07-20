@@ -11,23 +11,25 @@ module GLI
       @filename = config_file_name
       super(:names => :initconfig,
             :description => "Initialize the config file using current global options",
-            :long_desc => 'Initializes a configuration file where you can set default options for command line flags, both globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program')
+            :long_desc => 'Initializes a configuration file where you can set default options for command line flags, both globally and on a per-command basis.  These defaults override the built-in defaults and allow you to omit commonly-used command line flags when invoking this program',
+            :skips_pre => true,:skips_post => true, :skips_around => true)
+
+      @app_commands = commands
+      @app_flags = flags
+      @app_switches = switches
 
       self.desc 'force overwrite of existing config file'
       self.switch :force
 
-      @commands = commands
-      @flags = flags
-      @switches = switches
-    end
-
-    def execute(global_options,options,arguments)
-      if options[:force] || !File.exist?(@filename)
-        create_config(global_options,options,arguments)
-      else
-        raise "Not overwriting existing config file #{@filename}, use --force to override"
+      action do |global_options,options,arguments|
+        if options[:force] || !File.exist?(@filename)
+          create_config(global_options,options,arguments)
+        else
+          raise "Not overwriting existing config file #{@filename}, use --force to override"
+        end
       end
     end
+
 
   private
 
@@ -40,10 +42,10 @@ module GLI
         end
       }]
       config[COMMANDS_KEY] = {}
-      @commands.each do |name,command|
+      @app_commands.each do |name,command|
         if (command != self) && (name != :rdoc) && (name != :help)
           if command != self
-            config[COMMANDS_KEY][name.to_sym] = config_for_command(@commands,name.to_sym)
+            config[COMMANDS_KEY][name.to_sym] = config_for_command(@app_commands,name.to_sym)
           end
         end
       end
