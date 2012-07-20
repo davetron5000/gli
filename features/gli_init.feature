@@ -66,6 +66,7 @@ Feature: The scaffold GLI generates works
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
+        --version                               - 
     
     COMMANDS
         add      - Describe add here
@@ -91,6 +92,7 @@ Feature: The scaffold GLI generates works
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
+        --version                               - 
     
     COMMANDS
         add      - Describe add here

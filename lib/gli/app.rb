@@ -138,6 +138,7 @@ module GLI
     # +version+:: String containing the version of your application.  
     def version(version)
       @version = version
+      switch :version, :negatable => false
     end
 
     # Call this with +true+ will cause the +global_options+ and

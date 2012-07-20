@@ -8,8 +8,8 @@ Feature: The todo app has a nice user interface
       And my terminal size is "80x24"
       And todo's bin directory is in my path
 
-  Scenario: Getting Help for todo in general
-    When I successfully run `todo help`
+  Scenario Outline: Getting Help for todo in general
+    When I successfully run `todo <help>`
     Then the output should contain:
     """
     NAME
@@ -26,6 +26,7 @@ Feature: The todo app has a nice user interface
         --help             - Show this message
         --[no-]otherswitch - 
         --[no-]switch      - 
+        --version          - 
 
     COMMANDS
         chained       - 
@@ -38,6 +39,10 @@ Feature: The todo app has a nice user interface
         ls            - LS things, such as tasks or contexts
         second        - 
     """
+    Examples:
+      | help      |
+      | help      |
+      | --version |
 
   Scenario: Getting Help for a top level command of todo
     When I successfully run `todo help list`
