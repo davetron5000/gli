@@ -273,7 +273,6 @@ EOS
             file.chmod(0755)
             file.puts '#!/usr/bin/env ruby'
             file.puts <<EOS
-require 'rubygems'
 require 'gli'
 begin # XXX: Remove this begin/rescue before distributing your app
 require '#{project_name}'
