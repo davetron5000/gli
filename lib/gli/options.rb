@@ -15,6 +15,9 @@ module GLI
       @table[k.to_sym] = v
     end
 
+    def map(&block)
+      @table.map(&block)
+    end
   end
 end
 
