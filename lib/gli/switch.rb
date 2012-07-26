@@ -5,6 +5,7 @@ module GLI
   class Switch < CommandLineOption #:nodoc:
 
     attr_accessor :default_value
+    attr_reader :negatable
 
     # Creates a new switch
     #

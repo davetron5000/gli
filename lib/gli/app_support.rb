@@ -32,6 +32,11 @@ module GLI
       @version
     end
 
+    # Get the default command for the entire app
+    def get_default_command
+      @default_command
+    end
+
     # Runs whatever command is needed based on the arguments. 
     #
     # +args+:: the command line ARGV array
@@ -113,7 +118,7 @@ module GLI
     end
 
     def commands # :nodoc:
-      @commands ||= {:help => GLI::Commands::Help.new(self)}
+      @commands ||= { :help => GLI::Commands::Help.new(self), :_doc => GLI::Commands::Doc.new(self) }
     end
 
     def pre_block

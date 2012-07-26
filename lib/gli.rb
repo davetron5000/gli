@@ -16,6 +16,8 @@ require 'gli/version.rb'
 require 'gli/commands/help'
 require 'gli/commands/compound_command'
 require 'gli/commands/initconfig'
+require 'gli/commands/rdoc_document_listener'
+require 'gli/commands/doc'
 
 module GLI
 end
