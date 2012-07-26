@@ -155,7 +155,7 @@ module GLI
       end
 
       def by_name
-        lambda { |a,b| a.name <=> b.name }
+        lambda { |a,b| a.name.to_s <=> b.name.to_s }
       end
 
       def command_flags(command)
