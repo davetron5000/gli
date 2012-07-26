@@ -31,7 +31,7 @@ class TC_testDoc < Clean::Test::TestCase
     def self.last
       @@last
     end
-    def initialize
+    def initialize(*ignored)
       @stringio = StringIO.new
       @indent = ''
       @@last = self
