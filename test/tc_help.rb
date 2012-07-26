@@ -9,6 +9,7 @@ class TC_testHelp < Clean::Test::TestCase
     ENV['COLUMNS'] = '1024'
     @output = StringIO.new
     @error = StringIO.new
+    @command_names_used = []
   end
 
   def teardown
@@ -218,6 +219,11 @@ private
   end
 
   def any_command_name
-    Faker::Lorem.words(10)[rand(10)]
+    command_name = Faker::Lorem.words(10)[rand(10)]
+    while @command_names_used.include?(command_name)
+      command_name = Faker::Lorem.words(10)[rand(10)]
+    end
+    @command_names_used << command_name
+    command_name
   end
 end
