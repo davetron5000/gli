@@ -137,7 +137,7 @@ is the names of the compound commands.</p>
 
   <span class="ruby-identifier">check_for_unknown_commands!</span>(<span class="ruby-identifier">base</span>,<span class="ruby-identifier">command_names</span>)
 
-  <span class="ruby-ivar">@commands</span> = <span class="ruby-identifier">command_names</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">find_command</span>(<span class="ruby-identifier">base</span>,<span class="ruby-identifier">name</span>) }
+  <span class="ruby-ivar">@wrapped_commands</span> = <span class="ruby-identifier">command_names</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">name</span><span class="ruby-operator">|</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">find_command</span>(<span class="ruby-identifier">base</span>,<span class="ruby-identifier">name</span>) }
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

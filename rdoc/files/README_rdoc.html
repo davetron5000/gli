@@ -23,7 +23,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: 2012-05-30 08:14:39 -0400</li>
+            <li>Last modified: 2012-07-27 15:54:54 -0400</li>
         </ul>
     </div>
 
@@ -191,6 +191,87 @@ com)</p>
 </li></ul>
 </dd></dl>
 </li></ul>
+
+<h1 id="label-gli+CLI+documentation"><code>gli</code> CLI documentation</h1>
+
+<h2 id="label-gli+-+gli+allows+you+to+create+the+scaffolding+for+a+GLI-powered+application">gli - gli allows you to create the scaffolding for a GLI-powered application</h2>
+
+<p>v2.0.0.rc5</p>
+
+<h3 id="label-Global+Options">Global Options</h3>
+
+<h3 id="label--r+arg">-r arg</h3>
+
+<p>Root dir of project</p>
+<dl class="rdoc-list label-list"><dt>Aliases
+<dd>
+<p>--root</p>
+</dd><dt>Default Value
+<dd>
+<p>.</p>
+</dd></dl>
+
+<p>This is the directory where the projects directory will be made, so if you
+specify a project name foo and the root dir of ., the directory ./foo will
+be created</p>
+
+<h3 id="label---help">--help</h3>
+
+<p>Show this message</p>
+
+<h3 id="label--n">-n</h3>
+
+<p>Dry run; dont change the disk</p>
+
+<h3 id="label--v">-v</h3>
+
+<p>Be verbose</p>
+
+<h3 id="label---version">--version</h3>
+
+<h3 id="label-Commands">Commands</h3>
+
+<h4 id="label-help+command">help command</h4>
+
+<p>Shows a list of commands or help for one command</p>
+
+<p>Gets help for the application or its commands. Can also list the commands
+in a way helpful to creating a bash-style completion function</p>
+
+<h4 id="label-init+project_name+%5Bcommand%5B+command%5D%2A%5D">init project_name [command[ command]*]</h4>
+
+<p>Create a new GLI-based project</p>
+<dl class="rdoc-list label-list"><dt>Aliases
+<dd>
+<p>scaffold</p>
+</dd></dl>
+
+<p>This will create a scaffold command line project that uses <a
+href="../classes/GLI.html">GLI</a> for command line processing. 
+Specifically, this will create an executable ready to go, as well as a lib
+and test directory, all inside the directory named for your project</p>
+
+<h5 id="label-Options">Options</h5>
+
+<h5 id="label--e">-e</h5>
+
+<p>Create an ext dir</p>
+<dl class="rdoc-list label-list"><dt>Aliases
+<dd>
+<p>--[no-]ext</p>
+</dd></dl>
+
+<h5 id="label---%5Bno-%5Dforce">--[no-]force</h5>
+
+<p>Overwrite/ignore existing files and directories</p>
+
+<h5 id="label---notest">--notest</h5>
+
+<p>Do not create a test or features dir</p>
+
+<h5 id="label---%5Bno-%5Drvmrc">--[no-]rvmrc</h5>
+
+<p>Create an .rvmrc based on your current RVM setup</p>
 
     </div>
   

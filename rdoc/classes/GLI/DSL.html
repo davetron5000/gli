@@ -325,6 +325,7 @@ as described above.</p>
     <span class="ruby-value">:long_desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_long_desc</span>,
     <span class="ruby-value">:skips_pre</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_pre</span>,
     <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_post</span>,
+    <span class="ruby-value">:skips_around</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_around</span>,
   }
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">names</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Hash</span>
     <span class="ruby-identifier">command</span> = <span class="ruby-constant">GLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Commands</span><span class="ruby-operator">::</span><span class="ruby-constant">CompoundCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>,
@@ -477,19 +478,20 @@ different names and aliases for this flag.  The last element can be a hash
 of options:</p>
 <dl class="rdoc-list note-list"><dt><code>:desc</code>
 <dd>
-<p>the description, instead of using <a href="DSL.html#method-i-desc">desc</a></p>
+<p>the description, instead of using <a
+href="DSL.html#method-i-desc">#desc</a></p>
 </dd><dt><code>:long_desc</code>
 <dd>
 <p>the long_description, instead of using <a
-href="DSL.html#method-i-long_desc">long_desc</a></p>
+href="DSL.html#method-i-long_desc">#long_desc</a></p>
 </dd><dt><code>:default_value</code>
 <dd>
 <p>the default value, instead of using <a
-href="DSL.html#method-i-default_value">default_value</a></p>
+href="DSL.html#method-i-default_value">#default_value</a></p>
 </dd><dt><code>:arg_name</code>
 <dd>
 <p>the arg name, instead of using <a
-href="DSL.html#method-i-arg_name">arg_name</a></p>
+href="DSL.html#method-i-arg_name">#arg_name</a></p>
 </dd><dt><code>:must_match</code>
 <dd>
 <p>A regexp that the flag's value must match</p>
@@ -506,7 +508,7 @@ coversion</p>
 <pre class="ruby"><span class="ruby-identifier">desc</span> <span class="ruby-string">'Set the filename'</span>
 <span class="ruby-identifier">flag</span> [:<span class="ruby-identifier">f</span>,:<span class="ruby-identifier">filename</span>,<span class="ruby-string">'file-name'</span>]
 
-<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">ipaddress</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;IP Address&quot;</span>, :<span class="ruby-identifier">must_match</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">%r\d+\.\d+\.\d+\.\d+/</span>
+<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">ipaddress</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;IP Address&quot;</span>, :<span class="ruby-identifier">must_match</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">/\d+\.\d+\.\d+\.\d+/</span>
 
 <span class="ruby-identifier">flag</span> :<span class="ruby-identifier">names</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list of names&quot;</span>, :<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Array</span>
 </pre>
@@ -624,11 +626,12 @@ different names and aliases for this switch.  The last element can be a
 hash of options:</p>
 <dl class="rdoc-list note-list"><dt><code>:desc</code>
 <dd>
-<p>the description, instead of using <a href="DSL.html#method-i-desc">desc</a></p>
+<p>the description, instead of using <a
+href="DSL.html#method-i-desc">#desc</a></p>
 </dd><dt><code>:long_desc</code>
 <dd>
 <p>the long_description, instead of using <a
-href="DSL.html#method-i-long_desc">long_desc</a></p>
+href="DSL.html#method-i-long_desc">#long_desc</a></p>
 </dd><dt><code>:negatable</code>
 <dd>
 <p>if true, this switch will get a negatable form (e.g.

@@ -1,17 +1,19 @@
-Wed, 30 May 2012 08:14:53 -0400
-lib/gli/app.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/command.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/command_line_option.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/command_line_token.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/commands/compound_command.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/commands/initconfig.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/copy_options_to_aliases.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/dsl.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/exceptions.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/flag.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/options.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/switch.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/terminal.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli/version.rb	Wed, 30 May 2012 00:00:27 -0400
-lib/gli.rb	Wed, 30 May 2012 00:00:27 -0400
-README.rdoc	Wed, 30 May 2012 08:14:39 -0400
+Fri, 27 Jul 2012 15:54:58 -0400
+lib/gli/app.rb	Fri, 20 Jul 2012 19:02:21 -0400
+lib/gli/command.rb	Thu, 26 Jul 2012 12:00:45 -0400
+lib/gli/command_line_option.rb	Mon, 23 Apr 2012 14:50:58 -0400
+lib/gli/command_line_token.rb	Fri, 20 Jul 2012 18:26:58 -0400
+lib/gli/commands/compound_command.rb	Thu, 26 Jul 2012 16:52:41 -0400
+lib/gli/commands/doc.rb	Fri, 27 Jul 2012 15:51:14 -0400
+lib/gli/commands/initconfig.rb	Fri, 20 Jul 2012 18:54:34 -0400
+lib/gli/commands/rdoc_document_listener.rb	Thu, 26 Jul 2012 17:17:13 -0400
+lib/gli/copy_options_to_aliases.rb	Wed, 26 Oct 2011 16:40:06 -0400
+lib/gli/dsl.rb	Fri, 20 Jul 2012 18:26:58 -0400
+lib/gli/exceptions.rb	Fri, 20 Jul 2012 18:26:58 -0400
+lib/gli/flag.rb	Fri, 20 Jul 2012 18:26:58 -0400
+lib/gli/options.rb	Thu, 26 Jul 2012 10:24:51 -0400
+lib/gli/switch.rb	Thu, 26 Jul 2012 11:58:03 -0400
+lib/gli/terminal.rb	Fri, 20 Jul 2012 18:26:58 -0400
+lib/gli/version.rb	Fri, 20 Jul 2012 18:26:58 -0400
+lib/gli.rb	Fri, 27 Jul 2012 15:51:50 -0400
+README.rdoc	Fri, 27 Jul 2012 15:54:54 -0400

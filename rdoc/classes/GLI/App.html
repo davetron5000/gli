@@ -63,7 +63,12 @@ options, and then command arguments.</p>
             
               
               <li>
-                <a href="#method-i-accept">accept</a>
+                <a href="#method-i-accept">accept</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-around">around</a>
               </li>
             
           </ul>
@@ -159,6 +164,11 @@ options, and then command arguments.</p>
         <dt>S</dt>
         <dd>
           <ul>
+            
+              
+              <li>
+                <a href="#method-i-skips_around">skips_around</a>,
+              </li>
             
               
               <li>
@@ -264,8 +274,8 @@ the converted value</p>
 
 <pre class="ruby"><span class="ruby-identifier">accept</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">result</span> = {}
-  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r,/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r:/</span>)
+  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/,/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/:/</span>)
     <span class="ruby-identifier">result</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">result</span>
@@ -288,9 +298,80 @@ the converted value</p>
                 
               </p>
               <div id="method-i-accept_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 143</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 173</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">accept</span>(<span class="ruby-identifier">object</span>,&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">accepts</span>[<span class="ruby-identifier">object</span>] = <span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-around">
+            
+              <a name="method-i-around"></a><b>around</b>(&amp;a_proc)
+            
+          </div>
+          
+          
+            <div class="description">
+              <p>This inverts the pre/post concept.  This is useful when you have a global
+shared resource that is governed by a block instead of separate open/close
+methods.  The block you pass here will be given four parameters:</p>
+<dl class="rdoc-list note-list"><dt>global options
+<dd>
+<p>the parsed global options</p>
+</dd><dt>command
+<dd>
+<p>The <a href="Command.html">GLI::Command</a> that the user is going to
+invoke</p>
+</dd><dt>options
+<dd>
+<p>the command specific options</p>
+</dd><dt>args
+<dd>
+<p>unparsed command-line args</p>
+</dd><dt>code
+<dd>
+<p>a block that you must <code>call</code> to execute the command.</p>
+</dd></dl>
+
+<p><a href="App.html#method-i-help_now-21">#help_now!</a> and <a
+href="App.html#method-i-exit_now-21">#exit_now!</a> work as expected; you
+can abort the command call by simply not calling it.</p>
+
+<p>You can declare as many <a href="App.html#method-i-around">#around</a>
+blocks as you want.  They will be called in the order in which they are
+defined.</p>
+
+<p>Note that if you declare <a href="App.html#method-i-around">#around</a>
+blocks, <a href="App.html#method-i-pre">#pre</a> and <a
+href="App.html#method-i-post">#post</a> blocks will still work.  The <a
+href="App.html#method-i-pre">#pre</a> is called first, followed by the
+around, followed by the <a href="App.html#method-i-post">#post</a>.</p>
+
+<p>Call <a href="App.html#method-i-skips_around">#skips_around</a> before a
+command that should not have this hook fired</p>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-around_source')" id="l_method-i-around_source">show</a>
+                
+              </p>
+              <div id="method-i-around_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">around</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+  <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">||=</span> []
+  <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -338,7 +419,7 @@ files</p>
     <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">commands_path</span>
       <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">commands_path</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">commands_path</span>,<span class="ruby-identifier">entry</span>)
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\.rb$/</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\.rb$/</span>
           <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
@@ -383,9 +464,9 @@ as produced by <code>File.expand_path('~')</code>.</p>
                 
               </p>
               <div id="method-i-config_file_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 66</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">config_file</span>(<span class="ruby-identifier">filename</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^\//</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\//</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-identifier">filename</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">'HOME'</span>]),<span class="ruby-identifier">filename</span>)
@@ -431,7 +512,7 @@ name and likely fail.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 180</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 210</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
 <span class="ruby-keyword">end</span></pre>
@@ -453,7 +534,7 @@ name and likely fail.</p>
 href="CustomExit.html">CustomExit</a> with the given message and exit code,
 which will ultimatley cause your application to exit with the given
 exit_code as its exit status Use <a
-href="App.html#method-i-help_now-21">help_now!</a> if you want to show the
+href="App.html#method-i-help_now-21">#help_now!</a> if you want to show the
 help in addition to the error message</p>
 <dl class="rdoc-list note-list"><dt>message
 <dd>
@@ -477,7 +558,7 @@ help in addition to the error message</p>
                 
               </p>
               <div id="method-i-exit_now-21_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 154</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 184</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_now!</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>=<span class="ruby-number">1</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">CustomExit</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -496,7 +577,7 @@ help in addition to the error message</p>
           
             <div class="description">
               <p>Exit now, showing the user help for the command they executed.  Use <a
-href="App.html#method-i-exit_now-21">exit_now!</a> to just show the error
+href="App.html#method-i-exit_now-21">#exit_now!</a> to just show the error
 message</p>
 <dl class="rdoc-list note-list"><dt>message
 <dd>
@@ -517,7 +598,7 @@ message</p>
                 
               </p>
               <div id="method-i-help_now-21_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 161</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 191</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">help_now!</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-identifier">exception</span> = <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword ruby-title">exception</span>
@@ -570,7 +651,7 @@ find out what  errors might've occurred during command-line parsing:</p>
                 
               </p>
               <div id="method-i-on_error_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 103</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">on_error</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@error_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -606,7 +687,7 @@ global-options,command,options, and arguments</p>
                 
               </p>
               <div id="method-i-post_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 89</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 96</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@post_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -644,7 +725,7 @@ true, the program will proceed; otherwise the program will end immediately</p>
                 
               </p>
               <div id="method-i-pre_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 82</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 89</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pre</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@pre_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -689,6 +770,42 @@ summary of what your program does that will appear in the help output.</p>
     <span class="ruby-ivar">@program_desc</span> = <span class="ruby-identifier">description</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-ivar">@program_desc</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-skips_around">
+            
+              <a name="method-i-skips_around"></a><b>skips_around</b>()
+            
+          </div>
+          
+          
+            <div class="description">
+              <p>Use this if the following command should not have the around block
+executed. By default, the around block is executed, but for commands that
+might not want the setup to happen, this can be handy</p>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-skips_around_source')" id="l_method-i-skips_around_source">show</a>
+                
+              </p>
+              <div id="method-i-skips_around_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 64</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_around</span>
+  <span class="ruby-ivar">@skips_around</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -801,7 +918,7 @@ methods.</p>
                 
               </p>
               <div id="method-i-use_openstruct_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 120</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 150</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">use_openstruct</span>(<span class="ruby-identifier">use_openstruct</span>)
   <span class="ruby-ivar">@use_openstruct</span> = <span class="ruby-identifier">use_openstruct</span>
 <span class="ruby-keyword">end</span></pre>
@@ -839,9 +956,10 @@ methods.</p>
                 
               </p>
               <div id="method-i-version_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 110</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 139</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">version</span>(<span class="ruby-identifier">version</span>)
   <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
+  <span class="ruby-identifier">switch</span> <span class="ruby-value">:version</span>, <span class="ruby-value">:negatable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

@@ -81,6 +81,18 @@ options will be coerced into one of these.</p>
           </ul>
         </dd>
       
+        <dt>M</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-map">map</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
     </dl>
   
 
@@ -166,6 +178,40 @@ options will be coerced into one of these.</p>
                 <pre><span class="ruby-comment"># File lib/gli/options.rb, line 14</span>
 <span class="ruby-keyword">def</span><span class="ruby-operator">[]=</span>(<span class="ruby-keyword ruby-title">k</span>, <span class="ruby-identifier">v</span>)
   <span class="ruby-ivar">@table</span>[<span class="ruby-identifier">k</span>.<span class="ruby-identifier">to_sym</span>] = <span class="ruby-identifier">v</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-map">
+            
+              <a name="method-i-map"></a><b>map</b>(&amp;block)
+            
+          </div>
+          
+          
+            <div class="description">
+              
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-map_source')" id="l_method-i-map_source">show</a>
+                
+              </p>
+              <div id="method-i-map_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/options.rb, line 18</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">map</span>(&amp;<span class="ruby-identifier">block</span>)
+  <span class="ruby-ivar">@table</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-identifier">block</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
