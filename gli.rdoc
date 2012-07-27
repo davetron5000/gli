@@ -1,51 +1,78 @@
-= <tt>gli</tt>
+== gli - gli allows you to create the scaffolding for a GLI-powered application
 
-gli allows you to create the scaffolding for a GLI-powered application
-    gli [global options] command_name [command-specific options] [--] arguments...
+v2.0.0.rc5
 
-* Use the command +help+ to get a summary of commands
-* Use the command <tt>help command_name</tt> to get a help for +command_name+
-* Use <tt>--</tt> to stop command line argument processing; useful if your arguments have dashes in them
+=== Global Options
+=== -r arg
 
-== Global Options
-These options are available for any command and are specified before the name of the command
+Root dir of project
 
-[<tt>-n</tt>] Dry run; dont change the disk
-[<tt>-r, --root=arg</tt>] Root dir of project <i>( default: <tt>.</tt>)</i>
+[Aliases] --root
+[Default Value] .
+This is the directory where the projects directory will be made, so if you specify a project name foo and the root dir of ., the directory ./foo will be created
 
-                          This is the directory where the projects directory will be made, so if you specify a project name foo and the root dir of ., the directory ./foo will be created
+=== --help
+Show this message
 
-[<tt>-v</tt>] Be verbose
-== Commands
-[<tt>help</tt>] Shows list of commands or help for one command
-[<tt>init</tt>] Create a new GLI-based project
 
-=== <tt>help [command]</tt>
 
-Shows list of commands or help for one command
 
-Gets help for the application or its commands.  Can also list the commands in a way helpful to creating a bash-style completion function
+=== -n
+Dry run; dont change the disk
 
-==== Options
-These options are specified *after* the command.
 
-[<tt>-c, --completion</tt>] List all commands one line at a time, for use with shell completion ([command] argument is partial command to match)
-=== <tt>init project_name [command[ command]*]</tt>
 
+
+=== -v
+Be verbose
+
+
+
+
+=== --version
+
+
+
+
+
+=== Commands
+==== help command
+Shows a list of commands or help for one command
+
+
+Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function
+==== init project_name [command[ command]*]
 Create a new GLI-based project
 
-*Aliases*
-* <tt><b>scaffold</b></tt>
+[Aliases] scaffold
 
 This will create a scaffold command line project that uses GLI
 for command line processing.  Specifically, this will create
 an executable ready to go, as well as a lib and test directory, all
 inside the directory named for your project
+===== Options
+===== -e
+Create an ext dir
+
+[Aliases] --[no-]ext
 
 
-==== Options
-These options are specified *after* the command.
 
-[<tt>-e, --ext</tt>] Create an ext dir
-[<tt>--force</tt>] Overwrite/ignore existing files and directories
-[<tt>--notest</tt>] Do not create a test dir
+===== --[no-]force
+Overwrite/ignore existing files and directories
+
+
+
+
+===== --notest
+Do not create a test or features dir
+
+
+
+
+===== --[no-]rvmrc
+Create an .rvmrc based on your current RVM setup
+
+
+
+

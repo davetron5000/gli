@@ -5,7 +5,7 @@ require 'gli/commands/scaffold'
 
 include GLI::App
 
-program_desc 'gli allows you to create the scaffolding for a GLI-powered application'
+program_desc 'create scaffolding for a GLI-powered application'
 
 version GLI::VERSION
 
@@ -14,7 +14,12 @@ switch :v, :desc => 'Be verbose'
 switch :n, :desc => 'Dry run; don''t change the disk'
 
 desc 'Root dir of project'
-long_desc 'This is the directory where the project''s directory will be made, so if you specify a project name ''foo'' and the root dir of ''.'', the directory ''./foo'' will be created'
+long_desc <<EOS
+This is the directory where the project''s directory will be made, so if you 
+specify a project name ''foo'' and the root dir of ''.'', the directory 
+''./foo'' will be created'
+EOS
+
 flag :r,:root, :default_value => '.'
 
 desc 'Create a new GLI-based project'

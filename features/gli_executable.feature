@@ -13,7 +13,7 @@ Feature: The GLI executable works as intended
      And the output should contain:
     """
     NAME
-        gli - gli allows you to create the scaffolding for a GLI-powered application
+        gli - create scaffolding for a GLI-powered application
 
     SYNOPSIS
         gli [global options] command [command options] [arguments...]

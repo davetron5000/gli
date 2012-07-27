@@ -8,17 +8,17 @@ module GLI
       }
       # Create the Doc generator based on the GLI app passed in
       def initialize(app)
-        super(:names => "_doc",
+        super(:names       => "_doc",
               :description => "Generate documentation of your application's UI",
-              :long_desc => "Introspects your application's UI meta-data to generate documentation in a variety of formats.  This is intended to be extensible via the DocumentListener interface, so that you can provide your own documentation formats without them being a part of GLI",
-              :skips_pre => true, :skips_post => true, :skips_around => true, :hidden => true)
+              :long_desc   => "Introspects your application's UI meta-data to generate documentation in a variety of formats.  This is intended to be extensible via the DocumentListener interface, so that you can provide your own documentation formats without them being a part of GLI",
+              :skips_pre   => true, :skips_post => true, :skips_around => true, :hidden => true)
 
         @app = app
 
-        desc 'The format name of the documentation to generate or the class name to use to generate it'
+        desc          'The format name of the documentation to generate or the class name to use to generate it'
         default_value 'rdoc'
-        arg_name 'name_or_class'
-        flag :format
+        arg_name      'name_or_class'
+        flag          :format
 
         action do |global_options,options,arguments|
           self.document(format_class(options[:format]).new(global_options,options,arguments))
@@ -34,9 +34,15 @@ module GLI
         document_listener.beginning
         document_listener.program_desc(@app.program_desc)
         document_listener.version(@app.version_string)
-        document_listener.options if any_options?(@app)
-        document_flags_and_switches(document_listener,@app.flags.values.sort(&by_name),@app.switches.values.sort(&by_name))
-        document_listener.end_options if any_options?(@app)
+        if any_options?(@app)
+          document_listener.options 
+        end
+        document_flags_and_switches(document_listener,
+                                    @app.flags.values.sort(&by_name),
+                                    @app.switches.values.sort(&by_name))
+        if any_options?(@app)
+          document_listener.end_options 
+        end
         document_listener.commands
         document_commands(document_listener,@app)
         document_listener.end_commands
@@ -120,21 +126,13 @@ module GLI
 
       def format_class(format_name)
         FORMATS.fetch(format_name) { 
-          parts = format_name.split(/::/)
-          context = Kernel
-          klass = nil
           begin
-            parts.each do |part|
-              klass = context.const_get(part)
-              context = klass
-            end
-            klass
+            return format_name.split(/::/).reduce(Kernel) { |context,part| context.const_get(part) }
           rescue => ex
             raise IndexError,"Couldn't find formatter or class named #{format_name}"
           end
         }
       end
-
 
       def document_commands(document_listener,context)
         context.commands.values.reject {|_| _.nodoc }.sort(&by_name).each do |command|

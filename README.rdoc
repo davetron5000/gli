@@ -103,3 +103,6 @@ License:: Distributes under the Apache License, see LICENSE.txt in the source di
 * [http://www.github.com/davetron5000/gli/wiki] - Documentation Wiki
 * [http://www.github.com/davetron5000/gli/wiki/Changelog] - Changelog
 
+= <code>gli</code> CLI documentation
+
+:include:gli.rdoc
