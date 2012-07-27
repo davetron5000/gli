@@ -1,9 +1,14 @@
+notifications:
+  email:
+    on_success: always
 script: 'bundle exec rake test features'
 rvm: 
   - 1.9.2
   - 1.9.3
   - 1.8.7
   - ree
+  - ruby-head
+  - rbx
 branches:
   only:
     - 'master'
