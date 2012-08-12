@@ -20,4 +20,8 @@ require 'gli/commands/rdoc_document_listener'
 require 'gli/commands/doc'
 
 module GLI
+  include GLI::App
+  def self.included(klass)
+    warn "You should include GLI::App instead"
+  end
 end

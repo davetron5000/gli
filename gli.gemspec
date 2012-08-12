@@ -8,8 +8,8 @@ spec = Gem::Specification.new do |s|
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
   s.platform = Gem::Platform::RUBY
-  s.summary = 'A Git Like Interface for building command line apps'
-  s.description = 'An application and API for describing command line interfaces that can be used to quickly create a shell for executing command-line tasks.  The command line user interface is similar to Git''s, in that it takes global options, a command, command-specific options, and arguments'
+  s.summary = 'Build command-suite CLI apps that are awesome.'
+  s.description = 'Build command-suite CLI apps that are awesome.  Bootstrap your app, add commands, options and documentation while maintaining a well-tested idiomatic command-line app'
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

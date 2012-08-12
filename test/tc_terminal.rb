@@ -2,11 +2,10 @@ require 'test_helper'
 
 class TC_testTerminal < Clean::Test::TestCase
   include TestHelper
-  include GLI
 
   def test_command_exists
-    assert Terminal.instance.command_exists?('ls')
-    assert !Terminal.instance.command_exists?('asdfasfasdf')
+    assert GLI::Terminal.instance.command_exists?('ls')
+    assert !GLI::Terminal.instance.command_exists?('asdfasfasdf')
   end
 
   def setup
@@ -17,23 +16,23 @@ class TC_testTerminal < Clean::Test::TestCase
   def teardown
     ENV['COLUMNS'] = @old_columns 
     ENV['LINES'] = @old_lines
-    Terminal.default_size = [80,24]
+    GLI::Terminal.default_size = [80,24]
   end
 
   def test_shared_instance_is_same
-    assert_equal Terminal.instance,Terminal.instance
+    assert_equal GLI::Terminal.instance,GLI::Terminal.instance
   end
 
   def test_size_based_on_columns
     ENV['COLUMNS'] = '666'
     ENV['LINES'] = '777'
-    assert_equal [666,777],Terminal.instance.size
+    assert_equal [666,777],GLI::Terminal.instance.size
   end
 
   def test_size_using_tput
-    terminal = Terminal.new
+    terminal = GLI::Terminal.new
     terminal.make_unsafe!
-    Terminal.instance_eval do
+    GLI::Terminal.instance_eval do
       def run_command(command)
         if command == 'tput cols'
           return '888'
@@ -51,9 +50,9 @@ class TC_testTerminal < Clean::Test::TestCase
   end
 
   def test_size_using_stty
-    terminal = Terminal.new
+    terminal = GLI::Terminal.new
     terminal.make_unsafe!
-    Terminal.instance_eval do
+    GLI::Terminal.instance_eval do
       def run_command(command)
 
         if RUBY_PLATFORM == 'java'
@@ -73,22 +72,22 @@ class TC_testTerminal < Clean::Test::TestCase
   end
 
   def test_size_using_default
-    terminal = Terminal.new
+    terminal = GLI::Terminal.new
     terminal.make_unsafe!
-    Terminal.instance_eval do
+    GLI::Terminal.instance_eval do
       def command_exists?(command); false; end
       def jruby?; false; end
     end
     ENV['COLUMNS'] = 'foo'
     assert_equal [80,24],terminal.size
     # While we have this set up, lets make sure the default change falls through
-    Terminal.default_size = [90,45]
+    GLI::Terminal.default_size = [90,45]
     assert_equal [90,45],terminal.size
   end
 
   def test_size_using_default_when_exception
-    terminal = Terminal.new
-    Terminal.instance_eval do
+    terminal = GLI::Terminal.new
+    GLI::Terminal.instance_eval do
       def jruby?; raise "Problem"; end
     end
     ENV['COLUMNS'] = 'foo'

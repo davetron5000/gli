@@ -8,7 +8,11 @@ require 'gli'
 require 'todo/version'
 
 
+if ENV['GLI1_COMPATIBILITY']
+include GLI
+else
 include GLI::App
+end
 
 program_desc 'Manages tasks'
 

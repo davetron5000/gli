@@ -14,7 +14,6 @@ require 'test_helper'
 
 class TC_testGLI < Clean::Test::TestCase
   include TestHelper
-  include GLI
 
   def setup
     @fake_stdout = FakeStdOut.new
@@ -41,7 +40,7 @@ class TC_testGLI < Clean::Test::TestCase
   def test_flag_create
     @app.reset
     do_test_flag_create(@app)
-    do_test_flag_create(Command.new(:names => :f))
+    do_test_flag_create(GLI::Command.new(:names => :f))
   end
 
   def test_create_commands_using_strings
@@ -226,13 +225,13 @@ class TC_testGLI < Clean::Test::TestCase
   def test_switch_create
     @app.reset
     do_test_switch_create(@app)
-    do_test_switch_create(Command.new(:names => :f))
+    do_test_switch_create(GLI::Command.new(:names => :f))
   end
 
   def test_switch_create_twice
     @app.reset
     do_test_switch_create_twice(@app)
-    do_test_switch_create_twice(Command.new(:names => :f))
+    do_test_switch_create_twice(GLI::Command.new(:names => :f))
   end
 
   def test_all_aliases_in_options
@@ -459,7 +458,7 @@ class TC_testGLI < Clean::Test::TestCase
     @app.on_error { true }
     @app.command(:foo) do |c|
       c.action do |g,o,a|
-        raise CustomExit.new("Problem",45)
+        raise GLI::CustomExit.new("Problem",45)
       end
     end
     assert_equal 45,@app.run(['foo'])
@@ -522,7 +521,7 @@ class TC_testGLI < Clean::Test::TestCase
       end
     end
 
-    assert_raises(CustomExit) { @app.run(['foo']) }
+    assert_raises(GLI::CustomExit) { @app.run(['foo']) }
   end
 
   class ConvertMe

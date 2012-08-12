@@ -2,7 +2,6 @@ require 'test_helper'
 
 class TC_testFlag < Clean::Test::TestCase
   include TestHelper
-  include GLI
 
   def test_basics_simple
     Given flag_with_names(:f)
@@ -38,7 +37,7 @@ class TC_testFlag < Clean::Test::TestCase
         :must_match => /foobar/,
         :type => Float,
       }
-      @flag = Flag.new(names,@options)
+      @flag = GLI::Flag.new(names,@options)
       @cli_option = @flag
     end
   end

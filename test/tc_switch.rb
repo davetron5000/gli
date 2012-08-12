@@ -2,7 +2,6 @@ require 'test_helper'
 
 class TC_testSwitch < Clean::Test::TestCase
   include TestHelper
-  include GLI
 
   def test_basics_simple
     Given switch_with_names(:filename)
@@ -29,8 +28,8 @@ class TC_testSwitch < Clean::Test::TestCase
   end
 
   def test_includes_negatable
-    assert_equal '-a',Switch.name_as_string('a')
-    assert_equal '--[no-]foo',Switch.name_as_string('foo')
+    assert_equal '-a',GLI::Switch.name_as_string('a')
+    assert_equal '--[no-]foo',GLI::Switch.name_as_string('foo')
   end
 
   private 
@@ -41,7 +40,7 @@ class TC_testSwitch < Clean::Test::TestCase
         :desc => 'Filename',
         :long_desc => 'The Filename',
       }
-      @switch = Switch.new(names,@options)
+      @switch = GLI::Switch.new(names,@options)
       @cli_option = @switch
     end
   end
