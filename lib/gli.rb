@@ -24,4 +24,10 @@ module GLI
   def self.included(klass)
     warn "You should include GLI::App instead"
   end
+
+  def self.run(*args)
+    warn "GLI.run no longer works for GLI-2, you must just call `run(ARGV)' instead"
+    warn "either fix your app, or use the latest GLI in the 1.x family"
+    1
+  end
 end
