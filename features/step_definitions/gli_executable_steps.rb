@@ -10,3 +10,9 @@ Given /^my terminal size is "([^"]*)"$/ do |terminal_size|
     raise "Terminal size should be COLxLines, e.g. 80x24" 
   end
 end
+
+
+Given /^the file "(.*?)" doesn't exist$/ do |filename|
+  FileUtils.rm filename if File.exists?(filename)
+end
+

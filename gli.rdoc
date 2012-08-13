@@ -1,6 +1,6 @@
-== gli - gli allows you to create the scaffolding for a GLI-powered application
+== gli - create scaffolding for a GLI-powered application
 
-v2.0.0.rc5
+v2.0.0.rc8
 
 === Global Options
 === -r arg
@@ -9,7 +9,9 @@ Root dir of project
 
 [Aliases] --root
 [Default Value] .
-This is the directory where the projects directory will be made, so if you specify a project name foo and the root dir of ., the directory ./foo will be created
+This is the directory where the project''s directory will be made, so if you 
+specify a project name ''foo'' and the root dir of ''.'', the directory 
+''./foo'' will be created'
 
 === --help
 Show this message
