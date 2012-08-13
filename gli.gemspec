@@ -25,10 +25,9 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('roodi', '~> 2.1.0')
   s.add_development_dependency('reek')
-  s.add_development_dependency('grancher', '~> 0.1.5')
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('clean_test')
-  s.add_development_dependency('aruba', '~> 0.4.7')
+  s.add_development_dependency('aruba')
   s.add_development_dependency('sdoc')
 end
 
