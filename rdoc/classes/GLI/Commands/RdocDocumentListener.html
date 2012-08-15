@@ -425,7 +425,7 @@ this command</p>
               <div id="method-i-end_command_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 88</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_command</span>(<span class="ruby-identifier">name</span>)
-  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/=$/</span>,<span class="ruby-string">''</span>)
+  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">%r=$/</span>,<span class="ruby-string">''</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -459,7 +459,7 @@ this command</p>
               <div id="method-i-end_commands_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 97</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_commands</span>
-  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/=$/</span>,<span class="ruby-string">''</span>)
+  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">%r=$/</span>,<span class="ruby-string">''</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

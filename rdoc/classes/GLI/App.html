@@ -274,8 +274,8 @@ the converted value</p>
 
 <pre class="ruby"><span class="ruby-identifier">accept</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
   <span class="ruby-identifier">result</span> = {}
-  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/,/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/:/</span>)
+  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r,/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">%r:/</span>)
     <span class="ruby-identifier">result</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">result</span>
@@ -337,21 +337,21 @@ invoke</p>
 <p>a block that you must <code>call</code> to execute the command.</p>
 </dd></dl>
 
-<p><a href="App.html#method-i-help_now-21">#help_now!</a> and <a
-href="App.html#method-i-exit_now-21">#exit_now!</a> work as expected; you
+<p><a href="App.html#method-i-help_now-21">help_now!</a> and <a
+href="App.html#method-i-exit_now-21">exit_now!</a> work as expected; you
 can abort the command call by simply not calling it.</p>
 
-<p>You can declare as many <a href="App.html#method-i-around">#around</a>
+<p>You can declare as many <a href="App.html#method-i-around">around</a>
 blocks as you want.  They will be called in the order in which they are
 defined.</p>
 
-<p>Note that if you declare <a href="App.html#method-i-around">#around</a>
-blocks, <a href="App.html#method-i-pre">#pre</a> and <a
-href="App.html#method-i-post">#post</a> blocks will still work.  The <a
-href="App.html#method-i-pre">#pre</a> is called first, followed by the
-around, followed by the <a href="App.html#method-i-post">#post</a>.</p>
+<p>Note that if you declare <a href="App.html#method-i-around">around</a>
+blocks, <a href="App.html#method-i-pre">pre</a> and <a
+href="App.html#method-i-post">post</a> blocks will still work.  The <a
+href="App.html#method-i-pre">pre</a> is called first, followed by the
+around, followed by the <a href="App.html#method-i-post">post</a>.</p>
 
-<p>Call <a href="App.html#method-i-skips_around">#skips_around</a> before a
+<p>Call <a href="App.html#method-i-skips_around">skips_around</a> before a
 command that should not have this hook fired</p>
             </div>
           
@@ -419,7 +419,7 @@ files</p>
     <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">commands_path</span>
       <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">commands_path</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">commands_path</span>,<span class="ruby-identifier">entry</span>)
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/\.rb$/</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\.rb$/</span>
           <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
         <span class="ruby-keyword">end</span>
       <span class="ruby-keyword">end</span>
@@ -466,7 +466,7 @@ as produced by <code>File.expand_path('~')</code>.</p>
               <div id="method-i-config_file_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">config_file</span>(<span class="ruby-identifier">filename</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\//</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^\//</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-identifier">filename</span>
   <span class="ruby-keyword">else</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">'HOME'</span>]),<span class="ruby-identifier">filename</span>)
@@ -534,7 +534,7 @@ name and likely fail.</p>
 href="CustomExit.html">CustomExit</a> with the given message and exit code,
 which will ultimatley cause your application to exit with the given
 exit_code as its exit status Use <a
-href="App.html#method-i-help_now-21">#help_now!</a> if you want to show the
+href="App.html#method-i-help_now-21">help_now!</a> if you want to show the
 help in addition to the error message</p>
 <dl class="rdoc-list note-list"><dt>message
 <dd>
@@ -577,7 +577,7 @@ help in addition to the error message</p>
           
             <div class="description">
               <p>Exit now, showing the user help for the command they executed.  Use <a
-href="App.html#method-i-exit_now-21">#exit_now!</a> to just show the error
+href="App.html#method-i-exit_now-21">exit_now!</a> to just show the error
 message</p>
 <dl class="rdoc-list note-list"><dt>message
 <dd>
