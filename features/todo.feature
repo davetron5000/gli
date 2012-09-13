@@ -44,6 +44,47 @@ Feature: The todo app has a nice user interface
       | help      |
       | --version |
 
+  Scenario: Help completion mode
+    When I successfully run `todo help -c`
+    Then the output should contain:
+    """
+    ch2
+    chained
+    chained2
+    create
+    first
+    help
+    initconfig
+    list
+    ls
+    new
+    second
+    """
+
+  Scenario: Help completion mode for partial match
+    When I successfully run `todo help -c ch`
+    Then the output should contain:
+    """
+    ch2
+    chained
+    chained2
+    """
+
+  Scenario: Help completion mode for subcommands
+    When I successfully run `todo help -c list`
+    Then the output should contain:
+    """
+    contexts
+    tasks
+    """
+
+  Scenario: Help completion mode partial match for subcommands
+    When I successfully run `todo help -c list con`
+    Then the output should contain:
+    """
+    contexts
+    """
+
   Scenario: Getting Help for a top level command of todo
     When I successfully run `todo help list`
     Then the output should contain:

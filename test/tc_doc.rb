@@ -306,6 +306,9 @@ command: help
   desc: Shows a list of commands or help for one command
   long_desc: Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function
   arg_name: command
+  switch: c
+    desc: List commands one per line, to assist with shell completion
+    negatable: true
   default_command: 
 end help
 default_command: 

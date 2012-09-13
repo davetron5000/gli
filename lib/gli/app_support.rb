@@ -170,7 +170,7 @@ module GLI
         stderr.puts error_message(ex) 
         if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
           stderr.puts 
-          commands[:help] and commands[:help].execute([],[],command.nil? ? [] : [command.name.to_s])
+          commands[:help] and commands[:help].execute({},{},command.nil? ? [] : [command.name.to_s])
         end
       end
 

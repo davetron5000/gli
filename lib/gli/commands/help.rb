@@ -6,6 +6,8 @@ require 'gli/commands/help_modules/text_wrapper'
 require 'gli/commands/help_modules/options_formatter'
 require 'gli/commands/help_modules/global_help_format'
 require 'gli/commands/help_modules/command_help_format'
+require 'gli/commands/help_modules/help_completion_format'
+require 'gli/commands/help_modules/command_finder'
 
 module GLI
   module Commands
@@ -20,6 +22,9 @@ module GLI
               :skips_post => true,
               :skips_around => true)
         @app = app
+        desc 'List commands one per line, to assist with shell completion'
+        switch :c
+
         action do |global_options,options,arguments|
           show_help(global_options,options,arguments,output,error)
         end
@@ -28,37 +33,21 @@ module GLI
     private
 
       def show_help(global_options,options,arguments,out,error)
-        if arguments.empty?
+        command_finder = HelpModules::CommandFinder.new(@app,arguments,error)
+        if options[:c]
+          help_output = HelpModules::HelpCompletionFormat.new(@app,command_finder,arguments).format
+          out.puts help_output unless help_output.nil?
+        elsif arguments.empty? || options[:c]
           out.puts HelpModules::GlobalHelpFormat.new(@app).format
         else
           name = arguments.shift
-          command = find_command(name,@app)
-          return if unknown_command(command,name,error)
-          while !arguments.empty?
-            name = arguments.shift
-            command = find_command(name,command)
-            return if unknown_command(command,name,error)
+          command = command_finder.find_command(name)
+          unless command.nil?
+            out.puts HelpModules::CommandHelpFormat.new(command,@app,File.basename($0).to_s).format
           end
-          out.puts HelpModules::CommandHelpFormat.new(command,@app,File.basename($0).to_s).format
         end
       end
 
-      def unknown_command(command,name,error)
-        if command.nil?
-          error.puts "error: Unknown command '#{name}'.  Use 'gli help' for a list of commands."
-          true
-        else
-          false
-        end
-      end
-
-      def find_command(command_name,base)
-        base.commands.values.select { |command|
-          if [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |_| _ == command_name }
-            command
-          end
-        }.first
-      end
     end
   end
 end
