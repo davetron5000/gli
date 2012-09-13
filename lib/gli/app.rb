@@ -141,6 +141,14 @@ module GLI
       switch :version, :negatable => false
     end
 
+    # By default, GLI mutates the argument passed to it.  This is
+    # consistent with +OptionParser+, but be less than ideal.  Since
+    # that value, for scaffolded apps, is +ARGV+, you might want to
+    # refer to the entire command-line via +ARGV+ and thus not want it mutated.
+    def preserve_argv(preserve=true)
+      @preserve_argv = preserve
+    end
+
     # Call this with +true+ will cause the +global_options+ and
     # +options+ passed to your code to be wrapped in
     # Options, which is a subclass of +OpenStruct+ that adds

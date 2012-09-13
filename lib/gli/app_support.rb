@@ -37,12 +37,13 @@ module GLI
       @default_command
     end
 
-    # Runs whatever command is needed based on the arguments. 
+    # Runs whatever command is needed based on the arguments.
     #
     # +args+:: the command line ARGV array
     #
     # Returns a number that would be a reasonable exit code
     def run(args) #:nodoc:
+      args = args.dup if @preserve_argv
       command = nil
       begin
         override_defaults_based_on_config(parse_config)

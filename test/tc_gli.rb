@@ -558,6 +558,37 @@ class TC_testGLI < Clean::Test::TestCase
     assert_equal 'crud',@baz.value
   end
 
+  def test_that_we_mutate_ARGV_by_default
+    @app.reset
+    @app.flag :f
+    @app.command :foo do |c|
+      c.action do |*args|
+      end
+    end
+
+    argv = %w(-f some_flag foo bar blah)
+
+    @app.run(argv)
+
+    assert_equal %w(bar blah),argv
+  end
+
+  def test_that_we_can_avoid_mutating_ARGV
+    @app.reset
+    @app.flag :f
+    @app.command :foo do |c|
+      c.action do |*args|
+      end
+    end
+    @app.preserve_argv
+
+    argv = %w(-f some_flag foo bar blah)
+
+    @app.run(argv)
+
+    assert_equal %w(-f some_flag foo bar blah),argv
+  end
+
   private
 
   def do_test_flag_create(object)
