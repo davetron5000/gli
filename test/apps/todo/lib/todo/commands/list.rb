@@ -21,11 +21,12 @@ command [:list] do |c|
   )
   c.command :tasks do |tasks|
     tasks.desc "blah blah crud x whatever"
-    tasks.flag [:x]
+    tasks.flag [:x], :must_match => Array
 
     tasks.flag :flag
 
     tasks.action do |global,options,args|
+      puts options[:x].inspect
       puts "list tasks: #{args.join(',')}"
     end
   end

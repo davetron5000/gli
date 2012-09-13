@@ -19,6 +19,10 @@ module GLI
     # this VERY short and, ideally, without any spaces (see Example).
     #
     # +name+:: A String that *briefly* describes the argument given to the following command or flag.
+    # +options+:: Symbol or array of symbols to annotate this argument.  This doesn't affect parsing, just
+    #             the help output.  Values recognized are:
+    #             +:optional+:: indicates this argument is optional; will format it with square brackets
+    #             +:multiple+:: indicates multiple values are accepted; will format appropriately
     #
     # Example:
     #     desc 'Set the filename'
@@ -27,7 +31,10 @@ module GLI
     #
     # Produces:
     #     -f, --filename=file_name      Set the filename
-    def arg_name(name); @next_arg_name = name; end
+    def arg_name(name,options=[])
+      @next_arg_name = name
+      @next_arg_options = options
+    end
 
     # set the default value of the next flag
     #
@@ -94,6 +101,7 @@ module GLI
     def clear_nexts # :nodoc:
       @next_desc = nil
       @next_arg_name = nil
+      @next_arg_options = nil
       @next_default_value = nil
       @next_long_desc = nil
     end
@@ -137,6 +145,7 @@ module GLI
       command_options = {
         :description => @next_desc,
         :arguments_name => @next_arg_name,
+        :arguments_options => @next_arg_options,
         :long_desc => @next_long_desc,
         :skips_pre => @skips_pre,
         :skips_post => @skips_post,

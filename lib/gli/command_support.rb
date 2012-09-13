@@ -20,6 +20,10 @@ module GLI
       @arguments_description
     end
 
+    def arguments_options
+      @arguments_options
+    end
+
     # If true, this command doesn't want the pre block run before it executes
     def skips_pre 
       @skips_pre
@@ -76,11 +80,11 @@ module GLI
       end
     end
 
-    def arg_name(d)
+    def arg_name(d,options=[])
       if parent.kind_of? Command
-        parent.arg_name(d)
+        parent.arg_name(d,options)
       else
-        super(d)
+        super(d,options)
       end
     end
 

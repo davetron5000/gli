@@ -139,8 +139,8 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] create [command options] 
-        todo [global options] create [command options]  contexts
-        todo [global options] create [command options]  tasks
+        todo [global options] create [command options]  contexts [context_name]
+        todo [global options] create [command options]  tasks task_name[, task_name]*
 
     COMMANDS
         <default> - Makes a new task
