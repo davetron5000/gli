@@ -23,7 +23,7 @@ module GLI
       remaining_args = nil
 
       global_options,command_name,args = parse_global_options(OptionParserFactory.new(@flags,@switches,@accepts), args)
-      @flags.each do |name,flag| 
+      @flags.each do |name,flag|
         global_options[name] = flag.default_value unless global_options[name]
       end
 
@@ -39,11 +39,11 @@ module GLI
                                                    command,
                                                    args)
 
-      command.flags.each do |name,flag| 
+      command.flags.each do |name,flag|
         command_options[name] = flag.default_value unless command_options[name]
       end
-      command.switches.each do |name,switch| 
-        command_options[name] = switch.default_value unless command_options[name] 
+      command.switches.each do |name,switch|
+        command_options[name] = switch.default_value unless command_options[name]
       end
 
       [global_options,command,command_options,args]
