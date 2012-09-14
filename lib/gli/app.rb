@@ -204,6 +204,25 @@ module GLI
       raise exception
     end
 
+    # Control how help commands are sorted.  By default, the commands are sorted alphabetically.
+    #
+    # sort_type:: How you want help commands sorted:
+    #             +:manually+:: help commands are ordered in the order declared.
+    #             +:alpha+:: sort alphabetically (default)
+    def sort_help(sort_type)
+      @help_sort_type = sort_type
+    end
+
+    # Set how help text is wrapped.
+    #
+    # wrap_type:: Symbol indicating how you'd like text wrapped:
+    #             +:to_terminal+:: Wrap text based on the width of the terminal (default)
+    #             +:never+:: Do not wrap text at all.  This will bring all help content onto one line, removing any newlines
+    #             +:tty_only+:: Wrap like +:to_terminal+ if this output is going to a TTY, otherwise don't wrap (like +:never+)
+    def wrap_help_text(wrap_type)
+      @help_text_wrap_type = wrap_type
+    end
+
     def program_name(override=nil) #:nodoc:
       warn "#program_name has been deprecated"
     end

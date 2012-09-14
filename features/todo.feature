@@ -85,6 +85,39 @@ Feature: The todo app has a nice user interface
     contexts
     """
 
+  Scenario: Getting Help with self-ordered commands
+    Given the todo app is coded to avoid sorted help commands
+    When I successfully run `todo help`
+    Then the output should contain:
+    """
+    NAME
+        todo - Manages tasks
+
+    SYNOPSIS
+        todo [global options] command [command options] [arguments...]
+
+    VERSION
+        0.0.1
+
+    GLOBAL OPTIONS
+        --flag=arg         - (default: none)
+        --help             - Show this message
+        --[no-]otherswitch - 
+        --[no-]switch      - 
+        --version          - 
+
+    COMMANDS
+        help          - Shows a list of commands or help for one command
+        initconfig    - Initialize the config file using current global options
+        create, new   - Create a new task or context
+        list          - List things, such as tasks or contexts
+        ls            - LS things, such as tasks or contexts
+        first         - 
+        second        - 
+        chained       - 
+        chained2, ch2 - 
+    """
+
   Scenario: Getting Help for a top level command of todo
     When I successfully run `todo help list`
     Then the output should contain:
@@ -102,6 +135,52 @@ Feature: The todo app has a nice user interface
 
         This is your go-to place or finding all of the things that you might have
         stored in your todo databases. 
+
+    COMMAND OPTIONS
+        -l, --[no-]long - Show long form
+
+    COMMANDS
+        contexts - List contexts
+        tasks    - List tasks (default)
+    """
+
+  Scenario: Getting Help without wrapping
+    Given the todo app is coded to avoid wrapping text
+    When I successfully run `todo help list`
+    Then the output should contain:
+    """
+    NAME
+        list - List things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
+        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+
+    DESCRIPTION
+        List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
+
+    COMMAND OPTIONS
+        -l, --[no-]long - Show long form
+
+    COMMANDS
+        contexts - List contexts
+        tasks    - List tasks (default)
+    """
+
+  Scenario: Getting Help without wrapping
+    Given the todo app is coded to wrap text only for tty
+    When I successfully run `todo help list`
+    Then the output should contain:
+    """
+    NAME
+        list - List things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
+        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+
+    DESCRIPTION
+        List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
 
     COMMAND OPTIONS
         -l, --[no-]long - Show long form

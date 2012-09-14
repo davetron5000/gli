@@ -34,6 +34,8 @@ After do |scenario|
   end
   ENV['PATH'] = @original_path.join(File::PATH_SEPARATOR)
   ENV['HOME'] = @original_home
+  ENV['TODO_SORT_HELP'] = nil
+  ENV['TODO_WRAP_HELP_TEXT'] = nil
 end
 
 def add_to_path(dir)

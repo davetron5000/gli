@@ -14,6 +14,9 @@ else
 include GLI::App
 end
 
+sort_help (ENV['TODO_SORT_HELP'] || 'alpha').to_sym
+wrap_help_text (ENV['TODO_WRAP_HELP_TEXT'] || 'to_terminal').to_sym
+
 program_desc 'Manages tasks'
 
 config_file "gli_test_todo.rc"

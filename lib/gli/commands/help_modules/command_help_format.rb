@@ -4,17 +4,19 @@ module GLI
   module Commands
     module HelpModules
       class CommandHelpFormat
-        def initialize(command,app,basic_invocation)
+        def initialize(command,app,basic_invocation,sorter,wrapper_class=TextWrapper)
           @basic_invocation = basic_invocation
           @app = app
           @command = command
+          @sorter = sorter
+          @wrapper_class = wrapper_class
         end
 
         def format
-          command_wrapper = TextWrapper.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
-          wrapper = TextWrapper.new(Terminal.instance.size[0],4)
+          command_wrapper = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
+          wrapper = @wrapper_class.new(Terminal.instance.size[0],4)
           flags_and_switches = Hash[@command.topmost_ancestor.flags.merge(@command.topmost_ancestor.switches).select { |_,option| option.associated_command == @command }]
-          options_description = OptionsFormatter.new(flags_and_switches).format
+          options_description = OptionsFormatter.new(flags_and_switches,@wrapper_class).format
           commands_description = format_subcommands(@command)
 
           synopses = []
@@ -110,7 +112,7 @@ COMMANDS
         end
  
         def format_subcommands(command)
-          commands_array = command.commands.values.sort.map { |cmd| 
+          commands_array = @sorter.call(command.commands.values).map { |cmd| 
             if command.get_default_command == cmd.name
               [cmd.names,cmd.description + " (default)"] 
             else
@@ -120,7 +122,7 @@ COMMANDS
           if command.has_action?
             commands_array.unshift(["<default>",command.default_description])
           end
-          formatter = ListFormatter.new(commands_array)
+          formatter = ListFormatter.new(commands_array,@wrapper_class)
           StringIO.new.tap { |io| formatter.output(io) }.string
         end
 

@@ -4,21 +4,23 @@ module GLI
   module Commands
     module HelpModules
       class GlobalHelpFormat
-        def initialize(app)
+        def initialize(app,sorter,wrapper_class)
           @app = app
+          @sorter = sorter
+          @wrapper_class = wrapper_class
         end
 
         def format
           program_desc = @app.program_desc
 
-          command_formatter = ListFormatter.new(@app.commands.values.sort.reject(&:nodoc).map { |command|
+          command_formatter = ListFormatter.new(@sorter.call(@app.commands.values.reject(&:nodoc)).map { |command|
             [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
-          })
+          }, @wrapper_class)
           stringio = StringIO.new
           command_formatter.output(stringio)
           commands = stringio.string
 
-          global_option_descriptions = OptionsFormatter.new(global_flags_and_switches).format
+          global_option_descriptions = OptionsFormatter.new(global_flags_and_switches,@wrapper_class).format
 
           GLOBAL_HELP.result(binding)
         end

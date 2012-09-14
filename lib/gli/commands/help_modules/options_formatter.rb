@@ -2,8 +2,9 @@ module GLI
   module Commands
     module HelpModules
       class OptionsFormatter
-        def initialize(flags_and_switches)
+        def initialize(flags_and_switches,wrapper_class)
           @flags_and_switches = flags_and_switches
+          @wrapper_class = wrapper_class
         end
 
         def format
@@ -15,7 +16,7 @@ module GLI
             else
               [option_names_for_help_string(option),description_with_default(option)]
             end
-          })
+          },@wrapper_class)
           stringio = StringIO.new
           list_formatter.output(stringio)
           stringio.string

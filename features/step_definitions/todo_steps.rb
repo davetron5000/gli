@@ -2,6 +2,17 @@ Given /^todo's bin directory is in my path/ do
   add_to_path(File.expand_path(File.join(File.dirname(__FILE__),'..','..','test','apps','todo','bin')))
 end
 
+Given /^the todo app is coded to avoid sorted help commands$/ do
+  ENV['TODO_SORT_HELP'] = 'manually'
+end
+
+Given /^the todo app is coded to avoid wrapping text$/ do
+  ENV['TODO_WRAP_HELP_TEXT'] = 'never'
+end
+
+Given /^the todo app is coded to wrap text only for tty$/ do
+  ENV['TODO_WRAP_HELP_TEXT'] = 'tty_only'
+end
 
 Given /^a clean home directory$/ do
   FileUtils.rm_rf File.join(ENV['HOME'],'gli_test_todo.rc')
