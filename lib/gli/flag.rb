@@ -15,20 +15,32 @@ module GLI
 
     # Creates a new option
     #
-    # names - Array of symbols or strings representing the names of this switch
-    # options - hash of options:
-    #           :desc - the short description
-    #           :long_desc - the long description
-    #           :default_value - the default value of this option
-    #           :arg_name - the name of the flag's argument, default is "arg"
-    #           :must_match - a regexp that the flag's value must match
-    #           :type - a class to convert the value to
+    # names:: Array of symbols or strings representing the names of this switch
+    # options:: hash of options:
+    #           :desc:: the short description
+    #           :long_desc:: the long description
+    #           :default_value:: the default value of this option
+    #           :arg_name:: the name of the flag's argument, default is "arg"
+    #           :must_match:: a regexp that the flag's value must match
+    #           :type:: a class to convert the value to
+    #           :mask:: if true, the default value of this flag will not be output in the help.
+    #                   This is useful for password flags where you might not want to show it
+    #                   on the command-line.
     def initialize(names,options)
       super(names,options)
       @argument_name = options[:arg_name] || "arg"
       @default_value = options[:default_value]
       @must_match = options[:must_match]
       @type = options[:type]
+      @mask = options[:mask]
+    end
+
+    def safe_default_value
+      if @mask
+        "********"
+      else
+        default_value
+      end
     end
 
     def arguments_for_option_parser

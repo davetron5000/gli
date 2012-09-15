@@ -26,7 +26,7 @@ module GLI
 
         def description_with_default(option)
           if option.kind_of? Flag
-            String(option.description) + " (default: #{option.default_value || 'none'})"
+            String(option.description) + " (default: #{option.safe_default_value || 'none'})"
           else
             String(option.description)
           end

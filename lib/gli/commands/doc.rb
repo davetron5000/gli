@@ -170,7 +170,7 @@ module GLI
                                  Array(flag.aliases),
                                  flag.description,
                                  flag.long_description,
-                                 flag.default_value,
+                                 flag.safe_default_value,
                                  flag.argument_name,
                                  flag.must_match,
                                  flag.type)

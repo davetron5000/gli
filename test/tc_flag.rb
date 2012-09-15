@@ -27,28 +27,36 @@ class TC_testFlag < Clean::Test::TestCase
     }
   end
 
-  def flag_with_names(names)
+  def test_flag_can_mask_its_value
+    Given flag_with_names(:password, :mask => true)
+    Then attributes_should_be_set(:safe_default_value => "********")
+  end
+
+  def flag_with_names(names,options = {})
     lambda do
       @options = {
         :desc => 'Filename',
         :long_desc => 'The Filename',
         :arg_name => 'file',
         :default_value => '~/.blah.rc',
+        :safe_default_value => '~/.blah.rc',
         :must_match => /foobar/,
         :type => Float,
-      }
+      }.merge(options)
       @flag = GLI::Flag.new(names,@options)
       @cli_option = @flag
     end
   end
 
-  def attributes_should_be_set
+  def attributes_should_be_set(override={})
     lambda {
-      assert_equal(@options[:desc],@flag.description)
-      assert_equal(@options[:long_desc],@flag.long_description)
-      assert_equal(@options[:default_value],@flag.default_value)
-      assert_equal(@options[:must_match],@flag.must_match)
-      assert_equal(@options[:type],@flag.type)
+      expected = @options.merge(override)
+      assert_equal(expected[:desc],@flag.description)
+      assert_equal(expected[:long_desc],@flag.long_description)
+      assert_equal(expected[:default_value],@flag.default_value)
+      assert_equal(expected[:safe_default_value],@flag.safe_default_value)
+      assert_equal(expected[:must_match],@flag.must_match)
+      assert_equal(expected[:type],@flag.type)
       assert(@flag.usage != nil)
     }
   end
