@@ -23,7 +23,7 @@ module GLI
       $LOAD_PATH.each do |load_path|
         commands_path = File.join(load_path,path)
         if File.exists? commands_path
-          Dir.entries(commands_path).each do |entry|
+          Dir.entries(commands_path).sort.each do |entry|
             file = File.join(commands_path,entry)
             if file =~ /\.rb$/
               require file
