@@ -23,9 +23,9 @@ module GLI
   private
 
     def self.setup_accepts(opts,accepts)
-      accepts.each do |object,block| 
-        opts.accept(object) do |arg_as_string| 
-          block.call(arg_as_string) 
+      accepts.each do |object,block|
+        opts.accept(object) do |arg_as_string|
+          block.call(arg_as_string)
         end
       end
     end
