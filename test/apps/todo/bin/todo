@@ -18,6 +18,7 @@ sort_help (ENV['TODO_SORT_HELP'] || 'alpha').to_sym
 wrap_help_text (ENV['TODO_WRAP_HELP_TEXT'] || 'to_terminal').to_sym
 
 program_desc 'Manages tasks'
+program_long_desc "A test program that has a sophisticated UI that can be used to exercise a lot of GLI's power"
 
 config_file "gli_test_todo.rc"
 

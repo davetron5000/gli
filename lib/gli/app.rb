@@ -44,6 +44,17 @@ module GLI
       @program_desc
     end
 
+    # Provide a longer description of the program.  This can be as long as needed, and use double-newlines
+    # for paragraphs.  This will show up in the help output.
+    #
+    # description:: A String for the description
+    def program_long_desc(description=nil)
+      if description
+        @program_long_desc = description
+      end
+      @program_long_desc
+    end
+
     # Use this if the following command should not have the pre block executed.
     # By default, the pre block is executed before each command and can result in
     # aborting the call.  Using this will avoid that behavior for the following command

@@ -22,6 +22,13 @@ module GLI
         @io.puts
       end
 
+      def program_long_desc(desc)
+        unless desc.nil?
+          @io.puts desc
+          @io.puts
+        end
+      end
+
       # Gives you the program version
       def version(version)
         @io.puts "v#{version}"

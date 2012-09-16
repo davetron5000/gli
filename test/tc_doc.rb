@@ -56,6 +56,10 @@ class TC_testDoc < Clean::Test::TestCase
       @stringio << desc << "\n"
     end
 
+    def program_long_desc(desc)
+      @stringio << desc << "\n"
+    end
+
     def version(version)
       @stringio << version << "\n"
     end
@@ -158,6 +162,7 @@ private
     @app = TestApp.new
     @app.instance_eval do
       program_desc "program desc"
+      program_long_desc "program long desc"
       version "1.3.4"
 
       TC_testDoc.flag_with_everything_specified(self)
@@ -227,6 +232,7 @@ private
     @string =<<EOS
 BEGIN
 program desc
+program long desc
 1.3.4
 flag: F
   aliases: flag2

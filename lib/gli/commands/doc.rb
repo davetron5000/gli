@@ -33,6 +33,7 @@ module GLI
       def document(document_listener)
         document_listener.beginning
         document_listener.program_desc(@app.program_desc)
+        document_listener.program_long_desc(@app.program_long_desc)
         document_listener.version(@app.version_string)
         if any_options?(@app)
           document_listener.options 
@@ -63,6 +64,11 @@ module GLI
 
         # Gives you the program description
         def program_desc(desc)
+          abstract!
+        end
+
+        # Gives you the program long description
+        def program_long_desc(desc)
           abstract!
         end
 

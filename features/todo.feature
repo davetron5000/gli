@@ -15,6 +15,9 @@ Feature: The todo app has a nice user interface
     NAME
         todo - Manages tasks
 
+        A test program that has a sophisticated UI that can be used to exercise a
+        lot of GLI's power
+
     SYNOPSIS
         todo [global options] command [command options] [arguments...]
 
@@ -92,6 +95,9 @@ Feature: The todo app has a nice user interface
     """
     NAME
         todo - Manages tasks
+
+        A test program that has a sophisticated UI that can be used to exercise a
+        lot of GLI's power
 
     SYNOPSIS
         todo [global options] command [command options] [arguments...]

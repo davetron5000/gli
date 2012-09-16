@@ -12,6 +12,13 @@ module GLI
 
         def format
           program_desc = @app.program_desc
+          program_long_desc = @app.program_long_desc
+          if program_long_desc
+            wrapper = @wrapper_class.new(Terminal.instance.size[0],4)
+            program_long_desc = "\n    #{wrapper.wrap(program_long_desc)}\n\n" if program_long_desc
+          else
+            program_long_desc = "\n"
+          end
 
           command_formatter = ListFormatter.new(@sorter.call(@app.commands.values.reject(&:nodoc)).map { |command|
             [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
@@ -29,7 +36,7 @@ module GLI
 
         GLOBAL_HELP = ERB.new(%q(NAME
     <%= File.basename($0) %> - <%= program_desc %>
-
+<%= program_long_desc %>
 SYNOPSIS
     <%= usage_string %>
 
