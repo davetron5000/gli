@@ -195,8 +195,8 @@ module GLI
 
     # Exit now, showing the user help for the command they executed.  Use #exit_now! to just show the error message
     #
-    # message:: message to indicate how the user has messed up the CLI invocation
-    def help_now!(message)
+    # message:: message to indicate how the user has messed up the CLI invocation or nil to just simply show help
+    def help_now!(message=nil)
       exception = OptionParser::ParseError.new(message)
       class << exception
         def exit_code; 64; end

@@ -175,9 +175,8 @@ module GLI
 
     def handle_exception(ex,command)
       if regular_error_handling?(ex)
-        stderr.puts error_message(ex) 
+        output_error_message(ex)
         if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
-          stderr.puts 
           commands[:help] and commands[:help].execute({},{},command.nil? ? [] : [command.name.to_s])
         end
       end
@@ -186,6 +185,17 @@ module GLI
 
       ex.extend(GLI::StandardException)
       ex.exit_code
+    end
+
+    def output_error_message(ex)
+      stderr.puts error_message(ex) unless no_message_given?(ex)
+      if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
+        stderr.puts unless no_message_given?(ex)
+      end
+    end
+
+    def no_message_given?(ex)
+      ex.message == ex.class.name
     end
 
     # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.

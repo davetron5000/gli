@@ -53,6 +53,25 @@ module GLI
 
     def parse_command_options(option_parser_factory,command,args)
       option_parser,command_options = option_parser_factory.option_parser
+      help_args = %w(-h --help).reject { |_| command.has_option?(_) }
+
+      unless help_args.empty?
+        option_parser.on(*help_args) do
+          # We need to raise the help exception later in the process, after
+          # the command-line has been parsed, so we know what command
+          # to show help for.  Unfortunately, we can't just call #action
+          # on the command to override what to do, so...metaprogramming.
+          class << command
+            def execute(*help_args)
+              exception = BadCommandLine.new(nil)
+              class << exception
+                def exit_code; 0; end
+              end
+              raise exception
+            end
+          end
+        end
+      end
       option_parser.parse!(args)
       [command_options,args]
     rescue OptionParser::InvalidOption => ex

@@ -118,8 +118,8 @@ Feature: The todo app has a nice user interface
         chained2, ch2 - 
     """
 
-  Scenario: Getting Help for a top level command of todo
-    When I successfully run `todo help list`
+  Scenario Outline: Getting Help for a top level command of todo
+    When I successfully run `todo <help_invocation>`
     Then the output should contain:
     """
     NAME
@@ -143,6 +143,13 @@ Feature: The todo app has a nice user interface
         contexts - List contexts
         tasks    - List tasks (default)
     """
+
+    Examples:
+      | help_invocation |
+      | help list       |
+      | list -h         |
+      | list --help     |
+
 
   Scenario: Getting Help without wrapping
     Given the todo app is coded to avoid wrapping text

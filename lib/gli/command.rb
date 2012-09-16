@@ -132,6 +132,13 @@ module GLI
       @default_desc = desc
     end
 
+    # Returns true if this command has the given option defined
+    def has_option?(option) #:nodoc:
+      option = option.gsub(/^\-+/,'')
+      ((flags.values.map { |_| [_.name,_.aliases] }) + 
+       (switches.values.map { |_| [_.name,_.aliases] })).flatten.map(&:to_s).include?(option)
+    end
+
     def self.name_as_string(name,negatable=false) #:nodoc:
       name.to_s
     end
