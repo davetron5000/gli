@@ -84,9 +84,8 @@ Feature: The GLI executable works as intended
     Then the exit status should not be 0
      And the stderr should contain "error: Unknown option -q"
 
+     @wip
   Scenario: The _doc command doesn't blow up
     Given the file "gli.rdoc" doesn't exist
     When I run `gli _doc`
     Then a file named "gli.rdoc" should exist
-    
-     

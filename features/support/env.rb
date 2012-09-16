@@ -24,6 +24,7 @@ Before do
   FileUtils.rm_rf new_home
   FileUtils.mkdir new_home
   ENV['HOME'] = new_home
+  FileUtils.cp 'gli.rdoc','gli.rdoc.orig'
 end
 
 After do |scenario|
@@ -36,6 +37,7 @@ After do |scenario|
   ENV['HOME'] = @original_home
   ENV['TODO_SORT_HELP'] = nil
   ENV['TODO_WRAP_HELP_TEXT'] = nil
+  FileUtils.mv 'gli.rdoc.orig','gli.rdoc'
 end
 
 def add_to_path(dir)
