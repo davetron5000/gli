@@ -11,3 +11,5 @@ module TestHelper
     include GLI::App
   end
 end
+
+Faker::Config.locale = :en
