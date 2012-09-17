@@ -74,21 +74,10 @@ COMMANDS
           else
             usage << sub.name.to_s
           end
-          usage << format_arg_name(sub)
+          usage << ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options)
           usage
         end
 
-        def format_arg_name(command)
-          return '' if String(command.arguments_description).strip == ''
-          desc = command.arguments_description
-          if command.arguments_options.include? :optional
-            desc = "[#{desc}]"
-          end
-          if command.arguments_options.include? :multiple
-            desc = "#{desc}[, #{desc}]*"
-          end
-          " " + desc
-        end
  
         def basic_usage(flags_and_switches)
           usage = @basic_invocation.dup

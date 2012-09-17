@@ -10,6 +10,7 @@ require 'gli/commands/help_modules/global_help_format'
 require 'gli/commands/help_modules/command_help_format'
 require 'gli/commands/help_modules/help_completion_format'
 require 'gli/commands/help_modules/command_finder'
+require 'gli/commands/help_modules/arg_name_formatter'
 
 module GLI
   module Commands

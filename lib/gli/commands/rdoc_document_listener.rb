@@ -1,4 +1,5 @@
 require 'stringio'
+require 'gli/commands/help_modules/arg_name_formatter'
 module GLI
   module Commands
     class RdocDocumentListener
@@ -6,6 +7,7 @@ module GLI
       def initialize(global_options,options,arguments)
         @io = File.new(File.basename($0) + ".rdoc",'w')
         @nest = ''
+        @arg_name_formatter = GLI::Commands::HelpModules::ArgNameFormatter.new
       end
 
       def beginning
@@ -23,10 +25,8 @@ module GLI
       end
 
       def program_long_desc(desc)
-        unless desc.nil?
-          @io.puts desc
-          @io.puts
-        end
+        @io.puts desc
+        @io.puts
       end
 
       # Gives you the program version
@@ -45,12 +45,12 @@ module GLI
 
       # Gives you a flag in the current context
       def flag(name,aliases,desc,long_desc,default_value,arg_name,must_match,type)
-        usage = "#{add_dashes(name)} #{arg_name || 'arg'}"
+        invocations = ([name] + Array(aliases)).map { |_| add_dashes(_) }.join('|')
+        usage = "#{invocations} #{arg_name || 'arg'}"
         @io.puts "#{@nest}=== #{usage}"
         @io.puts
         @io.puts String(desc).strip
         @io.puts
-        @io.puts "[Aliases] #{aliases.map { |_| add_dashes(_) }.join(',')}" unless aliases.empty?
         @io.puts "[Default Value] #{default_value || 'None'}"
         @io.puts "[Must Match] #{must_match.to_s}" unless must_match.nil?
         @io.puts String(long_desc).strip
@@ -63,10 +63,9 @@ module GLI
           name = "[no-]#{name}" if name.length > 1
           aliases = aliases.map { |_|  _.length > 1 ? "[no-]#{_}" : _ } 
         end
-        @io.puts "#{@nest}=== #{add_dashes(name)}"
+        invocations = ([name] + aliases).map { |_| add_dashes(_) }.join('|')
+        @io.puts "#{@nest}=== #{invocations}"
         @io.puts String(desc).strip
-        @io.puts
-        @io.puts "[Aliases] #{aliases.map { |_| add_dashes(_) }.join(',')}\n" unless aliases.empty?
         @io.puts
         @io.puts String(long_desc).strip
         @io.puts
@@ -81,11 +80,9 @@ module GLI
       end
 
       # Gives you a command in the current context and creates a new context of this command
-      def command(name,aliases,desc,long_desc,arg_name)
-        @io.puts "#{@nest}=== #{name} #{arg_name}"
+      def command(name,aliases,desc,long_desc,arg_name,arg_options)
+        @io.puts "#{@nest}=== Command: <tt>#{([name] + aliases).join('|')} #{@arg_name_formatter.format(arg_name,arg_options)}</tt>"
         @io.puts String(desc).strip
-        @io.puts 
-        @io.puts "[Aliases] #{aliases.join(',')}\n" unless aliases.empty?
         @io.puts 
         @io.puts String(long_desc).strip
         @nest = "#{@nest}="

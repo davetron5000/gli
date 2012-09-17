@@ -32,8 +32,8 @@ module GLI
       # Generates documentation using the listener
       def document(document_listener)
         document_listener.beginning
-        document_listener.program_desc(@app.program_desc)
-        document_listener.program_long_desc(@app.program_long_desc)
+        document_listener.program_desc(@app.program_desc) unless @app.program_desc.nil?
+        document_listener.program_long_desc(@app.program_long_desc) unless @app.program_long_desc.nil?
         document_listener.version(@app.version_string)
         if any_options?(@app)
           document_listener.options 
@@ -113,7 +113,7 @@ module GLI
         end
 
         # Gives you a command in the current context and creates a new context of this command
-        def command(name,aliases,desc,long_desc,arg_name)
+        def command(name,aliases,desc,long_desc,arg_name,arg_options)
           abstract!
         end
 
@@ -142,11 +142,7 @@ module GLI
 
       def document_commands(document_listener,context)
         context.commands.values.reject {|_| _.nodoc }.sort(&by_name).each do |command|
-          document_listener.command(command.name,
-                                    Array(command.aliases),
-                                    command.description,
-                                    command.long_description,
-                                    command.arguments_description)
+          call_command_method_being_backwards_compatible(document_listener,command)
           document_listener.options if any_options?(command)
           document_flags_and_switches(document_listener,command_flags(command),command_switches(command))
           document_listener.end_options if any_options?(command)
@@ -156,6 +152,18 @@ module GLI
           document_listener.end_command(command.name)
         end
         document_listener.default_command(context.get_default_command)
+      end
+
+      def call_command_method_being_backwards_compatible(document_listener,command)
+        command_args = [command.name,
+                        Array(command.aliases),
+                        command.description,
+                        command.long_description,
+                        command.arguments_description]
+        if document_listener.method(:command).arity == 6
+          command_args << command.arguments_options
+        end
+        document_listener.command(*command_args)
       end
 
       def by_name
