@@ -1,6 +1,6 @@
 == gli - create scaffolding for a GLI-powered application
 
-v2.1.0
+v2.2.1
 
 === Global Options
 === -r|--root arg
