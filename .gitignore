@@ -9,3 +9,5 @@ cruddo.rdoc
 gli.wiki
 Gemfile.lock
 results.html
+.DS_Store
+.rbx
