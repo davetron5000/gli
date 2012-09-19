@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::Command</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -192,7 +192,7 @@ of this command (required).</p>
 <p>short description of this command as a String</p>
 </dd><dt><code>arguments_name</code>
 <dd>
-<p>description of the arguments as a String, or nil if this command doesn't
+<p>description of the arguments as a String, or nil if this command doesn’t
 take arguments</p>
 </dd><dt><code>long_desc</code>
 <dd>
@@ -201,15 +201,15 @@ double line-break is treated as a paragraph break.  No other formatting is
 respected, though inner whitespace is maintained.</p>
 </dd><dt><code>skips_pre</code>
 <dd>
-<p>if true, this command advertises that it doesn't want the pre block called
-first</p>
+<p>if true, this command advertises that it doesn’t want the pre block
+called first</p>
 </dd><dt><code>skips_post</code>
 <dd>
-<p>if true, this command advertises that it doesn't want the post block called
-after it</p>
+<p>if true, this command advertises that it doesn’t want the post block
+called after it</p>
 </dd><dt><code>skips_around</code>
 <dd>
-<p>if true, this command advertises that it doesn't want the around block
+<p>if true, this command advertises that it doesn’t want the around block
 called</p>
 </dd></dl>
 </dd></dl>
@@ -232,9 +232,11 @@ called</p>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:names</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:description</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:long_desc</span>])
   <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_name</span>] <span class="ruby-operator">||</span> <span class="ruby-string">''</span>
+  <span class="ruby-ivar">@arguments_options</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_options</span>]).<span class="ruby-identifier">flatten</span>
   <span class="ruby-ivar">@skips_pre</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_pre</span>]
   <span class="ruby-ivar">@skips_post</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_post</span>]
   <span class="ruby-ivar">@skips_around</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_around</span>]
+  <span class="ruby-ivar">@commands_declaration_order</span> = []
   <span class="ruby-identifier">clear_nexts</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -274,7 +276,7 @@ href="App.html#method-i-config_file">GLI::App#config_file</a>).</p>
 <p>An Array of Strings representing the unparsed command line arguments</p>
 </dd></dl>
 
-<p>The block's result value is not used; raise an exception or use <a
+<p>The block’s result value is not used; raise an exception or use <a
 href="App.html#method-i-exit_now-21">GLI::App#exit_now!</a> if you need an
 early exit based on an error condition</p>
 </dd></dl>
@@ -293,7 +295,7 @@ early exit based on an error condition</p>
                 
               </p>
               <div id="method-i-action_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 78</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">action</span>(&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
@@ -312,7 +314,7 @@ early exit based on an error condition</p>
           
             <div class="description">
               <p>Set the default command if this command has subcommands and the user
-doesn't  provide a subcommand when invoking THIS command.  When nil, this
+doesn’t  provide a subcommand when invoking THIS command.  When nil, this
 will show an error and the help for this command; when set, the command
 with this name will be executed.</p>
 <dl class="rdoc-list note-list"><dt><code>command_name</code>
@@ -335,7 +337,7 @@ default as a String or Symbol.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 60</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command_name</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -361,10 +363,11 @@ description of the commands that this command groups, and the value for
 subcommand.</p>
 
 <p>Note that if you omit the action block and specify a subcommand, that
-subcommand's description will be used to describe what happens by default.</p>
+subcommand’s description will be used to describe what happens by
+default.</p>
 <dl class="rdoc-list note-list"><dt>desc
 <dd>
-<p>the description of what this command's action block does.</p>
+<p>the description of what this command’s action block does.</p>
 </dd></dl>
 
 <p>Example</p>
@@ -419,7 +422,7 @@ subcommand's description will be used to describe what happens by default.</p>
                 
               </p>
               <div id="method-i-default_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 130</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 132</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@default_desc</span> = <span class="ruby-identifier">desc</span>
 <span class="ruby-keyword">end</span></pre>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::App</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -34,7 +34,7 @@
   
     <div class="description">
       
-<p>A means to define and parse a command line interface that works as Git's
+<p>A means to define and parse a command line interface that works as Git’s
 does, in that you specify global options, a command name, command specific
 options, and then command arguments.</p>
 
@@ -155,7 +155,17 @@ options, and then command arguments.</p>
             
               
               <li>
-                <a href="#method-i-program_desc">program_desc</a>
+                <a href="#method-i-preserve_argv">preserve_argv</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-program_desc">program_desc</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-program_long_desc">program_long_desc</a>
               </li>
             
           </ul>
@@ -177,7 +187,12 @@ options, and then command arguments.</p>
             
               
               <li>
-                <a href="#method-i-skips_pre">skips_pre</a>
+                <a href="#method-i-skips_pre">skips_pre</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-sort_help">sort_help</a>
               </li>
             
           </ul>
@@ -202,6 +217,18 @@ options, and then command arguments.</p>
               
               <li>
                 <a href="#method-i-version">version</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>W</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-wrap_help_text">wrap_help_text</a>
               </li>
             
           </ul>
@@ -298,7 +325,7 @@ the converted value</p>
                 
               </p>
               <div id="method-i-accept_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 173</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 193</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">accept</span>(<span class="ruby-identifier">object</span>,&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">accepts</span>[<span class="ruby-identifier">object</span>] = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
@@ -368,7 +395,7 @@ command that should not have this hook fired</p>
                 
               </p>
               <div id="method-i-around_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 117</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">around</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">||=</span> []
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a_proc</span>
@@ -417,7 +444,7 @@ files</p>
   <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">commands_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">load_path</span>,<span class="ruby-identifier">path</span>)
     <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">commands_path</span>
-      <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">commands_path</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
+      <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">commands_path</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
         <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">commands_path</span>,<span class="ruby-identifier">entry</span>)
         <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\.rb$/</span>
           <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
@@ -445,9 +472,9 @@ file.</p>
 <dl class="rdoc-list note-list"><dt>filename
 <dd>
 <p>A String representing the path to the file to use for the config file.  If
-it's an absolute path, this is treated as the path to the file.  If it's
-<strong>not</strong>, it's treated as relative to the user's home directory
-as produced by <code>File.expand_path('~')</code>.</p>
+it’s an absolute path, this is treated as the path to the file.  If
+it’s <strong>not</strong>, it’s treated as relative to the user’s
+home directory as produced by <code>File.expand_path('~')</code>.</p>
 </dd></dl>
             </div>
           
@@ -464,7 +491,7 @@ as produced by <code>File.expand_path('~')</code>.</p>
                 
               </p>
               <div id="method-i-config_file_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 73</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">config_file</span>(<span class="ruby-identifier">filename</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^\//</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-identifier">filename</span>
@@ -472,6 +499,7 @@ as produced by <code>File.expand_path('~')</code>.</p>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">'HOME'</span>]),<span class="ruby-identifier">filename</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">commands</span>[<span class="ruby-value">:initconfig</span>] = <span class="ruby-constant">InitConfig</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@config_file</span>,<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">flags</span>,<span class="ruby-identifier">switches</span>)
+  <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">commands</span>[<span class="ruby-value">:initconfig</span>]
   <span class="ruby-ivar">@config_file</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -489,7 +517,7 @@ as produced by <code>File.expand_path('~')</code>.</p>
           
             <div class="description">
               <p>Sets a default command to run when none is specified on the command line. 
-Note that if you use this, you won't be able to pass arguments, flags, or
+Note that if you use this, you won’t be able to pass arguments, flags, or
 switches to the command when run in default mode.  All flags and switches
 are treated as global, and any argument will be interpretted as the command
 name and likely fail.</p>
@@ -512,7 +540,7 @@ name and likely fail.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 210</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 249</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
 <span class="ruby-keyword">end</span></pre>
@@ -558,7 +586,7 @@ help in addition to the error message</p>
                 
               </p>
               <div id="method-i-exit_now-21_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 184</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 204</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_now!</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>=<span class="ruby-number">1</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">CustomExit</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -570,7 +598,7 @@ help in addition to the error message</p>
         <div class="method">
           <div class="title method-title" id="method-i-help_now-21">
             
-              <a name="method-i-help_now-21"></a><b>help_now!</b>(message)
+              <a name="method-i-help_now-21"></a><b>help_now!</b>(message=nil)
             
           </div>
           
@@ -581,7 +609,8 @@ href="App.html#method-i-exit_now-21">exit_now!</a> to just show the error
 message</p>
 <dl class="rdoc-list note-list"><dt>message
 <dd>
-<p>message to indicate how the user has messed up the CLI invocation</p>
+<p>message to indicate how the user has messed up the CLI invocation or nil to
+just simply show help</p>
 </dd></dl>
             </div>
           
@@ -598,8 +627,8 @@ message</p>
                 
               </p>
               <div id="method-i-help_now-21_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 191</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">help_now!</span>(<span class="ruby-identifier">message</span>)
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 211</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">help_now!</span>(<span class="ruby-identifier">message</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">exception</span> = <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword ruby-title">exception</span>
     <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_code</span>; <span class="ruby-number">64</span>; <span class="ruby-keyword">end</span>
@@ -624,7 +653,7 @@ message</p>
 Exception that was caught. It should evaluate to false to avoid the
 built-in error handling (which basically just prints out a message). <a
 href="../GLI.html">GLI</a> uses a variety of exceptions that you can use to
-find out what  errors might've occurred during command-line parsing:</p>
+find out what  errors might’ve occurred during command-line parsing:</p>
 <ul><li>
 <p><a href="CustomExit.html">GLI::CustomExit</a></p>
 </li><li>
@@ -651,7 +680,7 @@ find out what  errors might've occurred during command-line parsing:</p>
                 
               </p>
               <div id="method-i-on_error_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 132</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">on_error</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@error_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -687,7 +716,7 @@ global-options,command,options, and arguments</p>
                 
               </p>
               <div id="method-i-post_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 96</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 108</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@post_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -725,9 +754,47 @@ true, the program will proceed; otherwise the program will end immediately</p>
                 
               </p>
               <div id="method-i-pre_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 89</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 101</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pre</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@pre_block</span> = <span class="ruby-identifier">a_proc</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-preserve_argv">
+            
+              <a name="method-i-preserve_argv"></a><b>preserve_argv</b>(preserve=true)
+            
+          </div>
+          
+          
+            <div class="description">
+              <p>By default, <a href="../GLI.html">GLI</a> mutates the argument passed to
+it.  This is consistent with <code>OptionParser</code>, but be less than
+ideal.  Since that value, for scaffolded apps, is <code>ARGV</code>, you
+might want to refer to the entire command-line via <code>ARGV</code> and
+thus not want it mutated.</p>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-preserve_argv_source')" id="l_method-i-preserve_argv_source">show</a>
+                
+              </p>
+              <div id="method-i-preserve_argv_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 160</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">preserve_argv</span>(<span class="ruby-identifier">preserve</span>=<span class="ruby-keyword">true</span>)
+  <span class="ruby-ivar">@preserve_argv</span> = <span class="ruby-identifier">preserve</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -747,7 +814,7 @@ true, the program will proceed; otherwise the program will end immediately</p>
 summary of what your program does that will appear in the help output.</p>
 <dl class="rdoc-list note-list"><dt><code>description</code>
 <dd>
-<p>A String of the short description of your program's purpose</p>
+<p>A String of the short description of your program’s purpose</p>
 </dd></dl>
             </div>
           
@@ -770,6 +837,49 @@ summary of what your program does that will appear in the help output.</p>
     <span class="ruby-ivar">@program_desc</span> = <span class="ruby-identifier">description</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-ivar">@program_desc</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-program_long_desc">
+            
+              <a name="method-i-program_long_desc"></a><b>program_long_desc</b>(description=nil)
+            
+          </div>
+          
+          
+            <div class="description">
+              <p>Provide a longer description of the program.  This can be as long as
+needed, and use double-newlines for paragraphs.  This will show up in the
+help output.</p>
+<dl class="rdoc-list note-list"><dt>description
+<dd>
+<p>A String for the description</p>
+</dd></dl>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-program_long_desc_source')" id="l_method-i-program_long_desc_source">show</a>
+                
+              </p>
+              <div id="method-i-program_long_desc_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 51</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_long_desc</span>(<span class="ruby-identifier">description</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">description</span>
+    <span class="ruby-ivar">@program_long_desc</span> = <span class="ruby-identifier">description</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@program_long_desc</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -803,7 +913,7 @@ might not want the setup to happen, this can be handy</p>
                 
               </p>
               <div id="method-i-skips_around_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 64</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_around</span>
   <span class="ruby-ivar">@skips_around</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -839,7 +949,7 @@ avoid that behavior for the following command</p>
                 
               </p>
               <div id="method-i-skips_post_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 57</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_post</span>
   <span class="ruby-ivar">@skips_post</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -876,9 +986,55 @@ command</p>
                 
               </p>
               <div id="method-i-skips_pre_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 50</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_pre</span>
   <span class="ruby-ivar">@skips_pre</span> = <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-sort_help">
+            
+              <a name="method-i-sort_help"></a><b>sort_help</b>(sort_type)
+            
+          </div>
+          
+          
+            <div class="description">
+              <p>Control how help commands are sorted.  By default, the commands are sorted
+alphabetically.</p>
+<dl class="rdoc-list note-list"><dt>sort_type
+<dd>
+<p>How you want help commands sorted:</p>
+<dl class="rdoc-list note-list"><dt><code>:manually</code>
+<dd>
+<p>help commands are ordered in the order declared.</p>
+</dd><dt><code>:alpha</code>
+<dd>
+<p>sort alphabetically (default)</p>
+</dd></dl>
+</dd></dl>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-sort_help_source')" id="l_method-i-sort_help_source">show</a>
+                
+              </p>
+              <div id="method-i-sort_help_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 224</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sort_help</span>(<span class="ruby-identifier">sort_type</span>)
+  <span class="ruby-ivar">@help_sort_type</span> = <span class="ruby-identifier">sort_type</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -918,7 +1074,7 @@ methods.</p>
                 
               </p>
               <div id="method-i-use_openstruct_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 150</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">use_openstruct</span>(<span class="ruby-identifier">use_openstruct</span>)
   <span class="ruby-ivar">@use_openstruct</span> = <span class="ruby-identifier">use_openstruct</span>
 <span class="ruby-keyword">end</span></pre>
@@ -956,10 +1112,60 @@ methods.</p>
                 
               </p>
               <div id="method-i-version_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 139</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 151</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">version</span>(<span class="ruby-identifier">version</span>)
   <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
   <span class="ruby-identifier">switch</span> <span class="ruby-value">:version</span>, <span class="ruby-value">:negatable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-wrap_help_text">
+            
+              <a name="method-i-wrap_help_text"></a><b>wrap_help_text</b>(wrap_type)
+            
+          </div>
+          
+          
+            <div class="description">
+              <p>Set how help text is wrapped.</p>
+<dl class="rdoc-list note-list"><dt>wrap_type
+<dd>
+<p>Symbol indicating how you’d like text wrapped:</p>
+<dl class="rdoc-list note-list"><dt>:to_terminal
+<dd>
+<p>Wrap text based on the width of the terminal (default)</p>
+</dd><dt><code>:never</code>
+<dd>
+<p>Do not wrap text at all.  This will bring all help content onto one line,
+removing any newlines</p>
+</dd><dt><code>:tty_only</code>
+<dd>
+<p>Wrap like <code>:to_terminal</code> if this output is going to a TTY,
+otherwise don’t wrap (like <code>:never</code>)</p>
+</dd></dl>
+</dd></dl>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-wrap_help_text_source')" id="l_method-i-wrap_help_text_source">show</a>
+                
+              </p>
+              <div id="method-i-wrap_help_text_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 234</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">wrap_help_text</span>(<span class="ruby-identifier">wrap_type</span>)
+  <span class="ruby-ivar">@help_text_wrap_type</span> = <span class="ruby-identifier">wrap_type</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

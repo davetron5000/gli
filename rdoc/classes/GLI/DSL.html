@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::DSL</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -181,18 +181,29 @@ methods that apply only to command objects.</p>
         <div class="method">
           <div class="title method-title" id="method-i-arg_name">
             
-              <a name="method-i-arg_name"></a><b>arg_name</b>(name)
+              <a name="method-i-arg_name"></a><b>arg_name</b>(name,options=[])
             
           </div>
           
           
             <div class="description">
-              <p>Describe the argument name of the next flag.  It's important to keep this
+              <p>Describe the argument name of the next flag.  It’s important to keep this
 VERY short and, ideally, without any spaces (see Example).</p>
 <dl class="rdoc-list note-list"><dt><code>name</code>
 <dd>
 <p>A String that <strong>briefly</strong> describes the argument given to the
 following command or flag.</p>
+</dd><dt><code>options</code>
+<dd>
+<p>Symbol or array of symbols to annotate this argument.  This doesn’t
+affect parsing, just the help output.  Values recognized are:</p>
+<dl class="rdoc-list note-list"><dt><code>:optional</code>
+<dd>
+<p>indicates this argument is optional; will format it with square brackets</p>
+</dd><dt><code>:multiple</code>
+<dd>
+<p>indicates multiple values are accepted; will format appropriately</p>
+</dd></dl>
 </dd></dl>
 
 <p>Example:</p>
@@ -219,8 +230,11 @@ flag [:f,:filename]</pre>
                 
               </p>
               <div id="method-i-arg_name_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 30</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">arg_name</span>(<span class="ruby-identifier">name</span>); <span class="ruby-ivar">@next_arg_name</span> = <span class="ruby-identifier">name</span>; <span class="ruby-keyword">end</span></pre>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 34</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">arg_name</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">options</span>=[])
+  <span class="ruby-ivar">@next_arg_name</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-ivar">@next_arg_options</span> = <span class="ruby-identifier">options</span>
+<span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
@@ -317,11 +331,12 @@ as described above.</p>
                 
               </p>
               <div id="method-i-command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 136</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 144</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">command_options</span> = {
     <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_desc</span>,
     <span class="ruby-value">:arguments_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_arg_name</span>,
+    <span class="ruby-value">:arguments_options</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_arg_options</span>,
     <span class="ruby-value">:long_desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_long_desc</span>,
     <span class="ruby-value">:skips_pre</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_pre</span>,
     <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_post</span>,
@@ -339,6 +354,8 @@ as described above.</p>
     <span class="ruby-identifier">commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">command</span>
     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">command</span>
   <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">||=</span> []
+  <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">command</span>
   <span class="ruby-identifier">clear_nexts</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -377,8 +394,8 @@ as described above.</p>
 <dl class="rdoc-list note-list"><dt>val
 <dd>
 <p>A String reprensenting the default value to be used for the following flag
-if the user doesn't specify one and, when using a config file, the config
-also doesn't specify one</p>
+if the user doesn’t specify one and, when using a config file, the config
+also doesn’t specify one</p>
 </dd></dl>
             </div>
           
@@ -395,7 +412,7 @@ also doesn't specify one</p>
                 
               </p>
               <div id="method-i-default_value_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 36</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_value</span>(<span class="ruby-identifier">val</span>); <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-identifier">val</span>; <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -493,7 +510,7 @@ href="DSL.html#method-i-default_value">default_value</a></p>
 href="DSL.html#method-i-arg_name">arg_name</a></p>
 </dd><dt><code>:must_match</code>
 <dd>
-<p>A regexp that the flag's value must match</p>
+<p>A regexp that the flag’s value must match</p>
 </dd><dt><code>:type</code>
 <dd>
 <p>A Class (or object you passed to <a
@@ -534,7 +551,7 @@ coversion</p>
                 
               </p>
               <div id="method-i-flag_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 61</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">flag</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>
@@ -561,7 +578,7 @@ coversion</p>
           
             <div class="description">
               <p>Provide a longer, more detailed description.  This will be reformatted and
-wrapped to fit in the terminal's columns</p>
+wrapped to fit in the terminal’s columns</p>
 <dl class="rdoc-list note-list"><dt><code>long_desc</code>
 <dd>
 <p>A String that is s longer description of the switch, flag, or command
@@ -655,7 +672,7 @@ href="DSL.html#method-i-long_desc">long_desc</a></p>
                 
               </p>
               <div id="method-i-switch_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 81</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 88</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>

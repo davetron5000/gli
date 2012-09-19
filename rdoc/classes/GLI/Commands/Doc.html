@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::Commands::Doc</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../../css/github.css" type="text/css" media="screen" />
@@ -225,7 +225,8 @@ href="../../GLI.html">GLI</a> app passed in</p>
                 <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">document</span>(<span class="ruby-identifier">document_listener</span>)
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">beginning</span>
-  <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">program_desc</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>)
+  <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">program_desc</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">program_long_desc</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_long_desc</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_long_desc</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">version</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">version_string</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">any_options?</span>(<span class="ruby-ivar">@app</span>)
     <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">options</span> 
