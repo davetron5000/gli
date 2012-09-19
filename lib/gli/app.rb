@@ -88,6 +88,7 @@ module GLI
         @config_file = File.join(File.expand_path(ENV['HOME']),filename)
       end
       commands[:initconfig] = InitConfig.new(@config_file,commands,flags,switches)
+      @commands_declaration_order << commands[:initconfig]
       @config_file
     end
 

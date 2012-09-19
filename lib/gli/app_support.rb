@@ -15,6 +15,7 @@ module GLI
       switches.clear
       flags.clear
       @commands = nil
+      @commands_declaration_order = []
       @version = nil
       @config_file = nil
       @use_openstruct = false
@@ -27,8 +28,13 @@ module GLI
       clear_nexts
     end
 
+    # Get an array of commands, ordered by when they were declared
+    def commands_declaration_order # :nodoc:
+      @commands_declaration_order
+    end
+
     # Get the version string
-    def version_string #:nodoc
+    def version_string #:nodoc:
       @version
     end
 
@@ -119,7 +125,13 @@ module GLI
     end
 
     def commands # :nodoc:
-      @commands ||= { :help => GLI::Commands::Help.new(self), :_doc => GLI::Commands::Doc.new(self) }
+      if !@commands
+        @commands = { :help => GLI::Commands::Help.new(self), :_doc => GLI::Commands::Doc.new(self) }
+        @commands_declaration_order ||= []
+        @commands_declaration_order << @commands[:help]
+        @commands_declaration_order << @commands[:_doc]
+      end
+      @commands
     end
 
     def pre_block

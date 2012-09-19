@@ -50,6 +50,7 @@ module GLI
       @skips_pre = options[:skips_pre]
       @skips_post = options[:skips_post]
       @skips_around = options[:skips_around]
+      @commands_declaration_order = []
       clear_nexts
     end
 

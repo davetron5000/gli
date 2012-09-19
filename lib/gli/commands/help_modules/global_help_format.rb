@@ -20,7 +20,7 @@ module GLI
             program_long_desc = "\n"
           end
 
-          command_formatter = ListFormatter.new(@sorter.call(@app.commands.values.reject(&:nodoc)).map { |command|
+          command_formatter = ListFormatter.new(@sorter.call(@app.commands_declaration_order.reject(&:nodoc)).map { |command|
             [[command.name,Array(command.aliases)].flatten.join(', '),command.description]
           }, @wrapper_class)
           stringio = StringIO.new

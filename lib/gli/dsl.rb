@@ -163,6 +163,8 @@ module GLI
         commands[command.name] = command
         yield command
       end
+      @commands_declaration_order ||= []
+      @commands_declaration_order << command
       clear_nexts
     end
     alias :c :command

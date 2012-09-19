@@ -44,6 +44,11 @@ module GLI
       all_forms
     end
 
+    # Get an array of commands, ordered by when they were declared
+    def commands_declaration_order # :nodoc:
+      @commands_declaration_order
+    end
+
     def flag(*names)
       new_flag = if parent.kind_of? Command
                    parent.flag(*names)

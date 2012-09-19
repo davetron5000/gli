@@ -101,7 +101,7 @@ COMMANDS
         end
  
         def format_subcommands(command)
-          commands_array = @sorter.call(command.commands.values).map { |cmd| 
+          commands_array = @sorter.call(command.commands_declaration_order).map { |cmd| 
             if command.get_default_command == cmd.name
               [cmd.names,cmd.description + " (default)"] 
             else
