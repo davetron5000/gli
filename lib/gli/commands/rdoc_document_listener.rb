@@ -60,8 +60,8 @@ module GLI
       # Gives you a switch in the current context
       def switch(name,aliases,desc,long_desc,negetable)
         if negetable
-          name = "[no-]#{name}" if name.length > 1
-          aliases = aliases.map { |_|  _.length > 1 ? "[no-]#{_}" : _ } 
+          name = "[no-]#{name}" if name.to_s.length > 1
+          aliases = aliases.map { |_|  _.to_s.length > 1 ? "[no-]#{_}" : _ } 
         end
         invocations = ([name] + aliases).map { |_| add_dashes(_) }.join('|')
         @io.puts "#{@nest}=== #{invocations}"
