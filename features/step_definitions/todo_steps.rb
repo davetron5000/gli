@@ -78,3 +78,7 @@ Then /^I should see the defaults for '(.*)' from the config file in the help$/ d
   end
 end
 
+
+Given /^the todo app is coded to use verbatim formatting$/ do
+  ENV['TODO_WRAP_HELP_TEXT'] = 'verbatim'
+end

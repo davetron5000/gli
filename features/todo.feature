@@ -157,7 +157,7 @@ Feature: The todo app has a nice user interface
       | list --help     |
 
 
-  Scenario: Getting Help without wrapping
+  Scenario: Getting Help with no wrapping
     Given the todo app is coded to avoid wrapping text
     When I successfully run `todo help list`
     Then the output should contain:
@@ -171,6 +171,37 @@ Feature: The todo app has a nice user interface
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
+
+    COMMAND OPTIONS
+        -l, --[no-]long - Show long form
+
+    COMMANDS
+        contexts - List contexts
+        tasks    - List tasks (default)
+    """
+
+  Scenario: Getting Help with verbatim formatting
+    Given the todo app is coded to use verbatim formatting
+    When I successfully run `todo help list`
+    Then the output should contain:
+    """
+    NAME
+        list - List things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
+        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+
+    DESCRIPTION
+        
+      List a whole lot of things that you might be keeping track of 
+      in your overall todo list.
+    
+      This is your go-to place or finding all of the things that you
+      might have 
+      stored in 
+      your todo databases.
+     
 
     COMMAND OPTIONS
         -l, --[no-]long - Show long form
