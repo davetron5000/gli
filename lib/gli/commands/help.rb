@@ -4,6 +4,7 @@ require 'gli/terminal'
 require 'gli/commands/help_modules/list_formatter'
 require 'gli/commands/help_modules/text_wrapper'
 require 'gli/commands/help_modules/no_wrapping_wrapper'
+require 'gli/commands/help_modules/do_nothing_wrapper'
 require 'gli/commands/help_modules/tty_only_wrapper'
 require 'gli/commands/help_modules/options_formatter'
 require 'gli/commands/help_modules/global_help_format'
@@ -23,6 +24,7 @@ module GLI
       :to_terminal => HelpModules::TextWrapper,
       :never       => HelpModules::NoWrappingWrapper,
       :tty_only    => HelpModules::TTYOnlyWrapper,
+      :none        => HelpModules::DoNothingWrapper,
     }
     # The help command used for the two-level interactive help system
     class Help < Command
