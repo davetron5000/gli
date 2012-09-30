@@ -8,7 +8,7 @@ module GLI
           @proxy = if STDOUT.tty?
                      TextWrapper.new(width,indent)
                    else
-                     NoWrappingWrapper.new(width,indent)
+                     OneLineWrapper.new(width,indent)
                    end
         end
 

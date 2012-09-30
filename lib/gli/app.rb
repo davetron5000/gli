@@ -229,8 +229,8 @@ module GLI
     #
     # wrap_type:: Symbol indicating how you'd like text wrapped:
     #             +:to_terminal+:: Wrap text based on the width of the terminal (default)
-    #             +:never+:: Do not wrap text at all.  This will bring all help content onto one line, removing any newlines
-    #             +:tty_only+:: Wrap like +:to_terminal+ if this output is going to a TTY, otherwise don't wrap (like +:never+)
+    #             +:one_line+:: Do not wrap text at all.  This will bring all help content onto one line, removing any newlines
+    #             +:tty_only+:: Wrap like +:to_terminal+ if this output is going to a TTY, otherwise don't wrap (like +:one_line+)
     def wrap_help_text(wrap_type)
       @help_text_wrap_type = wrap_type
     end

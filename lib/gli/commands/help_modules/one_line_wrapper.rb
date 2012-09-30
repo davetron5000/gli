@@ -2,7 +2,7 @@ module GLI
   module Commands
     module HelpModules
       # Formats text in one line, stripping newlines and NOT wrapping
-      class NoWrappingWrapper
+      class OneLineWrapper
         # Args are ignored entirely; this keeps it consistent with the TextWrapper interface
         def initialize(width,indent)
         end

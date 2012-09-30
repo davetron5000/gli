@@ -7,7 +7,7 @@ Given /^the todo app is coded to avoid sorted help commands$/ do
 end
 
 Given /^the todo app is coded to avoid wrapping text$/ do
-  ENV['TODO_WRAP_HELP_TEXT'] = 'never'
+  ENV['TODO_WRAP_HELP_TEXT'] = 'one_line'
 end
 
 Given /^the todo app is coded to wrap text only for tty$/ do

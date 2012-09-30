@@ -3,7 +3,7 @@ require 'gli/command'
 require 'gli/terminal'
 require 'gli/commands/help_modules/list_formatter'
 require 'gli/commands/help_modules/text_wrapper'
-require 'gli/commands/help_modules/no_wrapping_wrapper'
+require 'gli/commands/help_modules/one_line_wrapper'
 require 'gli/commands/help_modules/tty_only_wrapper'
 require 'gli/commands/help_modules/options_formatter'
 require 'gli/commands/help_modules/global_help_format'
@@ -21,7 +21,8 @@ module GLI
 
     WRAPPERS = {
       :to_terminal => HelpModules::TextWrapper,
-      :never       => HelpModules::NoWrappingWrapper,
+      :never       => HelpModules::OneLineWrapper,
+      :one_line    => HelpModules::OneLineWrapper,
       :tty_only    => HelpModules::TTYOnlyWrapper,
     }
     # The help command used for the two-level interactive help system
