@@ -279,7 +279,7 @@ require '#{project_name}'
 rescue LoadError
   STDERR.puts "In development, you need to use `bundle exec bin/todo` to run your app"
   STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
-  STDERR.puts "Feel free to remove this message from bin/todo now"
+  STDERR.puts "Feel free to remove this message from bin/#{project_name} now"
   exit 64
 end
 
