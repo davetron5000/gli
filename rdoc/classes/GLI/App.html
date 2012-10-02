@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::App</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -34,7 +34,7 @@
   
     <div class="description">
       
-<p>A means to define and parse a command line interface that works as Git’s
+<p>A means to define and parse a command line interface that works as Git's
 does, in that you specify global options, a command name, command specific
 options, and then command arguments.</p>
 
@@ -472,9 +472,9 @@ file.</p>
 <dl class="rdoc-list note-list"><dt>filename
 <dd>
 <p>A String representing the path to the file to use for the config file.  If
-it’s an absolute path, this is treated as the path to the file.  If
-it’s <strong>not</strong>, it’s treated as relative to the user’s
-home directory as produced by <code>File.expand_path('~')</code>.</p>
+it's an absolute path, this is treated as the path to the file.  If it's
+<strong>not</strong>, it's treated as relative to the user's home directory
+as produced by <code>File.expand_path('~')</code>.</p>
 </dd></dl>
             </div>
           
@@ -517,7 +517,7 @@ home directory as produced by <code>File.expand_path('~')</code>.</p>
           
             <div class="description">
               <p>Sets a default command to run when none is specified on the command line. 
-Note that if you use this, you won’t be able to pass arguments, flags, or
+Note that if you use this, you won't be able to pass arguments, flags, or
 switches to the command when run in default mode.  All flags and switches
 are treated as global, and any argument will be interpretted as the command
 name and likely fail.</p>
@@ -540,7 +540,7 @@ name and likely fail.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 249</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 251</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
 <span class="ruby-keyword">end</span></pre>
@@ -653,7 +653,7 @@ just simply show help</p>
 Exception that was caught. It should evaluate to false to avoid the
 built-in error handling (which basically just prints out a message). <a
 href="../GLI.html">GLI</a> uses a variety of exceptions that you can use to
-find out what  errors might’ve occurred during command-line parsing:</p>
+find out what  errors might've occurred during command-line parsing:</p>
 <ul><li>
 <p><a href="CustomExit.html">GLI::CustomExit</a></p>
 </li><li>
@@ -814,7 +814,7 @@ thus not want it mutated.</p>
 summary of what your program does that will appear in the help output.</p>
 <dl class="rdoc-list note-list"><dt><code>description</code>
 <dd>
-<p>A String of the short description of your program’s purpose</p>
+<p>A String of the short description of your program's purpose</p>
 </dd></dl>
             </div>
           
@@ -1134,18 +1134,23 @@ methods.</p>
               <p>Set how help text is wrapped.</p>
 <dl class="rdoc-list note-list"><dt>wrap_type
 <dd>
-<p>Symbol indicating how you’d like text wrapped:</p>
+<p>Symbol indicating how you'd like text wrapped:</p>
 <dl class="rdoc-list note-list"><dt>:to_terminal
 <dd>
 <p>Wrap text based on the width of the terminal (default)</p>
-</dd><dt><code>:never</code>
+</dd><dt><code>:verbatim</code>
+<dd>
+<p>Format text exactly as it was given to the various methods.  This is useful
+if your output has formatted output, e.g. ascii tables and you don't want
+it messed with.</p>
+</dd><dt><code>:one_line</code>
 <dd>
 <p>Do not wrap text at all.  This will bring all help content onto one line,
 removing any newlines</p>
 </dd><dt><code>:tty_only</code>
 <dd>
 <p>Wrap like <code>:to_terminal</code> if this output is going to a TTY,
-otherwise don’t wrap (like <code>:never</code>)</p>
+otherwise don't wrap (like <code>:one_line</code>)</p>
 </dd></dl>
 </dd></dl>
             </div>
@@ -1163,7 +1168,7 @@ otherwise don’t wrap (like <code>:never</code>)</p>
                 
               </p>
               <div id="method-i-wrap_help_text_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 234</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 236</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">wrap_help_text</span>(<span class="ruby-identifier">wrap_type</span>)
   <span class="ruby-ivar">@help_text_wrap_type</span> = <span class="ruby-identifier">wrap_type</span>
 <span class="ruby-keyword">end</span></pre>

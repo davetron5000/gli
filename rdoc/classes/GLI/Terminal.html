@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::Terminal</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -42,12 +42,12 @@
       
 <p>Class to encapsulate stuff about the terminal. This is useful to
 application developers as a canonical means to get information about the
-user’s current terminal configuraiton. <a href="../GLI.html">GLI</a> uses
+user's current terminal configuraiton. <a href="../GLI.html">GLI</a> uses
 this to determine the number of columns to use when printing to the screen.</p>
 
 <p>To access it, use <a href="Terminal.html#method-c-instance">::instance</a>.
 This is a singleton mostly to facilitate testing, but it seems reasonable
-enough, since there’s only one terminal in effect</p>
+enough, since there's only one terminal in effect</p>
 
 <p>Example:</p>
 
@@ -238,7 +238,7 @@ lambda { Terminal.default_size },
           
           
             <div class="description">
-              <p>Get the default size of the terminal when we can’t figure it out</p>
+              <p>Get the default size of the terminal when we can't figure it out</p>
 
 <p>Returns an array of int [cols,rows]</p>
             </div>
@@ -274,7 +274,7 @@ lambda { Terminal.default_size },
           
           
             <div class="description">
-              <p>Set the default size of the terminal to use when we can’t figure it out</p>
+              <p>Set the default size of the terminal to use when we can't figure it out</p>
 <dl class="rdoc-list note-list"><dt>size
 <dd>
 <p>array of two int [cols,rows]</p>

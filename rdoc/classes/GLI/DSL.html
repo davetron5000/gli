@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::DSL</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -187,7 +187,7 @@ methods that apply only to command objects.</p>
           
           
             <div class="description">
-              <p>Describe the argument name of the next flag.  It’s important to keep this
+              <p>Describe the argument name of the next flag.  It's important to keep this
 VERY short and, ideally, without any spaces (see Example).</p>
 <dl class="rdoc-list note-list"><dt><code>name</code>
 <dd>
@@ -195,8 +195,8 @@ VERY short and, ideally, without any spaces (see Example).</p>
 following command or flag.</p>
 </dd><dt><code>options</code>
 <dd>
-<p>Symbol or array of symbols to annotate this argument.  This doesn’t
-affect parsing, just the help output.  Values recognized are:</p>
+<p>Symbol or array of symbols to annotate this argument.  This doesn't affect
+parsing, just the help output.  Values recognized are:</p>
 <dl class="rdoc-list note-list"><dt><code>:optional</code>
 <dd>
 <p>indicates this argument is optional; will format it with square brackets</p>
@@ -394,8 +394,8 @@ as described above.</p>
 <dl class="rdoc-list note-list"><dt>val
 <dd>
 <p>A String reprensenting the default value to be used for the following flag
-if the user doesn’t specify one and, when using a config file, the config
-also doesn’t specify one</p>
+if the user doesn't specify one and, when using a config file, the config
+also doesn't specify one</p>
 </dd></dl>
             </div>
           
@@ -510,7 +510,7 @@ href="DSL.html#method-i-default_value">default_value</a></p>
 href="DSL.html#method-i-arg_name">arg_name</a></p>
 </dd><dt><code>:must_match</code>
 <dd>
-<p>A regexp that the flag’s value must match</p>
+<p>A regexp that the flag's value must match</p>
 </dd><dt><code>:type</code>
 <dd>
 <p>A Class (or object you passed to <a
@@ -578,7 +578,7 @@ coversion</p>
           
             <div class="description">
               <p>Provide a longer, more detailed description.  This will be reformatted and
-wrapped to fit in the terminal’s columns</p>
+wrapped to fit in the terminal's columns</p>
 <dl class="rdoc-list note-list"><dt><code>long_desc</code>
 <dd>
 <p>A String that is s longer description of the switch, flag, or command
