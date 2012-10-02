@@ -245,17 +245,27 @@ class TC_testGLI < Clean::Test::TestCase
       c.action do |global,options,args|
         assert_equal 'foo',global[:f]
         assert_equal global[:f],global[:flag]
+        assert_equal global[:f],global['f']
+        assert_equal global[:f],global['flag']
+        assert_equal global[:f],global['big-flag-name']
         assert_equal global[:f],global[:'big-flag-name']
 
         assert global[:s]
         assert global[:switch]
         assert global[:'big-switch-name']
+        assert global['s']
+        assert global['switch']
+        assert global['big-switch-name']
 
         assert_equal 'bar',options[:g]
+        assert_equal options[:g],options['g']
+        assert_equal options[:g],options['gflag']
         assert_equal options[:g],options[:gflag]
 
         assert options[:h]
+        assert options['h']
         assert options[:hswitch]
+        assert options['hswitch']
       end
     end
     @app.run(%w(-f foo -s command -g bar -h some_arg))

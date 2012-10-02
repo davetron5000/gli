@@ -123,8 +123,8 @@ class TC_testSubCommand < Clean::Test::TestCase
     lambda {
       @run_results.each do |command,results|
         if command == expected_command
-          assert_equal(Hash(options[:global_options]),results[0])
-          assert_equal(Hash(options[:command_options]),results[1])
+          assert_equal(indiffernt_hash(options[:global_options]),results[0])
+          assert_equal(indiffernt_hash(options[:command_options]),results[1])
           assert_equal(options[:args],results[2])
         else
           assert_nil results
@@ -133,8 +133,14 @@ class TC_testSubCommand < Clean::Test::TestCase
     }
   end
 
-  def Hash(possibly_nil_hash)
-    possibly_nil_hash || {}
+  def indiffernt_hash(possibly_nil_hash)
+    return {} if possibly_nil_hash.nil?
+    keys = possibly_nil_hash.keys
+    keys.map(&:to_s).each do |key|
+      possibly_nil_hash[key.to_sym] = possibly_nil_hash[key] if possibly_nil_hash[key]
+      possibly_nil_hash[key] = possibly_nil_hash[key.to_sym] if possibly_nil_hash[key.to_sym]
+    end
+    possibly_nil_hash
   end
 
   # options - 

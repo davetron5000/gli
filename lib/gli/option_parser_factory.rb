@@ -33,8 +33,9 @@ module GLI
     def self.setup_options(opts,tokens,options)
       tokens.each do |ignore,token|
         opts.on(*token.arguments_for_option_parser) do |arg|
-          [token.name,token.aliases].flatten.compact.each do |name|
+          [token.name,token.aliases].flatten.compact.map(&:to_s).each do |name|
             options[name] = arg
+            options[name.to_sym] = arg
           end
         end
       end
