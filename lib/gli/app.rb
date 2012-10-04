@@ -21,23 +21,11 @@ module GLI
     # path:: a path relative to somewhere in the <code>LOAD_PATH</code>, from which all <code>.rb</code> files will be required.
     def commands_from(path)
       if Pathname.new(path).absolute? and File.exists?(path)
-        Dir.entries(path).sort.each do |entry|
-          file = File.join(path, entry)
-          if file =~ /\.rb$/
-            require file
-          end
-        end
+        load_commands(path)
       else
         $LOAD_PATH.each do |load_path|
           commands_path = File.join(load_path,path)
-          if File.exists? commands_path
-            Dir.entries(commands_path).sort.each do |entry|
-              file = File.join(commands_path,entry)
-              if file =~ /\.rb$/
-                require file
-              end
-            end
-          end
+          load_commands(commands_path)
         end
       end
     end
@@ -259,6 +247,19 @@ module GLI
     # +command+:: Command as a Symbol to run as default
     def default_command(command)
       @default_command = command.to_sym
+    end
+
+    private
+
+    def load_commands(path)
+      if File.exists? path
+        Dir.entries(path).sort.each do |entry|
+          file = File.join(path,entry)
+          if file =~ /\.rb$/
+            require file
+          end
+        end
+      end
     end
   end
 end
