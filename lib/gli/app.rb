@@ -12,23 +12,31 @@ module GLI
     include DSL
     include AppSupport
 
-    # Loads ruby files in the load path that start with 
+    # Loads ruby files in the load path that start with
     # +path+, which are presumed to be commands for your executable.
-    # This is a glorified +require+, but could also be used as a plugin mechanism.
-    # You could manipualte the load path at runtime and this call
-    # would find those files
+    # This is useful for decomposing your bin file into different classes, but
+    # can also be used as a plugin mechanism, allowing users to provide additional
+    # commands for your app at runtime.  All that being said, it's basically
+    # a glorified +require+.
     #
-    # path:: a path relative to somewhere in the <code>LOAD_PATH</code>, from which all <code>.rb</code> files will be required.
+    # path:: a path from which to load <code>.rb</code> files that, presumably, contain commands.  If this is an absolute path,
+    #        any files in that path are loaded.  If not, it is interpretted as relative to somewhere
+    #        in the <code>LOAD_PATH</code>.
+    #
+    # == Example:
+    #
+    #     # loads *.rb from your app's install - great for decomposing your bin file
+    #     commands_from "my_app/commands"
+    #
+    #     # loads *.rb files from the user's home dir - great and an extension/plugin mechanism
+    #     commands_from File.join(ENV["HOME"],".my_app","plugins")
     def commands_from(path)
-      $LOAD_PATH.each do |load_path|
-        commands_path = File.join(load_path,path)
-        if File.exists? commands_path
-          Dir.entries(commands_path).sort.each do |entry|
-            file = File.join(commands_path,entry)
-            if file =~ /\.rb$/
-              require file
-            end
-          end
+      if Pathname.new(path).absolute? and File.exists?(path)
+        load_commands(path)
+      else
+        $LOAD_PATH.each do |load_path|
+          commands_path = File.join(load_path,path)
+          load_commands(commands_path)
         end
       end
     end
@@ -37,7 +45,7 @@ module GLI
     # of what your program does that will appear in the help output.
     #
     # +description+:: A String of the short description of your program's purpose
-    def program_desc(description=nil) 
+    def program_desc(description=nil)
       if description
         @program_desc = description
       end
@@ -250,6 +258,19 @@ module GLI
     # +command+:: Command as a Symbol to run as default
     def default_command(command)
       @default_command = command.to_sym
+    end
+
+    private
+
+    def load_commands(path)
+      if File.exists? path
+        Dir.entries(path).sort.each do |entry|
+          file = File.join(path,entry)
+          if file =~ /\.rb$/
+            require file
+          end
+        end
+      end
     end
   end
 end

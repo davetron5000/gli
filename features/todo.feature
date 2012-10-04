@@ -41,6 +41,7 @@ Feature: The todo app has a nice user interface
         list          - List things, such as tasks or contexts
         ls            - LS things, such as tasks or contexts
         second        - 
+        third         - 
     """
     Examples:
       | help      |
@@ -118,6 +119,7 @@ Feature: The todo app has a nice user interface
         create, new   - Create a new task or context
         list          - List things, such as tasks or contexts
         ls            - LS things, such as tasks or contexts
+        third         - 
         first         - 
         second        - 
         chained       - 
