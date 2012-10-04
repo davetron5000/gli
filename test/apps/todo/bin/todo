@@ -29,6 +29,7 @@ switch :otherswitch, :negatable => true
 version Todo::VERSION
 
 commands_from 'todo/commands'
+commands_from File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'todo_plugins', 'commands'))
 
 command :first  do |c| c.action { |g,o,a| puts "first: #{a.join(',')}" } end
 command :second do |c| c.action { |g,o,a| puts "second: #{a.join(',')}" } end
