@@ -325,7 +325,7 @@ the converted value</p>
                 
               </p>
               <div id="method-i-accept_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 193</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 201</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">accept</span>(<span class="ruby-identifier">object</span>,&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">accepts</span>[<span class="ruby-identifier">object</span>] = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
@@ -395,7 +395,7 @@ command that should not have this hook fired</p>
                 
               </p>
               <div id="method-i-around_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 129</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 137</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">around</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">||=</span> []
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a_proc</span>
@@ -414,16 +414,27 @@ command that should not have this hook fired</p>
           
           
             <div class="description">
-              <p>Loads ruby files in the load path that start with  <code>path</code>, which
-are presumed to be commands for your executable. This is a glorified
-<code>require</code>, but could also be used as a plugin mechanism. You
-could manipualte the load path at runtime and this call would find those
-files</p>
+              <p>Loads ruby files in the load path that start with <code>path</code>, which
+are presumed to be commands for your executable. This is useful for
+decomposing your bin file into different classes, but can also be used as a
+plugin mechanism, allowing users to provide additional commands for your
+app at runtime.  All that being said, it's basically a glorified
+<code>require</code>.</p>
 <dl class="rdoc-list note-list"><dt>path
 <dd>
-<p>a path relative to somewhere in the <code>LOAD_PATH</code>, from which all
-<code>.rb</code> files will be required.</p>
+<p>a path from which to load <code>.rb</code> files that, presumably, contain
+commands.  If this is an absolute path, any files in that path are loaded. 
+If not, it is interpretted as relative to somewhere in the
+<code>LOAD_PATH</code>.</p>
 </dd></dl>
+
+<h2 id="method-i-commands_from-label-Example%3A">Example:</h2>
+
+<pre># loads *.rb from your app's install - great for decomposing your bin file
+commands_from &quot;my_app/commands&quot;
+
+# loads *.rb files from the user's home dir - great and an extension/plugin mechanism
+commands_from File.join(ENV[&quot;HOME&quot;],&quot;.my_app&quot;,&quot;plugins&quot;)</pre>
             </div>
           
           
@@ -439,17 +450,14 @@ files</p>
                 
               </p>
               <div id="method-i-commands_from_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 22</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">commands_from</span>(<span class="ruby-identifier">path</span>)
-  <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">commands_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">load_path</span>,<span class="ruby-identifier">path</span>)
-    <span class="ruby-keyword">if</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-identifier">commands_path</span>
-      <span class="ruby-constant">Dir</span>.<span class="ruby-identifier">entries</span>(<span class="ruby-identifier">commands_path</span>).<span class="ruby-identifier">sort</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry</span><span class="ruby-operator">|</span>
-        <span class="ruby-identifier">file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">commands_path</span>,<span class="ruby-identifier">entry</span>)
-        <span class="ruby-keyword">if</span> <span class="ruby-identifier">file</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\.rb$/</span>
-          <span class="ruby-identifier">require</span> <span class="ruby-identifier">file</span>
-        <span class="ruby-keyword">end</span>
-      <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>).<span class="ruby-identifier">absolute?</span> <span class="ruby-keyword">and</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">path</span>)
+    <span class="ruby-identifier">load_commands</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">commands_path</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">load_path</span>,<span class="ruby-identifier">path</span>)
+      <span class="ruby-identifier">load_commands</span>(<span class="ruby-identifier">commands_path</span>)
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
@@ -491,7 +499,7 @@ as produced by <code>File.expand_path('~')</code>.</p>
                 
               </p>
               <div id="method-i-config_file_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 84</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 92</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">config_file</span>(<span class="ruby-identifier">filename</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r^\//</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-identifier">filename</span>
@@ -540,7 +548,7 @@ name and likely fail.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 251</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 259</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
 <span class="ruby-keyword">end</span></pre>
@@ -586,7 +594,7 @@ help in addition to the error message</p>
                 
               </p>
               <div id="method-i-exit_now-21_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 204</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 212</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_now!</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>=<span class="ruby-number">1</span>)
   <span class="ruby-identifier">raise</span> <span class="ruby-constant">CustomExit</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -627,7 +635,7 @@ just simply show help</p>
                 
               </p>
               <div id="method-i-help_now-21_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 211</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 219</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">help_now!</span>(<span class="ruby-identifier">message</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-identifier">exception</span> = <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">ParseError</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-keyword">class</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword ruby-title">exception</span>
@@ -680,7 +688,7 @@ find out what  errors might've occurred during command-line parsing:</p>
                 
               </p>
               <div id="method-i-on_error_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 144</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 152</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">on_error</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@error_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -716,7 +724,7 @@ global-options,command,options, and arguments</p>
                 
               </p>
               <div id="method-i-post_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 108</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 116</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@post_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -754,7 +762,7 @@ true, the program will proceed; otherwise the program will end immediately</p>
                 
               </p>
               <div id="method-i-pre_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 101</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pre</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@pre_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -792,7 +800,7 @@ thus not want it mutated.</p>
                 
               </p>
               <div id="method-i-preserve_argv_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 160</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 168</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">preserve_argv</span>(<span class="ruby-identifier">preserve</span>=<span class="ruby-keyword">true</span>)
   <span class="ruby-ivar">@preserve_argv</span> = <span class="ruby-identifier">preserve</span>
 <span class="ruby-keyword">end</span></pre>
@@ -831,8 +839,8 @@ summary of what your program does that will appear in the help output.</p>
                 
               </p>
               <div id="method-i-program_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 40</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_desc</span>(<span class="ruby-identifier">description</span>=<span class="ruby-keyword">nil</span>) 
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 48</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_desc</span>(<span class="ruby-identifier">description</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">description</span>
     <span class="ruby-ivar">@program_desc</span> = <span class="ruby-identifier">description</span>
   <span class="ruby-keyword">end</span>
@@ -874,7 +882,7 @@ help output.</p>
                 
               </p>
               <div id="method-i-program_long_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 51</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_long_desc</span>(<span class="ruby-identifier">description</span>=<span class="ruby-keyword">nil</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">description</span>
     <span class="ruby-ivar">@program_long_desc</span> = <span class="ruby-identifier">description</span>
@@ -913,7 +921,7 @@ might not want the setup to happen, this can be handy</p>
                 
               </p>
               <div id="method-i-skips_around_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 75</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_around</span>
   <span class="ruby-ivar">@skips_around</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -949,7 +957,7 @@ avoid that behavior for the following command</p>
                 
               </p>
               <div id="method-i-skips_post_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 68</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 76</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_post</span>
   <span class="ruby-ivar">@skips_post</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -986,7 +994,7 @@ command</p>
                 
               </p>
               <div id="method-i-skips_pre_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 61</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 69</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">skips_pre</span>
   <span class="ruby-ivar">@skips_pre</span> = <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1032,7 +1040,7 @@ alphabetically.</p>
                 
               </p>
               <div id="method-i-sort_help_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 224</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 232</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">sort_help</span>(<span class="ruby-identifier">sort_type</span>)
   <span class="ruby-ivar">@help_sort_type</span> = <span class="ruby-identifier">sort_type</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1074,7 +1082,7 @@ methods.</p>
                 
               </p>
               <div id="method-i-use_openstruct_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 170</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 178</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">use_openstruct</span>(<span class="ruby-identifier">use_openstruct</span>)
   <span class="ruby-ivar">@use_openstruct</span> = <span class="ruby-identifier">use_openstruct</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1112,7 +1120,7 @@ methods.</p>
                 
               </p>
               <div id="method-i-version_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 151</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 159</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">version</span>(<span class="ruby-identifier">version</span>)
   <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
   <span class="ruby-identifier">switch</span> <span class="ruby-value">:version</span>, <span class="ruby-value">:negatable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
@@ -1168,7 +1176,7 @@ otherwise don't wrap (like <code>:one_line</code>)</p>
                 
               </p>
               <div id="method-i-wrap_help_text_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 236</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 244</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">wrap_help_text</span>(<span class="ruby-identifier">wrap_type</span>)
   <span class="ruby-ivar">@help_text_wrap_type</span> = <span class="ruby-identifier">wrap_type</span>
 <span class="ruby-keyword">end</span></pre>
