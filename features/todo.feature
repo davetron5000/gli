@@ -8,6 +8,13 @@ Feature: The todo app has a nice user interface
       And my terminal size is "80x24"
       And todo's bin directory is in my path
 
+  Scenario: Error message for unknown command
+    When I run `todo help unknown`
+    Then the output should contain:
+    """
+    error: Unknown command 'unknown'.  Use 'todo help' for a list of commands.
+    """
+
   Scenario Outline: Getting Help for todo in general
     When I successfully run `todo <help>`
     Then the output should contain:

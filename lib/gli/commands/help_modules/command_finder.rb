@@ -47,7 +47,7 @@ module GLI
           if command.nil?
             @last_unknown_command = name
             unless @squelch_stderr
-              error.puts "error: Unknown command '#{name}'.  Use 'gli help' for a list of commands."
+              error.puts "error: Unknown command '#{name}'.  Use '#{File.basename($PROGRAM_NAME)} help' for a list of commands."
             end
             true
           else

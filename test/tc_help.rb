@@ -58,7 +58,7 @@ class TC_testHelp < Clean::Test::TestCase
       @command.execute({},{},[@unknown_command_name])
     }
     Then {
-      assert_error_contained(/error: Unknown command '#{@unknown_command_name}'.  Use 'gli help' for a list of commands/)
+      assert_error_contained(/error: Unknown command '#{@unknown_command_name}'./)
     }
   end
 
