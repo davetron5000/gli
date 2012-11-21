@@ -36,10 +36,13 @@ module GLI
       @next_arg_options = options
     end
 
-    # set the default value of the next flag
+    # set the default value of the next flag or switch
     #
-    # +val+:: A String reprensenting the default value to be used for the following flag if the user doesn't specify one
-    #         and, when using a config file, the config also doesn't specify one
+    # +val+:: The default value to be used for the following flag if the user doesn't specify one
+    #         and, when using a config file, the config also doesn't specify one.  For a switch, this is
+    #         the value to be used if the switch isn't specified on the command-line.  Note that if you
+    #         set a switch to have a default of true, using the switch on the command-line has no effect.
+    #         To disable a switch where the default is true, use the <tt>--no-</tt> form.
     def default_value(val); @next_default_value = val; end
 
     # Create a flag, which is a switch that takes an argument
@@ -84,6 +87,7 @@ module GLI
     #           and aliases for this switch.  The last element can be a hash of options:
     #           +:desc+:: the description, instead of using #desc
     #           +:long_desc+:: the long_description, instead of using #long_desc
+    #           +:default_value+:: if the switch is omitted, use this as the default value.  By default,  switches default to off, or +false+
     #           +:negatable+:: if true, this switch will get a negatable form (e.g. <tt>--[no-]switch</tt>, false it will not.  Default is true
     def switch(*names)
       options = extract_options(names)

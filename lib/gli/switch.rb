@@ -14,11 +14,14 @@ module GLI
     #           :desc - the short description
     #           :long_desc - the long description
     #           :negatable - true or false if this switch is negatable; defaults to true
-    #           :default_value - ignored, switches default to false
+    #           :default_value - default value if the switch is omitted
     def initialize(names,options = {})
       super(names,options)
-      @default_value = false
+      @default_value = false if options[:default_value].nil?
       @negatable = options[:negatable].nil? ? true : options[:negatable]
+      if @default_value != false && @negatable == false
+        raise "A switch with default #{@default_value} that isn't negetable is useless"
+      end
     end
 
     def arguments_for_option_parser

@@ -425,6 +425,43 @@ class TC_testGLI < Clean::Test::TestCase
     @app.run(['foo', '-i','5','-s','a'])
   end
 
+  def test_switch_with_default_of_true
+    @app.reset
+    @app.on_error do |ex|
+      raise ex
+    end
+    @switch_value = nil
+
+    @app.command [:foo] do |c|
+      c.default_value true
+      c.switch :switch
+      c.action do |g,o,a|
+        @switch_value = o[:switch]
+      end
+    end
+    @app.run(['foo'])
+
+    assert @switch_value == true,"Got: '#{@switch_value}', but expected true"
+
+    @app.run(['foo','--no-switch'])
+
+    assert @switch_value == false,"Got: '#{@switch_value}', but expected false"
+  end
+
+  def test_switch_with_default_true_and_not_negetable_causes_exception
+    @app.reset
+    @app.on_error do |ex|
+      raise ex
+    end
+    @switch_value = nil
+
+    assert_raises(RuntimeError) do 
+      @app.command [:foo] do |c|
+        c.switch :switch, :default_value => true, :negatable => false
+      end
+    end
+  end
+
   def test_two_flags_using_equals_with_a_default
     @app.reset
     @app.on_error do |ex|

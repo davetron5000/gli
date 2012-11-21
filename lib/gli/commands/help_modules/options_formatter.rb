@@ -28,7 +28,7 @@ module GLI
           if option.kind_of? Flag
             String(option.description) + " (default: #{option.safe_default_value || 'none'})"
           else
-            String(option.description)
+            String(option.description) +  (option.default_value ?  " (default: enabled)" : "")
           end
         end
 

@@ -26,6 +26,9 @@ module GLI
       @flags.each do |name,flag|
         global_options[name] = flag.default_value unless global_options[name]
       end
+      @switches.each do |name,switch|
+        global_options[name] = switch.default_value if global_options[name].nil?
+      end
 
       command_name ||= @default_command || :help
       command = find_command(command_name)
@@ -43,7 +46,7 @@ module GLI
         command_options[name] = flag.default_value unless command_options[name]
       end
       command.switches.each do |name,switch|
-        command_options[name] = switch.default_value unless command_options[name]
+        command_options[name] = switch.default_value if command_options[name].nil?
       end
 
       [global_options,command,command_options,args]
