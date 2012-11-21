@@ -16,7 +16,7 @@ module GLI
           command_wrapper = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
           wrapper = @wrapper_class.new(Terminal.instance.size[0],4)
           flags_and_switches = Hash[@command.topmost_ancestor.flags.merge(@command.topmost_ancestor.switches).select { |_,option| option.associated_command == @command }]
-          options_description = OptionsFormatter.new(flags_and_switches,@wrapper_class).format
+          options_description = OptionsFormatter.new(flags_and_switches,@sorter,@wrapper_class).format
           commands_description = format_subcommands(@command)
 
           synopses = []

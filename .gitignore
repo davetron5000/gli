@@ -10,3 +10,4 @@ gli.wiki
 Gemfile.lock
 results.html
 .rbx
+.DS_Store

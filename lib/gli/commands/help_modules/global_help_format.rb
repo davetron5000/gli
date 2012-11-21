@@ -27,7 +27,7 @@ module GLI
           command_formatter.output(stringio)
           commands = stringio.string
 
-          global_option_descriptions = OptionsFormatter.new(global_flags_and_switches,@wrapper_class).format
+          global_option_descriptions = OptionsFormatter.new(global_flags_and_switches,@sorter,@wrapper_class).format
 
           GLOBAL_HELP.result(binding)
         end

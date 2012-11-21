@@ -224,10 +224,10 @@ module GLI
       raise exception
     end
 
-    # Control how help commands are sorted.  By default, the commands are sorted alphabetically.
+    # Control how commands and options are sorted in help output.  By default, they are sorted alphabetically.
     #
-    # sort_type:: How you want help commands sorted:
-    #             +:manually+:: help commands are ordered in the order declared.
+    # sort_type:: How you want help commands/options sorted:
+    #             +:manually+:: help commands/options are ordered in the order declared.
     #             +:alpha+:: sort alphabetically (default)
     def sort_help(sort_type)
       @help_sort_type = sort_type

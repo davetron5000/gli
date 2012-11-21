@@ -115,10 +115,10 @@ Feature: The todo app has a nice user interface
 
     GLOBAL OPTIONS
         --flag=arg         - (default: none)
-        --help             - Show this message
-        --[no-]otherswitch - 
         --[no-]switch      - 
+        --[no-]otherswitch - 
         --version          - 
+        --help             - Show this message
 
     COMMANDS
         help          - Shows a list of commands or help for one command
