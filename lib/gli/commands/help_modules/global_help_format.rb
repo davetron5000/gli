@@ -54,7 +54,7 @@ COMMANDS
 <%= commands %>),nil,'<>')
 
         def global_flags_and_switches
-          @app.flags.merge(@app.switches)
+          @app.flags_declaration_order + @app.switches_declaration_order
         end
 
         def usage_string

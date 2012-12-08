@@ -15,17 +15,17 @@ module GLI
         def format
           command_wrapper = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
           wrapper = @wrapper_class.new(Terminal.instance.size[0],4)
-          flags_and_switches = Hash[@command.topmost_ancestor.flags.merge(@command.topmost_ancestor.switches).select { |_,option| option.associated_command == @command }]
+          flags_and_switches = (@command.topmost_ancestor.flags_declaration_order + @command.topmost_ancestor.switches_declaration_order).select { |option| option.associated_command == @command }
           options_description = OptionsFormatter.new(flags_and_switches,@sorter,@wrapper_class).format
           commands_description = format_subcommands(@command)
 
           synopses = []
-          one_line_usage = basic_usage(flags_and_switches)
+          one_line_usage = basic_usage
           one_line_usage << @command.arguments_description
           if @command.commands.empty?
             synopses << one_line_usage
           else
-            synopses = sorted_synopses(flags_and_switches)
+            synopses = sorted_synopses
             if @command.has_action?
               synopses.unshift(one_line_usage)
             end
@@ -59,8 +59,8 @@ COMMANDS
 <%= commands_description %>
 <% end %>),nil,'<>')
 
-        def command_with_subcommand_usage(sub,flags_and_switches,is_default_command)
-          usage = basic_usage(flags_and_switches)
+        def command_with_subcommand_usage(sub,is_default_command)
+          usage = basic_usage
           sub_options = @command.flags.merge(@command.switches).select { |_,o| o.associated_command == sub }
           usage << sub_options.map { |option_name,option| 
             all_names = [option.name,Array(option.aliases)].flatten
@@ -79,7 +79,7 @@ COMMANDS
         end
 
  
-        def basic_usage(flags_and_switches)
+        def basic_usage
           usage = @basic_invocation.dup
           usage << " [global options] #{path_to_command} "
           usage << "[command options] " unless global_flags_and_switches.empty?
@@ -115,11 +115,11 @@ COMMANDS
           StringIO.new.tap { |io| formatter.output(io) }.string
         end
 
-        def sorted_synopses(flags_and_switches)
+        def sorted_synopses
           synopses_command = {}
           @command.commands.each do |name,sub|
             default = @command.get_default_command == name
-            synopsis = command_with_subcommand_usage(sub,flags_and_switches,default)
+            synopsis = command_with_subcommand_usage(sub,default)
             synopses_command[synopsis] = sub
           end
           synopses = synopses_command.keys.sort { |one,two|

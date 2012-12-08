@@ -3,14 +3,12 @@ module GLI
     module HelpModules
       class OptionsFormatter
         def initialize(flags_and_switches,sorter,wrapper_class)
-          @flags_and_switches = flags_and_switches
-          @sorter = sorter
+          @flags_and_switches = sorter.call(flags_and_switches)
           @wrapper_class = wrapper_class
         end
 
         def format
-          flags_and_switches = @sorter.call(@flags_and_switches.values)
-          list_formatter = ListFormatter.new(flags_and_switches.map { |option|
+          list_formatter = ListFormatter.new(@flags_and_switches.map { |option|
             if option.respond_to? :argument_name
               [option_names_for_help_string(option,option.argument_name),description_with_default(option)]
             else

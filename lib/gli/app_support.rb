@@ -16,6 +16,8 @@ module GLI
       flags.clear
       @commands = nil
       @commands_declaration_order = []
+      @flags_declaration_order = []
+      @switches_declaration_order = []
       @version = nil
       @config_file = nil
       @use_openstruct = false

@@ -77,6 +77,7 @@ module GLI
       flags[flag.name] = flag
 
       clear_nexts
+      flags_declaration_order << flag
       flag
     end
     alias :f :flag
@@ -98,6 +99,7 @@ module GLI
       switches[switch.name] = switch
 
       clear_nexts
+      switches_declaration_order << switch
       switch
     end
     alias :s :switch
@@ -172,6 +174,15 @@ module GLI
       clear_nexts
     end
     alias :c :command
+
+    def flags_declaration_order # :nodoc:
+      @flags_declaration_order ||= []
+    end
+
+    def switches_declaration_order # :nodoc:
+      @switches_declaration_order ||= []
+    end
+
 
     private
     # Checks that the names passed in have not been used in another flag or option

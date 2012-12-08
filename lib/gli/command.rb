@@ -51,6 +51,8 @@ module GLI
       @skips_post = options[:skips_post]
       @skips_around = options[:skips_around]
       @commands_declaration_order = []
+      @flags_declaration_order = []
+      @switches_declaration_order = []
       clear_nexts
     end
 
