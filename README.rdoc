@@ -10,6 +10,8 @@ of syntax, but without restricting you in any way from the power of +OptionParse
 * {Source on Github}[http://github.com/davetron5000/gli]
 * RDoc[http://davetron5000.github.com/gli/rdoc/index.html]
 
+{<img src="https://secure.travis-ci.org/davetron5000/gli.png?branch=gli-2" alt="Build Status" />}[https://travis-ci.org/davetron5000/gli]
+
 == Use
 
 Install if you need to:
