@@ -2,6 +2,7 @@ require 'etc'
 require 'optparse'
 require 'gli/copy_options_to_aliases'
 require 'gli/dsl'
+require 'pathname'
 
 module GLI
   # A means to define and parse a command line interface that works as
