@@ -219,3 +219,14 @@ Feature: The scaffold GLI generates works
      And the stderr should contain "At install-time, RubyGems will make sure lib, etc. are in the load path"
      And the stderr should contain "Feel free to remove this message from bin/todo now"
      
+  Scenario: Running commands with a dash in the name
+    Given I successfully run `gli init todo-app add complete compute list`
+      And I cd to "todo-app"
+      And I make sure todo's lib dir is in my lib path
+     When I successfully run `bin/todo-app add`
+     Then the output should contain "add command ran"
+     When I successfully run `bin/todo-app complete`
+     Then the output should contain "complete command ran"
+     When I run `bin/todo-app foobar`
+     Then the stderr should contain "error: Unknown command 'foobar'"
+      And the exit status should not be 0
