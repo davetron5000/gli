@@ -86,7 +86,7 @@ EOS
     end
 
     def self.project_name_as_module_name(project_name)
-      project_name.split(/_/).map { |part| part[0..0].upcase + part[1..-1] }.join('')
+      project_name.split(/[_-]/).map { |part| part[0..0].upcase + part[1..-1] }.join('')
     end
 
     def self.mk_lib_files(root_dir,dry_run,project_name)
