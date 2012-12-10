@@ -277,7 +277,7 @@ require 'gli'
 begin # XXX: Remove this begin/rescue before distributing your app
 require '#{project_name}'
 rescue LoadError
-  STDERR.puts "In development, you need to use `bundle exec bin/todo` to run your app"
+  STDERR.puts "In development, you need to use `bundle exec bin/#{project_name}` to run your app"
   STDERR.puts "At install-time, RubyGems will make sure lib, etc. are in the load path"
   STDERR.puts "Feel free to remove this message from bin/#{project_name} now"
   exit 64
