@@ -339,7 +339,7 @@ EOS
 
 pre do |global,command,options,args|
   # Pre logic here
-  # Return true to proceed; false to abourt and not call the
+  # Return true to proceed; false to abort and not call the
   # chosen command
   # Use skips_pre before a command to skip this block
   # on that command only
