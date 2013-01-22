@@ -30,14 +30,25 @@ module GLI
     }
     # The help command used for the two-level interactive help system
     class Help < Command
+      @@skips_pre    = true
+      @@skips_post   = true
+      @@skips_around = true
+
+      # Configure help to explicitly skip or not skip the pre block when the help command runs.
+      # This is here because the creation of the help command is outside of the client programmer's control
+      def self.skips_pre=(skips_pre)       ; @@skips_pre = skips_pre       ; end
+      # Configure help to explicitly skip or not skip the post block when the help command runs.
+      # This is here because the creation of the help command is outside of the client programmer's control
+      def self.skips_post=(skips_post)     ; @@skips_post = skips_post     ; end
+      # Configure help to explicitly skip or not skip the around block when the help command runs.
+      # This is here because the creation of the help command is outside of the client programmer's control
+      def self.skips_around=(skips_around) ; @@skips_around = skips_around ; end
+
       def initialize(app,output=$stdout,error=$stderr)
         super(:names => :help,
               :description => 'Shows a list of commands or help for one command',
               :arguments_name => 'command',
-              :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function',
-              :skips_pre => true,
-              :skips_post => true,
-              :skips_around => true)
+              :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function')
         @app = app
         @sorter = SORTERS[@app.help_sort_type]
         @text_wrapping_class = WRAPPERS[@app.help_text_wrap_type]
@@ -49,6 +60,10 @@ module GLI
           show_help(global_options,options,arguments,output,error)
         end
       end
+
+      def skips_pre    ; @@skips_pre    ; end
+      def skips_post   ; @@skips_post   ; end
+      def skips_around ; @@skips_around ; end
 
     private
 

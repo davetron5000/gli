@@ -10,6 +10,10 @@ class TC_testHelp < Clean::Test::TestCase
     @output = StringIO.new
     @error = StringIO.new
     @command_names_used = []
+    # Reset help command to its default state
+    GLI::Commands::Help.skips_pre    = true
+    GLI::Commands::Help.skips_post   = true
+    GLI::Commands::Help.skips_around = true
   end
 
   def teardown
@@ -32,6 +36,35 @@ class TC_testHelp < Clean::Test::TestCase
       assert_not_nil @command.long_description
       assert         @command.skips_pre
       assert         @command.skips_post
+      assert         @command.skips_around
+    }
+  end
+
+  test_that "the help command can be configured to skip things declaratively" do
+    Given {
+      @command = GLI::Commands::Help.new(TestApp.new,@output,@error)
+      GLI::Commands::Help.skips_pre    = false
+      GLI::Commands::Help.skips_post   = false
+      GLI::Commands::Help.skips_around = false
+    }
+    Then {
+      assert !@command.skips_pre
+      assert !@command.skips_post
+      assert !@command.skips_around
+    }
+  end
+
+  test_that "the help command can be configured to skip things declaratively regardless of when it the object was created" do
+    Given {
+      GLI::Commands::Help.skips_pre    = false
+      GLI::Commands::Help.skips_post   = false
+      GLI::Commands::Help.skips_around = false
+      @command = GLI::Commands::Help.new(TestApp.new,@output,@error)
+    }
+    Then {
+      assert !@command.skips_pre
+      assert !@command.skips_post
+      assert !@command.skips_around
     }
   end
 
