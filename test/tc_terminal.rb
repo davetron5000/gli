@@ -58,6 +58,8 @@ class TC_testTerminal < Clean::Test::TestCase
         if RUBY_PLATFORM == 'java'
           return '5678' if command == 'tput cols'
           return '1234' if command == 'tput lines'
+        elsif RUBY_PLATFORM =~ /solaris/
+          return '1234 5678' if command == 'stty'
         else 
           return '1234 5678' if command == 'stty size'
         end
