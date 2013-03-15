@@ -58,8 +58,8 @@ module GLI
       end
 
       # Gives you a switch in the current context
-      def switch(name,aliases,desc,long_desc,negetable)
-        if negetable
+      def switch(name,aliases,desc,long_desc,negatable)
+        if negatable
           name = "[no-]#{name}" if name.to_s.length > 1
           aliases = aliases.map { |_|  _.to_s.length > 1 ? "[no-]#{_}" : _ } 
         end
