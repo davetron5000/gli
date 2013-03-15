@@ -103,7 +103,7 @@ module GLI
         end
 
         # Gives you a switch in the current context
-        def switch(name,aliases,desc,long_desc,negetable)
+        def switch(name,aliases,desc,long_desc,negatable)
           abstract!
         end
 

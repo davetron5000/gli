@@ -20,7 +20,7 @@ module GLI
       @default_value = false if options[:default_value].nil?
       @negatable = options[:negatable].nil? ? true : options[:negatable]
       if @default_value != false && @negatable == false
-        raise "A switch with default #{@default_value} that isn't negetable is useless"
+        raise "A switch with default #{@default_value} that isn't negatable is useless"
       end
     end
 

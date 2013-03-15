@@ -448,7 +448,7 @@ class TC_testGLI < Clean::Test::TestCase
     assert @switch_value == false,"Got: '#{@switch_value}', but expected false"
   end
 
-  def test_switch_with_default_true_and_not_negetable_causes_exception
+  def test_switch_with_default_true_and_not_negatable_causes_exception
     @app.reset
     @app.on_error do |ex|
       raise ex
