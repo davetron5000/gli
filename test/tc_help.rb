@@ -151,6 +151,34 @@ class TC_testHelp < Clean::Test::TestCase
     }
   end
 
+  test_that "omitting default_description doesn't blow up" do
+    Given {
+      app = TestApp.new
+      app.instance_eval do
+        command :top do |top|
+          top.command :list do |list|
+            list.action do |g,o,a|
+            end
+          end
+
+          top.command :new do |new|
+            new.action do |g,o,a|
+            end
+          end
+
+          top.default_command :list
+        end
+      end
+      @command = GLI::Commands::Help.new(app,@output,@error)
+    }
+    When {
+      @code = lambda { @command.execute({},{},['top']) }
+    }
+    Then {
+      assert_nothing_raised(&@code)
+    }
+  end
+
 private
 
   def a_GLI_app(omit_options=false)
