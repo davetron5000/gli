@@ -211,7 +211,7 @@ EOS
       end
       puts "Created #{root_dir}/#{project_name}/Rakefile"
       File.open("#{root_dir}/#{project_name}/Gemfile",'w') do |bundler_file|
-        bundler_file.puts "source :rubygems"
+        bundler_file.puts "source 'https://rubygems.org'"
         bundler_file.puts "gemspec"
       end
       puts "Created #{root_dir}/#{project_name}/Gemfile"
