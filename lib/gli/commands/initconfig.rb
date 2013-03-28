@@ -49,6 +49,9 @@ module GLI
           end
         end
       end
+
+      FileUtils.mkdir_p(File.dirname(@filename)) unless File.dirname(@filename) == '.'
+
       File.open(@filename,'w', 0600) do |file|
         YAML.dump(config,file)
       end
