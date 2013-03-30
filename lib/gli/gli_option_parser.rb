@@ -55,7 +55,22 @@ module GLI
   private
 
     def parse_command_options(option_parser_factory,command,args)
-      option_parser,command_options = option_parser_factory.option_parser
+      option_block_parser = LegacyOptionBlockParser.new(
+        option_parser_factory,
+        lambda { |message| raise UnknownCommandArgument.new(message,command)}
+      )
+      add_help_switches_to_command(option_block_parser.option_parser,command)
+      command_options,args = option_block_parser.parse!(args)
+      [command_options,args]
+    end
+
+    def parse_global_options(option_parser_factory,args)
+      global_options,args = GLIOptionBlockParser.new(option_parser_factory,UnknownGlobalArgument).parse!(args)
+      command_name = args.shift
+      [global_options,command_name,args]
+    end
+
+    def add_help_switches_to_command(option_parser,command)
       help_args = %w(-h --help).reject { |_| command.has_option?(_) }
 
       unless help_args.empty?
@@ -75,31 +90,6 @@ module GLI
           end
         end
       end
-      option_parser.parse!(args)
-      [command_options,args]
-    rescue OptionParser::InvalidOption => ex
-      raise UnknownCommandArgument.new("Unknown option #{ex.args.join(' ')}",command)
-    rescue OptionParser::InvalidArgument => ex
-      raise UnknownCommandArgument.new("#{ex.reason}: #{ex.args.join(' ')}",command)
-    end
-
-    def parse_global_options(option_parser_factory,args,&error_handler)
-      if error_handler.nil?
-        error_handler = lambda { |message|
-          raise UnknownGlobalArgument.new(message)
-        }
-      end
-      option_parser,global_options = option_parser_factory.option_parser
-      command = nil
-      option_parser.order!(args) do |non_option|
-        command = non_option
-        break
-      end
-      [global_options,command,args]
-    rescue OptionParser::InvalidOption => ex
-      error_handler.call("Unknown option #{ex.args.join(' ')}")
-    rescue OptionParser::InvalidArgument => ex
-      error_handler.call("#{ex.reason}: #{ex.args.join(' ')}")
     end
 
     def find_command(name) # :nodoc:

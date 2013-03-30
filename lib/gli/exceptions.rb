@@ -27,7 +27,7 @@ module GLI
     # +command+:: the command we were using to parse command-specific options
     def initialize(message,command)
       super(message)
-      @command = command
+      @command = command || @@command
     end
   end
 

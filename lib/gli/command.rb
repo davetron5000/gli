@@ -32,6 +32,9 @@ module GLI
     include DSL
     include CommandSupport
 
+    # Key in an options hash to find the parent's parsed options
+    PARENT = Object.new 
+
     # Create a new command.
     #
     # options:: Keys should be:
