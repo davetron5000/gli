@@ -4,9 +4,6 @@ module GLI
   # This class handles parsing that block
   class GLIOptionBlockParser
 
-    # Access the underlying +OptionParser+ instance
-    attr_reader :option_parser
-
     # Create the parser using the given +OptionParser+ instance and exception handling
     # strategy.
     #
@@ -15,7 +12,7 @@ module GLI
     #                            an exception class:: will be raised on errors with a message
     #                            lambda/block:: will be called with a single argument - the error message.
     def initialize(option_parser_factory,exception_klass_or_block)
-      @option_parser,@options_hash = option_parser_factory.option_parser
+      @option_parser_factory = option_parser_factory
       @exception_handler = if exception_klass_or_block.kind_of?(Class)
                              lambda { |message|
                                raise exception_klass_or_block,message
@@ -30,11 +27,9 @@ module GLI
     #
     # args:: argument list.  This will be mutated
     #
-    # Returns array of size 2:
-    # 0:: options_hash into which options were parsed
-    # 1:: unparsed args
+    # Returns unparsed args
     def parse!(args)
-      [@options_hash,do_parse(args)]
+      do_parse(args)
     rescue OptionParser::InvalidOption => ex
       @exception_handler.call("Unknown option #{ex.args.join(' ')}")
     rescue OptionParser::InvalidArgument => ex
@@ -45,7 +40,7 @@ module GLI
 
     def do_parse(args)
       first_non_option = nil
-      @option_parser.order!(args) do |non_option|
+      @option_parser_factory.option_parser.order!(args) do |non_option|
         first_non_option = non_option
         break
       end
@@ -59,7 +54,7 @@ module GLI
 
     def do_parse(args)
       unknown_options = []
-      @option_parser.order!(args) do |non_option|
+      @option_parser_factory.option_parser.order!(args) do |non_option|
         unknown_options << non_option
       end
       unknown_options.reverse.each do |unknown_option|

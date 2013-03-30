@@ -16,13 +16,17 @@ module GLI
     # 2:: command-specific options
     # 3:: unparsed arguments
     def parse_options(args) # :nodoc:
-      args_clone = args.clone
-      global_options = {}
-      command = nil
+      args_clone      = args.clone
+      global_options  = {}
+      command         = nil
       command_options = {}
-      remaining_args = nil
+      remaining_args  = nil
 
-      global_options,command_name,args = parse_global_options(OptionParserFactory.new(@flags,@switches,@accepts), args)
+      global_option_parser_factory = OptionParserFactory.new(@flags,@switches,@accepts)
+      args                         = parse_global_options(global_option_parser_factory, args)
+      command_name                 = args.shift
+      global_options               = global_option_parser_factory.options_hash
+
       @flags.each do |name,flag|
         global_options[name] = flag.default_value unless global_options[name]
       end
@@ -38,9 +42,9 @@ module GLI
         raise UnknownCommand.new("Ambiguous command '#{command_name}'. It matches #{command.sort.join(',')}")
       end
 
-      command_options,args = parse_command_options(OptionParserFactory.new(command.flags,command.switches,@accepts),
-                                                   command,
-                                                   args)
+      option_parser_factory = OptionParserFactory.for_command(command,@accepts)
+      args                  = parse_command_options(option_parser_factory,command,args)
+      command_options       = option_parser_factory.options_hash
 
       command.flags.each do |name,flag|
         command_options[name] = flag.default_value unless command_options[name]
@@ -59,37 +63,11 @@ module GLI
         option_parser_factory,
         lambda { |message| raise UnknownCommandArgument.new(message,command)}
       )
-      add_help_switches_to_command(option_block_parser.option_parser,command)
-      command_options,args = option_block_parser.parse!(args)
-      [command_options,args]
+      option_block_parser.parse!(args)
     end
 
     def parse_global_options(option_parser_factory,args)
-      global_options,args = GLIOptionBlockParser.new(option_parser_factory,UnknownGlobalArgument).parse!(args)
-      command_name = args.shift
-      [global_options,command_name,args]
-    end
-
-    def add_help_switches_to_command(option_parser,command)
-      help_args = %w(-h --help).reject { |_| command.has_option?(_) }
-
-      unless help_args.empty?
-        option_parser.on(*help_args) do
-          # We need to raise the help exception later in the process, after
-          # the command-line has been parsed, so we know what command
-          # to show help for.  Unfortunately, we can't just call #action
-          # on the command to override what to do, so...metaprogramming.
-          class << command
-            def execute(*help_args)
-              exception = BadCommandLine.new(nil)
-              class << exception
-                def exit_code; 0; end
-              end
-              raise exception
-            end
-          end
-        end
-      end
+      GLIOptionBlockParser.new(option_parser_factory,UnknownGlobalArgument).parse!(args)
     end
 
     def find_command(name) # :nodoc:

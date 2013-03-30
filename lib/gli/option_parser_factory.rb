@@ -1,24 +1,30 @@
 module GLI
   # Factory for creating an OptionParser based on app configuration and DSL calls
   class OptionParserFactory
+
+    # Create an option parser factory for a command.  This has the added
+    # feature of setting up -h and --help on the command if those
+    # options aren't otherwise configured, e.g. to allow todo add --help as an
+    # alternate to todo help add
+    def self.for_command(command,accpets)
+      self.new(command.flags,command.switches,accpets).tap { |factory|
+        add_help_switches_to_command(factory.option_parser,command)
+      }
+    end
+
     # Create an OptionParserFactory for the given
     # flags, switches, and accepts
     def initialize(flags,switches,accepts)
-      @flags = flags
-      @switches = switches
-      @accepts = accepts
+      @options_hash = {}
+      @option_parser = OptionParser.new do |opts|
+        self.class.setup_accepts(opts,accepts)
+        self.class.setup_options(opts,switches,@options_hash)
+        self.class.setup_options(opts,flags,@options_hash)
+      end
     end
 
-    # Return an option parser to parse the given flags, switches and accepts
-    def option_parser
-      options = {}
-      option_parser = OptionParser.new do |opts|
-        self.class.setup_accepts(opts,@accepts)
-        self.class.setup_options(opts,@switches,options)
-        self.class.setup_options(opts,@flags,options)
-      end
-      [option_parser,options]
-    end
+    attr_reader :option_parser
+    attr_reader :options_hash
 
   private
 
@@ -40,6 +46,29 @@ module GLI
         end
       end
     end
+
+    def self.add_help_switches_to_command(option_parser,command)
+      help_args = %w(-h --help).reject { |_| command.has_option?(_) }
+
+      unless help_args.empty?
+        option_parser.on(*help_args) do
+          # We need to raise the help exception later in the process, after
+          # the command-line has been parsed, so we know what command
+          # to show help for.  Unfortunately, we can't just call #action
+          # on the command to override what to do, so...metaprogramming.
+          class << command
+            def execute(*help_args)
+              exception = BadCommandLine.new(nil)
+              class << exception
+                def exit_code; 0; end
+              end
+              raise exception
+            end
+          end
+        end
+      end
+    end
+
 
   end
 end
