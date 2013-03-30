@@ -129,7 +129,7 @@ module GLI
 
     # Executes the command
     def execute(global_options,options,arguments) 
-      subcommand,arguments = find_subcommand(arguments)
+      subcommand,arguments = find_subcommand(Array(arguments))
       if subcommand
         subcommand.execute(global_options,options,arguments)
       else
@@ -190,25 +190,16 @@ module GLI
     end
 
     def find_subcommand(arguments)
-      subcommand = find_explicit_subcommand(arguments)
-      if subcommand
-        [subcommand,arguments[1..-1]]
-      else
-        if !@default_command.nil?
-          [find_explicit_subcommand([@default_command.to_s]),arguments]
-        else 
+      finder = CommandFinder.new(self.commands,@default_command.to_s)
+      begin
+        [finder.find_command(arguments.first),arguments[1..-1]]
+      rescue UnknownCommand
+        begin
+          [finder.find_command(@default_command.to_s),arguments]
+        rescue UnknownCommand
           [false,arguments]
         end
       end
-    end
-
-    def find_explicit_subcommand(arguments)
-      arguments = Array(arguments)
-      return false if arguments.empty?
-      subcommand_name = arguments.first
-      self.commands.values.find { |command|
-        [command.name,Array(command.aliases)].flatten.map(&:to_s).any? { |name| name == subcommand_name }
-      }
     end
   end
 end

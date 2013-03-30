@@ -1,3 +1,4 @@
+require 'gli/command_finder.rb'
 require 'gli/gli_option_block_parser.rb'
 require 'gli/option_parser_factory.rb'
 require 'gli/gli_option_parser.rb'
