@@ -318,6 +318,7 @@ Feature: The todo app has a nice user interface
     first: foo,bar
     """
 
+    @wip
   Scenario: Running ls w/out subcommand shows help and an error
     When I run `todo ls`
     Then the exit status should not be 0

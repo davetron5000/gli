@@ -58,15 +58,11 @@ module GLI
 
         add_help_switch_if_needed(switches)
 
-        global_options,the_command,options,arguments = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
+        parsing_result = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
+        parsing_result = parsing_result.using_openstruct if @use_openstruct
+        the_command    = parsing_result.command
 
-
-        global_options = convert_to_openstruct_if_needed(global_options)
-        options        = convert_to_openstruct_if_needed(options)
-
-        if proceed?(global_options,the_command,options,arguments)
-          call_command(the_command,global_options,options,arguments)
-        end
+        call_command(parsing_result) if proceed?(parsing_result)
         0
       rescue Exception => ex
         if the_command.nil? && ex.respond_to?(:command_in_context)
@@ -206,13 +202,7 @@ module GLI
 
     def no_message_given?(ex)
       ex.message == ex.class.name
-    end
 
-    # Possibly returns a copy of the passed-in Hash as an instance of GLI::Option.
-    # By default, it will *not*. However by putting <tt>use_openstruct true</tt>
-    # in your CLI definition, it will
-    def convert_to_openstruct_if_needed(options) # :nodoc:
-      @use_openstruct ? Options.new(options) : options
     end
 
     def add_help_switch_if_needed(switches)
@@ -229,11 +219,11 @@ module GLI
 
     # True if we should proceed with executing the command; this calls
     # the pre block if it's defined
-    def proceed?(global_options,command,options,arguments) #:nodoc:
-      if command && command.skips_pre
+    def proceed?(parsing_result) #:nodoc:
+      if parsing_result.command && parsing_result.command.skips_pre
         true
       else
-        pre_block.call(global_options,command,options,arguments) 
+        pre_block.call(*parsing_result)
       end
     end
 
@@ -253,8 +243,12 @@ module GLI
       "error: #{ex.message}"
     end
 
-    def call_command(command,global_options,options,arguments)
-      arguments = arguments.map { |arg| arg.dup } # unfreeze
+    def call_command(parsing_result)
+      command        = parsing_result.command
+      global_options = parsing_result.global_options
+      options        = parsing_result.command_options
+      arguments      = parsing_result.arguments.map { |arg| arg.dup } # unfreeze
+
       code = lambda { command.execute(global_options,options,arguments) }
       nested_arounds = unless command.skips_around
                          around_blocks.inject do |outer_around, inner_around|

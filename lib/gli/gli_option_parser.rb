@@ -9,12 +9,7 @@ module GLI
       @command_finder = CommandFinder.new(@commands,default_command || "help")
     end
 
-    # Given the command-line argument array, returns and array of size 4:
-    #
-    # 0:: global options
-    # 1:: command, as a Command
-    # 2:: command-specific options
-    # 3:: unparsed arguments
+    # Given the command-line argument array, returns an OptionParsingResult
     def parse_options(args) # :nodoc:
       global_option_parser_factory = OptionParserFactory.new(@flags,@switches,@accepts)
       args                         = parse_global_options(global_option_parser_factory, args)
@@ -36,7 +31,7 @@ module GLI
       subcommand,args = @command_finder.find_subcommand(command,args)
       command = subcommand
 
-      [global_options,command,command_options,args]
+      OptionParsingResult.new(global_options,command,command_options,args)
     end
 
   private
