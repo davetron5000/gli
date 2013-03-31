@@ -252,6 +252,7 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] list tasks [command options] 
+        todo [global options] list tasks [command options]  open
 
     DESCRIPTION
         Lists all of your tasks that you have, in varying orders, and all that
@@ -260,6 +261,10 @@ Feature: The todo app has a nice user interface
     COMMAND OPTIONS
         --flag=arg - (default: none)
         -x arg     - blah blah crud x whatever (default: none)
+    
+    COMMANDS
+        <default> - list all tasks
+        open      - list open tasks
     """
 
   Scenario: Getting Help for a sub command with no command options
