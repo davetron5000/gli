@@ -13,3 +13,4 @@ branches:
     - 'master'
     - 'gli-2'
     - 'quick-bugifxes'
+    - 'fully-nested-subcommands'
