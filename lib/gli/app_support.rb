@@ -59,8 +59,9 @@ module GLI
         add_help_switch_if_needed(switches)
 
         parsing_result = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
-        parsing_result = parsing_result.using_openstruct if @use_openstruct
-        the_command    = parsing_result.command
+        parsing_result.convert_to_openstruct! if @use_openstruct
+
+        the_command = parsing_result.command
 
         call_command(parsing_result) if proceed?(parsing_result)
         0

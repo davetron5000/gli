@@ -11,47 +11,35 @@ module GLI
 
     # Given the command-line argument array, returns an OptionParsingResult
     def parse_options(args) # :nodoc:
-      global_option_parser_factory = OptionParserFactory.new(@flags,@switches,@accepts)
-      args                         = parse_global_options(global_option_parser_factory, args)
-      command_name                 = args.shift
-      global_options               = global_option_parser_factory.options_hash
-
-      set_defaults(@flags,global_options)
-      set_defaults(@switches,global_options)
-
-      command = @command_finder.find_command(command_name)
-
-      option_parser_factory = OptionParserFactory.for_command(command,@accepts)
-      args                  = parse_command_options(option_parser_factory,command,args)
-      command_options       = option_parser_factory.options_hash
-
-      set_defaults(command.flags,command_options)
-      set_defaults(command.switches,command_options)
-
-      subcommand,args = @command_finder.find_subcommand(command,args)
-      command = subcommand
-
-      OptionParsingResult.new(global_options,command,command_options,args)
+      OptionParsingResult.new.tap { |parsing_result|
+        parsing_result.arguments = args
+        parse_global(parsing_result)
+        parse_command(parsing_result)
+      }
     end
 
   private
 
-    def set_defaults(options_by_name,options_hash)
-      options_by_name.each do |name,option|
-        options_hash[name] = option.default_value if options_hash[name].nil?
-      end
+    def parse_global(parsing_result)
+      global_option_parser_factory  = OptionParserFactory.new(@flags,@switches,@accepts)
+      parsing_result.arguments      = GLIOptionBlockParser.new(global_option_parser_factory,UnknownGlobalArgument).parse!(parsing_result.arguments)
+      command_name                  = parsing_result.arguments.shift
+      parsing_result.global_options = global_option_parser_factory.options_hash_with_defaults_set!
+      parsing_result.command        = @command_finder.find_command(command_name)
     end
 
-    def parse_command_options(option_parser_factory,command,args)
+    def parse_command(parsing_result)
+      command                        = parsing_result.command
+      option_parser_factory          = OptionParserFactory.for_command(command,@accepts)
       option_block_parser = LegacyOptionBlockParser.new(
         option_parser_factory,
         lambda { |message| raise UnknownCommandArgument.new(message,command)}
       )
-      option_block_parser.parse!(args)
-    end
-
-    def parse_global_options(option_parser_factory,args)
-      GLIOptionBlockParser.new(option_parser_factory,UnknownGlobalArgument).parse!(args)
+      parsing_result.arguments       = option_block_parser.parse!(parsing_result.arguments)
+      parsing_result.command_options = option_parser_factory.options_hash_with_defaults_set!
+      subcommand,args                = @command_finder.find_subcommand(command,parsing_result.arguments)
+      parsing_result.command         = subcommand
+      parsing_result.arguments       = args
     end
   end
 end

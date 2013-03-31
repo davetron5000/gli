@@ -15,18 +15,32 @@ module GLI
     # Create an OptionParserFactory for the given
     # flags, switches, and accepts
     def initialize(flags,switches,accepts)
+      @flags = flags
+      @switches = switches
       @options_hash = {}
       @option_parser = OptionParser.new do |opts|
         self.class.setup_accepts(opts,accepts)
-        self.class.setup_options(opts,switches,@options_hash)
-        self.class.setup_options(opts,flags,@options_hash)
+        self.class.setup_options(opts,@switches,@options_hash)
+        self.class.setup_options(opts,@flags,@options_hash)
       end
     end
 
     attr_reader :option_parser
     attr_reader :options_hash
 
+    def options_hash_with_defaults_set!
+      set_defaults(@flags,@options_hash)
+      set_defaults(@switches,@options_hash)
+      @options_hash
+    end
+
   private
+
+    def set_defaults(options_by_name,options_hash)
+      options_by_name.each do |name,option|
+        options_hash[name] = option.default_value if options_hash[name].nil?
+      end
+    end
 
     def self.setup_accepts(opts,accepts)
       accepts.each do |object,block|
