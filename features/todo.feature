@@ -281,7 +281,6 @@ Feature: The todo app has a nice user interface
     """
     And the output should not contain "COMMAND OPTIONS"
 
-    @wip
   Scenario: Running list w/out subcommand performs list tasks by default
     When I successfully run `todo list boo yay`
     Then the output should contain "list tasks: boo,yay"

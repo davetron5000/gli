@@ -52,25 +52,28 @@ module GLI
     # Returns a number that would be a reasonable exit code
     def run(args) #:nodoc:
       args = args.dup if @preserve_argv
-      command = nil
+      the_command = nil
       begin
         override_defaults_based_on_config(parse_config)
 
         add_help_switch_if_needed(switches)
 
-        global_options,command,options,arguments = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
+        global_options,the_command,options,arguments = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
 
-        copy_options_to_aliased_versions(global_options,command,options)
+        copy_options_to_aliased_versions(global_options,the_command,options)
 
         global_options = convert_to_openstruct_if_needed(global_options)
         options        = convert_to_openstruct_if_needed(options)
 
-        if proceed?(global_options,command,options,arguments)
-          call_command(command,global_options,options,arguments)
+        if proceed?(global_options,the_command,options,arguments)
+          call_command(the_command,global_options,options,arguments)
         end
         0
       rescue Exception => ex
-        handle_exception(ex,command)
+        if the_command.nil? && ex.respond_to?(:command_in_context)
+          the_command = ex.command_in_context
+        end
+        handle_exception(ex,the_command)
       end
     end
 
@@ -191,7 +194,9 @@ module GLI
       if regular_error_handling?(ex)
         output_error_message(ex)
         if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
-          commands[:help] and commands[:help].execute({},{},command.nil? ? [] : [command.name.to_s])
+          if commands[:help]
+            commands[:help].execute({},{},command.nil? ? [] : [command.name.to_s])
+          end
         end
       end
 

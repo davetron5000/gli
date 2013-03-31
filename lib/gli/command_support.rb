@@ -120,12 +120,12 @@ module GLI
 
     # Executes the command
     def execute(global_options,options,arguments) 
-      subcommand,arguments = find_subcommand(Array(arguments))
-      if subcommand
-        subcommand.execute(global_options,options,arguments)
-      else
+      #subcommand,arguments = find_subcommand(Array(arguments))
+      #if subcommand
+      #  subcommand.execute(global_options,options,arguments)
+      #else
         get_action(arguments).call(global_options,options,arguments)
-      end
+      #end
     end
 
     def topmost_ancestor
@@ -165,7 +165,7 @@ module GLI
             raise BadCommandLine,"Command '#{name}' requires a subcommand"
           end
         elsif have_subcommands?
-          raise BadCommandLine,"Command '#{name}' requires a subcommand"
+          raise BadCommandLine,"Command '#{name}' requires a subcommand #{self.commands.keys.join(',')}"
         else
           raise "Command '#{name}' has no action block"
         end
@@ -180,17 +180,17 @@ module GLI
       !self.commands.empty?
     end
 
-    def find_subcommand(arguments)
-      finder = CommandFinder.new(self.commands,@default_command.to_s)
-      begin
-        [finder.find_command(arguments.first),arguments[1..-1]]
-      rescue UnknownCommand
-        begin
-          [finder.find_command(@default_command.to_s),arguments]
-        rescue UnknownCommand
-          [false,arguments]
-        end
-      end
-    end
+    #def find_subcommand(arguments)
+    #  finder = CommandFinder.new(self.commands,@default_command.to_s)
+    #  begin
+    #    [finder.find_command(arguments.first),arguments[1..-1]]
+    #  rescue UnknownCommand
+    #    begin
+    #      [finder.find_command(@default_command.to_s),arguments]
+    #    rescue UnknownCommand
+    #      [false,arguments]
+    #    end
+    #  end
+    #end
   end
 end

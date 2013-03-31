@@ -30,6 +30,32 @@ module GLI
       command_found
     end
 
+    def find_subcommand(command,arguments)
+      arguments = Array(arguments)
+      command_name = if arguments.empty?
+                       nil
+                     else
+                       arguments.first
+                     end
+
+      default_command = command.get_default_command
+      finder = CommandFinder.new(command.commands,default_command.to_s)
+
+      begin
+        results = [finder.find_command(command_name),arguments[1..-1]]
+        find_subcommand(results[0],results[1])
+      rescue UnknownCommand
+        begin
+          results = [finder.find_command(default_command.to_s),arguments]
+          find_subcommand(results[0],results[1])
+        rescue UnknownCommand
+          [command,arguments]
+        end
+      end
+    end
+
+  private
+
     def find_command_by_partial_name(names_to_commands, command_to_match)
       partial_matches = names_to_commands.keys.select { |command_name| command_name =~ /^#{command_to_match}/ }
       return names_to_commands[partial_matches[0]] if partial_matches.size == 1

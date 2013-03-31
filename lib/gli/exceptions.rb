@@ -19,16 +19,24 @@ module GLI
   class UnknownGlobalArgument < BadCommandLine
   end
 
-  # Indicates the bad command line was an unknown command argument
-  class UnknownCommandArgument < BadCommandLine
+  class CommandException < BadCommandLine
     # The command for which the argument was unknown
-    attr_reader :command
+    attr_reader :command_in_context
     # +message+:: the error message to show the user
     # +command+:: the command we were using to parse command-specific options
-    def initialize(message,command)
+    def initialize(message,command_in_context,exit_code=nil)
       super(message)
-      @command = command || @@command
+      @command_in_context = command_in_context
+      @exit_code = exit_code
     end
+
+    def exit_code
+      @exit_code || super
+    end
+  end
+
+  # Indicates the bad command line was an unknown command argument
+  class UnknownCommandArgument < CommandException
   end
 
   # Raise this if you want to use an exit status that isn't the default

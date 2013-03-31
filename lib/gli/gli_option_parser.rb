@@ -33,6 +33,9 @@ module GLI
       set_defaults(command.flags,command_options)
       set_defaults(command.switches,command_options)
 
+      subcommand,args = @command_finder.find_subcommand(command,args)
+      command = subcommand
+
       [global_options,command,command_options,args]
     end
 
