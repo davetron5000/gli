@@ -1,5 +1,4 @@
 require 'gli/command_line_token.rb'
-require 'gli/copy_options_to_aliases.rb'
 require 'gli/dsl.rb'
 
 module GLI
@@ -28,7 +27,6 @@ module GLI
   #     end
   #
   class Command < CommandLineToken
-    include CopyOptionsToAliases
     include DSL
     include CommandSupport
 

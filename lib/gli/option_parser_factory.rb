@@ -6,8 +6,8 @@ module GLI
     # feature of setting up -h and --help on the command if those
     # options aren't otherwise configured, e.g. to allow todo add --help as an
     # alternate to todo help add
-    def self.for_command(command,accpets)
-      self.new(command.flags,command.switches,accpets).tap { |factory|
+    def self.for_command(command,accepts)
+      self.new(command.flags,command.switches,accepts).tap { |factory|
         add_help_switches_to_command(factory.option_parser,command)
       }
     end

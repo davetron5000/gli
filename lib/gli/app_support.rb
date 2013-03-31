@@ -60,7 +60,6 @@ module GLI
 
         global_options,the_command,options,arguments = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
 
-        copy_options_to_aliased_versions(global_options,the_command,options)
 
         global_options = convert_to_openstruct_if_needed(global_options)
         options        = convert_to_openstruct_if_needed(options)
@@ -82,17 +81,9 @@ module GLI
     def config_file_name #:nodoc:
       @config_file
     end
-
     def accepts #:nodoc:
       @accepts ||= {}
-    end
 
-    # Copies all options in both global_options and options to keys for the aliases of those flags.
-    # For example, if a flag works with either -f or --flag, this will copy the value from [:f] to [:flag]
-    # to allow the user to access the options by any alias
-    def copy_options_to_aliased_versions(global_options,command,options) # :nodoc:
-      copy_options_to_aliases(global_options)
-      command.copy_options_to_aliases(options)
     end
 
     def parse_config # :nodoc:

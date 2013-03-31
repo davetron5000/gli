@@ -1,6 +1,5 @@
 require 'etc'
 require 'optparse'
-require 'gli/copy_options_to_aliases'
 require 'gli/dsl'
 require 'pathname'
 
@@ -9,7 +8,6 @@ module GLI
   # Git's does, in that you specify global options, a command name, command
   # specific options, and then command arguments.
   module App
-    include CopyOptionsToAliases
     include DSL
     include AppSupport
 

@@ -10,54 +10,8 @@ class TC_testCommand < Clean::Test::TestCase
     $stdout = @fake_stdout
     @original_stderr = $stderr
     $stderr = @fake_stderr
-    @app = CLIApp.new
-    @app.error_device=@fake_stderr
     ENV.delete('GLI_DEBUG')
-    @app.reset
-    @app.program_desc 'A super awesome program'
-    @app.desc 'Some Global Option'
-    @app.switch :g
-    @app.switch :blah
-    @app.long_desc 'This is a very long description for a flag'
-    @app.flag [:y,:yes]
-    @pre_called = false
-    @post_called = false
-    @error_called = false
-    @app.pre { |g,c,o,a| @pre_called = true }
-    @app.post { |g,c,o,a| @post_called = true }
-    @app.on_error { |g,c,o,a| @error_called = true }
-    @glob = nil
-    @verbose = nil
-    @glob_verbose = nil
-    @configure = nil
-    @args = nil
-    @app.desc 'Some Basic Command that potentially has a really really really really really really really long description and stuff, but you know, who cares?'
-    @app.long_desc 'This is the long description: "Some Basic Command that potentially has a really really really really really really really long description and stuff, but you know, who cares?"'
-    @app.arg_name 'first_file second_file'
-    @app.command [:basic,:bs] do |c|
-      c.desc 'be verbose'
-      c.switch :v
-      c.desc 'configure something or other, in some way that requires a lot of verbose text and whatnot'
-      c.default_value 'crud'
-      c.flag [:c,:configure]
-      c.action do |global_options,options,arguments|
-        @glob = global_options[:g] ? 'true' : 'false'
-        @verbose = options[:v] ? 'true' : 'false'
-        @glob_verbose = global_options[:v] ? 'true' : 'false'
-        @configure = options[:c]
-        @args = arguments
-      end
-    end
-    @app.desc "Testing long help wrapping"
-    @app.long_desc <<-EOS
-    This will create a scaffold command line project that uses @app
-    for command line processing.  Specifically, this will create
-    an executable ready to go, as well as a lib and test directory, all
-    inside the directory named for your project
-    EOS
-    @app.command [:test_wrap] do |c|
-      c.action {}
-    end
+    create_app
   end
 
   def teardown
@@ -85,18 +39,25 @@ class TC_testCommand < Clean::Test::TestCase
   end
 
   def test_basic_command
-    args_args = [%w(-g basic -v -c foo bar baz quux), %w(-g basic -v --configure=foo bar baz quux)]
-    args_args.each do |args|
-      args_orig = args.clone
-      @app.run(args)
-      assert_equal('true',@glob,"For args #{args_orig}")
-      assert_equal('true',@verbose,"For args #{args_orig}")
-      assert_equal('false',@glob_verbose,"For args #{args_orig}")
-      assert_equal('foo',@configure,"For args #{args_orig}")
-      assert_equal(%w(bar baz quux),@args,"For args #{args_orig}")
-      assert(@pre_called,"Pre block should have been called for args #{args_orig}")
-      assert(@post_called,"Post block should have been called for args #{args_orig}")
-      assert(!@error_called,"Error block should not have been called for args #{args_orig}")
+    [false,true].each do |openstruct|
+    end
+    [true].each do |openstruct|
+      create_app(openstruct)
+      openstruct_message = openstruct ? ", with use_openstruct" : ""
+      args_args = [%w(-g basic -v -c foo bar baz quux), %w(-g basic -v --configure=foo bar baz quux)]
+      args_args.each do |args|
+        args_orig = args.clone
+        @app.run(args)
+        assert_equal('true',@glob,"For args #{args_orig}#{openstruct_message}")
+        assert_equal('true',@glob_long_form,"For args #{args_orig}#{openstruct_message}")
+        assert_equal('true',@verbose,"For args #{args_orig}#{openstruct_message}")
+        assert_equal('false',@glob_verbose,"For args #{args_orig}#{openstruct_message}")
+        assert_equal('foo',@configure,"For args #{args_orig}#{openstruct_message}")
+        assert_equal(%w(bar baz quux),@args,"For args #{args_orig}#{openstruct_message}")
+        assert(@pre_called,"Pre block should have been called for args #{args_orig}#{openstruct_message}")
+        assert(@post_called,"Post block should have been called for args #{args_orig}#{openstruct_message}")
+        assert(!@error_called,"Error block should not have been called for args #{args_orig}#{openstruct_message}")
+      end
     end
   end
 
@@ -400,6 +361,70 @@ class TC_testCommand < Clean::Test::TestCase
   def assert_not_contained(output,regexp)
     assert_nil output.contained?(regexp),
       "Didn't expected output to contain #{regexp.inspect}, output was:\n#{output}"
+  end
+
+  def create_app(use_openstruct=false)
+    @app = CLIApp.new
+    @app.error_device=@fake_stderr
+    @app.reset
+    
+    if use_openstruct
+      @app.use_openstruct true
+    end
+
+    @app.program_desc 'A super awesome program'
+    @app.desc 'Some Global Option'
+    @app.switch [:g,:global]
+    @app.switch :blah
+    @app.long_desc 'This is a very long description for a flag'
+    @app.flag [:y,:yes]
+    @pre_called = false
+    @post_called = false
+    @error_called = false
+    @app.pre { |g,c,o,a| @pre_called = true }
+    @app.post { |g,c,o,a| @post_called = true }
+    @app.on_error { |g,c,o,a| @error_called = true }
+    @glob = nil
+    @verbose = nil
+    @glob_verbose = nil
+    @configure = nil
+    @args = nil
+    @app.desc 'Some Basic Command that potentially has a really really really really really really really long description and stuff, but you know, who cares?'
+    @app.long_desc 'This is the long description: "Some Basic Command that potentially has a really really really really really really really long description and stuff, but you know, who cares?"'
+    @app.arg_name 'first_file second_file'
+    @app.command [:basic,:bs] do |c|
+      c.desc 'be verbose'
+      c.switch :v
+      c.desc 'configure something or other, in some way that requires a lot of verbose text and whatnot'
+      c.default_value 'crud'
+      c.flag [:c,:configure]
+      c.action do |global_options,options,arguments|
+        if use_openstruct
+          @glob           = global_options.g      ? 'true' : 'false'
+          @glob_long_form = global_options.global ? 'true' : 'false'
+          @verbose        = options.v             ? 'true' : 'false'
+          @glob_verbose   = global_options.v      ? 'true' : 'false'
+          @configure      = options.c
+        else
+          @glob           = global_options[:g]      ? 'true' : 'false'
+          @glob_long_form = global_options[:global] ? 'true' : 'false'
+          @verbose        = options[:v]             ? 'true' : 'false'
+          @glob_verbose   = global_options[:v]      ? 'true' : 'false'
+          @configure      = options[:c]
+        end
+        @args = arguments
+      end
+    end
+    @app.desc "Testing long help wrapping"
+    @app.long_desc <<-EOS
+    This will create a scaffold command line project that uses @app
+    for command line processing.  Specifically, this will create
+    an executable ready to go, as well as a lib and test directory, all
+    inside the directory named for your project
+    EOS
+    @app.command [:test_wrap] do |c|
+      c.action {}
+    end
   end
 
 end
