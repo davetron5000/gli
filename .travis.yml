@@ -12,3 +12,4 @@ branches:
   only:
     - 'master'
     - 'gli-2'
+    - 'quick-bugifxes'
