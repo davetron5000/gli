@@ -70,19 +70,13 @@ module GLI
     end
 
     def desc(d)
-      if parent.kind_of? Command
-        parent.desc(d)
-      else
-        super(d)
-      end
+      parent.desc(d) if parent.kind_of? Command
+      super(d)
     end
 
     def long_desc(d)
-      if parent.kind_of? Command
-        parent.long_desc(d)
-      else
-        super(d)
-      end
+      parent.long_desc(d) if parent.kind_of? Command
+      super(d)
     end
 
     def arg_name(d,options=[])

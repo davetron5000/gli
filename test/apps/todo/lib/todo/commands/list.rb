@@ -29,6 +29,15 @@ command [:list] do |c|
       puts options[:x].inspect
       puts "list tasks: #{args.join(',')}"
     end
+
+    tasks.desc 'list open tasks'
+    tasks.command :open do |open|
+      open.action do |global,options,args|
+        puts "tasks open"
+      end
+    end
+
+    tasks.default_desc 'list all tasks'
   end
 
   c.desc "List contexts"
