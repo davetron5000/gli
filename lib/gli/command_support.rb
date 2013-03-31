@@ -101,15 +101,6 @@ module GLI
       end
     end
 
-    # Get the usage string
-    # CR: This should probably not be here
-    def usage 
-      usage = name.to_s
-      usage += ' [command options]' if !flags.empty? || !switches.empty?
-      usage += ' ' + @arguments_description if @arguments_description
-      usage
-    end
-
     # Return the flags as a Hash
     def flags 
       @flags ||= {}

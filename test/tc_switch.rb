@@ -49,7 +49,6 @@ class TC_testSwitch < Clean::Test::TestCase
     lambda {
       assert_equal(@options[:desc],@switch.description)
       assert_equal(@options[:long_desc],@switch.long_description)
-      assert(@switch.usage != nil)
     }
   end
 

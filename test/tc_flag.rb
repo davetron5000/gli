@@ -57,7 +57,6 @@ class TC_testFlag < Clean::Test::TestCase
       assert_equal(expected[:safe_default_value],@flag.safe_default_value)
       assert_equal(expected[:must_match],@flag.must_match)
       assert_equal(expected[:type],@flag.type)
-      assert(@flag.usage != nil)
     }
   end
 end

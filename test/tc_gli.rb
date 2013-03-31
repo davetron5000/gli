@@ -649,8 +649,6 @@ class TC_testGLI < Clean::Test::TestCase
     assert (object.flags[:f] )
     assert_equal(description,object.flags[:f].description)
     assert_equal(long_desc,object.flags[:f].long_description)
-    assert(nil != object.flags[:f].usage)
-    assert(object.usage != nil) if object.respond_to? :usage
   end
 
   def do_test_switch_create(object)

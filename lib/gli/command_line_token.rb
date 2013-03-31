@@ -13,10 +13,6 @@ module GLI
       @name,@aliases,@names = parse_names(names)
     end
 
-    def usage #:nodoc:
-      all_forms
-    end
-
     # Sort based on primary name
     def <=>(other)
       self.name.to_s <=> other.name.to_s
