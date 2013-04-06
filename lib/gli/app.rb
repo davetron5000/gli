@@ -259,6 +259,16 @@ module GLI
       @default_command = command.to_sym
     end
 
+    # How to handle subcommand options.  In general, you want to set this to +:normal+, which
+    # treats each subcommand as establishing its own namespace for options.  This is what
+    # the scaffolding should generate, but it is *not* what GLI 2.5.x and lower apps had as a default.
+    # To maintain backwards compatibility, the default is +:legacy+, which is that all subcommands of
+    # a particular command share a namespace for options, making it impossible for two subcommands
+    # to have options of the same name.
+    def subcommand_option_handling(handling_strategy)
+      @subcommand_option_handling_strategy = handling_strategy
+    end
+
     private
 
     def load_commands(path)

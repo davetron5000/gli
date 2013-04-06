@@ -13,8 +13,9 @@ module GLI
     #                            lambda/block:: will be called with a single argument - the error message.
     def initialize(option_parser_factory,exception_klass_or_block)
       @option_parser_factory = option_parser_factory
+      @extra_error_context = nil
       @exception_handler = if exception_klass_or_block.kind_of?(Class)
-                             lambda { |message|
+                             lambda { |message,extra_error_context|
                                raise exception_klass_or_block,message
                              }
                            else
@@ -31,9 +32,9 @@ module GLI
     def parse!(args)
       do_parse(args)
     rescue OptionParser::InvalidOption => ex
-      @exception_handler.call("Unknown option #{ex.args.join(' ')}")
+      @exception_handler.call("Unknown option #{ex.args.join(' ')}",@extra_error_context)
     rescue OptionParser::InvalidArgument => ex
-      @exception_handler.call("#{ex.reason}: #{ex.args.join(' ')}")
+      @exception_handler.call("#{ex.reason}: #{ex.args.join(' ')}",@extra_error_context)
     end
 
   protected
@@ -48,19 +49,36 @@ module GLI
     end
   end
 
-  class LegacyOptionBlockParser < GLIOptionBlockParser
+  class CommandOptionBlockParser < GLIOptionBlockParser
+
+    def command=(command_being_parsed)
+      @extra_error_context = command_being_parsed
+    end
 
   protected
+
+    def break_on_non_option?
+      true
+    end
 
     def do_parse(args)
       unknown_options = []
       @option_parser_factory.option_parser.order!(args) do |non_option|
         unknown_options << non_option
+        break if break_on_non_option?
       end
       unknown_options.reverse.each do |unknown_option|
         args.unshift(unknown_option)
       end
       args
+    end
+  end
+
+  class LegacyCommandOptionBlockParser < CommandOptionBlockParser
+
+  protected
+    def break_on_non_option?
+      false
     end
   end
 end

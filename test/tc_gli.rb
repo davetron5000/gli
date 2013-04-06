@@ -480,6 +480,7 @@ class TC_testGLI < Clean::Test::TestCase
   end
 
   def test_exits_zero_on_success
+    @app.reset
     assert_equal 0,@app.run([]),@fake_stderr.to_s
   end
 

@@ -27,6 +27,7 @@ module GLI
       @post_block = false
       @default_command = :help
       @around_block = nil
+      @subcommand_option_handling_strategy = :legacy
       clear_nexts
     end
 
@@ -58,7 +59,14 @@ module GLI
 
         add_help_switch_if_needed(switches)
 
-        parsing_result = GLIOptionParser.new(commands,flags,switches,accepts,@default_command).parse_options(args)
+        gli_option_parser = GLIOptionParser.new(commands,
+                                                flags,
+                                                switches,
+                                                accepts,
+                                                @default_command,
+                                                self.subcommand_option_handling_strategy)
+
+        parsing_result = gli_option_parser.parse_options(args)
         parsing_result.convert_to_openstruct! if @use_openstruct
 
         the_command = parsing_result.command
@@ -174,6 +182,10 @@ module GLI
       tokens.each do |name,token|
         token.default_value=config[name] if config[name]
       end
+    end
+
+    def subcommand_option_handling_strategy
+      @subcommand_option_handling_strategy || :legacy
     end
 
   private

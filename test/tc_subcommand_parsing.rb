@@ -18,7 +18,7 @@ class TC_testSubCommandParsing < Clean::Test::TestCase
     }
   end
 
-  someday_test_that "subcommands options may clash with globals and it gets sorted out" do
+  test_that "in legacy mode, subcommand options all share a namespace" do
     Given :app_with_subcommands_storing_results
     When {
       @app.run(%w(-f global command1 -f command -s subcommand10 -f sub))
@@ -29,9 +29,27 @@ class TC_testSubCommandParsing < Clean::Test::TestCase
         assert_equal  'global',      @results[:global_options][:f],'global'
         assert       !@results[:global_options][:s]
         assert_equal  'sub', @results[:command_options][:f]
+        assert        @results[:command_options][:s]
+        assert_nil    @results[:command_options][GLI::Command::PARENT]
+        assert_nil    @results[:command_options][GLI::Command::PARENT]
+      }
+    }
+  end
+
+  test_that "in normal mode, each subcommand has its own namespace" do
+    Given :app_with_subcommands_storing_results, :normal
+    When {
+      @app.run(%w(-f global command1 -f command -s subcommand10 -f sub))
+    }
+    Then {
+      with_clue(@results) {
+        assert_equal  'subcommand10',@results[:command_name]
+        assert_equal  'global',      @results[:global_options][:f],'global'
+        assert       !@results[:global_options][:s]
+        assert_equal  'sub', @results[:command_options][:f]
         assert       !@results[:command_options][:s]
-        assert_equal  'command',@results[:command_options][Command::PARENT][:f]
-        assert        @results[:command_options][Command::PARENT][:s]
+        assert_equal  'command',@results[:command_options][GLI::Command::PARENT][:f]
+        assert        @results[:command_options][GLI::Command::PARENT][:s]
       }
     }
   end
@@ -45,9 +63,10 @@ private
     raise
   end
 
-  def app_with_subcommands_storing_results
+  def app_with_subcommands_storing_results(subcommand_option_handling_strategy = :legacy)
     @results = {}
     @app = CLIApp.new
+    @app.subcommand_option_handling subcommand_option_handling_strategy
     @app.flag ['f','flag']
     @app.switch ['s','switch']
 
@@ -67,6 +86,7 @@ private
         2.times do |j|
           c.command "subcommand#{i}#{j}" do |subcommand|
             subcommand.flag ['f','flag']
+            subcommand.flag ['foo']
             subcommand.switch ['s','switch']
             subcommand.action do |global,options,args|
               @results = {

@@ -51,6 +51,7 @@ module GLI
 
     def flag(*names)
       new_flag = if parent.kind_of? Command
+                   super(*names)
                    parent.flag(*names)
                  else
                    super(*names)
@@ -61,6 +62,7 @@ module GLI
 
     def switch(*names)
       new_switch = if parent.kind_of? Command
+                     super(*names)
                      parent.switch(*names)
                    else
                      super(*names)
@@ -80,19 +82,13 @@ module GLI
     end
 
     def arg_name(d,options=[])
-      if parent.kind_of? Command
-        parent.arg_name(d,options)
-      else
-        super(d,options)
-      end
+      parent.arg_name(d,options) if parent.kind_of? Command
+      super(d,options)
     end
 
     def default_value(d)
-      if parent.kind_of? Command
-        parent.default_value(d)
-      else
-        super(d)
-      end
+      parent.default_value(d) if parent.kind_of? Command
+      super(d)
     end
 
     # Return the flags as a Hash
