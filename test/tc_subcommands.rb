@@ -14,6 +14,7 @@ class TC_testSubCommand < Clean::Test::TestCase
 
     @app = CLIApp.new
     @app.reset
+    @app.subcommand_option_handling :legacy
     @app.error_device=@fake_stderr
     ENV.delete('GLI_DEBUG')
   end

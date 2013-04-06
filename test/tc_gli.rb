@@ -23,6 +23,7 @@ class TC_testGLI < Clean::Test::TestCase
     @original_stderr = $stderr
     $stderr = @fake_stderr
     @app = CLIApp.new
+
     @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
     @gli_debug = ENV['GLI_DEBUG']
     @app.error_device=@fake_stderr

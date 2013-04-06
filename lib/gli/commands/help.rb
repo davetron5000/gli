@@ -50,6 +50,7 @@ module GLI
               :arguments_name => 'command',
               :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function')
         @app = app
+        @parent = app
         @sorter = SORTERS[@app.help_sort_type]
         @text_wrapping_class = WRAPPERS[@app.help_text_wrap_type]
 

@@ -50,44 +50,52 @@ module GLI
     end
 
     def flag(*names)
-      new_flag = if parent.kind_of? Command
-                   super(*names)
-                   parent.flag(*names)
-                 else
-                   super(*names)
-                 end
-      new_flag.associated_command = self
-      new_flag
-    end
-
-    def switch(*names)
-      new_switch = if parent.kind_of? Command
+      if send_declarations_to_parent?
+        new_flag = if parent.kind_of? Command
                      super(*names)
-                     parent.switch(*names)
+                     parent.flag(*names)
                    else
                      super(*names)
                    end
-      new_switch.associated_command = self
-      new_switch
+        new_flag.associated_command = self
+        new_flag
+      else
+        super(*names)
+      end
+    end
+
+    def switch(*names)
+      if send_declarations_to_parent?
+        new_switch = if parent.kind_of? Command
+                       super(*names)
+                       parent.switch(*names)
+                     else
+                       super(*names)
+                     end
+        new_switch.associated_command = self
+        new_switch
+      else
+        super(*names)
+      end
     end
 
     def desc(d)
-      parent.desc(d) if parent.kind_of? Command
+      parent.desc(d) if parent.kind_of?(Command) && send_declarations_to_parent?
       super(d)
     end
 
     def long_desc(d)
-      parent.long_desc(d) if parent.kind_of? Command
+      parent.long_desc(d) if parent.kind_of?(Command) && send_declarations_to_parent?
       super(d)
     end
 
     def arg_name(d,options=[])
-      parent.arg_name(d,options) if parent.kind_of? Command
+      parent.arg_name(d,options) if parent.kind_of?(Command) && send_declarations_to_parent?
       super(d,options)
     end
 
     def default_value(d)
-      parent.default_value(d) if parent.kind_of? Command
+      parent.default_value(d) if parent.kind_of?(Command) && send_declarations_to_parent?
       super(d)
     end
 
@@ -110,12 +118,7 @@ module GLI
 
     # Executes the command
     def execute(global_options,options,arguments) 
-      #subcommand,arguments = find_subcommand(Array(arguments))
-      #if subcommand
-      #  subcommand.execute(global_options,options,arguments)
-      #else
-        get_action(arguments).call(global_options,options,arguments)
-      #end
+      get_action(arguments).call(global_options,options,arguments)
     end
 
     def topmost_ancestor
@@ -137,6 +140,11 @@ module GLI
     end
 
   private
+
+    def send_declarations_to_parent?
+      app = topmost_ancestor.parent
+      app.nil? ? true : (app.subcommand_option_handling_strategy == :legacy)
+    end
 
     def get_action(arguments)
       if @action

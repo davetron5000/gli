@@ -14,6 +14,7 @@ module GLI
               :skips_pre   => true, :skips_post => true, :skips_around => true, :hidden => true)
 
         @app = app
+        @parent = @app
 
         desc          'The format name of the documentation to generate or the class name to use to generate it'
         default_value 'rdoc'
