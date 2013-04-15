@@ -21,15 +21,16 @@ command [:make] do |c|
       bug.action do |g,o,a|
         puts 'new task bug'
         puts a.join(',')
-        puts o[:legacy]
-        puts o[:long]
-        puts o[:l]
-        puts o[GLI::Command::PARENT][:l]
-        puts o[GLI::Command::PARENT][:long]
-        puts o[GLI::Command::PARENT][:legacy]
-        puts o[GLI::Command::PARENT][GLI::Command::PARENT][:l]
-        puts o[GLI::Command::PARENT][GLI::Command::PARENT][:long]
-        puts o[GLI::Command::PARENT][GLI::Command::PARENT][:legacy]
+        # All this .to_s is to make sure 1.8.7/REE don't convert nil to the string "nil"
+        puts o[:legacy].to_s
+        puts o[:long].to_s
+        puts o[:l].to_s
+        puts o[GLI::Command::PARENT][:l].to_s
+        puts o[GLI::Command::PARENT][:long].to_s
+        puts o[GLI::Command::PARENT][:legacy].to_s
+        puts o[GLI::Command::PARENT][GLI::Command::PARENT][:l].to_s
+        puts o[GLI::Command::PARENT][GLI::Command::PARENT][:long].to_s
+        puts o[GLI::Command::PARENT][GLI::Command::PARENT][:legacy].to_s
       end
     end
   end
@@ -42,9 +43,9 @@ command [:make] do |c|
     context.action do |g,o,a|
       puts 'new context'
       puts a.join(',')
-      puts o[:local]
-      puts o[:long]
-      puts o[:l]
+      puts o[:local].to_s
+      puts o[:long].to_s
+      puts o[:l].to_s
     end
   end
 
