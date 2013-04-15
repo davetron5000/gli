@@ -15,6 +15,7 @@ module GLI
 
         @app = app
         @parent = @app
+        @subcommand_option_handling_strategy = @app.subcommand_option_handling_strategy
 
         desc          'The format name of the documentation to generate or the class name to use to generate it'
         default_value 'rdoc'
@@ -172,11 +173,19 @@ module GLI
       end
 
       def command_flags(command)
-        command.topmost_ancestor.flags.values.select { |flag| flag.associated_command == command }.sort(&by_name)
+        if @subcommand_option_handling_strategy == :legacy
+          command.topmost_ancestor.flags.values.select { |flag| flag.associated_command == command }.sort(&by_name)
+        else
+          command.flags.values.sort(&by_name)
+        end
       end
 
       def command_switches(command)
-        command.topmost_ancestor.switches.values.select { |switch| switch.associated_command == command }.sort(&by_name)
+        if @subcommand_option_handling_strategy == :legacy
+          command.topmost_ancestor.switches.values.select { |switch| switch.associated_command == command }.sort(&by_name)
+        else
+          command.switches.values.sort(&by_name)
+        end
       end
 
       def document_flags_and_switches(document_listener,flags,switches)
