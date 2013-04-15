@@ -15,6 +15,10 @@ module GLI
   class UnknownCommand < BadCommandLine
   end
 
+  # The command issued partially matches more than one command
+  class AmbiguousCommand < BadCommandLine
+  end
+
   # Indicates the bad command line was an unknown global argument
   class UnknownGlobalArgument < BadCommandLine
   end

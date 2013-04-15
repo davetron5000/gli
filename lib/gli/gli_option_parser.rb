@@ -2,8 +2,8 @@ module GLI
   # Parses the command-line options using an actual +OptionParser+
   class GLIOptionParser
     def initialize(commands,flags,switches,accepts,default_command = nil,subcommand_option_handling_strategy=:legacy)
-      @command_finder       = CommandFinder.new(commands,default_command || "help")
-      @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),@command_finder)
+       command_finder       = CommandFinder.new(commands,default_command || "help")
+      @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder)
       @accepts              = accepts
       @subcommand_option_handling_strategy = subcommand_option_handling_strategy
     end
@@ -14,7 +14,7 @@ module GLI
       OptionParsingResult.new.tap { |parsing_result|
         parsing_result.arguments = args
         parsing_result = @global_option_parser.parse!(parsing_result)
-        option_parser_class.new(@accepts,@command_finder).parse!(parsing_result)
+        option_parser_class.new(@accepts).parse!(parsing_result)
       }
     end
 
@@ -36,15 +36,12 @@ module GLI
     end
 
     class NormalCommandOptionParser
-      def initialize(accepts,command_finder)
-        @accepts        = accepts
-        @command_finder = command_finder
+      def initialize(accepts)
+        @accepts = accepts
       end
 
       def error_handler
         lambda { |message,extra_error_context| 
-          #STDERR.puts extra_error_context.flags.inspect
-          #STDERR.puts extra_error_context.switches.inspect
           raise UnknownCommandArgument.new(message,extra_error_context)
         }
       end
@@ -68,11 +65,21 @@ module GLI
 
           begin
             command = command_finder.find_command(next_command_name)
+          rescue AmbiguousCommand
+            arguments.unshift(next_command_name)
+            break
           rescue UnknownCommand
             arguments.unshift(next_command_name)
+            # Although command finder could certainy know if it should use
+            # the default command, it has no way to put the "unknown command"
+            # back into the argument stack.  UGH.
+            unless command.get_default_command.nil?
+              command = command_finder.find_command(command.get_default_command)
+            end
             break
           end
         end
+        parsed_command_options[command] ||= {}
         command_options = parsed_command_options[command]
 
         this_command          = command.parent
@@ -102,9 +109,35 @@ module GLI
         parsing_result.arguments       = option_block_parser.parse!(parsing_result.arguments)
         parsing_result.command_options = option_parser_factory.options_hash_with_defaults_set!
 
-        subcommand,args                = @command_finder.find_subcommand(command,parsing_result.arguments)
+        subcommand,args                = find_subcommand(command,parsing_result.arguments)
         parsing_result.command         = subcommand
         parsing_result.arguments       = args
+      end
+
+    private
+
+      def find_subcommand(command,arguments)
+        arguments = Array(arguments)
+        command_name = if arguments.empty?
+                         nil
+                       else
+                         arguments.first
+                       end
+
+        default_command = command.get_default_command
+        finder = CommandFinder.new(command.commands,default_command.to_s)
+
+        begin
+          results = [finder.find_command(command_name),arguments[1..-1]]
+          find_subcommand(results[0],results[1])
+        rescue UnknownCommand, AmbiguousCommand
+          begin
+            results = [finder.find_command(default_command.to_s),arguments]
+            find_subcommand(results[0],results[1])
+          rescue UnknownCommand, AmbiguousCommand
+            [command,arguments]
+          end
+        end
       end
     end
   end

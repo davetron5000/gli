@@ -171,8 +171,13 @@ module GLI
         next if command_name == :initconfig || command.nil?
         command_config = (config['commands'] || {})[command_name] || {}
 
-        override_default(command.topmost_ancestor.flags,command_config)
-        override_default(command.topmost_ancestor.switches,command_config)
+        if @subcommand_option_handling_strategy == :legacy
+          override_default(command.topmost_ancestor.flags,command_config)
+          override_default(command.topmost_ancestor.switches,command_config)
+        else
+          override_default(command.flags,command_config)
+          override_default(command.switches,command_config)
+        end
 
         override_command_defaults(command.commands,command_config)
       end

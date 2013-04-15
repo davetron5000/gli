@@ -26,7 +26,9 @@ class TC_testHelp < Clean::Test::TestCase
 
   test_that "the help command is configured properly when created" do
     Given {
-      @command = GLI::Commands::Help.new(TestApp.new,@output,@error)
+      app = TestApp.new
+      app.subcommand_option_handling :normal
+      @command = GLI::Commands::Help.new(app,@output,@error)
     }
     Then {
       assert_equal   'help',@command.name.to_s
@@ -42,7 +44,9 @@ class TC_testHelp < Clean::Test::TestCase
 
   test_that "the help command can be configured to skip things declaratively" do
     Given {
-      @command = GLI::Commands::Help.new(TestApp.new,@output,@error)
+      app = TestApp.new
+      app.subcommand_option_handling :normal
+      @command = GLI::Commands::Help.new(app,@output,@error)
       GLI::Commands::Help.skips_pre    = false
       GLI::Commands::Help.skips_post   = false
       GLI::Commands::Help.skips_around = false
@@ -59,7 +63,9 @@ class TC_testHelp < Clean::Test::TestCase
       GLI::Commands::Help.skips_pre    = false
       GLI::Commands::Help.skips_post   = false
       GLI::Commands::Help.skips_around = false
-      @command = GLI::Commands::Help.new(TestApp.new,@output,@error)
+      app = TestApp.new
+      app.subcommand_option_handling :normal
+      @command = GLI::Commands::Help.new(app,@output,@error)
     }
     Then {
       assert !@command.skips_pre
@@ -155,6 +161,7 @@ class TC_testHelp < Clean::Test::TestCase
     Given {
       app = TestApp.new
       app.instance_eval do
+        subcommand_option_handling :normal
         command :top do |top|
           top.command :list do |list|
             list.action do |g,o,a|
@@ -201,6 +208,7 @@ private
       @app = TestApp.new
       @app.instance_eval do
         program_desc program_description
+        subcommand_option_handling :normal
 
         unless omit_options
           flags.each do |(description,arg,flag_names)|

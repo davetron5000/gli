@@ -47,6 +47,7 @@ Feature: The todo app has a nice user interface
         initconfig    - Initialize the config file using current global options
         list          - List things, such as tasks or contexts
         ls            - LS things, such as tasks or contexts
+        make          - 
         second        - 
         third         - 
     """
@@ -59,6 +60,7 @@ Feature: The todo app has a nice user interface
     When I successfully run `todo help -c`
     Then the output should contain:
     """
+    _doc
     ch2
     chained
     chained2
@@ -68,8 +70,10 @@ Feature: The todo app has a nice user interface
     initconfig
     list
     ls
+    make
     new
     second
+    third
     """
 
   Scenario: Help completion mode for partial match
@@ -126,6 +130,7 @@ Feature: The todo app has a nice user interface
         create, new   - Create a new task or context
         list          - List things, such as tasks or contexts
         ls            - LS things, such as tasks or contexts
+        make          - 
         third         - 
         first         - 
         second        - 
@@ -318,7 +323,6 @@ Feature: The todo app has a nice user interface
     first: foo,bar
     """
 
-    @wip
   Scenario: Running ls w/out subcommand shows help and an error
     When I run `todo ls`
     Then the exit status should not be 0
@@ -347,6 +351,23 @@ Feature: The todo app has a nice user interface
         tasks    - List tasks
     """
 
+  Scenario: Access to the complex command-line options for nested subcommands
+    Given I run `todo make -l MAKE task -l TASK bug -l BUG other args`
+    Then the exit status should be 0
+    And the stdout should contain:
+    """
+    new task bug
+    other,args
+    BUG
+    
+    BUG
+    TASK
+    TASK
+
+    MAKE
+    MAKE
+
+    """
 
   Scenario: Init Config makes a reasonable config file
     Given a clean home directory

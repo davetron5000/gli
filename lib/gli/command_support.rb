@@ -177,18 +177,5 @@ module GLI
     def have_subcommands?
       !self.commands.empty?
     end
-
-    #def find_subcommand(arguments)
-    #  finder = CommandFinder.new(self.commands,@default_command.to_s)
-    #  begin
-    #    [finder.find_command(arguments.first),arguments[1..-1]]
-    #  rescue UnknownCommand
-    #    begin
-    #      [finder.find_command(@default_command.to_s),arguments]
-    #    rescue UnknownCommand
-    #      [false,arguments]
-    #    end
-    #  end
-    #end
   end
 end

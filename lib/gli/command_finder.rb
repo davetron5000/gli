@@ -25,33 +25,9 @@ module GLI
       if Array(command_found).empty?
         raise UnknownCommand.new("Unknown command '#{name}'")
       elsif command_found.kind_of? Array
-        raise UnknownCommand.new("Ambiguous command '#{name}'. It matches #{command_found.sort.join(',')}")
+        raise AmbiguousCommand.new("Ambiguous command '#{name}'. It matches #{command_found.sort.join(',')}")
       end
       command_found
-    end
-
-    def find_subcommand(command,arguments)
-      arguments = Array(arguments)
-      command_name = if arguments.empty?
-                       nil
-                     else
-                       arguments.first
-                     end
-
-      default_command = command.get_default_command
-      finder = CommandFinder.new(command.commands,default_command.to_s)
-
-      begin
-        results = [finder.find_command(command_name),arguments[1..-1]]
-        find_subcommand(results[0],results[1])
-      rescue UnknownCommand
-        begin
-          results = [finder.find_command(default_command.to_s),arguments]
-          find_subcommand(results[0],results[1])
-        rescue UnknownCommand
-          [command,arguments]
-        end
-      end
     end
 
   private

@@ -13,10 +13,10 @@ module GLI
         end
 
         def format
-          command_wrapper = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
-          wrapper = @wrapper_class.new(Terminal.instance.size[0],4)
-          flags_and_switches = (@command.topmost_ancestor.flags_declaration_order + @command.topmost_ancestor.switches_declaration_order).select { |option| option.associated_command == @command }
-          options_description = OptionsFormatter.new(flags_and_switches,@sorter,@wrapper_class).format
+          command_wrapper      = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
+          wrapper              = @wrapper_class.new(Terminal.instance.size[0],4)
+          
+          options_description  = OptionsFormatter.new(flags_and_switches(@command,@app),@sorter,@wrapper_class).format
           commands_description = format_subcommands(@command)
 
           synopses = []
@@ -61,7 +61,11 @@ COMMANDS
 
         def command_with_subcommand_usage(sub,is_default_command)
           usage = basic_usage
-          sub_options = @command.flags.merge(@command.switches).select { |_,o| o.associated_command == sub }
+          sub_options = if @app.subcommand_option_handling_strategy == :legacy 
+                          @command.flags.merge(@command.switches).select { |_,o| o.associated_command == sub }
+                        else
+                          sub.flags.merge(sub.switches)
+                        end
           usage << sub_options.map { |option_name,option| 
             all_names = [option.name,Array(option.aliases)].flatten
             all_names.map { |_| 
@@ -78,6 +82,19 @@ COMMANDS
           usage
         end
 
+        def flags_and_switches(command,app)
+          if app.subcommand_option_handling_strategy == :legacy
+            (
+              command.topmost_ancestor.flags_declaration_order + 
+              command.topmost_ancestor.switches_declaration_order
+            ).select { |option| option.associated_command == command }
+          else
+            (
+              command.flags_declaration_order + 
+              command.switches_declaration_order
+            )
+          end
+        end
  
         def basic_usage
           usage = @basic_invocation.dup

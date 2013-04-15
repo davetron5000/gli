@@ -37,9 +37,11 @@ module GLI
       # Configure help to explicitly skip or not skip the pre block when the help command runs.
       # This is here because the creation of the help command is outside of the client programmer's control
       def self.skips_pre=(skips_pre)       ; @@skips_pre = skips_pre       ; end
+
       # Configure help to explicitly skip or not skip the post block when the help command runs.
       # This is here because the creation of the help command is outside of the client programmer's control
       def self.skips_post=(skips_post)     ; @@skips_post = skips_post     ; end
+
       # Configure help to explicitly skip or not skip the around block when the help command runs.
       # This is here because the creation of the help command is outside of the client programmer's control
       def self.skips_around=(skips_around) ; @@skips_around = skips_around ; end
