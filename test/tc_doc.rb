@@ -252,6 +252,7 @@ switch: s
   long_desc: switch long_desc 5
   negatable: false
 switch: version
+  desc: Display the program version
   negatable: false
 command: command1
   aliases: com1
