@@ -159,6 +159,7 @@ module GLI
     # +version+:: String containing the version of your application.  
     def version(version)
       @version = version
+      desc 'Display the program version'
       switch :version, :negatable => false
     end
 
