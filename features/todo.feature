@@ -53,7 +53,13 @@ Feature: The todo app has a nice user interface
     Examples:
       | help      |
       | help      |
-      | --version |
+
+  Scenario: Version display
+    When I successfully run `todo --version`
+    Then the output should contain:
+    """
+    todo version 0.0.1
+    """
 
   Scenario: Help completion mode
     When I successfully run `todo help -c`

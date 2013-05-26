@@ -114,6 +114,10 @@ module GLI
       @stderr ||= STDERR
     end
 
+    def stdout
+      @stdout ||= STDOUT
+    end
+
     def self.included(klass)
       @stderr = $stderr
     end
@@ -208,6 +212,10 @@ module GLI
       end
     end
 
+    def output_version_string
+      stdout.puts "#{File.basename($0)} version #{version_string}"
+    end
+
     def no_message_given?(ex)
       ex.message == ex.class.name
     end
@@ -234,7 +242,10 @@ module GLI
     # True if we should proceed with executing the command; this calls
     # the pre block if it's defined
     def proceed?(global_options,command,options,arguments) #:nodoc:
-      if command && command.skips_pre
+      if global_options[:version]
+        output_version_string
+        false
+      elsif command && command.skips_pre
         true
       else
         pre_block.call(global_options,command,options,arguments) 
