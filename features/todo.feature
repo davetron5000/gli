@@ -166,6 +166,17 @@ Feature: The todo app has a nice user interface
       | list --help     |
 
 
+  Scenario: Getting Help for a top level command of todo with no command options
+    When I successfully run `todo help chained`
+    Then the output should contain:
+    """
+    NAME
+        chained - 
+
+    SYNOPSIS
+        todo [global options] chained
+    """
+
   Scenario: Getting Help with no wrapping
     Given the todo app is coded to avoid wrapping text
     When I successfully run `todo help list`
