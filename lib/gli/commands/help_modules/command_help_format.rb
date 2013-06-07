@@ -81,8 +81,10 @@ COMMANDS
  
         def basic_usage
           usage = @basic_invocation.dup
-          usage << " [global options] #{path_to_command} "
-          usage << "[command options] " unless global_flags_and_switches.empty?
+          usage << " [global options]" unless global_flags_and_switches.empty?
+          usage << " #{path_to_command}"
+          usage << " [command options]" unless command_flags_and_switches.empty?
+          usage << " "
           usage
         end
  
@@ -98,6 +100,10 @@ COMMANDS
  
         def global_flags_and_switches
           @app.flags.merge(@app.switches)
+        end
+ 
+        def command_flags_and_switches
+          (@command.topmost_ancestor.flags_declaration_order + @command.topmost_ancestor.switches_declaration_order).select { |option| option.associated_command == @command }
         end
  
         def format_subcommands(command)
