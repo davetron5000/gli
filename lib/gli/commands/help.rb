@@ -60,7 +60,11 @@ module GLI
         switch :c
 
         action do |global_options,options,arguments|
-          show_help(global_options,options,arguments,output,error)
+          if global_options[:version] && !global_options[:help]
+            puts "#{File.basename($0)} version #{@app.version_string}"
+          else
+            show_help(global_options,options,arguments,output,error)
+          end
         end
       end
 
