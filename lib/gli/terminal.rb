@@ -59,6 +59,10 @@ module GLI
         lambda { (jruby? || (!STDIN.tty? && ENV['TERM'])) && command_exists?('tput') },
         lambda { [run_command('tput cols').to_i, run_command('tput lines').to_i] }
       ],
+      [
+        lambda { (solaris? || STDIN.tty? && command_exists?('stty')) },
+        lambda { run_command('stty').split("\n")[1].scan(/\d+/)[0..1].map { |size_element| size_element.to_i }.reverse }
+      ],
       [ 
         lambda { STDIN.tty? && command_exists?('stty') },
         lambda { run_command('stty size').scan(/\d+/).map { |size_element| size_element.to_i }.reverse }
@@ -89,6 +93,9 @@ module GLI
 
     # True if we are JRuby; exposed to allow for testing
     def self.jruby?; RUBY_PLATFORM =~ /java/; end
+
+    # True if this is running under Solaris Sparc
+    def self.solaris?; RUBY_PLATFORM =~ /solaris/; end
 
   end
 end
