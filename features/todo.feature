@@ -171,6 +171,17 @@ Feature: The todo app has a nice user interface
       | list --help     |
 
 
+  Scenario: Getting Help for a top level command of todo with no command options
+    When I successfully run `todo help chained`
+    Then the output should contain:
+    """
+    NAME
+        chained - 
+
+    SYNOPSIS
+        todo [global options] chained
+    """
+
   Scenario: Getting Help with no wrapping
     Given the todo app is coded to avoid wrapping text
     When I successfully run `todo help list`
@@ -280,9 +291,9 @@ Feature: The todo app has a nice user interface
         create - Create a new task or context
 
     SYNOPSIS
-        todo [global options] create [command options] 
-        todo [global options] create [command options]  contexts [context_name]
-        todo [global options] create [command options]  tasks task_name[, task_name]*
+        todo [global options] create 
+        todo [global options] create  contexts [context_name]
+        todo [global options] create  tasks task_name[, task_name]*
 
     COMMANDS
         <default> - Makes a new task

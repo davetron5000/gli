@@ -157,6 +157,95 @@ class TC_testHelp < Clean::Test::TestCase
     }
   end
 
+  test_that "invoking help with a known command when no global options are present omits [global options] from the usage string" do
+    Given a_GLI_app(:no_options)
+    And {
+      @command_name = cm = any_command_name
+      @desc         = d  = any_desc
+      @long_desc    = ld = any_desc
+      @switch       = s  = any_option
+      @switch_desc  = sd = any_desc
+      @flag         = f  = any_option
+      @flag_desc    = fd = any_desc
+
+      @app.instance_eval do
+        desc d
+        long_desc ld
+        command cm do |c|
+
+          c.desc sd
+          c.switch s
+
+          c.desc fd
+          c.flag f
+
+          c.action {}
+        end
+      end
+      @command = GLI::Commands::Help.new(@app,@output,@error)
+    }
+    When {
+      @command.execute({},{},[@command_name])
+    }
+    Then {
+      refute_output_contained(/\[global options\]/)
+      assert_output_contained(/\[command options\]/)
+      assert_output_contained('COMMAND OPTIONS')
+    }
+  end
+
+  test_that "invoking help with a known command when no global options nor command options are present omits [global options] and [command options] from the usage string" do
+    Given a_GLI_app(:no_options)
+    And {
+      @command_name = cm = any_command_name
+      @desc         = d  = any_desc
+      @long_desc    = ld = any_desc
+
+      @app.instance_eval do
+        desc d
+        long_desc ld
+        command cm do |c|
+          c.action {}
+        end
+      end
+      @command = GLI::Commands::Help.new(@app,@output,@error)
+    }
+    When {
+      @command.execute({},{},[@command_name])
+    }
+    Then {
+      refute_output_contained(/\[global options\]/)
+      refute_output_contained(/\[command options\]/)
+      refute_output_contained('COMMAND OPTIONS')
+    }
+  end
+
+  test_that "invoking help with a known command that has no command options omits [command options] from the usage string" do
+    Given a_GLI_app
+    And {
+      @command_name = cm = any_command_name
+      @desc         = d  = any_desc
+      @long_desc    = ld = any_desc
+
+      @app.instance_eval do
+        desc d
+        long_desc ld
+        command cm do |c|
+          c.action {}
+        end
+      end
+      @command = GLI::Commands::Help.new(@app,@output,@error)
+    }
+    When {
+      @command.execute({},{},[@command_name])
+    }
+    Then {
+      assert_output_contained(/\[global options\]/)
+      refute_output_contained(/\[command options\]/)
+      refute_output_contained('COMMAND OPTIONS')
+    }
+  end
+
   test_that "omitting default_description doesn't blow up" do
     Given {
       app = TestApp.new
