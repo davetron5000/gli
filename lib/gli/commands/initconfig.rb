@@ -1,6 +1,7 @@
 require 'gli'
 require 'gli/command'
 require 'yaml'
+require 'fileutils'
 
 module GLI
   # Command that initializes the configuration file for apps that use it.
