@@ -60,7 +60,7 @@ module GLI
         lambda { [run_command('tput cols').to_i, run_command('tput lines').to_i] }
       ],
       [
-        lambda { (solaris? || STDIN.tty? && command_exists?('stty')) },
+        lambda { (solaris? && STDIN.tty? && command_exists?('stty')) },
         lambda { run_command('stty').split("\n")[1].scan(/\d+/)[0..1].map { |size_element| size_element.to_i }.reverse }
       ],
       [ 

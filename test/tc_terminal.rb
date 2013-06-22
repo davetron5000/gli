@@ -58,16 +58,16 @@ class TC_testTerminal < Clean::Test::TestCase
         if RUBY_PLATFORM == 'java'
           return '5678' if command == 'tput cols'
           return '1234' if command == 'tput lines'
-        elsif RUBY_PLATFORM =~ /solaris/
-          return '1234 5678' if command == 'stty'
         else 
           return '1234 5678' if command == 'stty size'
+          return '1234 5678' if command == 'stty'
         end
 
         raise "Unexpected command called: #{command} for #{RUBY_PLATFORM}"
       end
       def command_exists?(command); true; end
       def jruby?; false; end
+      def solaris?; false; end
     end
     ENV['COLUMNS'] = 'foo'
     assert_equal [5678,1234],terminal.size
@@ -79,6 +79,7 @@ class TC_testTerminal < Clean::Test::TestCase
     GLI::Terminal.instance_eval do
       def command_exists?(command); false; end
       def jruby?; false; end
+      def solaris?; false; end
     end
     ENV['COLUMNS'] = 'foo'
     assert_equal [80,24],terminal.size
@@ -91,6 +92,7 @@ class TC_testTerminal < Clean::Test::TestCase
     terminal = GLI::Terminal.new
     GLI::Terminal.instance_eval do
       def jruby?; raise "Problem"; end
+      def solaris?; false; end
     end
     ENV['COLUMNS'] = 'foo'
     assert_equal [80,24],terminal.size
