@@ -104,7 +104,7 @@ module GLI
     # the command specified will not be executed.
     # The block will receive the global-options,command,options, and arguments
     # If this block evaluates to true, the program will proceed; otherwise
-    # the program will end immediately
+    # the program will end immediately and exit nonzero
     def pre(&a_proc)
       @pre_block = a_proc
     end

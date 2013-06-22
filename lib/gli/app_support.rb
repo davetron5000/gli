@@ -75,8 +75,12 @@ module GLI
 
         the_command = parsing_result.command
 
-        call_command(parsing_result) if proceed?(parsing_result)
-        0
+        if proceed?(parsing_result)
+          call_command(parsing_result) 
+          0
+        else
+          exit_now!(nil,65)
+        end
       rescue Exception => ex
         if the_command.nil? && ex.respond_to?(:command_in_context)
           the_command = ex.command_in_context
