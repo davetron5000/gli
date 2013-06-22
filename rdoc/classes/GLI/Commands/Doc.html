@@ -180,6 +180,8 @@ href="../../GLI.html">GLI</a> app passed in</p>
         <span class="ruby-value">:skips_pre</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_around</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:hidden</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
 
   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
+  <span class="ruby-ivar">@parent</span> = <span class="ruby-ivar">@app</span>
+  <span class="ruby-ivar">@subcommand_option_handling_strategy</span> = <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">subcommand_option_handling_strategy</span>
 
   <span class="ruby-identifier">desc</span>          <span class="ruby-string">'The format name of the documentation to generate or the class name to use to generate it'</span>
   <span class="ruby-identifier">default_value</span> <span class="ruby-string">'rdoc'</span>
@@ -187,7 +189,7 @@ href="../../GLI.html">GLI</a> app passed in</p>
   <span class="ruby-identifier">flag</span>          <span class="ruby-value">:format</span>
 
   <span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">document</span>(<span class="ruby-identifier">format_class</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:format</span>]).<span class="ruby-identifier">new</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>))
+    <span class="ruby-keyword">self</span>.<span class="ruby-identifier">document</span>(<span class="ruby-identifier">format_class</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:format</span>]).<span class="ruby-identifier">new</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>,<span class="ruby-identifier">app</span>))
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -222,7 +224,7 @@ href="../../GLI.html">GLI</a> app passed in</p>
                 
               </p>
               <div id="method-i-document_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 33</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">document</span>(<span class="ruby-identifier">document_listener</span>)
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">beginning</span>
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">program_desc</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>.<span class="ruby-identifier">nil?</span>
@@ -272,7 +274,7 @@ href="../../GLI.html">GLI</a> app passed in</p>
                 
               </p>
               <div id="method-i-nodoc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 28</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">nodoc</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>

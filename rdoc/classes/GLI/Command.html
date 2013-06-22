@@ -161,6 +161,24 @@ importantly <a href="Command.html#method-i-action">action</a>.</p>
     
 
     
+      <!-- Section constants -->
+      <div class="sectiontitle">Constants</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class="attr-name">PARENT</td>
+            <td>=</td>
+            <td class="attr-value">Object.new</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"><p>Key in an options hash to find the parent's parsed options</p></td>
+            </tr>
+          
+        
+      </table>
+    
 
 
     
@@ -228,7 +246,7 @@ called</p>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 46</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 47</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:names</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:description</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:long_desc</span>])
   <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_name</span>] <span class="ruby-operator">||</span> <span class="ruby-string">''</span>
@@ -237,6 +255,8 @@ called</p>
   <span class="ruby-ivar">@skips_post</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_post</span>]
   <span class="ruby-ivar">@skips_around</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_around</span>]
   <span class="ruby-ivar">@commands_declaration_order</span> = []
+  <span class="ruby-ivar">@flags_declaration_order</span> = []
+  <span class="ruby-ivar">@switches_declaration_order</span> = []
   <span class="ruby-identifier">clear_nexts</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -295,7 +315,7 @@ early exit based on an error condition</p>
                 
               </p>
               <div id="method-i-action_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 80</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">action</span>(&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
@@ -337,7 +357,7 @@ default as a String or Symbol.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 62</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 65</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command_name</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -421,7 +441,7 @@ subcommand's description will be used to describe what happens by default.</p>
                 
               </p>
               <div id="method-i-default_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 132</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 135</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@default_desc</span> = <span class="ruby-identifier">desc</span>
 <span class="ruby-keyword">end</span></pre>

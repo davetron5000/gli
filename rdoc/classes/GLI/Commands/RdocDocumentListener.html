@@ -226,7 +226,7 @@
         <div class="method">
           <div class="title method-title" id="method-c-new">
             
-              <a name="method-c-new"></a><b>new</b>(global_options,options,arguments)
+              <a name="method-c-new"></a><b>new</b>(global_options,options,arguments,app)
             
           </div>
           
@@ -249,8 +249,8 @@
               </p>
               <div id="method-c-new_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 7</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>)
-  <span class="ruby-ivar">@io</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">basename</span>(<span class="ruby-identifier">$0</span>) <span class="ruby-operator">+</span> <span class="ruby-string">&quot;.rdoc&quot;</span>,<span class="ruby-string">'w'</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>,<span class="ruby-identifier">app</span>)
+  <span class="ruby-ivar">@io</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;#{app.exe_name}.rdoc&quot;</span>,<span class="ruby-string">'w'</span>)
   <span class="ruby-ivar">@nest</span> = <span class="ruby-string">''</span>
   <span class="ruby-ivar">@arg_name_formatter</span> = <span class="ruby-constant">GLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Commands</span><span class="ruby-operator">::</span><span class="ruby-constant">HelpModules</span><span class="ruby-operator">::</span><span class="ruby-constant">ArgNameFormatter</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -429,7 +429,7 @@ this command</p>
               <div id="method-i-end_command_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 92</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_command</span>(<span class="ruby-identifier">name</span>)
-  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">%r=$/</span>,<span class="ruby-string">''</span>)
+  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/=$/</span>,<span class="ruby-string">''</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -463,7 +463,7 @@ this command</p>
               <div id="method-i-end_commands_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 101</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_commands</span>
-  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">%r=$/</span>,<span class="ruby-string">''</span>)
+  <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/=$/</span>,<span class="ruby-string">''</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -645,7 +645,7 @@ this command</p>
               <div id="method-i-program_desc_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_desc</span>(<span class="ruby-identifier">desc</span>)
-  <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;== #{File.basename($0)} - #{desc}&quot;</span>
+  <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;== #{@app.exe_name} - #{desc}&quot;</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -691,7 +691,7 @@ this command</p>
         <div class="method">
           <div class="title method-title" id="method-i-switch">
             
-              <a name="method-i-switch"></a><b>switch</b>(name,aliases,desc,long_desc,negetable)
+              <a name="method-i-switch"></a><b>switch</b>(name,aliases,desc,long_desc,negatable)
             
           </div>
           
@@ -714,8 +714,8 @@ this command</p>
               </p>
               <div id="method-i-switch_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 61</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">aliases</span>,<span class="ruby-identifier">desc</span>,<span class="ruby-identifier">long_desc</span>,<span class="ruby-identifier">negetable</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">negetable</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">aliases</span>,<span class="ruby-identifier">desc</span>,<span class="ruby-identifier">long_desc</span>,<span class="ruby-identifier">negatable</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">negatable</span>
     <span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;[no-]#{name}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-number">1</span>
     <span class="ruby-identifier">aliases</span> = <span class="ruby-identifier">aliases</span>.<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span>  <span class="ruby-identifier">_</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-number">1</span> <span class="ruby-operator">?</span> <span class="ruby-node">&quot;[no-]#{_}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">_</span> } 
   <span class="ruby-keyword">end</span>

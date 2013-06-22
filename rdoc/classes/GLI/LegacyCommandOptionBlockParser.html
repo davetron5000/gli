@@ -3,7 +3,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>GLI::CustomExit</title>
+    <title>GLI::LegacyCommandOptionBlockParser</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
@@ -20,37 +20,23 @@
         
         <h1>
             <span class="type">Class</span> 
-            GLI::CustomExit 
+            GLI::LegacyCommandOptionBlockParser 
             
                 <span class="parent">&lt; 
                     
-                    StandardError
+                    <a href="CommandOptionBlockParser.html">GLI::CommandOptionBlockParser</a>
                     
                 </span>
             
         </h1>
         <ul class="files">
             
-            <li><a href="../../files/lib/gli/exceptions_rb.html">lib/gli/exceptions.rb</a></li>
+            <li><a href="../../files/lib/gli/gli_option_block_parser_rb.html">lib/gli/gli_option_block_parser.rb</a></li>
             
         </ul>
     </div>
     <div id="bodyContent">
         <div id="content">
-  
-    <div class="description">
-      
-<p>Raise this if you want to use an exit status that isn't the default
-provided by <a href="../GLI.html">GLI</a>.  Note that <a
-href="App.html#method-i-exit_now-21">GLI::App#exit_now!</a> might be a bit
-more to your liking.</p>
-
-<p>Example:</p>
-
-<pre>raise CustomExit.new(&quot;Not connected to DB&quot;,-5) unless connected?
-raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
-
-    </div>
   
 
 
@@ -69,13 +55,13 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
     <div class="sectiontitle">Methods</div>
     <dl class="methods">
       
-        <dt>N</dt>
+        <dt>B</dt>
         <dd>
           <ul>
             
               
               <li>
-                <a href="#method-c-new">new</a>
+                <a href="#method-i-break_on_non_option-3F">break_on_non_option?</a>
               </li>
             
           </ul>
@@ -84,20 +70,6 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
     </dl>
   
 
-  
-    <!-- Includes -->
-    <div class="sectiontitle">Included Modules</div>
-    <ul>
-      
-        <li>
-          
-            <a href="StandardException.html">
-              GLI::StandardException
-            </a>
-          
-        </li>
-      
-    </ul>
   
 
 
@@ -115,26 +87,19 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
 
 
     <!-- Methods -->
-    
-      <div class="sectiontitle">Class Public methods</div>
+        
+      <div class="sectiontitle">Instance Protected methods</div>
       
         <div class="method">
-          <div class="title method-title" id="method-c-new">
+          <div class="title method-title" id="method-i-break_on_non_option-3F">
             
-              <a name="method-c-new"></a><b>new</b>(message,exit_code)
+              <a name="method-i-break_on_non_option-3F"></a><b>break_on_non_option?</b>()
             
           </div>
           
           
             <div class="description">
-              <p>Create a custom exit exception</p>
-<dl class="rdoc-list note-list"><dt>message
-<dd>
-<p>String containing error message to show the user</p>
-</dd><dt>exit_code
-<dd>
-<p>the exit code to use (as an Int), overridding GLI's default</p>
-</dd></dl>
+              
             </div>
           
           
@@ -146,20 +111,19 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
               
               <p class="source-link">
                 Source: 
-                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
+                <a href="javascript:toggleSource('method-i-break_on_non_option-3F_source')" id="l_method-i-break_on_non_option-3F_source">show</a>
                 
               </p>
-              <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 61</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
-  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">message</span>)
-  <span class="ruby-ivar">@exit_code</span> = <span class="ruby-identifier">exit_code</span>
+              <div id="method-i-break_on_non_option-3F_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">break_on_non_option?</span>
+  <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-                        </div>
+                    </div>
     </div>
   </body>
 </html>    

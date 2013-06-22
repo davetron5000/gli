@@ -331,7 +331,7 @@ as described above.</p>
                 
               </p>
               <div id="method-i-command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 144</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 150</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">command_options</span> = {
     <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_desc</span>,
@@ -390,12 +390,16 @@ as described above.</p>
           
           
             <div class="description">
-              <p>set the default value of the next flag</p>
+              <p>set the default value of the next flag or switch</p>
 <dl class="rdoc-list note-list"><dt>val
 <dd>
-<p>A String reprensenting the default value to be used for the following flag
-if the user doesn't specify one and, when using a config file, the config
-also doesn't specify one</p>
+<p>The default value to be used for the following flag if the user doesn't
+specify one and, when using a config file, the config also doesn't specify
+one.  For a switch, this is the value to be used if the switch isn't
+specified on the command-line.  Note that if you set a switch to have a
+default of true, using the switch on the command-line has no effect. To
+disable a switch where the default is true, use the <code>--no-</code>
+form.</p>
 </dd></dl>
             </div>
           
@@ -412,7 +416,7 @@ also doesn't specify one</p>
                 
               </p>
               <div id="method-i-default_value_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 43</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 46</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_value</span>(<span class="ruby-identifier">val</span>); <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-identifier">val</span>; <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -524,7 +528,7 @@ coversion</p>
 <pre class="ruby"><span class="ruby-identifier">desc</span> <span class="ruby-string">'Set the filename'</span>
 <span class="ruby-identifier">flag</span> [:<span class="ruby-identifier">f</span>,:<span class="ruby-identifier">filename</span>,<span class="ruby-string">'file-name'</span>]
 
-<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">ipaddress</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;IP Address&quot;</span>, :<span class="ruby-identifier">must_match</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">%r\d+\.\d+\.\d+\.\d+/</span>
+<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">ipaddress</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;IP Address&quot;</span>, :<span class="ruby-identifier">must_match</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">/\d+\.\d+\.\d+\.\d+/</span>
 
 <span class="ruby-identifier">flag</span> :<span class="ruby-identifier">names</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list of names&quot;</span>, :<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Array</span>
 </pre>
@@ -551,7 +555,7 @@ coversion</p>
                 
               </p>
               <div id="method-i-flag_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 68</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 71</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">flag</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>
@@ -561,6 +565,7 @@ coversion</p>
   <span class="ruby-identifier">flags</span>[<span class="ruby-identifier">flag</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">flag</span>
 
   <span class="ruby-identifier">clear_nexts</span>
+  <span class="ruby-identifier">flags_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">flag</span>
   <span class="ruby-identifier">flag</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -647,6 +652,10 @@ hash of options:</p>
 <dd>
 <p>the long_description, instead of using <a
 href="DSL.html#method-i-long_desc">long_desc</a></p>
+</dd><dt><code>:default_value</code>
+<dd>
+<p>if the switch is omitted, use this as the default value.  By default, 
+switches default to off, or <code>false</code></p>
 </dd><dt><code>:negatable</code>
 <dd>
 <p>if true, this switch will get a negatable form (e.g.
@@ -672,7 +681,7 @@ href="DSL.html#method-i-long_desc">long_desc</a></p>
                 
               </p>
               <div id="method-i-switch_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 88</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>
@@ -682,6 +691,7 @@ href="DSL.html#method-i-long_desc">long_desc</a></p>
   <span class="ruby-identifier">switches</span>[<span class="ruby-identifier">switch</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">switch</span>
 
   <span class="ruby-identifier">clear_nexts</span>
+  <span class="ruby-identifier">switches_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">switch</span>
   <span class="ruby-identifier">switch</span>
 <span class="ruby-keyword">end</span></pre>
               </div>

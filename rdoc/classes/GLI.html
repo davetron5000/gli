@@ -25,9 +25,13 @@
         </h1>
         <ul class="files">
             
+            <li><a href="../files/lib/gli_rb.html">lib/gli.rb</a></li>
+            
             <li><a href="../files/lib/gli/app_rb.html">lib/gli/app.rb</a></li>
             
             <li><a href="../files/lib/gli/command_rb.html">lib/gli/command.rb</a></li>
+            
+            <li><a href="../files/lib/gli/command_finder_rb.html">lib/gli/command_finder.rb</a></li>
             
             <li><a href="../files/lib/gli/command_line_option_rb.html">lib/gli/command_line_option.rb</a></li>
             
@@ -41,13 +45,15 @@
             
             <li><a href="../files/lib/gli/commands/rdoc_document_listener_rb.html">lib/gli/commands/rdoc_document_listener.rb</a></li>
             
-            <li><a href="../files/lib/gli/copy_options_to_aliases_rb.html">lib/gli/copy_options_to_aliases.rb</a></li>
-            
             <li><a href="../files/lib/gli/dsl_rb.html">lib/gli/dsl.rb</a></li>
             
             <li><a href="../files/lib/gli/exceptions_rb.html">lib/gli/exceptions.rb</a></li>
             
             <li><a href="../files/lib/gli/flag_rb.html">lib/gli/flag.rb</a></li>
+            
+            <li><a href="../files/lib/gli/gli_option_block_parser_rb.html">lib/gli/gli_option_block_parser.rb</a></li>
+            
+            <li><a href="../files/lib/gli/option_parsing_result_rb.html">lib/gli/option_parsing_result.rb</a></li>
             
             <li><a href="../files/lib/gli/options_rb.html">lib/gli/options.rb</a></li>
             
@@ -56,8 +62,6 @@
             <li><a href="../files/lib/gli/terminal_rb.html">lib/gli/terminal.rb</a></li>
             
             <li><a href="../files/lib/gli/version_rb.html">lib/gli/version.rb</a></li>
-            
-            <li><a href="../files/lib/gli_rb.html">lib/gli.rb</a></li>
             
         </ul>
     </div>
@@ -100,6 +104,11 @@
       
         <li>
           <span class="type">CLASS</span>
+          <a href="GLI/AmbiguousCommand.html">GLI::AmbiguousCommand</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
           <a href="GLI/BadCommandLine.html">GLI::BadCommandLine</a>
         </li>
       
@@ -110,12 +119,42 @@
       
         <li>
           <span class="type">CLASS</span>
+          <a href="GLI/CommandException.html">GLI::CommandException</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
+          <a href="GLI/CommandFinder.html">GLI::CommandFinder</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
           <a href="GLI/CommandLineToken.html">GLI::CommandLineToken</a>
         </li>
       
         <li>
           <span class="type">CLASS</span>
+          <a href="GLI/CommandOptionBlockParser.html">GLI::CommandOptionBlockParser</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
           <a href="GLI/CustomExit.html">GLI::CustomExit</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
+          <a href="GLI/GLIOptionBlockParser.html">GLI::GLIOptionBlockParser</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
+          <a href="GLI/LegacyCommandOptionBlockParser.html">GLI::LegacyCommandOptionBlockParser</a>
+        </li>
+      
+        <li>
+          <span class="type">CLASS</span>
+          <a href="GLI/OptionParsingResult.html">GLI::OptionParsingResult</a>
         </li>
       
         <li>
@@ -211,7 +250,7 @@
           <tr valign='top'>
             <td class="attr-name">VERSION</td>
             <td>=</td>
-            <td class="attr-value">'2.4.0'</td>
+            <td class="attr-value">'2.6.0'</td>
           </tr>
           
             <tr valign='top'>
@@ -256,7 +295,7 @@
                 
               </p>
               <div id="method-c-included_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli.rb, line 24</span>
+                <pre><span class="ruby-comment"># File lib/gli.rb, line 26</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass</span>)
   <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;You should include GLI::App instead&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -290,7 +329,7 @@
                 
               </p>
               <div id="method-c-run_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli.rb, line 28</span>
+                <pre><span class="ruby-comment"># File lib/gli.rb, line 30</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">run</span>(*<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;GLI.run no longer works for GLI-2, you must just call `run(ARGV)' instead&quot;</span>
   <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;either fix your app, or use the latest GLI in the 1.x family&quot;</span>
