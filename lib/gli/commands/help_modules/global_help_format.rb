@@ -35,7 +35,7 @@ module GLI
       private
 
         GLOBAL_HELP = ERB.new(%q(NAME
-    <%= File.basename($0) %> - <%= program_desc %>
+    <%= @app.exe_name %> - <%= program_desc %>
 <%= program_long_desc %>
 SYNOPSIS
     <%= usage_string %>
@@ -58,7 +58,7 @@ COMMANDS
         end
 
         def usage_string
-          "#{File.basename($0)} ".tap do |string|
+          "#{@app.exe_name} ".tap do |string|
             string << "[global options] " unless global_flags_and_switches.empty?
             string << "command "
             string << "[command options] [arguments...]"

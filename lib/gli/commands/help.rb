@@ -61,7 +61,7 @@ module GLI
 
         action do |global_options,options,arguments|
           if global_options[:version] && !global_options[:help]
-            puts "#{File.basename($0)} version #{@app.version_string}"
+            puts "#{@app.exe_name} version #{@app.version_string}"
           else
             show_help(global_options,options,arguments,output,error)
           end
@@ -85,7 +85,7 @@ module GLI
           name = arguments.shift
           command = command_finder.find_command(name)
           unless command.nil?
-            out.puts HelpModules::CommandHelpFormat.new(command,@app,File.basename($0).to_s,@sorter,@text_wrapping_class).format
+            out.puts HelpModules::CommandHelpFormat.new(command,@app,@app.exe_name.to_s,@sorter,@text_wrapping_class).format
           end
         end
       end

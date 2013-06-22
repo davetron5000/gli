@@ -4,8 +4,8 @@ module GLI
   module Commands
     class RdocDocumentListener
 
-      def initialize(global_options,options,arguments)
-        @io = File.new(File.basename($0) + ".rdoc",'w')
+      def initialize(global_options,options,arguments,app)
+        @io = File.new("#{app.exe_name}.rdoc",'w')
         @nest = ''
         @arg_name_formatter = GLI::Commands::HelpModules::ArgNameFormatter.new
       end
@@ -20,7 +20,7 @@ module GLI
 
       # Gives you the program description
       def program_desc(desc)
-        @io.puts "== #{File.basename($0)} - #{desc}"
+        @io.puts "== #{@app.exe_name} - #{desc}"
         @io.puts
       end
 

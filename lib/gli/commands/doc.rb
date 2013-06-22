@@ -23,7 +23,7 @@ module GLI
         flag          :format
 
         action do |global_options,options,arguments|
-          self.document(format_class(options[:format]).new(global_options,options,arguments))
+          self.document(format_class(options[:format]).new(global_options,options,arguments,app))
         end
       end
 
@@ -54,6 +54,12 @@ module GLI
 
       # Interface for a listener that is called during various parts of the doc process
       class DocumentListener
+        def initialize(global_options,options,arguments,app)
+          @global_options = global_options
+          @options        = options
+          @arguments      = arguments
+          @app            = app
+        end
         # Called before processing begins
         def beginning
           abstract!
