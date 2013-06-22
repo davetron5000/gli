@@ -36,7 +36,7 @@ Feature: The todo app has a nice user interface
         --help             - Show this message
         --[no-]otherswitch - 
         --[no-]switch      - 
-        --version          - 
+        --version          - Display the program version
 
     COMMANDS
         chained       - 
@@ -54,7 +54,13 @@ Feature: The todo app has a nice user interface
     Examples:
       | help      |
       | help      |
-      | --version |
+
+  Scenario: Version display
+    When I successfully run `todo --version`
+    Then the output should contain:
+    """
+    todo version 0.0.1
+    """
 
   Scenario: Help completion mode
     When I successfully run `todo help -c`
@@ -121,7 +127,7 @@ Feature: The todo app has a nice user interface
         --flag=arg         - (default: none)
         --[no-]switch      - 
         --[no-]otherswitch - 
-        --version          - 
+        --version          - Display the program version
         --help             - Show this message
 
     COMMANDS

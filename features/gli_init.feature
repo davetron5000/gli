@@ -66,7 +66,7 @@ Feature: The scaffold GLI generates works
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
-        --version                               - 
+        --version                               - Display the program version
     
     COMMANDS
         add      - Describe add here
@@ -92,7 +92,7 @@ Feature: The scaffold GLI generates works
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
-        --version                               - 
+        --version                               - Display the program version
     
     COMMANDS
         add      - Describe add here

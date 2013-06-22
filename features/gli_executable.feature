@@ -27,7 +27,7 @@ Feature: The GLI executable works as intended
         -n             - Dry run; dont change the disk
         -r, --root=arg - Root dir of project (default: .)
         -v             - Be verbose
-        --version      - 
+        --version      - Display the program version
 
     COMMANDS
         help           - Shows a list of commands or help for one command
