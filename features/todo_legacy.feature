@@ -88,9 +88,9 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
         create - Create a new task or context
 
     SYNOPSIS
-        todo [global options] create [command options] 
-        todo [global options] create [command options]  contexts [context_name]
-        todo [global options] create [command options]  tasks task_name[, task_name]*
+        todo [global options] create 
+        todo [global options] create  contexts [context_name]
+        todo [global options] create  tasks task_name[, task_name]*
 
     COMMANDS
         <default> - Makes a new task
