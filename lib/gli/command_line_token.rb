@@ -18,6 +18,11 @@ module GLI
       self.name.to_s <=> other.name.to_s
     end
 
+    # Array of the name and aliases, as string
+    def names_and_aliases
+      [self.name,self.aliases].flatten.compact.map(&:to_s)
+    end
+
     private
     # Returns a string of all possible forms
     # of this flag.  Mostly intended for printing

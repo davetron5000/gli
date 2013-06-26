@@ -37,8 +37,12 @@ module GLI
   private
 
     def set_defaults(options_by_name,options_hash)
-      options_by_name.each do |name,option|
-        options_hash[name] = option.default_value if options_hash[name].nil?
+      options_by_name.values.each do |option|
+        option.names_and_aliases.each do |option_name|
+          [option_name,option_name.to_sym].each do |name|
+            options_hash[name] = option.default_value if options_hash[name].nil?
+          end
+        end
       end
     end
 
@@ -53,7 +57,7 @@ module GLI
     def self.setup_options(opts,tokens,options)
       tokens.each do |ignore,token|
         opts.on(*token.arguments_for_option_parser) do |arg|
-          [token.name,token.aliases].flatten.compact.map(&:to_s).each do |name|
+          token.names_and_aliases.each do |name|
             options[name] = arg
             options[name.to_sym] = arg
           end

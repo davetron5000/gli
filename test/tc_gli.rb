@@ -419,11 +419,11 @@ class TC_testGLI < Clean::Test::TestCase
       c.flag :i
       c.flag :s
       c.action do |g,o,a|
-        assert_equal "5", o[:i]
-        assert_equal "a", o[:s]
+        assert_equal "1", o[:i]
+        assert_equal nil, o[:s]
       end
     end
-    @app.run(['foo', '-i','5','-s','a'])
+    @app.run(['foo','a'])
   end
 
   def test_switch_with_default_of_true
@@ -478,6 +478,39 @@ class TC_testGLI < Clean::Test::TestCase
       end
     end
     @app.run(['foo', '-i5','-sa'])
+  end
+
+  def test_default_values_are_available_on_all_aliases
+    @app.reset
+    @app.on_error { |e| raise e }
+
+    @app.default_value "global_default"
+    @app.flag [ :f, :flag ]
+
+    @global_options = {}
+    @command_options = {}
+
+    @app.command [:foo] do |c|
+      c.default_value "command_default"
+      c.flag [ :c,:commandflag]
+
+      c.action do |g,o,a|
+        @global_options = g
+        @command_options = o
+      end
+    end
+
+    @app.run(["foo"])
+
+    assert_equal "global_default", @global_options[:f]
+    assert_equal "global_default", @global_options[:flag]
+    assert_equal "global_default", @global_options["f"]
+    assert_equal "global_default", @global_options["flag"]
+
+    assert_equal "command_default", @command_options[:c]
+    assert_equal "command_default", @command_options[:commandflag]
+    assert_equal "command_default", @command_options["c"]
+    assert_equal "command_default", @command_options["commandflag"]
   end
 
   def test_exits_zero_on_success

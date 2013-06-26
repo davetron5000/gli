@@ -67,8 +67,7 @@ COMMANDS
                           sub.flags.merge(sub.switches)
                         end
           usage << sub_options.map { |option_name,option| 
-            all_names = [option.name,Array(option.aliases)].flatten
-            all_names.map { |_| 
+            option.names_and_aliases.map { |_| 
               CommandLineOption.name_as_string(_,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
             }.join('|')
           }.map { |_| "[#{_}]" }.sort.join(' ')

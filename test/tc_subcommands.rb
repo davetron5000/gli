@@ -137,10 +137,12 @@ class TC_testSubCommand < Clean::Test::TestCase
 
   def indifferent_hash(possibly_nil_hash)
     return {} if possibly_nil_hash.nil?
-    keys = possibly_nil_hash.keys
-    keys.map(&:to_s).each do |key|
-      possibly_nil_hash[key.to_sym] = possibly_nil_hash[key] if possibly_nil_hash[key]
-      possibly_nil_hash[key] = possibly_nil_hash[key.to_sym] if possibly_nil_hash[key.to_sym]
+    possibly_nil_hash.keys.each do |key|
+      if key.kind_of? Symbol
+        possibly_nil_hash[key.to_s] = possibly_nil_hash[key] unless possibly_nil_hash.has_key?(key.to_s)
+      elsif key.kind_of? String
+        possibly_nil_hash[key.to_sym] = possibly_nil_hash[key] unless possibly_nil_hash.has_key?(key.to_sym)
+      end
     end
     possibly_nil_hash
   end
