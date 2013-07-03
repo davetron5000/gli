@@ -79,7 +79,7 @@ module GLI
           call_command(parsing_result) 
           0
         else
-          exit_now!(nil,65)
+          raise PreconditionFailed, "preconditions failed"
         end
       rescue Exception => ex
         if the_command.nil? && ex.respond_to?(:command_in_context)

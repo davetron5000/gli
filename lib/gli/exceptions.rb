@@ -11,6 +11,11 @@ module GLI
     def exit_code; 64; end
   end
 
+  class PreconditionFailed < StandardError
+    include StandardException
+    def exit_code; 65; end
+  end
+
   # Indicates the bad command line was an unknown command
   class UnknownCommand < BadCommandLine
   end

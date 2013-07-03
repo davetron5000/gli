@@ -355,7 +355,7 @@ class TC_testCommand < Clean::Test::TestCase
     @app.pre { |*| false }
 
     assert_equal 65,@app.run(["bs"]) # BSD for "input data incorrect in some way"
-    assert_equal '',@fake_stderr.to_s
+    assert_equal 'error: preconditions failed',@fake_stderr.to_s
     assert_equal '',@fake_stdout.to_s
   end
 
