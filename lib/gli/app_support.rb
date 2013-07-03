@@ -61,7 +61,7 @@ module GLI
       begin
         override_defaults_based_on_config(parse_config)
 
-        add_help_switch_if_needed(switches)
+        add_help_switch_if_needed(self)
 
         gli_option_parser = GLIOptionParser.new(commands,
                                                 flags,
@@ -231,15 +231,13 @@ module GLI
 
     end
 
-    def add_help_switch_if_needed(switches)
-      help_switch_exists = switches.values.find { |switch| 
-        (Array(switch.aliases) + [switch.name]).find { |an_alias| 
-          an_alias.to_s == 'help' 
-        } 
+    def add_help_switch_if_needed(target)
+      help_switch_exists = target.switches.values.find { |switch| 
+        switch.names_and_aliases.map(&:to_s).find { |an_alias| an_alias == 'help' } 
       }
       unless help_switch_exists
-        desc 'Show this message'
-        switch :help, :negatable => false
+        target.desc 'Show this message'
+        target.switch :help, :negatable => false
       end
     end
 
