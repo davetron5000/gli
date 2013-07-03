@@ -175,6 +175,7 @@ Feature: The todo app has a nice user interface
       | help list       |
       | list -h         |
       | list --help     |
+      | --help list     |
 
 
   Scenario: Getting Help for a top level command of todo with no command options
