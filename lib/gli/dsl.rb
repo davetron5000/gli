@@ -164,7 +164,8 @@ module GLI
         command.parent = self
         commands[command.name] = command
       else
-        command = Command.new(command_options.merge(:names => [names].flatten))
+        new_command = Command.new(command_options.merge(:names => [names].flatten))
+        command = commands[new_command.name] || new_command
         command.parent = self
         commands[command.name] = command
         yield command
