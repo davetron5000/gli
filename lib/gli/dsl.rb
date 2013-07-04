@@ -157,20 +157,25 @@ module GLI
         :skips_post => @skips_post,
         :skips_around => @skips_around,
       }
+      @commands_declaration_order ||= []
       if names.first.kind_of? Hash
         command = GLI::Commands::CompoundCommand.new(self,
                                                      names.first,
                                                      command_options)
         command.parent = self
         commands[command.name] = command
+        @commands_declaration_order << command
       else
-        command = Command.new(command_options.merge(:names => [names].flatten))
-        command.parent = self
-        commands[command.name] = command
+        new_command = Command.new(command_options.merge(:names => [names].flatten))
+        command = commands[new_command.name]
+        if command.nil?
+          command = new_command
+          command.parent = self
+          commands[command.name] = command
+          @commands_declaration_order << command
+        end
         yield command
       end
-      @commands_declaration_order ||= []
-      @commands_declaration_order << command
       clear_nexts
     end
     alias :c :command
