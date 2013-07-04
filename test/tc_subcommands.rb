@@ -68,7 +68,21 @@ class TC_testSubCommand < Clean::Test::TestCase
     Then { assert_equal(@ran_command, :add) }
   end
 
-  test_that "we can reopening commands doesn't cause conflicts" do
+  test_that "reopening commands doesn't re-add them to the output" do
+    Given {
+      @app.command :remote do |p|
+        p.command(:add) { }
+      end
+      @app.command :remote do |p|
+        p.command(:new) { }
+      end
+    }
+    command_names = @app.instance_variable_get("@commands_declaration_order").collect { |c| c.name }
+    assert_equal 1, command_names.grep(:remote).size
+  end
+
+
+  test_that "we can reopen commands doesn't cause conflicts" do
     Given {
       @app.command :remote do |p|
         p.command :add do |c|
