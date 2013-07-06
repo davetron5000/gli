@@ -45,6 +45,67 @@ class TC_testSubCommand < Clean::Test::TestCase
                                        :args => ['bar'])
   end
 
+  test_that "we can reopen commands to add new subcommands" do
+    Given {
+      @app.command :remote do |p|
+        p.command :add do |c|
+          c.action do |global_options,command_options,args|
+            @ran_command = :add
+          end
+        end
+      end
+      @app.command :remote do |p|
+        p.command :new do |c|
+          c.action do |global_options,command_options,args|
+            @ran_command = :new
+          end
+        end
+      end
+    }
+    When run_app('remote','new')
+    Then { assert_equal(@ran_command, :new) }
+    When run_app('remote', 'add')
+    Then { assert_equal(@ran_command, :add) }
+  end
+
+  test_that "reopening commands doesn't re-add them to the output" do
+    Given {
+      @app.command :remote do |p|
+        p.command(:add) { }
+      end
+      @app.command :remote do |p|
+        p.command(:new) { }
+      end
+    }
+    command_names = @app.instance_variable_get("@commands_declaration_order").collect { |c| c.name }
+    assert_equal 1, command_names.grep(:remote).size
+  end
+
+
+  test_that "we can reopen commands doesn't cause conflicts" do
+    Given {
+      @app.command :remote do |p|
+        p.command :add do |c|
+          c.action do |global_options,command_options,args|
+            @ran_command = :remote_add
+          end
+        end
+      end
+      @app.command :local do |p|
+        p.command :add do |c|
+          c.action do |global_options,command_options,args|
+            @ran_command = :local_add
+          end
+        end
+      end
+    }
+    When run_app('remote','add')
+    Then { assert_equal(@ran_command, :remote_add) }
+    When run_app('local', 'add')
+    Then { assert_equal(@ran_command, :local_add) }
+  end
+
+
   test_that "we can nest subcommands very deep" do
     Given {
       @run_results = { :add => nil, :rename => nil, :base => nil }
