@@ -211,6 +211,8 @@ module GLI
             commands[:help].execute({},{},command.nil? ? [] : [command.name.to_s])
           end
         end
+      elsif ENV['GLI_DEBUG'] == 'true'
+        stderr.puts "Custom error handler exited false, skipping normal error handling"
       end
 
       raise ex if ENV['GLI_DEBUG'] == 'true'
@@ -254,7 +256,8 @@ module GLI
     # Returns true if we should proceed with GLI's basic error handling.
     # This calls the error block if the user provided one
     def regular_error_handling?(ex) #:nodoc:
-      if @error_block
+      if @error_block 
+        return true if (ex.respond_to?(:exit_code) && ex.exit_code == 0)
         @error_block.call(ex)
       else
         true

@@ -206,6 +206,48 @@ class TC_testCommand < Clean::Test::TestCase
     assert_contained(@fake_stdout,/SYNOPSIS/)
   end
 
+  def test_error_handler_prints_that_its_skipping_when_gli_debug_is_set
+    ENV["GLI_DEBUG"] = 'true'
+    @app.on_error do
+      false
+    end
+    @app.command :blah do |c|
+      c.action do |*|
+        raise 'wtf'
+      end
+    end
+
+    assert_raises(RuntimeError) {
+      @app.run(['blah'])
+    }
+    assert_contained(@fake_stderr,/Custom error handler exited false, skipping normal error handling/)
+  end
+
+  def test_error_handler_should_be_called_on_help_now
+    @app.command :blah do |c|
+      c.action do |*|
+        help_now!
+      end
+    end
+    @app.run(["blah"])
+    assert @error_called
+  end
+
+  def test_error_handler_shouldnt_be_called_on_help_from_command_line
+    @app.command :blah do |c|
+      c.action do |*|
+      end
+    end
+    [
+      ["--help", "blah"],
+      ["blah", "--help"],
+    ].each do |args|
+      args_copy = args.clone
+      @app.run(args)
+      assert !@error_called, "for args #{args_copy.inspect}"
+    end
+  end
+
   def test_command_skips_pre
     @app.skips_pre
     @app.skips_post
