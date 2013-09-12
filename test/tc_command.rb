@@ -401,6 +401,34 @@ class TC_testCommand < Clean::Test::TestCase
     assert_equal '',@fake_stdout.to_s
   end
 
+  def test_name_for_help_with_top_command
+    @app.subcommand_option_handling :normal
+    @app.command :remote do |c|; end
+    command = @app.commands[:remote]
+    assert_equal ["remote"], command.name_for_help
+  end
+
+  def test_name_for_help_with_sub_command
+    @app.subcommand_option_handling :normal
+    @app.command :remote do |c|
+      c.command :add do |s|; end
+    end
+    sub_command = @app.commands[:remote].commands[:add]
+    assert_equal ["remote", "add"], sub_command.name_for_help
+  end
+
+
+  def test_name_for_help_with_sub_sub_command
+    @app.subcommand_option_handling :normal
+    @app.command :remote do |c|
+      c.command :add do |s|
+        s.command :sub do |ss|; end
+      end
+    end
+    sub_command = @app.commands[:remote].commands[:add].commands[:sub]
+    assert_equal ["remote", "add", "sub"], sub_command.name_for_help
+  end
+
   private
 
   def assert_contained(output,regexp)
