@@ -52,6 +52,13 @@ class TC_testSubCommand < Clean::Test::TestCase
     Then { assert_no_match /^error/, @fake_stderr.to_s, "should not output an error message" }
   end
 
+  test_that "--help works for subcommands in :legacy handling mode" do
+    Given { @app.subcommand_option_handling :legacy }
+    And we_have_a_command_with_two_subcommands
+    When { @app.run(["remote", "add", "--help"]) rescue nil }
+    Then { assert_no_match /^error/, @fake_stderr.to_s, "should not output an error message" }
+  end
+
   test_that "we can reopen commands to add new subcommands" do
     Given {
       @app.command :remote do |p|
