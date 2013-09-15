@@ -208,7 +208,8 @@ module GLI
         output_error_message(ex)
         if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
           if commands[:help]
-            commands[:help].execute({},{},command.nil? ? [] : [command.name.to_s])
+            command_for_help = command.nil? ? [] : command.name_for_help
+            commands[:help].execute({},{},command_for_help)
           end
         end
       elsif ENV['GLI_DEBUG'] == 'true'

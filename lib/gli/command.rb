@@ -143,6 +143,27 @@ module GLI
        (switches.values.map { |_| [_.name,_.aliases] })).flatten.map(&:to_s).include?(option)
     end
 
+    # Returns full name for help command including parents
+    #
+    # Example
+    #
+    #   command :remote do |t|
+    #     t.command :add do |global,options,args|
+    #     end
+    #   end
+    #
+    #   @add_command.name_for_help # => ["remote", "add"]
+    #
+    def name_for_help
+      name_array = [name.to_s]
+      command_parent = parent
+      while(command_parent.is_a?(GLI::Command)) do
+        name_array.unshift(command_parent.name.to_s)
+        command_parent = command_parent.parent
+      end
+      name_array
+    end
+
     def self.name_as_string(name,negatable=false) #:nodoc:
       name.to_s
     end
