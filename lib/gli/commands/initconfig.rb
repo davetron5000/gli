@@ -55,6 +55,7 @@ module GLI
 
       File.open(@filename,'w', 0600) do |file|
         YAML.dump(config,file)
+        puts "Configuration file '#{@filename}' written."
       end
     end
 
