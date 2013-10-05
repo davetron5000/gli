@@ -153,6 +153,7 @@ class TC_testGLI < Clean::Test::TestCase
     @app.config_file(config_file)
     assert_equal 1,@app.run(['initconfig'])
     assert @fake_stderr.strings.grep(/--force/),@fake_stderr.strings.inspect
+    assert !@fake_stdout.contained?(/written/), @fake_stdout.strings.inspect
     config_file_contents_after = File.read(config_file)
     assert_equal(config_file_contents,config_file_contents_after)
   end
@@ -185,6 +186,7 @@ class TC_testGLI < Clean::Test::TestCase
       raise ex
     end
     @app.run(['-f','foo','-s','--bigflag=bleorgh','initconfig'])
+    assert @fake_stdout.contained?(/written/), @fake_stdout.strings.inspect
 
     written_config = File.open(@config_file) { |f| YAML::load(f) }
 
