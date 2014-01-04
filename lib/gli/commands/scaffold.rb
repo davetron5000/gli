@@ -64,11 +64,7 @@ spec = Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.summary = 'A description of your project'
 # Add your other files here if you make them
-  s.files = %w(
-bin/#{project_name}
-lib/#{project_name}/version.rb
-lib/#{project_name}.rb
-  )
+  s.files = `git ls-files`.split("\n")
   s.require_paths << 'lib'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc','#{project_name}.rdoc']
