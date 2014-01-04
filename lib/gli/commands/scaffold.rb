@@ -63,7 +63,6 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'http://your.website.com'
   s.platform = Gem::Platform::RUBY
   s.summary = 'A description of your project'
-# Add your other files here if you make them
   s.files = `git ls-files`.split("\n")
   s.require_paths << 'lib'
   s.has_rdoc = true
