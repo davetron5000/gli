@@ -66,18 +66,25 @@ COMMANDS
                         else
                           sub.flags.merge(sub.switches)
                         end
-          usage << sub_options.map { |option_name,option| 
-            option.names_and_aliases.map { |_| 
-              CommandLineOption.name_as_string(_,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
-            }.join('|')
-          }.map { |_| "[#{_}]" }.sort.join(' ')
-          usage << ' '
           if is_default_command
             usage << "[#{sub.name}]"
           else
             usage << sub.name.to_s
           end
-          usage << ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options)
+          sub_options_doc = sub_options.map { |_,option| 
+            option.names_and_aliases.map { |name| 
+              CommandLineOption.name_as_string(name,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
+            }.join('|')
+          }.map { |invocations| "[#{invocations}]" }.sort.join(' ').strip
+          if sub_options_doc.length > 0
+            usage << ' '
+            usage << sub_options_doc
+          end
+          arg_name_doc = ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options).strip
+          if arg_name_doc.length > 0
+            usage << ' '
+            usage << arg_name_doc
+          end
           usage
         end
 

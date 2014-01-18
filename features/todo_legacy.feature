@@ -31,8 +31,8 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
-        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
@@ -65,7 +65,7 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
 
     SYNOPSIS
         todo [global options] list tasks [command options] 
-        todo [global options] list tasks [command options]  open
+        todo [global options] list tasks [command options] open
 
     DESCRIPTION
         Lists all of your tasks that you have, in varying orders, and all that
@@ -89,8 +89,8 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
 
     SYNOPSIS
         todo [global options] create 
-        todo [global options] create  contexts [context_name]
-        todo [global options] create  tasks task_name[, task_name]*
+        todo [global options] create contexts [context_name]
+        todo [global options] create tasks task_name[, task_name]*
 
     COMMANDS
         <default> - Makes a new task
@@ -109,8 +109,8 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
         ls - LS things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] ls [command options] [-b] [-f|--foobar] contexts
-        todo [global options] ls [command options] [-x arg] tasks
+        todo [global options] ls [command options] contexts [-b] [-f|--foobar]
+        todo [global options] ls [command options] tasks [-x arg]
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your

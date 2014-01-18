@@ -152,8 +152,8 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
-        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
@@ -198,8 +198,8 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
-        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
@@ -221,8 +221,8 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
-        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
         
@@ -252,8 +252,8 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [--flag arg] [-x arg] [tasks]
-        todo [global options] list [command options] [--otherflag arg] [-b] [-f|--foobar] contexts
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
@@ -275,7 +275,7 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] list tasks [command options] 
-        todo [global options] list tasks [command options]  open
+        todo [global options] list tasks [command options] open
 
     DESCRIPTION
         Lists all of your tasks that you have, in varying orders, and all that
@@ -299,8 +299,8 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] create 
-        todo [global options] create  contexts [context_name]
-        todo [global options] create  tasks task_name[, task_name]*
+        todo [global options] create contexts [context_name]
+        todo [global options] create tasks task_name[, task_name]*
 
     COMMANDS
         <default> - Makes a new task
@@ -351,8 +351,8 @@ Feature: The todo app has a nice user interface
         ls - LS things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] ls [command options] [-b] [-f|--foobar] contexts
-        todo [global options] ls [command options] [-x arg] tasks
+        todo [global options] ls [command options] contexts [-b] [-f|--foobar]
+        todo [global options] ls [command options] tasks [-x arg]
 
     DESCRIPTION
         List a whole lot of things that you might be keeping track of in your
@@ -411,3 +411,30 @@ Feature: The todo app has a nice user interface
     And a config file that specifies defaults for some commands with subcommands
     When I successfully run `todo help list contexts`
     Then I should see the defaults for 'list contexts' from the config file in the help
+
+#  Scenario: A complex SYNOPSIS section gets summarized
+#    Given my terminal is only 50 characters wide
+#    When I successfully run `todo <help_invocation>`
+#    Then the output should contain:
+#    """
+#    NAME
+#        list - List things, such as tasks or contexts
+#
+#    SYNOPSIS
+#        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+#        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
+#
+#    DESCRIPTION
+#        List a whole lot of things that you might be keeping track of in your
+#        overall todo list.
+#
+#        This is your go-to place or finding all of the things that you might have
+#        stored in your todo databases. 
+#
+#    COMMAND OPTIONS
+#        -l, --[no-]long - Show long form
+#
+#    COMMANDS
+#        contexts - List contexts
+#        tasks    - List tasks (default)
+#    """
