@@ -245,6 +245,16 @@ module GLI
       @help_text_wrap_type = wrap_type
     end
 
+    # Control how the SYNOPSIS is formatted.
+    #
+    # format:: one of:
+    #          +:full+:: the default, show subcommand options and flags inline
+    #          +:terminal+:: if :full would be wider than the terminal, use :compact
+    #          +:compact+:: use a simpler and shorter SYNOPSIS.  Useful if your app has a lot of options and showing them in the SYNOPSIS makes things more confusing
+    def synopsis_format(format)
+      @synopsis_format_type = format
+    end
+
     def program_name(override=nil) #:nodoc:
       warn "#program_name has been deprecated"
     end

@@ -412,29 +412,34 @@ Feature: The todo app has a nice user interface
     When I successfully run `todo help list contexts`
     Then I should see the defaults for 'list contexts' from the config file in the help
 
-#  Scenario: A complex SYNOPSIS section gets summarized
-#    Given my terminal is only 50 characters wide
-#    When I successfully run `todo <help_invocation>`
-#    Then the output should contain:
-#    """
-#    NAME
-#        list - List things, such as tasks or contexts
-#
-#    SYNOPSIS
-#        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
-#        todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
-#
-#    DESCRIPTION
-#        List a whole lot of things that you might be keeping track of in your
-#        overall todo list.
-#
-#        This is your go-to place or finding all of the things that you might have
-#        stored in your todo databases. 
-#
-#    COMMAND OPTIONS
-#        -l, --[no-]long - Show long form
-#
-#    COMMANDS
-#        contexts - List contexts
-#        tasks    - List tasks (default)
-#    """
+  Scenario: A complex SYNOPSIS section gets summarized in terminal mode
+    Given my terminal is 50 characters wide
+    And my app is configured for "terminal" synopses
+    When I run `todo ls`
+    Then the exit status should not be 0
+    And the stderr should contain "error: Command 'ls' requires a subcommand"
+    And the stdout should contain:
+    """
+    NAME
+        ls - LS things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] ls [command options] contexts [subcommand options]
+        todo [global options] ls [command options] tasks [subcommand options]
+    """
+
+  Scenario: We can always use a compact SYNOPSIS
+    Given my terminal is 500 characters wide
+    And my app is configured for "compact" synopses
+    When I run `todo ls`
+    Then the exit status should not be 0
+    And the stderr should contain "error: Command 'ls' requires a subcommand"
+    And the stdout should contain:
+    """
+    NAME
+        ls - LS things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] ls [command options] contexts [subcommand options]
+        todo [global options] ls [command options] tasks [subcommand options]
+    """

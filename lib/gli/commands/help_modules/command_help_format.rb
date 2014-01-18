@@ -4,12 +4,12 @@ module GLI
   module Commands
     module HelpModules
       class CommandHelpFormat
-        def initialize(command,app,basic_invocation,sorter,wrapper_class=TextWrapper)
-          @basic_invocation = basic_invocation
+        def initialize(command,app,sorter,synopsis_formatter_class,wrapper_class=TextWrapper)
           @app = app
           @command = command
           @sorter = sorter
           @wrapper_class = wrapper_class
+          @synopsis_formatter = synopsis_formatter_class.new(@app,flags_and_switches(@command,@app))
         end
 
         def format
@@ -19,19 +19,7 @@ module GLI
           options_description  = OptionsFormatter.new(flags_and_switches(@command,@app),@sorter,@wrapper_class).format
           commands_description = format_subcommands(@command)
 
-          synopses = []
-          one_line_usage = basic_usage
-          one_line_usage << @command.arguments_description
-          if @command.commands.empty?
-            synopses << one_line_usage
-          else
-            synopses = sorted_synopses
-            if @command.has_action?
-              synopses.unshift(one_line_usage)
-            end
-
-          end
-
+          synopses = @synopsis_formatter.synopses_for_command(@command)
           COMMAND_HELP.result(binding)
         end
 
@@ -59,34 +47,6 @@ COMMANDS
 <%= commands_description %>
 <% end %>),nil,'<>')
 
-        def command_with_subcommand_usage(sub,is_default_command)
-          usage = basic_usage
-          sub_options = if @app.subcommand_option_handling_strategy == :legacy 
-                          @command.flags.merge(@command.switches).select { |_,o| o.associated_command == sub }
-                        else
-                          sub.flags.merge(sub.switches)
-                        end
-          if is_default_command
-            usage << "[#{sub.name}]"
-          else
-            usage << sub.name.to_s
-          end
-          sub_options_doc = sub_options.map { |_,option| 
-            option.names_and_aliases.map { |name| 
-              CommandLineOption.name_as_string(name,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
-            }.join('|')
-          }.map { |invocations| "[#{invocations}]" }.sort.join(' ').strip
-          if sub_options_doc.length > 0
-            usage << ' '
-            usage << sub_options_doc
-          end
-          arg_name_doc = ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options).strip
-          if arg_name_doc.length > 0
-            usage << ' '
-            usage << arg_name_doc
-          end
-          usage
-        end
 
         def flags_and_switches(command,app)
           if app.subcommand_option_handling_strategy == :legacy
@@ -102,29 +62,6 @@ COMMANDS
           end
         end
  
-        def basic_usage
-          usage = @basic_invocation.dup
-          usage << " [global options]" unless global_flags_and_switches.empty?
-          usage << " #{path_to_command}"
-          usage << " [command options]" unless flags_and_switches(@command,@app).empty?
-          usage << " "
-          usage
-        end
- 
-        def path_to_command
-          path = []
-          c = @command
-          while c.kind_of? Command
-            path.unshift(c.name)
-            c = c.parent
-          end
-          path.join(' ')
-        end
- 
-        def global_flags_and_switches
-          @app.flags.merge(@app.switches)
-        end
- 
         def format_subcommands(command)
           commands_array = @sorter.call(command.commands_declaration_order).map { |cmd| 
             if command.get_default_command == cmd.name
@@ -138,24 +75,6 @@ COMMANDS
           end
           formatter = ListFormatter.new(commands_array,@wrapper_class)
           StringIO.new.tap { |io| formatter.output(io) }.string
-        end
-
-        def sorted_synopses
-          synopses_command = {}
-          @command.commands.each do |name,sub|
-            default = @command.get_default_command == name
-            synopsis = command_with_subcommand_usage(sub,default)
-            synopses_command[synopsis] = sub
-          end
-          synopses = synopses_command.keys.sort { |one,two|
-            if synopses_command[one].name == @command.get_default_command
-              -1
-            elsif synopses_command[two].name == @command.get_default_command
-              1
-            else
-              synopses_command[one] <=> synopses_command[two]
-            end
-          }
         end
       end
     end

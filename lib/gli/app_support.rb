@@ -166,6 +166,10 @@ module GLI
       @help_text_wrap_type || :to_terminal
     end
 
+    def synopsis_format_type
+      @synopsis_format_type || :full
+    end
+
     # Sets the default values for flags based on the configuration
     def override_defaults_based_on_config(config)
       override_default(flags,config)

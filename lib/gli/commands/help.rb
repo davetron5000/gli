@@ -12,6 +12,9 @@ require 'gli/commands/help_modules/command_help_format'
 require 'gli/commands/help_modules/help_completion_format'
 require 'gli/commands/help_modules/command_finder'
 require 'gli/commands/help_modules/arg_name_formatter'
+require 'gli/commands/help_modules/full_synopsis_formatter'
+require 'gli/commands/help_modules/compact_synopsis_formatter'
+require 'gli/commands/help_modules/terminal_synopsis_formatter'
 
 module GLI
   module Commands
@@ -27,6 +30,12 @@ module GLI
       :tty_only    => HelpModules::TTYOnlyWrapper,
       :none        => HelpModules::VerbatimWrapper,
       :verbatim    => HelpModules::VerbatimWrapper,
+    }
+
+    SYNOPSIS_FORMATTERS = {
+      :full     => HelpModules::FullSynopsisFormatter,
+      :compact  => HelpModules::CompactSynopsisFormatter,
+      :terminal => HelpModules::TerminalSynopsisFormatter,
     }
     # The help command used for the two-level interactive help system
     class Help < Command
@@ -55,6 +64,7 @@ module GLI
         @parent = app
         @sorter = SORTERS[@app.help_sort_type]
         @text_wrapping_class = WRAPPERS[@app.help_text_wrap_type]
+        @synopsis_formatter_class = SYNOPSIS_FORMATTERS[@app.synopsis_format_type]
 
         desc 'List commands one per line, to assist with shell completion'
         switch :c
@@ -85,7 +95,12 @@ module GLI
           name = arguments.shift
           command = command_finder.find_command(name)
           unless command.nil?
-            out.puts HelpModules::CommandHelpFormat.new(command,@app,@app.exe_name.to_s,@sorter,@text_wrapping_class).format
+            out.puts HelpModules::CommandHelpFormat.new(
+              command,
+              @app,
+              @sorter,
+              @synopsis_formatter_class,
+              @text_wrapping_class).format
           end
         end
       end

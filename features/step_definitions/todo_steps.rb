@@ -86,3 +86,11 @@ end
 Given /^the todo app is coded to use verbatim formatting$/ do
   ENV['TODO_WRAP_HELP_TEXT'] = 'verbatim'
 end
+
+Given(/^my terminal is (\d+) characters wide$/) do |terminal_width|
+  ENV['COLUMNS'] = terminal_width.to_s
+end
+
+Given(/^my app is configured for "(.*?)" synopses$/) do |synopsis|
+  ENV['SYNOPSES'] = synopsis
+end

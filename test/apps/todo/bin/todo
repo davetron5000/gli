@@ -16,6 +16,7 @@ end
 
 sort_help (ENV['TODO_SORT_HELP'] || 'alpha').to_sym
 wrap_help_text (ENV['TODO_WRAP_HELP_TEXT'] || 'to_terminal').to_sym
+synopsis_format (ENV['SYNOPSES'] || 'full').to_sym
 
 subcommand_option_handling :normal
 
