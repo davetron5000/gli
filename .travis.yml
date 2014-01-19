@@ -11,7 +11,4 @@ rvm:
   - 2.1.0
 branches:
   only:
-    - 'master'
     - 'gli-2'
-    - 'quick-bugifxes'
-    - 'fully-nested-subcommands'

@@ -15,6 +15,7 @@ GLI_GEMSET = 'gli-testing'
 TMP_PATH = 'tmp/aruba'
 
 Before do
+  unset_bundler_env_vars
   # Not sure how else to get this dynamically
   @dirs = [TMP_PATH]
   @aruba_timeout_seconds = 5

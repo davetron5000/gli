@@ -144,7 +144,6 @@ Feature: The todo app has a nice user interface
         chained2, ch2 - 
     """
 
-    @wip
   Scenario Outline: Getting Help for a top level command of todo
     When I successfully run `todo <help_invocation>`
     Then the output should contain:
