@@ -34,9 +34,9 @@
   
     <div class="description">
       
-<p>A means to define and parse a command line interface that works as Git's
-does, in that you specify global options, a command name, command specific
-options, and then command arguments.</p>
+<p>A means to define and parse a command line interface that works as
+Git&#39;s does, in that you specify global options, a command name, command
+specific options, and then command arguments.</p>
 
     </div>
   
@@ -197,7 +197,12 @@ options, and then command arguments.</p>
             
               
               <li>
-                <a href="#method-i-subcommand_option_handling">subcommand_option_handling</a>
+                <a href="#method-i-subcommand_option_handling">subcommand_option_handling</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-synopsis_format">synopsis_format</a>
               </li>
             
           </ul>
@@ -285,8 +290,9 @@ options, and then command arguments.</p>
         <div class="method">
           <div class="title method-title" id="method-i-accept">
             
-              <a name="method-i-accept"></a><b>accept</b>(object,&amp;block)
+              <b>accept</b>(object,&amp;block)
             
+            <a href="../../classes/GLI/App.html#method-i-accept" name="method-i-accept" class="permalink">Link</a>
           </div>
           
           
@@ -342,8 +348,9 @@ the converted value</p>
         <div class="method">
           <div class="title method-title" id="method-i-around">
             
-              <a name="method-i-around"></a><b>around</b>(&amp;a_proc)
+              <b>around</b>(&amp;a_proc)
             
+            <a href="../../classes/GLI/App.html#method-i-around" name="method-i-around" class="permalink">Link</a>
           </div>
           
           
@@ -413,8 +420,9 @@ command that should not have this hook fired</p>
         <div class="method">
           <div class="title method-title" id="method-i-commands_from">
             
-              <a name="method-i-commands_from"></a><b>commands_from</b>(path)
+              <b>commands_from</b>(path)
             
+            <a href="../../classes/GLI/App.html#method-i-commands_from" name="method-i-commands_from" class="permalink">Link</a>
           </div>
           
           
@@ -423,7 +431,7 @@ command that should not have this hook fired</p>
 are presumed to be commands for your executable. This is useful for
 decomposing your bin file into different classes, but can also be used as a
 plugin mechanism, allowing users to provide additional commands for your
-app at runtime.  All that being said, it's basically a glorified
+app at runtime.  All that being said, it&#39;s basically a glorified
 <code>require</code>.</p>
 <dl class="rdoc-list note-list"><dt>path
 <dd>
@@ -435,10 +443,10 @@ If not, it is interpretted as relative to somewhere in the
 
 <h2 id="method-i-commands_from-label-Example%3A">Example:</h2>
 
-<pre># loads *.rb from your app's install - great for decomposing your bin file
+<pre># loads *.rb from your app&#39;s install - great for decomposing your bin file
 commands_from &quot;my_app/commands&quot;
 
-# loads *.rb files from the user's home dir - great and an extension/plugin mechanism
+# loads *.rb files from the user&#39;s home dir - great and an extension/plugin mechanism
 commands_from File.join(ENV[&quot;HOME&quot;],&quot;.my_app&quot;,&quot;plugins&quot;)</pre>
             </div>
           
@@ -474,8 +482,9 @@ commands_from File.join(ENV[&quot;HOME&quot;],&quot;.my_app&quot;,&quot;plugins&
         <div class="method">
           <div class="title method-title" id="method-i-config_file">
             
-              <a name="method-i-config_file"></a><b>config_file</b>(filename)
+              <b>config_file</b>(filename)
             
+            <a href="../../classes/GLI/App.html#method-i-config_file" name="method-i-config_file" class="permalink">Link</a>
           </div>
           
           
@@ -485,9 +494,10 @@ file.</p>
 <dl class="rdoc-list note-list"><dt>filename
 <dd>
 <p>A String representing the path to the file to use for the config file.  If
-it's an absolute path, this is treated as the path to the file.  If it's
-<strong>not</strong>, it's treated as relative to the user's home directory
-as produced by <code>File.expand_path('~')</code>.</p>
+it&#39;s an absolute path, this is treated as the path to the file.  If
+it&#39;s <strong>not</strong>, it&#39;s treated as relative to the
+user&#39;s home directory as produced by
+<code>File.expand_path(&#39;~&#39;)</code>.</p>
 </dd></dl>
             </div>
           
@@ -509,7 +519,7 @@ as produced by <code>File.expand_path('~')</code>.</p>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">filename</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">/^\//</span>
     <span class="ruby-ivar">@config_file</span> = <span class="ruby-identifier">filename</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">'HOME'</span>]),<span class="ruby-identifier">filename</span>)
+    <span class="ruby-ivar">@config_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;HOME&#39;</span>]),<span class="ruby-identifier">filename</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">commands</span>[<span class="ruby-value">:initconfig</span>] = <span class="ruby-constant">InitConfig</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@config_file</span>,<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">flags</span>,<span class="ruby-identifier">switches</span>)
   <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">commands</span>[<span class="ruby-value">:initconfig</span>]
@@ -523,17 +533,18 @@ as produced by <code>File.expand_path('~')</code>.</p>
         <div class="method">
           <div class="title method-title" id="method-i-default_command">
             
-              <a name="method-i-default_command"></a><b>default_command</b>(command)
+              <b>default_command</b>(command)
             
+            <a href="../../classes/GLI/App.html#method-i-default_command" name="method-i-default_command" class="permalink">Link</a>
           </div>
           
           
             <div class="description">
               <p>Sets a default command to run when none is specified on the command line. 
-Note that if you use this, you won't be able to pass arguments, flags, or
-switches to the command when run in default mode.  All flags and switches
-are treated as global, and any argument will be interpretted as the command
-name and likely fail.</p>
+Note that if you use this, you won&#39;t be able to pass arguments, flags,
+or switches to the command when run in default mode.  All flags and
+switches are treated as global, and any argument will be interpretted as
+the command name and likely fail.</p>
 <dl class="rdoc-list note-list"><dt><code>command</code>
 <dd>
 <p><a href="Command.html">Command</a> as a Symbol to run as default</p>
@@ -553,7 +564,7 @@ name and likely fail.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 259</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 269</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command</span>.<span class="ruby-identifier">to_sym</span>
 <span class="ruby-keyword">end</span></pre>
@@ -565,8 +576,9 @@ name and likely fail.</p>
         <div class="method">
           <div class="title method-title" id="method-i-exit_now-21">
             
-              <a name="method-i-exit_now-21"></a><b>exit_now!</b>(message,exit_code=1)
+              <b>exit_now!</b>(message,exit_code=1)
             
+            <a href="../../classes/GLI/App.html#method-i-exit_now-21" name="method-i-exit_now-21" class="permalink">Link</a>
           </div>
           
           
@@ -611,8 +623,9 @@ help in addition to the error message</p>
         <div class="method">
           <div class="title method-title" id="method-i-help_now-21">
             
-              <a name="method-i-help_now-21"></a><b>help_now!</b>(message=nil)
+              <b>help_now!</b>(message=nil)
             
+            <a href="../../classes/GLI/App.html#method-i-help_now-21" name="method-i-help_now-21" class="permalink">Link</a>
           </div>
           
           
@@ -656,8 +669,9 @@ just simply show help</p>
         <div class="method">
           <div class="title method-title" id="method-i-on_error">
             
-              <a name="method-i-on_error"></a><b>on_error</b>(&amp;a_proc)
+              <b>on_error</b>(&amp;a_proc)
             
+            <a href="../../classes/GLI/App.html#method-i-on_error" name="method-i-on_error" class="permalink">Link</a>
           </div>
           
           
@@ -666,7 +680,7 @@ just simply show help</p>
 Exception that was caught. It should evaluate to false to avoid the
 built-in error handling (which basically just prints out a message). <a
 href="../GLI.html">GLI</a> uses a variety of exceptions that you can use to
-find out what  errors might've occurred during command-line parsing:</p>
+find out what  errors might&#39;ve occurred during command-line parsing:</p>
 <ul><li>
 <p><a href="CustomExit.html">GLI::CustomExit</a></p>
 </li><li>
@@ -705,8 +719,9 @@ find out what  errors might've occurred during command-line parsing:</p>
         <div class="method">
           <div class="title method-title" id="method-i-post">
             
-              <a name="method-i-post"></a><b>post</b>(&amp;a_proc)
+              <b>post</b>(&amp;a_proc)
             
+            <a href="../../classes/GLI/App.html#method-i-post" name="method-i-post" class="permalink">Link</a>
           </div>
           
           
@@ -741,8 +756,9 @@ global-options,command,options, and arguments</p>
         <div class="method">
           <div class="title method-title" id="method-i-pre">
             
-              <a name="method-i-pre"></a><b>pre</b>(&amp;a_proc)
+              <b>pre</b>(&amp;a_proc)
             
+            <a href="../../classes/GLI/App.html#method-i-pre" name="method-i-pre" class="permalink">Link</a>
           </div>
           
           
@@ -780,8 +796,9 @@ and exit nonzero</p>
         <div class="method">
           <div class="title method-title" id="method-i-preserve_argv">
             
-              <a name="method-i-preserve_argv"></a><b>preserve_argv</b>(preserve=true)
+              <b>preserve_argv</b>(preserve=true)
             
+            <a href="../../classes/GLI/App.html#method-i-preserve_argv" name="method-i-preserve_argv" class="permalink">Link</a>
           </div>
           
           
@@ -818,8 +835,9 @@ thus not want it mutated.</p>
         <div class="method">
           <div class="title method-title" id="method-i-program_desc">
             
-              <a name="method-i-program_desc"></a><b>program_desc</b>(description=nil)
+              <b>program_desc</b>(description=nil)
             
+            <a href="../../classes/GLI/App.html#method-i-program_desc" name="method-i-program_desc" class="permalink">Link</a>
           </div>
           
           
@@ -828,7 +846,7 @@ thus not want it mutated.</p>
 summary of what your program does that will appear in the help output.</p>
 <dl class="rdoc-list note-list"><dt><code>description</code>
 <dd>
-<p>A String of the short description of your program's purpose</p>
+<p>A String of the short description of your program&#39;s purpose</p>
 </dd></dl>
             </div>
           
@@ -860,8 +878,9 @@ summary of what your program does that will appear in the help output.</p>
         <div class="method">
           <div class="title method-title" id="method-i-program_long_desc">
             
-              <a name="method-i-program_long_desc"></a><b>program_long_desc</b>(description=nil)
+              <b>program_long_desc</b>(description=nil)
             
+            <a href="../../classes/GLI/App.html#method-i-program_long_desc" name="method-i-program_long_desc" class="permalink">Link</a>
           </div>
           
           
@@ -903,8 +922,9 @@ help output.</p>
         <div class="method">
           <div class="title method-title" id="method-i-skips_around">
             
-              <a name="method-i-skips_around"></a><b>skips_around</b>()
+              <b>skips_around</b>()
             
+            <a href="../../classes/GLI/App.html#method-i-skips_around" name="method-i-skips_around" class="permalink">Link</a>
           </div>
           
           
@@ -939,8 +959,9 @@ might not want the setup to happen, this can be handy</p>
         <div class="method">
           <div class="title method-title" id="method-i-skips_post">
             
-              <a name="method-i-skips_post"></a><b>skips_post</b>()
+              <b>skips_post</b>()
             
+            <a href="../../classes/GLI/App.html#method-i-skips_post" name="method-i-skips_post" class="permalink">Link</a>
           </div>
           
           
@@ -975,8 +996,9 @@ avoid that behavior for the following command</p>
         <div class="method">
           <div class="title method-title" id="method-i-skips_pre">
             
-              <a name="method-i-skips_pre"></a><b>skips_pre</b>()
+              <b>skips_pre</b>()
             
+            <a href="../../classes/GLI/App.html#method-i-skips_pre" name="method-i-skips_pre" class="permalink">Link</a>
           </div>
           
           
@@ -1012,8 +1034,9 @@ command</p>
         <div class="method">
           <div class="title method-title" id="method-i-sort_help">
             
-              <a name="method-i-sort_help"></a><b>sort_help</b>(sort_type)
+              <b>sort_help</b>(sort_type)
             
+            <a href="../../classes/GLI/App.html#method-i-sort_help" name="method-i-sort_help" class="permalink">Link</a>
           </div>
           
           
@@ -1058,8 +1081,9 @@ they are sorted alphabetically.</p>
         <div class="method">
           <div class="title method-title" id="method-i-subcommand_option_handling">
             
-              <a name="method-i-subcommand_option_handling"></a><b>subcommand_option_handling</b>(handling_strategy)
+              <b>subcommand_option_handling</b>(handling_strategy)
             
+            <a href="../../classes/GLI/App.html#method-i-subcommand_option_handling" name="method-i-subcommand_option_handling" class="permalink">Link</a>
           </div>
           
           
@@ -1087,7 +1111,7 @@ two subcommands to have options of the same name.</p>
                 
               </p>
               <div id="method-i-subcommand_option_handling_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 269</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 279</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">subcommand_option_handling</span>(<span class="ruby-identifier">handling_strategy</span>)
   <span class="ruby-ivar">@subcommand_option_handling_strategy</span> = <span class="ruby-identifier">handling_strategy</span>
 <span class="ruby-keyword">end</span></pre>
@@ -1097,10 +1121,61 @@ two subcommands to have options of the same name.</p>
           </div>
         
         <div class="method">
+          <div class="title method-title" id="method-i-synopsis_format">
+            
+              <b>synopsis_format</b>(format)
+            
+            <a href="../../classes/GLI/App.html#method-i-synopsis_format" name="method-i-synopsis_format" class="permalink">Link</a>
+          </div>
+          
+          
+            <div class="description">
+              <p>Control how the SYNOPSIS is formatted.</p>
+<dl class="rdoc-list note-list"><dt>format
+<dd>
+<p>one of:</p>
+<dl class="rdoc-list note-list"><dt>:full
+<dd>
+<p>the default, show subcommand options and flags inline</p>
+</dd><dt><code>:terminal</code>
+<dd>
+<p>if :full would be wider than the terminal, use :compact</p>
+</dd><dt><code>:compact</code>
+<dd>
+<p>use a simpler and shorter SYNOPSIS.  Useful if your app has a lot of
+options and showing them in the SYNOPSIS makes things more confusing</p>
+</dd></dl>
+</dd></dl>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-synopsis_format_source')" id="l_method-i-synopsis_format_source">show</a>
+                
+              </p>
+              <div id="method-i-synopsis_format_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 254</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">synopsis_format</span>(<span class="ruby-identifier">format</span>)
+  <span class="ruby-ivar">@synopsis_format_type</span> = <span class="ruby-identifier">format</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
           <div class="title method-title" id="method-i-use_openstruct">
             
-              <a name="method-i-use_openstruct"></a><b>use_openstruct</b>(use_openstruct)
+              <b>use_openstruct</b>(use_openstruct)
             
+            <a href="../../classes/GLI/App.html#method-i-use_openstruct" name="method-i-use_openstruct" class="permalink">Link</a>
           </div>
           
           
@@ -1141,8 +1216,9 @@ methods.</p>
         <div class="method">
           <div class="title method-title" id="method-i-version">
             
-              <a name="method-i-version"></a><b>version</b>(version)
+              <b>version</b>(version)
             
+            <a href="../../classes/GLI/App.html#method-i-version" name="method-i-version" class="permalink">Link</a>
           </div>
           
           
@@ -1170,7 +1246,7 @@ methods.</p>
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 158</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">version</span>(<span class="ruby-identifier">version</span>)
   <span class="ruby-ivar">@version</span> = <span class="ruby-identifier">version</span>
-  <span class="ruby-identifier">desc</span> <span class="ruby-string">'Display the program version'</span>
+  <span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;Display the program version&#39;</span>
   <span class="ruby-identifier">switch</span> <span class="ruby-value">:version</span>, <span class="ruby-value">:negatable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">false</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -1181,8 +1257,9 @@ methods.</p>
         <div class="method">
           <div class="title method-title" id="method-i-wrap_help_text">
             
-              <a name="method-i-wrap_help_text"></a><b>wrap_help_text</b>(wrap_type)
+              <b>wrap_help_text</b>(wrap_type)
             
+            <a href="../../classes/GLI/App.html#method-i-wrap_help_text" name="method-i-wrap_help_text" class="permalink">Link</a>
           </div>
           
           
@@ -1190,15 +1267,15 @@ methods.</p>
               <p>Set how help text is wrapped.</p>
 <dl class="rdoc-list note-list"><dt>wrap_type
 <dd>
-<p>Symbol indicating how you'd like text wrapped:</p>
+<p>Symbol indicating how you&#39;d like text wrapped:</p>
 <dl class="rdoc-list note-list"><dt>:to_terminal
 <dd>
 <p>Wrap text based on the width of the terminal (default)</p>
 </dd><dt><code>:verbatim</code>
 <dd>
 <p>Format text exactly as it was given to the various methods.  This is useful
-if your output has formatted output, e.g. ascii tables and you don't want
-it messed with.</p>
+if your output has formatted output, e.g. ascii tables and you don&#39;t
+want it messed with.</p>
 </dd><dt><code>:one_line</code>
 <dd>
 <p>Do not wrap text at all.  This will bring all help content onto one line,
@@ -1206,7 +1283,7 @@ removing any newlines</p>
 </dd><dt><code>:tty_only</code>
 <dd>
 <p>Wrap like <code>:to_terminal</code> if this output is going to a TTY,
-otherwise don't wrap (like <code>:one_line</code>)</p>
+otherwise don&#39;t wrap (like <code>:one_line</code>)</p>
 </dd></dl>
 </dd></dl>
             </div>
@@ -1233,6 +1310,7 @@ otherwise don't wrap (like <code>:one_line</code>)</p>
             
           </div>
                     </div>
+
     </div>
   </body>
 </html>    

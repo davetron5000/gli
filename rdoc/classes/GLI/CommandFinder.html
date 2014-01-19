@@ -105,8 +105,9 @@
         <div class="method">
           <div class="title method-title" id="method-c-new">
             
-              <a name="method-c-new"></a><b>new</b>(commands,default_command)
+              <b>new</b>(commands,default_command)
             
+            <a href="../../classes/GLI/CommandFinder.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
           
           
@@ -149,8 +150,9 @@ the default if none found</p>
         <div class="method">
           <div class="title method-title" id="method-i-find_command">
             
-              <a name="method-i-find_command"></a><b>find_command</b>(name)
+              <b>find_command</b>(name)
             
+            <a href="../../classes/GLI/CommandFinder.html#method-i-find_command" name="method-i-find_command" class="permalink">Link</a>
           </div>
           
           
@@ -177,15 +179,15 @@ Returns the command named by the default command if no command with
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">find_command</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-identifier">name</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@default_command</span>
 
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;No command name given nor default available&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">String</span>(<span class="ruby-identifier">name</span>).<span class="ruby-identifier">strip</span> <span class="ruby-operator">==</span> <span class="ruby-string">''</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;No command name given nor default available&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">String</span>(<span class="ruby-identifier">name</span>).<span class="ruby-identifier">strip</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
 
   <span class="ruby-identifier">command_found</span> = <span class="ruby-ivar">@names_to_commands</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command_to_match</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">find_command_by_partial_name</span>(<span class="ruby-ivar">@names_to_commands</span>, <span class="ruby-identifier">command_to_match</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">if</span> <span class="ruby-constant">Array</span>(<span class="ruby-identifier">command_found</span>).<span class="ruby-identifier">empty?</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Unknown command '#{name}'&quot;</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Unknown command &#39;#{name}&#39;&quot;</span>)
   <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">command_found</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Array</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">AmbiguousCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Ambiguous command '#{name}'. It matches #{command_found.sort.join(',')}&quot;</span>)
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">AmbiguousCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Ambiguous command &#39;#{name}&#39;. It matches #{command_found.sort.join(&#39;,&#39;)}&quot;</span>)
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">command_found</span>
 <span class="ruby-keyword">end</span></pre>
@@ -194,6 +196,7 @@ Returns the command named by the default command if no command with
             
           </div>
                     </div>
+
     </div>
   </body>
 </html>    

@@ -125,8 +125,9 @@ command-line element. This class handles parsing that block</p>
         <div class="method">
           <div class="title method-title" id="method-c-new">
             
-              <a name="method-c-new"></a><b>new</b>(option_parser_factory,exception_klass_or_block)
+              <b>new</b>(option_parser_factory,exception_klass_or_block)
             
+            <a href="../../classes/GLI/GLIOptionBlockParser.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
           
           
@@ -185,8 +186,9 @@ you are on the command line</p>
         <div class="method">
           <div class="title method-title" id="method-i-parse-21">
             
-              <a name="method-i-parse-21"></a><b>parse!</b>(args)
+              <b>parse!</b>(args)
             
+            <a href="../../classes/GLI/GLIOptionBlockParser.html#method-i-parse-21" name="method-i-parse-21" class="permalink">Link</a>
           </div>
           
           
@@ -219,9 +221,9 @@ given to the handler configured in the constructor</p>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">parse!</span>(<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">do_parse</span>(<span class="ruby-identifier">args</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidOption</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
-  <span class="ruby-ivar">@exception_handler</span>.<span class="ruby-identifier">call</span>(<span class="ruby-node">&quot;Unknown option #{ex.args.join(' ')}&quot;</span>,<span class="ruby-ivar">@extra_error_context</span>)
+  <span class="ruby-ivar">@exception_handler</span>.<span class="ruby-identifier">call</span>(<span class="ruby-node">&quot;Unknown option #{ex.args.join(&#39; &#39;)}&quot;</span>,<span class="ruby-ivar">@extra_error_context</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidArgument</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
-  <span class="ruby-ivar">@exception_handler</span>.<span class="ruby-identifier">call</span>(<span class="ruby-node">&quot;#{ex.reason}: #{ex.args.join(' ')}&quot;</span>,<span class="ruby-ivar">@extra_error_context</span>)
+  <span class="ruby-ivar">@exception_handler</span>.<span class="ruby-identifier">call</span>(<span class="ruby-node">&quot;#{ex.reason}: #{ex.args.join(&#39; &#39;)}&quot;</span>,<span class="ruby-ivar">@extra_error_context</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -233,8 +235,9 @@ given to the handler configured in the constructor</p>
         <div class="method">
           <div class="title method-title" id="method-i-do_parse">
             
-              <a name="method-i-do_parse"></a><b>do_parse</b>(args)
+              <b>do_parse</b>(args)
             
+            <a href="../../classes/GLI/GLIOptionBlockParser.html#method-i-do_parse" name="method-i-do_parse" class="permalink">Link</a>
           </div>
           
           
@@ -269,6 +272,7 @@ given to the handler configured in the constructor</p>
             
           </div>
                     </div>
+
     </div>
   </body>
 </html>    

@@ -40,7 +40,7 @@
   
     <div class="description">
       
-<p>Raise this if you want to use an exit status that isn't the default
+<p>Raise this if you want to use an exit status that isn&#39;t the default
 provided by <a href="../GLI.html">GLI</a>.  Note that <a
 href="App.html#method-i-exit_now-21">GLI::App#exit_now!</a> might be a bit
 more to your liking.</p>
@@ -121,8 +121,9 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
         <div class="method">
           <div class="title method-title" id="method-c-new">
             
-              <a name="method-c-new"></a><b>new</b>(message,exit_code)
+              <b>new</b>(message,exit_code)
             
+            <a href="../../classes/GLI/CustomExit.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
           
           
@@ -133,7 +134,7 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
 <p>String containing error message to show the user</p>
 </dd><dt>exit_code
 <dd>
-<p>the exit code to use (as an Int), overridding GLI's default</p>
+<p>the exit code to use (as an Int), overridding GLI&#39;s default</p>
 </dd></dl>
             </div>
           
@@ -150,7 +151,7 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 61</span>
+                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">exit_code</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">message</span>)
   <span class="ruby-ivar">@exit_code</span> = <span class="ruby-identifier">exit_code</span>
@@ -160,6 +161,7 @@ raise CustomExit.new(&quot;Bad SQL&quot;,-6) unless valid_sql?(args[0])</pre>
             
           </div>
                         </div>
+
     </div>
   </body>
 </html>    

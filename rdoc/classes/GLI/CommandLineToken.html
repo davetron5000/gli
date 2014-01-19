@@ -74,6 +74,18 @@ subclasses can have similar initialization and interface</p>
           </ul>
         </dd>
       
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-names_and_aliases">names_and_aliases</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
     </dl>
   
 
@@ -100,8 +112,9 @@ subclasses can have similar initialization and interface</p>
         <div class="method">
           <div class="title method-title" id="method-i-3C-3D-3E">
             
-              <a name="method-i-3C-3D-3E"></a><b>&lt;=&gt;</b>(other)
+              <b>&lt;=&gt;</b>(other)
             
+            <a href="../../classes/GLI/CommandLineToken.html#method-i-3C-3D-3E" name="method-i-3C-3D-3E" class="permalink">Link</a>
           </div>
           
           
@@ -130,7 +143,43 @@ subclasses can have similar initialization and interface</p>
             </div>
             
           </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-names_and_aliases">
+            
+              <b>names_and_aliases</b>()
+            
+            <a href="../../classes/GLI/CommandLineToken.html#method-i-names_and_aliases" name="method-i-names_and_aliases" class="permalink">Link</a>
+          </div>
+          
+          
+            <div class="description">
+              <p>Array of the name and aliases, as string</p>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-names_and_aliases_source')" id="l_method-i-names_and_aliases_source">show</a>
+                
+              </p>
+              <div id="method-i-names_and_aliases_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/command_line_token.rb, line 22</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">names_and_aliases</span>
+  [<span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span>,<span class="ruby-keyword">self</span>.<span class="ruby-identifier">aliases</span>].<span class="ruby-identifier">flatten</span>.<span class="ruby-identifier">compact</span>.<span class="ruby-identifier">map</span>(&amp;<span class="ruby-value">:to_s</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
                     </div>
+
     </div>
   </body>
 </html>    

@@ -125,7 +125,7 @@ format you want</p>
             <td class="attr-name">FORMATS</td>
             <td>=</td>
             <td class="attr-value">{
-'rdoc' =&gt; GLI::Commands::RdocDocumentListener,
+&#39;rdoc&#39; =&gt; GLI::Commands::RdocDocumentListener,
 }</td>
           </tr>
           
@@ -149,8 +149,9 @@ format you want</p>
         <div class="method">
           <div class="title method-title" id="method-c-new">
             
-              <a name="method-c-new"></a><b>new</b>(app)
+              <b>new</b>(app)
             
+            <a href="../../../classes/GLI/Commands/Doc.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
           
           
@@ -175,17 +176,17 @@ href="../../GLI.html">GLI</a> app passed in</p>
                 <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 10</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">app</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-value">:names</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;_doc&quot;</span>,
-        <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Generate documentation of your application's UI&quot;</span>,
-        <span class="ruby-value">:long_desc</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Introspects your application's UI meta-data to generate documentation in a variety of formats.  This is intended to be extensible via the DocumentListener interface, so that you can provide your own documentation formats without them being a part of GLI&quot;</span>,
+        <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Generate documentation of your application&#39;s UI&quot;</span>,
+        <span class="ruby-value">:long_desc</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Introspects your application&#39;s UI meta-data to generate documentation in a variety of formats.  This is intended to be extensible via the DocumentListener interface, so that you can provide your own documentation formats without them being a part of GLI&quot;</span>,
         <span class="ruby-value">:skips_pre</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_around</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:hidden</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
 
   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
   <span class="ruby-ivar">@parent</span> = <span class="ruby-ivar">@app</span>
   <span class="ruby-ivar">@subcommand_option_handling_strategy</span> = <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">subcommand_option_handling_strategy</span>
 
-  <span class="ruby-identifier">desc</span>          <span class="ruby-string">'The format name of the documentation to generate or the class name to use to generate it'</span>
-  <span class="ruby-identifier">default_value</span> <span class="ruby-string">'rdoc'</span>
-  <span class="ruby-identifier">arg_name</span>      <span class="ruby-string">'name_or_class'</span>
+  <span class="ruby-identifier">desc</span>          <span class="ruby-string">&#39;The format name of the documentation to generate or the class name to use to generate it&#39;</span>
+  <span class="ruby-identifier">default_value</span> <span class="ruby-string">&#39;rdoc&#39;</span>
+  <span class="ruby-identifier">arg_name</span>      <span class="ruby-string">&#39;name_or_class&#39;</span>
   <span class="ruby-identifier">flag</span>          <span class="ruby-value">:format</span>
 
   <span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span><span class="ruby-operator">|</span>
@@ -202,8 +203,9 @@ href="../../GLI.html">GLI</a> app passed in</p>
         <div class="method">
           <div class="title method-title" id="method-i-document">
             
-              <a name="method-i-document"></a><b>document</b>(document_listener)
+              <b>document</b>(document_listener)
             
+            <a href="../../../classes/GLI/Commands/Doc.html#method-i-document" name="method-i-document" class="permalink">Link</a>
           </div>
           
           
@@ -252,8 +254,9 @@ href="../../GLI.html">GLI</a> app passed in</p>
         <div class="method">
           <div class="title method-title" id="method-i-nodoc">
             
-              <a name="method-i-nodoc"></a><b>nodoc</b>()
+              <b>nodoc</b>()
             
+            <a href="../../../classes/GLI/Commands/Doc.html#method-i-nodoc" name="method-i-nodoc" class="permalink">Link</a>
           </div>
           
           
@@ -283,6 +286,7 @@ href="../../GLI.html">GLI</a> app passed in</p>
             
           </div>
                     </div>
+
     </div>
   </body>
 </html>    

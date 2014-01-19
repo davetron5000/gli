@@ -181,22 +181,23 @@ methods that apply only to command objects.</p>
         <div class="method">
           <div class="title method-title" id="method-i-arg_name">
             
-              <a name="method-i-arg_name"></a><b>arg_name</b>(name,options=[])
+              <b>arg_name</b>(name,options=[])
             
+            <a href="../../classes/GLI/DSL.html#method-i-arg_name" name="method-i-arg_name" class="permalink">Link</a>
           </div>
           
           
             <div class="description">
-              <p>Describe the argument name of the next flag.  It's important to keep this
-VERY short and, ideally, without any spaces (see Example).</p>
+              <p>Describe the argument name of the next flag.  It&#39;s important to keep
+this VERY short and, ideally, without any spaces (see Example).</p>
 <dl class="rdoc-list note-list"><dt><code>name</code>
 <dd>
 <p>A String that <strong>briefly</strong> describes the argument given to the
 following command or flag.</p>
 </dd><dt><code>options</code>
 <dd>
-<p>Symbol or array of symbols to annotate this argument.  This doesn't affect
-parsing, just the help output.  Values recognized are:</p>
+<p>Symbol or array of symbols to annotate this argument.  This doesn&#39;t
+affect parsing, just the help output.  Values recognized are:</p>
 <dl class="rdoc-list note-list"><dt><code>:optional</code>
 <dd>
 <p>indicates this argument is optional; will format it with square brackets</p>
@@ -208,8 +209,8 @@ parsing, just the help output.  Values recognized are:</p>
 
 <p>Example:</p>
 
-<pre>desc 'Set the filename'
-arg_name 'file_name'
+<pre>desc &#39;Set the filename&#39;
+arg_name &#39;file_name&#39;
 flag [:f,:filename]</pre>
 
 <p>Produces:</p>
@@ -243,8 +244,9 @@ flag [:f,:filename]</pre>
         <div class="method">
           <div class="title method-title" id="method-i-c">
             
-              <a name="method-i-c"></a><b>c</b>(*names)
+              <b>c</b>(*names)
             
+            <a href="../../classes/GLI/DSL.html#method-i-c" name="method-i-c" class="permalink">Link</a>
           </div>
           
           
@@ -261,8 +263,9 @@ flag [:f,:filename]</pre>
         <div class="method">
           <div class="title method-title" id="method-i-command">
             
-              <a name="method-i-command"></a><b>command</b>(*names)
+              <b>command</b>(*names)
             
+            <a href="../../classes/GLI/DSL.html#method-i-command" name="method-i-command" class="permalink">Link</a>
           </div>
           
           
@@ -342,20 +345,25 @@ as described above.</p>
     <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_post</span>,
     <span class="ruby-value">:skips_around</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_around</span>,
   }
+  <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">||=</span> []
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">names</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Hash</span>
     <span class="ruby-identifier">command</span> = <span class="ruby-constant">GLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Commands</span><span class="ruby-operator">::</span><span class="ruby-constant">CompoundCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword">self</span>,
                                                  <span class="ruby-identifier">names</span>.<span class="ruby-identifier">first</span>,
                                                  <span class="ruby-identifier">command_options</span>)
     <span class="ruby-identifier">command</span>.<span class="ruby-identifier">parent</span> = <span class="ruby-keyword">self</span>
     <span class="ruby-identifier">commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">command</span>
+    <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">command</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">command</span> = <span class="ruby-constant">Command</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">command_options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:names</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>))
-    <span class="ruby-identifier">command</span>.<span class="ruby-identifier">parent</span> = <span class="ruby-keyword">self</span>
-    <span class="ruby-identifier">commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">command</span>
+    <span class="ruby-identifier">new_command</span> = <span class="ruby-constant">Command</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">command_options</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:names</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>))
+    <span class="ruby-identifier">command</span> = <span class="ruby-identifier">commands</span>[<span class="ruby-identifier">new_command</span>.<span class="ruby-identifier">name</span>]
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">command</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">command</span> = <span class="ruby-identifier">new_command</span>
+      <span class="ruby-identifier">command</span>.<span class="ruby-identifier">parent</span> = <span class="ruby-keyword">self</span>
+      <span class="ruby-identifier">commands</span>[<span class="ruby-identifier">command</span>.<span class="ruby-identifier">name</span>] = <span class="ruby-identifier">command</span>
+      <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">command</span>
+    <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">command</span>
   <span class="ruby-keyword">end</span>
-  <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">||=</span> []
-  <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">command</span>
   <span class="ruby-identifier">clear_nexts</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -366,8 +374,9 @@ as described above.</p>
         <div class="method">
           <div class="title method-title" id="method-i-d">
             
-              <a name="method-i-d"></a><b>d</b>(description)
+              <b>d</b>(description)
             
+            <a href="../../classes/GLI/DSL.html#method-i-d" name="method-i-d" class="permalink">Link</a>
           </div>
           
           
@@ -384,8 +393,9 @@ as described above.</p>
         <div class="method">
           <div class="title method-title" id="method-i-default_value">
             
-              <a name="method-i-default_value"></a><b>default_value</b>(val)
+              <b>default_value</b>(val)
             
+            <a href="../../classes/GLI/DSL.html#method-i-default_value" name="method-i-default_value" class="permalink">Link</a>
           </div>
           
           
@@ -393,12 +403,12 @@ as described above.</p>
               <p>set the default value of the next flag or switch</p>
 <dl class="rdoc-list note-list"><dt>val
 <dd>
-<p>The default value to be used for the following flag if the user doesn't
-specify one and, when using a config file, the config also doesn't specify
-one.  For a switch, this is the value to be used if the switch isn't
-specified on the command-line.  Note that if you set a switch to have a
-default of true, using the switch on the command-line has no effect. To
-disable a switch where the default is true, use the <code>--no-</code>
+<p>The default value to be used for the following flag if the user doesn&#39;t
+specify one and, when using a config file, the config also doesn&#39;t
+specify one.  For a switch, this is the value to be used if the switch
+isn&#39;t specified on the command-line.  Note that if you set a switch to
+have a default of true, using the switch on the command-line has no effect.
+To disable a switch where the default is true, use the <code>--no-</code>
 form.</p>
 </dd></dl>
             </div>
@@ -426,8 +436,9 @@ form.</p>
         <div class="method">
           <div class="title method-title" id="method-i-desc">
             
-              <a name="method-i-desc"></a><b>desc</b>(description)
+              <b>desc</b>(description)
             
+            <a href="../../classes/GLI/DSL.html#method-i-desc" name="method-i-desc" class="permalink">Link</a>
           </div>
           
           
@@ -467,8 +478,9 @@ one-line description</p>
         <div class="method">
           <div class="title method-title" id="method-i-f">
             
-              <a name="method-i-f"></a><b>f</b>(*names)
+              <b>f</b>(*names)
             
+            <a href="../../classes/GLI/DSL.html#method-i-f" name="method-i-f" class="permalink">Link</a>
           </div>
           
           
@@ -485,8 +497,9 @@ one-line description</p>
         <div class="method">
           <div class="title method-title" id="method-i-flag">
             
-              <a name="method-i-flag"></a><b>flag</b>(*names)
+              <b>flag</b>(*names)
             
+            <a href="../../classes/GLI/DSL.html#method-i-flag" name="method-i-flag" class="permalink">Link</a>
           </div>
           
           
@@ -514,7 +527,7 @@ href="DSL.html#method-i-default_value">default_value</a></p>
 href="DSL.html#method-i-arg_name">arg_name</a></p>
 </dd><dt><code>:must_match</code>
 <dd>
-<p>A regexp that the flag's value must match</p>
+<p>A regexp that the flag&#39;s value must match</p>
 </dd><dt><code>:type</code>
 <dd>
 <p>A Class (or object you passed to <a
@@ -525,8 +538,8 @@ coversion</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">desc</span> <span class="ruby-string">'Set the filename'</span>
-<span class="ruby-identifier">flag</span> [:<span class="ruby-identifier">f</span>,:<span class="ruby-identifier">filename</span>,<span class="ruby-string">'file-name'</span>]
+<pre class="ruby"><span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;Set the filename&#39;</span>
+<span class="ruby-identifier">flag</span> [:<span class="ruby-identifier">f</span>,:<span class="ruby-identifier">filename</span>,<span class="ruby-string">&#39;file-name&#39;</span>]
 
 <span class="ruby-identifier">flag</span> :<span class="ruby-identifier">ipaddress</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;IP Address&quot;</span>, :<span class="ruby-identifier">must_match</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">/\d+\.\d+\.\d+\.\d+/</span>
 
@@ -576,14 +589,15 @@ coversion</p>
         <div class="method">
           <div class="title method-title" id="method-i-long_desc">
             
-              <a name="method-i-long_desc"></a><b>long_desc</b>(long_desc)
+              <b>long_desc</b>(long_desc)
             
+            <a href="../../classes/GLI/DSL.html#method-i-long_desc" name="method-i-long_desc" class="permalink">Link</a>
           </div>
           
           
             <div class="description">
               <p>Provide a longer, more detailed description.  This will be reformatted and
-wrapped to fit in the terminal's columns</p>
+wrapped to fit in the terminal&#39;s columns</p>
 <dl class="rdoc-list note-list"><dt><code>long_desc</code>
 <dd>
 <p>A String that is s longer description of the switch, flag, or command
@@ -614,8 +628,9 @@ following.</p>
         <div class="method">
           <div class="title method-title" id="method-i-s">
             
-              <a name="method-i-s"></a><b>s</b>(*names)
+              <b>s</b>(*names)
             
+            <a href="../../classes/GLI/DSL.html#method-i-s" name="method-i-s" class="permalink">Link</a>
           </div>
           
           
@@ -632,8 +647,9 @@ following.</p>
         <div class="method">
           <div class="title method-title" id="method-i-switch">
             
-              <a name="method-i-switch"></a><b>switch</b>(*names)
+              <b>switch</b>(*names)
             
+            <a href="../../classes/GLI/DSL.html#method-i-switch" name="method-i-switch" class="permalink">Link</a>
           </div>
           
           
@@ -699,6 +715,7 @@ switches default to off, or <code>false</code></p>
             
           </div>
                     </div>
+
     </div>
   </body>
 </html>    
