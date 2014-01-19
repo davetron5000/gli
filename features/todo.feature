@@ -144,6 +144,7 @@ Feature: The todo app has a nice user interface
         chained2, ch2 - 
     """
 
+    @wip
   Scenario Outline: Getting Help for a top level command of todo
     When I successfully run `todo <help_invocation>`
     Then the output should contain:
@@ -163,7 +164,8 @@ Feature: The todo app has a nice user interface
         stored in your todo databases. 
 
     COMMAND OPTIONS
-        -l, --[no-]long - Show long form
+        -l, --[no-]long     - Show long form
+        --required_flag=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -205,7 +207,8 @@ Feature: The todo app has a nice user interface
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
 
     COMMAND OPTIONS
-        -l, --[no-]long - Show long form
+        -l, --[no-]long     - Show long form
+        --required_flag=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -236,7 +239,8 @@ Feature: The todo app has a nice user interface
      
 
     COMMAND OPTIONS
-        -l, --[no-]long - Show long form
+        -l, --[no-]long     - Show long form
+        --required_flag=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -259,7 +263,8 @@ Feature: The todo app has a nice user interface
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
 
     COMMAND OPTIONS
-        -l, --[no-]long - Show long form
+        -l, --[no-]long     - Show long form
+        --required_flag=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -310,11 +315,11 @@ Feature: The todo app has a nice user interface
     And the output should not contain "COMMAND OPTIONS"
 
   Scenario: Running list w/out subcommand performs list tasks by default
-    When I successfully run `todo list boo yay`
+    When I successfully run `todo list --required_flag=blah boo yay`
     Then the output should contain "list tasks: boo,yay"
 
   Scenario: Running list w/out subcommand or any arguments performs list tasks by default
-    When I successfully run `todo list`
+    When I successfully run `todo list --required_flag=blah`
     Then the output should contain "list tasks:"
 
   Scenario: Running chained commands works

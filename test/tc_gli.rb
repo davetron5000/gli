@@ -71,6 +71,61 @@ class TC_testGLI < Clean::Test::TestCase
     assert @called, "Expected default command to be executed"
   end
 
+  def test_command_options_can_be_required
+    @app.reset
+    @called = false
+    @app.command :foo do |c|
+      c.flag :flag, :required => true
+      c.flag :other_flag, :required => true
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
+    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/other_flag is required/), @fake_stderr.strings.inspect
+    assert !@called
+
+    assert_equal 0, @app.run(['foo','--flag=bar','--other_flag=blah']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
+    assert @called
+
+  end
+
+  def test_global_options_can_be_required
+    @app.reset
+    @called = false
+    @app.flag :flag, :required => true
+    @app.flag :other_flag, :required => true
+    @app.command :foo do |c|
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
+    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/other_flag is required/), @fake_stderr.strings.inspect
+    assert !@called
+
+    assert_equal 0, @app.run(['--flag=bar','--other_flag=blah','foo']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
+    assert @called
+
+  end
+
+  def test_global_required_options_are_ignored_on_help
+    @app.reset
+    @called = false
+    @app.flag :flag, :required => true
+    @app.flag :other_flag, :required => true
+    @app.command :foo do |c|
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    assert_equal 0, @app.run(['help']), "Expected exit status to be 64"
+    assert  !@fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  !@fake_stderr.contained?(/other_flag is required/), @fake_stderr.strings.inspect
+  end
+
   def test_flag_with_space_barfs
     @app.reset
     assert_raises(ArgumentError) { @app.flag ['some flag'] }

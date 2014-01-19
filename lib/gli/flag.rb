@@ -23,6 +23,7 @@ module GLI
     #           :arg_name:: the name of the flag's argument, default is "arg"
     #           :must_match:: a regexp that the flag's value must match
     #           :type:: a class to convert the value to
+    #           :required:: if true, this flag must be specified on the command line
     #           :mask:: if true, the default value of this flag will not be output in the help.
     #                   This is useful for password flags where you might not want to show it
     #                   on the command-line.
@@ -33,7 +34,14 @@ module GLI
       @must_match = options[:must_match]
       @type = options[:type]
       @mask = options[:mask]
+      @required = options[:required]
     end
+
+    # True if this flag is required on the command line
+    def required?
+      @required
+    end
+
 
     def safe_default_value
       if @mask

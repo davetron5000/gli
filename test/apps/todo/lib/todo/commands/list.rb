@@ -14,6 +14,8 @@ command [:list] do |c|
   c.desc "Show long form"
   c.switch [:l,:long]
 
+  c.flag :required_flag, :required => true
+
   c.desc "List tasks"
   c.long_desc %(
     Lists all of your tasks that you have, in varying orders, and

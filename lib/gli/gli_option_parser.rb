@@ -3,7 +3,7 @@ module GLI
   class GLIOptionParser
     def initialize(commands,flags,switches,accepts,default_command = nil,subcommand_option_handling_strategy=:legacy)
        command_finder       = CommandFinder.new(commands,default_command || "help")
-      @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder)
+      @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags)
       @accepts              = accepts
       @subcommand_option_handling_strategy = subcommand_option_handling_strategy
     end
@@ -21,9 +21,10 @@ module GLI
   private
 
     class GlobalOptionParser
-      def initialize(option_parser_factory,command_finder)
+      def initialize(option_parser_factory,command_finder,flags)
         @option_parser_factory = option_parser_factory
         @command_finder        = command_finder
+        @flags                 = flags
       end
 
       def parse!(parsing_result)
@@ -35,11 +36,29 @@ module GLI
                          parsing_result.arguments.shift
                        end
         parsing_result.command        = @command_finder.find_command(command_name)
+        unless command_name == 'help'
+          verify_required_options!(@flags,parsing_result.global_options)
+        end
         parsing_result
+      end
+
+    protected
+
+      def verify_required_options!(flags,options)
+        missing_required_options = flags.values.
+          select(&:required?).
+          reject { |option|
+            options[option.name] != nil
+        }
+        unless missing_required_options.empty?
+          raise BadCommandLine, missing_required_options.map { |option|
+            "#{option.name} is required"
+          }.join(' ')
+        end
       end
     end
 
-    class NormalCommandOptionParser
+    class NormalCommandOptionParser < GlobalOptionParser
       def initialize(accepts)
         @accepts = accepts
       end
@@ -66,6 +85,8 @@ module GLI
           parsed_command_options[command] = option_parser_factory.options_hash_with_defaults_set!
           command_finder                  = CommandFinder.new(command.commands,command.get_default_command)
           next_command_name               = arguments.shift
+
+          verify_required_options!(command.flags,parsed_command_options[command])
 
           begin
             command = command_finder.find_command(next_command_name)
@@ -101,6 +122,7 @@ module GLI
         parsing_result.arguments = Array(arguments.compact)
         parsing_result
       end
+
     end
 
     class LegacyCommandOptionParser < NormalCommandOptionParser
@@ -116,6 +138,7 @@ module GLI
         subcommand,args                = find_subcommand(command,parsing_result.arguments)
         parsing_result.command         = subcommand
         parsing_result.arguments       = args
+        verify_required_options!(command.flags,parsing_result.command_options)
       end
 
     private
