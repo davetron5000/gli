@@ -156,6 +156,7 @@ module GLI
         :skips_pre => @skips_pre,
         :skips_post => @skips_post,
         :skips_around => @skips_around,
+        :hide_commands_without_desc => @hide_commands_without_desc,
       }
       @commands_declaration_order ||= []
       if names.first.kind_of? Hash

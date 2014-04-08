@@ -11,8 +11,9 @@ module GLI
     end
 
     # Return true to avoid including this command in your help strings
+    # Will honor the hide_commands_without_desc flag
     def nodoc
-      false
+      @hide_commands_without_desc and description.nil?
     end
 
     # Return the arguments description
