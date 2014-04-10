@@ -3,7 +3,7 @@
 GLI is the best way to make a "command-suite" command-line application, e.g. one like <tt>git</tt> (for the best way to make a
 simpler command-line application, check out methadone[http://www.github.com/davetron5000/methadone]).
 
-GLI allows you to make a very polished, easy-to-maintain command-line application without a lot
+GLI allows you to make a polished, easy-to-maintain command-line application without a lot
 of syntax, but without restricting you in any way from the power of +OptionParser+.
 
 * {Overview}[http://davetron5000.github.com/gli]
