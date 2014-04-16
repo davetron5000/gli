@@ -38,6 +38,7 @@ After do |scenario|
   ENV['HOME'] = @original_home
   ENV['TODO_SORT_HELP'] = nil
   ENV['TODO_WRAP_HELP_TEXT'] = nil
+  ENV['HIDE_COMMANDS_WITHOUT_DESC'] = nil
   FileUtils.mv 'gli.rdoc.orig','gli.rdoc'
 end
 

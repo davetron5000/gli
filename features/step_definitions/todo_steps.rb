@@ -18,6 +18,10 @@ Given /^the todo app is coded to wrap text only for tty$/ do
   ENV['TODO_WRAP_HELP_TEXT'] = 'tty_only'
 end
 
+Given /^the todo app is coded to hide commands without description$/ do
+  ENV['HIDE_COMMANDS_WITHOUT_DESC'] = 'true'
+end
+
 Given /^a clean home directory$/ do
   FileUtils.rm_rf File.join(ENV['HOME'],'gli_test_todo.rc')
 end

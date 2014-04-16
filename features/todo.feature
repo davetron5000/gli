@@ -144,6 +144,38 @@ Feature: The todo app has a nice user interface
         chained2, ch2 - 
     """
 
+  Scenario: Getting Help with commands without description hidden
+    Given the todo app is coded to hide commands without description
+    When I successfully run `todo help`
+    Then the output should contain:
+    """
+    NAME
+        todo - Manages tasks
+
+        A test program that has a sophisticated UI that can be used to exercise a
+        lot of GLI's power
+
+    SYNOPSIS
+        todo [global options] command [command options] [arguments...]
+
+    VERSION
+        0.0.1
+
+    GLOBAL OPTIONS
+        --flag=arg         - (default: none)
+        --help             - Show this message
+        --[no-]otherswitch - 
+        --[no-]switch      - 
+        --version          - Display the program version
+
+    COMMANDS
+        create, new - Create a new task or context
+        help        - Shows a list of commands or help for one command
+        initconfig  - Initialize the config file using current global options
+        list        - List things, such as tasks or contexts
+        ls          - LS things, such as tasks or contexts
+    """
+
   Scenario Outline: Getting Help for a top level command of todo
     When I successfully run `todo <help_invocation>`
     Then the output should contain:
