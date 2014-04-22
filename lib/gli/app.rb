@@ -62,6 +62,17 @@ module GLI
       @program_long_desc
     end
 
+    # Provide a flag to choose whether to hide or not from the help the undescribed commands.
+    # By default the undescribed commands will be shown in the help.
+    #
+    # hide:: A Bool for hide the undescribed commands
+    def hide_commands_without_desc(hide=nil)
+      unless hide.nil?
+        @hide_commands_without_desc = hide
+      end
+      @hide_commands_without_desc || false
+    end
+
     # Use this if the following command should not have the pre block executed.
     # By default, the pre block is executed before each command and can result in
     # aborting the call.  Using this will avoid that behavior for the following command
