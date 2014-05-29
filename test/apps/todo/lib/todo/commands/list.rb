@@ -15,6 +15,7 @@ command [:list] do |c|
   c.switch [:l,:long]
 
   c.flag :required_flag, :required => true
+  c.flag :required_flag2, :required => true
 
   c.desc "List tasks"
   c.long_desc %(
