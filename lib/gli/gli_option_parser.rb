@@ -53,7 +53,7 @@ module GLI
         unless missing_required_options.empty?
           raise BadCommandLine, missing_required_options.map { |option|
             "#{option.name} is required"
-          }.join(' ')
+          }.join(', ')
         end
       end
     end
