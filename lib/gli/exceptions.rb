@@ -44,6 +44,17 @@ module GLI
     end
   end
 
+  class MissingRequiredArgumentsException < BadCommandLine
+    # The command for which the argument was unknown
+    attr_reader :command_in_context
+    # +message+:: the error message to show the user
+    # +command+:: the command we were using to parse command-specific options
+    def initialize(message,command)
+      super(message)
+      @command_in_context = command
+    end
+  end
+
   # Indicates the bad command line was an unknown command argument
   class UnknownCommandArgument < CommandException
   end

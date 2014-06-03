@@ -37,23 +37,23 @@ module GLI
                        end
         parsing_result.command        = @command_finder.find_command(command_name)
         unless command_name == 'help'
-          verify_required_options!(@flags,parsing_result.global_options)
+          verify_required_options!(@flags, parsing_result.command, parsing_result.global_options)
         end
         parsing_result
       end
 
     protected
 
-      def verify_required_options!(flags,options)
+      def verify_required_options!(flags, command, options)
         missing_required_options = flags.values.
           select(&:required?).
           reject { |option|
             options[option.name] != nil
         }
         unless missing_required_options.empty?
-          raise BadCommandLine, missing_required_options.map { |option|
+          raise MissingRequiredArgumentsException.new(missing_required_options.map { |option|
             "#{option.name} is required"
-          }.join(', ')
+          }.join(', '), command)
         end
       end
     end
@@ -86,7 +86,7 @@ module GLI
           command_finder                  = CommandFinder.new(command.commands,command.get_default_command)
           next_command_name               = arguments.shift
 
-          verify_required_options!(command.flags,parsed_command_options[command])
+          verify_required_options!(command.flags, command, parsed_command_options[command])
 
           begin
             command = command_finder.find_command(next_command_name)
@@ -138,7 +138,7 @@ module GLI
         subcommand,args                = find_subcommand(command,parsing_result.arguments)
         parsing_result.command         = subcommand
         parsing_result.arguments       = args
-        verify_required_options!(command.flags,parsing_result.command_options)
+        verify_required_options!(command.flags, parsing_result.command, parsing_result.command_options)
       end
 
     private
