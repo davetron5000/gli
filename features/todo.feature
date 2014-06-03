@@ -489,3 +489,29 @@ Feature: The todo app has a nice user interface
     When I run `todo list`
     Then the exit status should not be 0
     And the stderr should contain "error: required_flag is required, required_flag2 is required"
+    And the output should contain:
+    """
+    NAME
+        list - List things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] list [command options] [tasks] [subcommand options]
+        todo [global options] list [command options] contexts [subcommand options]
+
+    DESCRIPTION
+        List a whole lot of things that you might be keeping track of in your
+        overall todo list.
+
+        This is your go-to place or finding all of the things that you might have
+        stored in your todo databases. 
+
+    COMMAND OPTIONS
+        -l, --[no-]long      - Show long form
+        --required_flag=arg  - (required, default: none)
+        --required_flag2=arg - (required, default: none)
+
+    COMMANDS
+        contexts - List contexts
+        tasks    - List tasks (default)
+    """
+
