@@ -17,6 +17,7 @@ Feature: The todo app has a nice user interface
 
   Scenario Outline: Getting Help for todo in general
     When I successfully run `todo <help>`
+    Then the exit status should be 0
     Then the output should contain:
     """
     NAME
