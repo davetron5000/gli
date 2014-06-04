@@ -210,7 +210,7 @@ module GLI
     def handle_exception(ex,command)
       if regular_error_handling?(ex)
         output_error_message(ex)
-        if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine)
+        if ex.kind_of?(OptionParser::ParseError) || ex.kind_of?(BadCommandLine) || ex.kind_of?(RequestHelp)
           if commands[:help]
             command_for_help = command.nil? ? [] : command.name_for_help
             commands[:help].execute({},{},command_for_help)
@@ -220,7 +220,7 @@ module GLI
         stderr.puts "Custom error handler exited false, skipping normal error handling"
       end
 
-      raise ex if ENV['GLI_DEBUG'] == 'true'
+      raise ex if ENV['GLI_DEBUG'] == 'true' and not ex.kind_of?(RequestHelp)
 
       ex.extend(GLI::StandardException)
       ex.exit_code
