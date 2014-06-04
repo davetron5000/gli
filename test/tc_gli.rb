@@ -663,6 +663,19 @@ class TC_testGLI < Clean::Test::TestCase
     assert_raises(GLI::CustomExit) { @app.run(['foo']) }
   end
 
+  def test_gli_help_does_not_raise_on_debug
+    ENV['GLI_DEBUG'] = 'true'
+
+    @app.reset
+    @app.command(:multiply) do |c|
+      c.action do |g,o,a|
+        # Nothing
+      end
+    end
+
+    assert_nothing_raised(GLI::CustomExit) { @app.run(['multiply', '--help']) }
+  end
+
   class ConvertMe
     attr_reader :value
     def initialize(value)
