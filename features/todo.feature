@@ -195,8 +195,9 @@ Feature: The todo app has a nice user interface
         stored in your todo databases. 
 
     COMMAND OPTIONS
-        -l, --[no-]long     - Show long form
-        --required_flag=arg - (required, default: none)
+        -l, --[no-]long      - Show long form
+        --required_flag=arg  - (required, default: none)
+        --required_flag2=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -238,8 +239,9 @@ Feature: The todo app has a nice user interface
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
 
     COMMAND OPTIONS
-        -l, --[no-]long     - Show long form
-        --required_flag=arg - (required, default: none)
+        -l, --[no-]long      - Show long form
+        --required_flag=arg  - (required, default: none)
+        --required_flag2=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -270,8 +272,9 @@ Feature: The todo app has a nice user interface
      
 
     COMMAND OPTIONS
-        -l, --[no-]long     - Show long form
-        --required_flag=arg - (required, default: none)
+        -l, --[no-]long      - Show long form
+        --required_flag=arg  - (required, default: none)
+        --required_flag2=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -294,8 +297,9 @@ Feature: The todo app has a nice user interface
         List a whole lot of things that you might be keeping track of    in your overall todo list.   This is your go-to place or finding all of the things that you   might have    stored in    your todo databases. 
 
     COMMAND OPTIONS
-        -l, --[no-]long     - Show long form
-        --required_flag=arg - (required, default: none)
+        -l, --[no-]long      - Show long form
+        --required_flag=arg  - (required, default: none)
+        --required_flag2=arg - (required, default: none)
 
     COMMANDS
         contexts - List contexts
@@ -346,11 +350,11 @@ Feature: The todo app has a nice user interface
     And the output should not contain "COMMAND OPTIONS"
 
   Scenario: Running list w/out subcommand performs list tasks by default
-    When I successfully run `todo list --required_flag=blah boo yay`
+    When I successfully run `todo list --required_flag=blah --required_flag2=bleh boo yay`
     Then the output should contain "list tasks: boo,yay"
 
   Scenario: Running list w/out subcommand or any arguments performs list tasks by default
-    When I successfully run `todo list --required_flag=blah`
+    When I successfully run `todo list --required_flag=blah --required_flag2=bleh`
     Then the output should contain "list tasks:"
 
   Scenario: Running chained commands works
@@ -479,3 +483,35 @@ Feature: The todo app has a nice user interface
         todo [global options] ls [command options] contexts [subcommand options]
         todo [global options] ls [command options] tasks [subcommand options]
     """
+
+  Scenario: We get a clear error message when a required argument is missing
+    Given a clean home directory
+    When I run `todo list`
+    Then the exit status should not be 0
+    And the stderr should contain "error: required_flag is required, required_flag2 is required"
+    And the output should contain:
+    """
+    NAME
+        list - List things, such as tasks or contexts
+
+    SYNOPSIS
+        todo [global options] list [command options] [tasks] [subcommand options]
+        todo [global options] list [command options] contexts [subcommand options]
+
+    DESCRIPTION
+        List a whole lot of things that you might be keeping track of in your
+        overall todo list.
+
+        This is your go-to place or finding all of the things that you might have
+        stored in your todo databases. 
+
+    COMMAND OPTIONS
+        -l, --[no-]long      - Show long form
+        --required_flag=arg  - (required, default: none)
+        --required_flag2=arg - (required, default: none)
+
+    COMMANDS
+        contexts - List contexts
+        tasks    - List tasks (default)
+    """
+
