@@ -73,7 +73,7 @@ module GLI
             usage << ' '
             usage << sub_options_doc
           end
-          arg_name_doc = ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options).strip
+          arg_name_doc = ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options,sub.arguments).strip
           if arg_name_doc.length > 0
             usage << ' '
             usage << arg_name_doc

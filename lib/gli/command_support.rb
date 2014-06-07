@@ -25,6 +25,10 @@ module GLI
       @arguments_options
     end
 
+    def arguments
+      @arguments
+    end
+
     # If true, this command doesn't want the pre block run before it executes
     def skips_pre 
       @skips_pre

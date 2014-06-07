@@ -49,6 +49,7 @@ module GLI
       super(options[:names],options[:description],options[:long_desc])
       @arguments_description = options[:arguments_name] || ''
       @arguments_options = Array(options[:arguments_options]).flatten
+      @arguments = options[:arguments] || []
       @skips_pre = options[:skips_pre]
       @skips_post = options[:skips_post]
       @skips_around = options[:skips_around]
