@@ -521,3 +521,25 @@ Feature: The todo app has a nice user interface
         tasks    - List tasks (default)
     """
 
+  Scenario: Getting help on a root command with an arg_name outputs the argument description
+    When I run `todo help first`
+    And the stdout should contain:
+    """
+    NAME
+        first - 
+
+    SYNOPSIS
+        todo [global options] first [argument]
+    """
+
+  Scenario: Getting help on a root command with an arg outputs the argument description
+    When I run `todo help second`
+    And the stdout should contain:
+    """
+    NAME
+        second - 
+
+    SYNOPSIS
+        todo [global options] second [argument]
+    """
+
