@@ -220,7 +220,7 @@ module GLI
         stderr.puts "Custom error handler exited false, skipping normal error handling"
       end
 
-      raise ex if ENV['GLI_DEBUG'] == 'true' and not ex.kind_of?(RequestHelp)
+      raise ex if ENV['GLI_DEBUG'] == 'true' && !ex.kind_of?(RequestHelp)
 
       ex.extend(GLI::StandardException)
       ex.exit_code
