@@ -71,7 +71,7 @@ module GLI
       unless help_args.empty?
         help_args << "Get help for #{command.name}"
         option_parser.on(*help_args) do
-          raise CommandException.new(nil,command,0)
+          raise RequestHelp.new(command)
         end
       end
     end

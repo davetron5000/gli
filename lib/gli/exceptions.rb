@@ -5,6 +5,21 @@ module GLI
   module StandardException
     def exit_code; 1; end
   end
+
+  # Hack to request help from within a command
+  # Will *not* be rethrown when GLI_DEBUG is ON
+  class RequestHelp < StandardError
+    include StandardException
+    def exit_code; 0; end
+
+    # The command for which the argument was unknown
+    attr_reader :command_in_context
+
+    def initialize(command_in_context)
+      @command_in_context = command_in_context
+    end
+  end
+
   # Indicates that the command line invocation was bad
   class BadCommandLine < StandardError
     include StandardException
