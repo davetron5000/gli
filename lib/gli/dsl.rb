@@ -36,6 +36,26 @@ module GLI
       @next_arg_options = options
     end
 
+    # Describes one of the arguments of the next command
+    #
+    # +name+:: A String that *briefly* describes the argument given to the following command.
+    # +options+:: Symbol or array of symbols to annotate this argument.  This doesn't affect parsing, just
+    #             the help output.  Values recognized are:
+    #             +:optional+:: indicates this argument is optional; will format it with square brackets
+    #             +:multiple+:: indicates multiple values are accepted; will format appropriately
+    #
+    # Example:
+    #     arg :output
+    #     arg :input, :multiple
+    #     command :pack do ...
+    #
+    # Produces the synopsis:
+    #     app.rb [global options] pack output input[, input]*
+    def arg(name, options=[])
+      @next_arguments ||= []
+      @next_arguments << Argument.new(name, Array(options).flatten)
+    end
+
     # set the default value of the next flag or switch
     #
     # +val+:: The default value to be used for the following flag if the user doesn't specify one
@@ -152,6 +172,7 @@ module GLI
         :description => @next_desc,
         :arguments_name => @next_arg_name,
         :arguments_options => @next_arg_options,
+        :arguments => @next_arguments,
         :long_desc => @next_long_desc,
         :skips_pre => @skips_pre,
         :skips_post => @skips_post,
@@ -178,6 +199,7 @@ module GLI
         yield command
       end
       clear_nexts
+      @next_arguments = []
     end
     alias :c :command
 

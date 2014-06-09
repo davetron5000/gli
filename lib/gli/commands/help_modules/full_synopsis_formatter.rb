@@ -11,7 +11,7 @@ module GLI
         def synopses_for_command(command)
           synopses = []
           one_line_usage = basic_usage(command)
-          one_line_usage << command.arguments_description
+          one_line_usage << ArgNameFormatter.new.format(command.arguments_description,command.arguments_options,command.arguments).strip
           if command.commands.empty?
             synopses << one_line_usage
           else
@@ -73,7 +73,7 @@ module GLI
             usage << ' '
             usage << sub_options_doc
           end
-          arg_name_doc = ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options).strip
+          arg_name_doc = ArgNameFormatter.new.format(sub.arguments_description,sub.arguments_options,sub.arguments).strip
           if arg_name_doc.length > 0
             usage << ' '
             usage << arg_name_doc

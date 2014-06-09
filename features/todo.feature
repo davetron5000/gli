@@ -341,12 +341,18 @@ Feature: The todo app has a nice user interface
     SYNOPSIS
         todo [global options] create 
         todo [global options] create contexts [context_name]
+        todo [global options] create relation_1-1 first second [name]
+        todo [global options] create relation_1-n first second[, second]* [name]
+        todo [global options] create relation_n-1 first[, first]* second [name]
         todo [global options] create tasks task_name[, task_name]*
 
     COMMANDS
-        <default> - Makes a new task
-        contexts  - Make a new context
-        tasks     - Make a new task
+        <default>    - Makes a new task
+        contexts     - Make a new context
+        relation_1-1 - 
+        relation_1-n - 
+        relation_n-1 - 
+        tasks        - Make a new task
     """
     And the output should not contain "COMMAND OPTIONS"
 
@@ -514,5 +520,27 @@ Feature: The todo app has a nice user interface
     COMMANDS
         contexts - List contexts
         tasks    - List tasks (default)
+    """
+
+  Scenario: Getting help on a root command with an arg_name outputs the argument description
+    When I run `todo help first`
+    And the stdout should contain:
+    """
+    NAME
+        first - 
+
+    SYNOPSIS
+        todo [global options] first [argument]
+    """
+
+  Scenario: Getting help on a root command with an arg outputs the argument description
+    When I run `todo help second`
+    And the stdout should contain:
+    """
+    NAME
+        second - 
+
+    SYNOPSIS
+        todo [global options] second [argument]
     """
 

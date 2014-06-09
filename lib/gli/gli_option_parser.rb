@@ -51,6 +51,7 @@ module GLI
             options[option.name] != nil
         }
         unless missing_required_options.empty?
+          missing_required_options.sort!
           raise MissingRequiredArgumentsException.new(missing_required_options.map { |option|
             "#{option.name} is required"
           }.join(', '), command)
