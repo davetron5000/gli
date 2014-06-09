@@ -235,6 +235,10 @@ called after it</p>
 <dd>
 <p>if true, this command advertises that it doesn&#39;t want the around block
 called</p>
+</dd><dt><code>hide_commands_without_desc</code>
+<dd>
+<p>if true and there isn&#39;t a description the command is not going to be
+shown in the help</p>
 </dd></dl>
 </dd></dl>
             </div>
@@ -252,14 +256,16 @@ called</p>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 47</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:names</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:description</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:long_desc</span>])
   <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_name</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span>
   <span class="ruby-ivar">@arguments_options</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_options</span>]).<span class="ruby-identifier">flatten</span>
+  <span class="ruby-ivar">@arguments</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments</span>] <span class="ruby-operator">||</span> []
   <span class="ruby-ivar">@skips_pre</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_pre</span>]
   <span class="ruby-ivar">@skips_post</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_post</span>]
   <span class="ruby-ivar">@skips_around</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:skips_around</span>]
+  <span class="ruby-ivar">@hide_commands_without_desc</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:hide_commands_without_desc</span>]
   <span class="ruby-ivar">@commands_declaration_order</span> = []
   <span class="ruby-ivar">@flags_declaration_order</span> = []
   <span class="ruby-ivar">@switches_declaration_order</span> = []
@@ -322,7 +328,7 @@ early exit based on an error condition</p>
                 
               </p>
               <div id="method-i-action_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 83</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 86</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">action</span>(&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
@@ -365,7 +371,7 @@ default as a String or Symbol.</p>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 65</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 68</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command_name</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -451,7 +457,7 @@ default.</p>
                 
               </p>
               <div id="method-i-default_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 135</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 138</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@default_desc</span> = <span class="ruby-identifier">desc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -496,7 +502,7 @@ default.</p>
                 
               </p>
               <div id="method-i-name_for_help_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 157</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 160</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">name_for_help</span>
   <span class="ruby-identifier">name_array</span> = [<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>]
   <span class="ruby-identifier">command_parent</span> = <span class="ruby-identifier">parent</span>

@@ -3,7 +3,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>GLI::PreconditionFailed</title>
+    <title>GLI::RequestHelp</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
@@ -20,7 +20,7 @@
         
         <h1>
             <span class="type">Class</span> 
-            GLI::PreconditionFailed 
+            GLI::RequestHelp 
             
                 <span class="parent">&lt; 
                     
@@ -37,6 +37,13 @@
     </div>
     <div id="bodyContent">
         <div id="content">
+  
+    <div class="description">
+      
+<p>Hack to request help from within a command Will <strong>not</strong> be
+rethrown when GLI_DEBUG is ON</p>
+
+    </div>
   
 
 
@@ -62,6 +69,18 @@
               
               <li>
                 <a href="#method-i-exit_code">exit_code</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>N</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-c-new">new</a>
               </li>
             
           </ul>
@@ -98,10 +117,61 @@
 
 
     
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [R]
+            </td>
+            <td class='attr-name'>command_in_context</td>
+            <td class='attr-desc'><p>The command for which the argument was unknown</p></td>
+          </tr>
+        
+      </table>
+    
 
 
     <!-- Methods -->
-        
+    
+      <div class="sectiontitle">Class Public methods</div>
+      
+        <div class="method">
+          <div class="title method-title" id="method-c-new">
+            
+              <b>new</b>(command_in_context)
+            
+            <a href="../../classes/GLI/RequestHelp.html#method-c-new" name="method-c-new" class="permalink">Link</a>
+          </div>
+          
+          
+            <div class="description">
+              
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
+                
+              </p>
+              <div id="method-c-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 18</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">command_in_context</span>)
+  <span class="ruby-ivar">@command_in_context</span> = <span class="ruby-identifier">command_in_context</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+                  
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -109,7 +179,7 @@
             
               <b>exit_code</b>()
             
-            <a href="../../classes/GLI/PreconditionFailed.html#method-i-exit_code" name="method-i-exit_code" class="permalink">Link</a>
+            <a href="../../classes/GLI/RequestHelp.html#method-i-exit_code" name="method-i-exit_code" class="permalink">Link</a>
           </div>
           
           
@@ -130,8 +200,8 @@
                 
               </p>
               <div id="method-i-exit_code_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 31</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_code</span>; <span class="ruby-number">65</span>; <span class="ruby-keyword">end</span></pre>
+                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 13</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_code</span>; <span class="ruby-number">0</span>; <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             

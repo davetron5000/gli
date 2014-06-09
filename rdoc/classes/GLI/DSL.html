@@ -64,6 +64,11 @@ methods that apply only to command objects.</p>
             
               
               <li>
+                <a href="#method-i-arg">arg</a>,
+              </li>
+            
+              
+              <li>
                 <a href="#method-i-arg_name">arg_name</a>
               </li>
             
@@ -178,6 +183,68 @@ methods that apply only to command objects.</p>
         
       <div class="sectiontitle">Instance Public methods</div>
       
+        <div class="method">
+          <div class="title method-title" id="method-i-arg">
+            
+              <b>arg</b>(name, options=[])
+            
+            <a href="../../classes/GLI/DSL.html#method-i-arg" name="method-i-arg" class="permalink">Link</a>
+          </div>
+          
+          
+            <div class="description">
+              <p>Describes one of the arguments of the next command</p>
+<dl class="rdoc-list note-list"><dt>name
+<dd>
+<p>A String that <strong>briefly</strong> describes the argument given to the
+following command.</p>
+</dd><dt><code>options</code>
+<dd>
+<p>Symbol or array of symbols to annotate this argument.  This doesn&#39;t
+affect parsing, just the help output.  Values recognized are:</p>
+<dl class="rdoc-list note-list"><dt><code>:optional</code>
+<dd>
+<p>indicates this argument is optional; will format it with square brackets</p>
+</dd><dt><code>:multiple</code>
+<dd>
+<p>indicates multiple values are accepted; will format appropriately</p>
+</dd></dl>
+</dd></dl>
+
+<p>Example:</p>
+
+<pre>arg :output
+arg :input, :multiple
+command :pack do ...</pre>
+
+<p>Produces the synopsis:</p>
+
+<pre>app.rb [global options] pack output input[, input]*</pre>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-arg_source')" id="l_method-i-arg_source">show</a>
+                
+              </p>
+              <div id="method-i-arg_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 54</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">arg</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">options</span>=[])
+  <span class="ruby-ivar">@next_arguments</span> <span class="ruby-operator">||=</span> []
+  <span class="ruby-ivar">@next_arguments</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-constant">Argument</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">name</span>, <span class="ruby-constant">Array</span>(<span class="ruby-identifier">options</span>).<span class="ruby-identifier">flatten</span>)
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
         <div class="method">
           <div class="title method-title" id="method-i-arg_name">
             
@@ -334,16 +401,18 @@ as described above.</p>
                 
               </p>
               <div id="method-i-command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 150</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 170</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">command_options</span> = {
     <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_desc</span>,
     <span class="ruby-value">:arguments_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_arg_name</span>,
     <span class="ruby-value">:arguments_options</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_arg_options</span>,
+    <span class="ruby-value">:arguments</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_arguments</span>,
     <span class="ruby-value">:long_desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_long_desc</span>,
     <span class="ruby-value">:skips_pre</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_pre</span>,
     <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_post</span>,
     <span class="ruby-value">:skips_around</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@skips_around</span>,
+    <span class="ruby-value">:hide_commands_without_desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@hide_commands_without_desc</span>,
   }
   <span class="ruby-ivar">@commands_declaration_order</span> <span class="ruby-operator">||=</span> []
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">names</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Hash</span>
@@ -365,6 +434,7 @@ as described above.</p>
     <span class="ruby-keyword">yield</span> <span class="ruby-identifier">command</span>
   <span class="ruby-keyword">end</span>
   <span class="ruby-identifier">clear_nexts</span>
+  <span class="ruby-ivar">@next_arguments</span> = []
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -426,7 +496,7 @@ form.</p>
                 
               </p>
               <div id="method-i-default_value_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 46</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_value</span>(<span class="ruby-identifier">val</span>); <span class="ruby-ivar">@next_default_value</span> = <span class="ruby-identifier">val</span>; <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -569,7 +639,7 @@ coversion</p>
                 
               </p>
               <div id="method-i-flag_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 71</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 91</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">flag</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>
@@ -698,7 +768,7 @@ switches default to off, or <code>false</code></p>
                 
               </p>
               <div id="method-i-switch_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 93</span>
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(*<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>

@@ -3,7 +3,7 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>GLI::PreconditionFailed</title>
+    <title>GLI::MissingRequiredArgumentsException</title>
     <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
@@ -20,11 +20,11 @@
         
         <h1>
             <span class="type">Class</span> 
-            GLI::PreconditionFailed 
+            GLI::MissingRequiredArgumentsException 
             
                 <span class="parent">&lt; 
                     
-                    StandardError
+                    <a href="BadCommandLine.html">GLI::BadCommandLine</a>
                     
                 </span>
             
@@ -55,13 +55,13 @@
     <div class="sectiontitle">Methods</div>
     <dl class="methods">
       
-        <dt>E</dt>
+        <dt>N</dt>
         <dd>
           <ul>
             
               
               <li>
-                <a href="#method-i-exit_code">exit_code</a>
+                <a href="#method-c-new">new</a>
               </li>
             
           </ul>
@@ -71,20 +71,6 @@
   
 
   
-    <!-- Includes -->
-    <div class="sectiontitle">Included Modules</div>
-    <ul>
-      
-        <li>
-          
-            <a href="StandardException.html">
-              GLI::StandardException
-            </a>
-          
-        </li>
-      
-    </ul>
-  
 
 
 
@@ -97,24 +83,44 @@
     
 
 
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [R]
+            </td>
+            <td class='attr-name'>command_in_context</td>
+            <td class='attr-desc'><p>The command for which the argument was unknown</p></td>
+          </tr>
+        
+      </table>
     
 
 
     <!-- Methods -->
-        
-      <div class="sectiontitle">Instance Public methods</div>
+    
+      <div class="sectiontitle">Class Public methods</div>
       
         <div class="method">
-          <div class="title method-title" id="method-i-exit_code">
+          <div class="title method-title" id="method-c-new">
             
-              <b>exit_code</b>()
+              <b>new</b>(message,command)
             
-            <a href="../../classes/GLI/PreconditionFailed.html#method-i-exit_code" name="method-i-exit_code" class="permalink">Link</a>
+            <a href="../../classes/GLI/MissingRequiredArgumentsException.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
           
           
             <div class="description">
-              
+              <dl class="rdoc-list note-list"><dt>message
+<dd>
+<p>the error message to show the user</p>
+</dd><dt>command
+<dd>
+<p>the command we were using to parse command-specific options</p>
+</dd></dl>
             </div>
           
           
@@ -126,17 +132,20 @@
               
               <p class="source-link">
                 Source: 
-                <a href="javascript:toggleSource('method-i-exit_code_source')" id="l_method-i-exit_code_source">show</a>
+                <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
                 
               </p>
-              <div id="method-i-exit_code_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 31</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_code</span>; <span class="ruby-number">65</span>; <span class="ruby-keyword">end</span></pre>
+              <div id="method-c-new_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 67</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">message</span>,<span class="ruby-identifier">command</span>)
+  <span class="ruby-keyword">super</span>(<span class="ruby-identifier">message</span>)
+  <span class="ruby-ivar">@command_in_context</span> = <span class="ruby-identifier">command</span>
+<span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-                    </div>
+                        </div>
 
     </div>
   </body>
