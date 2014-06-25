@@ -291,6 +291,13 @@ module GLI
       @subcommand_option_handling_strategy = handling_strategy
     end
 
+    # How to handle argument validation. Either +:loose+ (which does not validate argument at all)
+    # or +:strict+ (which will validate the number of arguments).
+    # If nothing is specified, +:loose+ is assumed
+    def arguments(handling_strategy)
+      @argument_handling_strategy = handling_strategy
+    end
+
     private
 
     def load_commands(path)

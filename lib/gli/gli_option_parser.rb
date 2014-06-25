@@ -1,11 +1,12 @@
 module GLI
   # Parses the command-line options using an actual +OptionParser+
   class GLIOptionParser
-    def initialize(commands,flags,switches,accepts,default_command = nil,subcommand_option_handling_strategy=:legacy)
+    def initialize(commands,flags,switches,accepts,default_command = nil,subcommand_option_handling_strategy=:legacy,argument_handling_strategy=:loose)
        command_finder       = CommandFinder.new(commands,default_command || "help")
       @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags)
       @accepts              = accepts
       @subcommand_option_handling_strategy = subcommand_option_handling_strategy
+      @argument_handling_strategy = argument_handling_strategy
     end
 
     # Given the command-line argument array, returns an OptionParsingResult
@@ -14,7 +15,7 @@ module GLI
       OptionParsingResult.new.tap { |parsing_result|
         parsing_result.arguments = args
         parsing_result = @global_option_parser.parse!(parsing_result)
-        option_parser_class.new(@accepts).parse!(parsing_result)
+        option_parser_class.new(@accepts).parse!(parsing_result, @argument_handling_strategy)
       }
     end
 
@@ -43,6 +44,34 @@ module GLI
       end
 
     protected
+      def verify_arguments!(arguments, command)
+        # Go through all declared arguments for the command, counting the min and max number
+        # of arguments
+        min_nb_arguments = 0
+        max_nb_arguments = 0
+        command.arguments.each do |arg|
+          if arg.optional?
+            max_nb_arguments = max_nb_arguments + 1
+          else
+            min_nb_arguments = min_nb_arguments + 1
+            max_nb_arguments = max_nb_arguments + 1
+          end
+
+          # Special case, as soon as we have a 'multiple' arguments, all bets are off for the
+          # maximum number of arguments !
+          if arg.multiple?
+            max_nb_arguments = 99999
+          end
+        end
+
+        # Now validate the number of arguments
+        if arguments.size < min_nb_arguments
+          raise MissingRequiredArgumentsException.new("Not enough arguments for command", command)
+        end
+        if arguments.size > max_nb_arguments
+          raise MissingRequiredArgumentsException.new("Too many arguments for command", command)
+        end
+      end
 
       def verify_required_options!(flags, command, options)
         missing_required_options = flags.values.
@@ -70,7 +99,7 @@ module GLI
         }
       end
 
-      def parse!(parsing_result)
+      def parse!(parsing_result,argument_handling_strategy)
         parsed_command_options = {}
         command = parsing_result.command
         arguments = nil
@@ -121,13 +150,17 @@ module GLI
         parsing_result.command_options = command_options
         parsing_result.command = command
         parsing_result.arguments = Array(arguments.compact)
+
+        # Lets validate the arguments now that we know for sure the command that is invoked
+        verify_arguments!(parsing_result.arguments, parsing_result.command) if argument_handling_strategy == :strict
+
         parsing_result
       end
 
     end
 
     class LegacyCommandOptionParser < NormalCommandOptionParser
-      def parse!(parsing_result)
+      def parse!(parsing_result,argument_handling_strategy)
         command                     = parsing_result.command
         option_parser_factory       = OptionParserFactory.for_command(command,@accepts)
         option_block_parser         = LegacyCommandOptionBlockParser.new(option_parser_factory, self.error_handler)
