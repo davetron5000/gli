@@ -9,6 +9,8 @@ program_desc 'create scaffolding for a GLI-powered application'
 
 version GLI::VERSION
 
+arguments :strict
+
 switch :v, :desc => 'Be verbose'
 
 switch :n, :desc => 'Dry run; don''t change the disk'
