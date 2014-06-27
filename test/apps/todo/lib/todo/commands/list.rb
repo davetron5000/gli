@@ -8,6 +8,7 @@ long_desc %(
   stored in 
   your todo databases.
 )
+
 command [:list] do |c|
   c.default_command :tasks
 
@@ -22,6 +23,8 @@ command [:list] do |c|
     Lists all of your tasks that you have, in varying orders, and
     all that stuff.  Yes, this is long, but I need a long description.
   )
+
+  c.arg :task, [:optional, :multiple]
   c.command :tasks do |tasks|
     tasks.desc "blah blah crud x whatever"
     tasks.flag [:x], :must_match => Array

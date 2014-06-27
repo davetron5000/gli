@@ -13,7 +13,8 @@ command [:make] do |c|
       puts o[:long]
     end
 
-    desc 'make a bug'
+    task.desc 'make a bug'
+    task.arg :argument, [:multiple, :optional]
     task.command :bug do |bug|
       bug.desc 'make this bug in the legacy system'
       bug.flag [:l,:legacy]

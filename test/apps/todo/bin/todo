@@ -20,6 +20,7 @@ synopsis_format (ENV['SYNOPSES'] || 'full').to_sym
 hide_commands_without_desc ENV['HIDE_COMMANDS_WITHOUT_DESC'] === 'true'
 
 subcommand_option_handling :normal
+arguments :strict
 
 program_desc 'Manages tasks'
 program_long_desc "A test program that has a sophisticated UI that can be used to exercise a lot of GLI's power"
@@ -41,7 +42,12 @@ command :first  do |c| c.action { |g,o,a| puts "first: #{a.join(',')}" } end
 arg :argument, :optional
 command :second do |c| c.action { |g,o,a| puts "second: #{a.join(',')}" } end
 
+arg :first
+arg :second
 command :chained         => [ :first, :second ]
+
+arg :first
+arg :second
 command [:chained2,:ch2] => [ :second, :first ]
 
 pre do |global,command,options,args|

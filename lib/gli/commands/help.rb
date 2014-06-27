@@ -59,7 +59,8 @@ module GLI
         super(:names => :help,
               :description => 'Shows a list of commands or help for one command',
               :arguments_name => 'command',
-              :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function')
+              :long_desc => 'Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function',
+              :arguments => [Argument.new(:command_name, [:multiple, :optional])])
         @app = app
         @parent = app
         @sorter = SORTERS[@app.help_sort_type]

@@ -185,7 +185,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -233,7 +233,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -258,7 +258,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -291,7 +291,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg]
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -315,7 +315,7 @@ Feature: The todo app has a nice user interface
         tasks - List tasks
 
     SYNOPSIS
-        todo [global options] list tasks [command options] 
+        todo [global options] list tasks [command options] [task][, [task]]*
         todo [global options] list tasks [command options] open
 
     DESCRIPTION
@@ -502,7 +502,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [subcommand options]
+        todo [global options] list [command options] [tasks] [subcommand options] [task][, [task]]*
         todo [global options] list [command options] contexts [subcommand options]
 
     DESCRIPTION
