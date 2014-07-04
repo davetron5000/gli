@@ -169,6 +169,32 @@ class TC_testGLI < Clean::Test::TestCase
     raise failure if !failure.nil?
   end
 
+  def test_init_from_config_with_accept
+    failure = nil
+    @app.reset
+    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
+    @app.accept(Array) do |value|
+      value.split(/,/).map(&:strip)
+    end
+    called = false
+    @app.flag :arr, :accept => Array
+    @app.flag :work, :accept => Array
+    @app.command :command do |c|
+      c.action do |g,o,a|
+        begin
+          called = true
+          assert_equal ['foo','bar'], g[:arr]
+          assert_equal ['bar','foo'], g[:work]
+        rescue Exception => ex
+          failure = ex
+        end
+      end
+    end
+    @app.run(['--work bar,foo command'])
+    assert called
+    raise failure if !failure.nil?
+  end
+
   def test_command_line_overrides_config
     failure = nil
     @app.reset
