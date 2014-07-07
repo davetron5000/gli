@@ -3,7 +3,7 @@ module GLI
     module HelpModules
       # Handles wrapping text
       class ArgNameFormatter
-        def format(arguments_description,arguments_options,arguments)
+        def format(arguments_description,arguments_options,arguments = [])
           # Select which format to use: argname or arguments
           # Priority to old way: argname
           desc = format_argname(arguments_description, arguments_options)
