@@ -8,6 +8,7 @@ module GLI
         @io = File.new("#{app.exe_name}.rdoc",'w')
         @nest = ''
         @arg_name_formatter = GLI::Commands::HelpModules::ArgNameFormatter.new
+        @app = app
       end
 
       def beginning
