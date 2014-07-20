@@ -49,7 +49,7 @@ Feature: The GLI executable works as intended
         init - Create a new GLI-based project
 
     SYNOPSIS
-        gli [global options] init [command options] project_name [command[ command]*]
+        gli [global options] init [command options] project_name [command_name][, [command_name]]*
 
     DESCRIPTION
         This will create a scaffold command line project that uses GLI for command

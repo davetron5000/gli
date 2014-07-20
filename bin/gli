@@ -9,7 +9,9 @@ program_desc 'create scaffolding for a GLI-powered application'
 
 version GLI::VERSION
 
-arguments :strict
+# Can't use these without changing the current behavior of gli
+# arguments :strict
+# subcommand_option_handling :normal
 
 switch :v, :desc => 'Be verbose'
 
@@ -31,7 +33,9 @@ for command line processing.  Specifically, this will create
 an executable ready to go, as well as a lib and test directory, all
 inside the directory named for your project
 EOS
-arg_name 'project_name [command[ command]*]'
+arg :project_name
+arg :command_name, [:optional, :multiple]
+arg_name "project_name [command_name][, [command_name]]*"
 command [:init,:scaffold] do |c|
 
   c.switch :e,:ext, :desc => 'Create an ext dir'
