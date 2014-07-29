@@ -45,8 +45,8 @@ module GLI
 
     protected
       def verify_arguments!(arguments, command)
-        # Lets assume that if the user sets a 'arg_name' for the command he has a complex scenario
-        # and does not want us to validate his arguments
+        # Lets assume that if the user sets a 'arg_name' for the command it is for a complex scenario
+        # and we should not validate the arguments
         return unless command.arguments_description.empty?
 
         # Go through all declared arguments for the command, counting the min and max number
