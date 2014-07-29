@@ -51,28 +51,28 @@ module GLI
 
         # Go through all declared arguments for the command, counting the min and max number
         # of arguments
-        min_nb_arguments = 0
-        max_nb_arguments = 0
+        min_number_of_arguments = 0
+        max_number_of_arguments = 0
         command.arguments.each do |arg|
           if arg.optional?
-            max_nb_arguments = max_nb_arguments + 1
+            max_number_of_arguments = max_number_of_arguments + 1
           else
-            min_nb_arguments = min_nb_arguments + 1
-            max_nb_arguments = max_nb_arguments + 1
+            min_number_of_arguments = min_number_of_arguments + 1
+            max_number_of_arguments = max_number_of_arguments + 1
           end
 
           # Special case, as soon as we have a 'multiple' arguments, all bets are off for the
           # maximum number of arguments !
           if arg.multiple?
-            max_nb_arguments = 99999
+            max_number_of_arguments = 99999
           end
         end
 
         # Now validate the number of arguments
-        if arguments.size < min_nb_arguments
+        if arguments.size < min_number_of_arguments
           raise MissingRequiredArgumentsException.new("Not enough arguments for command", command)
         end
-        if arguments.size > max_nb_arguments
+        if arguments.size > max_number_of_arguments
           raise MissingRequiredArgumentsException.new("Too many arguments for command", command)
         end
       end
