@@ -26,6 +26,10 @@ version Claret::VERSION
 
 subcommand_option_handling :normal
 
+# Parse arguments (not options) in a strict fasion. This allows us to specify certain arguments as required, as well as some limited cardinality.  GLI apps produced via scaffolding will have this set, but it's not the default.
+arguments :strict
+
+
 # We specify our own custom type conversion, from a string to a Date. We'll see this in use a bit later. This works exactly like it does with OptionParser
 
 accept(Date) do |string|
@@ -37,7 +41,8 @@ end
 # A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with arg_name. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via `default_value`. This, too, will show up in the help and be available in global_options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (`-t`) and a long-form (`—tasklist`)
 
 desc 'Specify the file where the tasklist lives'
-arg_name 'path'
+# Previous versions of GLI accepted `arg_name`, which simply documented the arguments.  That still works, but it's preferable to use `arg`, as you can specify that args to your commands are required (or not).  Here, we specify that `path` is optional.  If we'd omitted that, GLI would require it on the command-line when the app is invoked.
+arg 'path', :optional
 default_value File.join(ENV['HOME'],'.todo.yml')
 flag [:t,:tasklist]
 
@@ -58,7 +63,7 @@ desc 'Add a new task to do'
 long_desc %{
   Add a new task to the list.  The task name can be specified with or without quotes
 }
-arg_name 'task name'
+arg 'task name'
 command :add do |c|
 
 # Inside here, we can add switches and flags. Let's add a switch that sets the new task's priority. We do this the same was as we added the —verbose switch.
@@ -125,7 +130,7 @@ end
 # We do the same thing for some more commands
 
 desc 'Complete, start, or split up tasks in your task list'
-arg_name 'task_id'
+arg 'task_id'
 command :task do |task_command|
   task_command.instance_eval do 
 
@@ -137,7 +142,7 @@ command :task do |task_command|
     end
 
     desc 'Start a task'
-    arg_name 'task_id'
+    arg 'task_id'
     command :start do |c|
       c.action do |global_options,options,args|
         $task_list.find(args[0]).start!
@@ -150,7 +155,7 @@ Decomposes a task into more tasks, to make it easier to show progress.  The task
 in two ways:  a comma delimited list, unquotes, or a series of quoted arguments.  The task you split
 will be removed and replaced with the new tasks
 }
-    arg_name 'task, task[, task]*'
+    arg 'task, task[, task]*'
     command :split do |c|
       c.action do |global_options,options,args|
         $task_list.split(args.shift,Claret::SmartTaskParser.new.parse(args))

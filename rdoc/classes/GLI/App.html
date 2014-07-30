@@ -68,6 +68,11 @@ specific options, and then command arguments.</p>
             
               
               <li>
+                <a href="#method-i-arguments">arguments</a>,
+              </li>
+            
+              
+              <li>
                 <a href="#method-i-around">around</a>
               </li>
             
@@ -344,6 +349,44 @@ the converted value</p>
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 212</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">accept</span>(<span class="ruby-identifier">object</span>,&amp;<span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">accepts</span>[<span class="ruby-identifier">object</span>] = <span class="ruby-identifier">block</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-arguments">
+            
+              <b>arguments</b>(handling_strategy)
+            
+            <a href="../../classes/GLI/App.html#method-i-arguments" name="method-i-arguments" class="permalink">Link</a>
+          </div>
+          
+          
+            <div class="description">
+              <p>How to handle argument validation. Either <code>:loose</code> (which does
+not validate argument at all) or <code>:strict</code> (which will validate
+the number of arguments). If nothing is specified, <code>:loose</code> is
+assumed</p>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-arguments_source')" id="l_method-i-arguments_source">show</a>
+                
+              </p>
+              <div id="method-i-arguments_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 297</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">arguments</span>(<span class="ruby-identifier">handling_strategy</span>)
+  <span class="ruby-ivar">@argument_handling_strategy</span> = <span class="ruby-identifier">handling_strategy</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
