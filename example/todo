@@ -14,7 +14,7 @@ require 'date'
 # `GLI::App` brings in the DSL methods you'll need.
 include GLI::App
 
-#We now describe our program; this will be show to users in the help output
+# We now describe our program; this will be show to users in the help output
 program_desc 'Manage a task list that can be easily decomposed into smaller tasks'
 
 # We can specify our app's version here. `Claret::VERSION` is defined in `lib/todo/version.rb`, which is brought in by require 'todo' above.
@@ -38,7 +38,7 @@ end
 
 # Global Options
 # ==============
-# A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with arg_name. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via `default_value`. This, too, will show up in the help and be available in global_options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (`-t`) and a long-form (`—tasklist`)
+# A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with `arg_name`. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via `default_value`. This, too, will show up in the help and be available in global_options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (`-t`) and a long-form (`--tasklist`)
 
 desc 'Specify the file where the tasklist lives'
 # Previous versions of GLI accepted `arg_name`, which simply documented the arguments.  That still works, but it's preferable to use `arg`, as you can specify that args to your commands are required (or not).  Here, we specify that `path` is optional.  If we'd omitted that, GLI would require it on the command-line when the app is invoked.
@@ -48,8 +48,8 @@ flag [:t,:tasklist]
 
 # Now, create a switch for "verbose" mode. As before, we first document it using desc, followed by naming the switch with switch. This will create two options the user can use: 
 #
-# * `todo —verbose # => global_options[:verbose] is true`
-# * `todo —no-verbose # => global_options[:verbose] is false`
+# * `todo --verbose # => global_options[:verbose] is true`
+# * `todo --no-verbose # => global_options[:verbose] is false`
 #
 desc 'Be verbose'
 switch 'verbose'
@@ -66,7 +66,7 @@ long_desc %{
 arg 'task name'
 command :add do |c|
 
-# Inside here, we can add switches and flags. Let's add a switch that sets the new task's priority. We do this the same was as we added the —verbose switch.
+# Inside here, we can add switches and flags. Let's add a switch that sets the new task's priority. We do this the same was as we added the --verbose switch.
 
   c.desc 'Make the new task the highest priority task'
   c.switch [:p,:priority]
@@ -185,6 +185,7 @@ end
 # ====
 #
 # This kickstarts our application. run returns the exit status requested by the app, so we exit with whatever is returned.
+
 exit run(ARGV)
 
 

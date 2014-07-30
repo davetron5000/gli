@@ -139,7 +139,7 @@
         </div>
         <h1>Global Options</h1>
 
-<p>A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with arg<em>name. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via <code>default_value</code>. This, too, will show up in the help and be available in global</em>options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (<code>-t</code>) and a long-form (<code>—tasklist</code>)</p>
+<p>A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with <code>arg_name</code>. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via <code>default_value</code>. This, too, will show up in the help and be available in global_options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (<code>-t</code>) and a long-form (<code>&mdash;tasklist</code>)</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">desc</span> <span class="s1">&#39;Specify the file where the tasklist lives&#39;</span></pre></div>
@@ -166,8 +166,8 @@
         <p>Now, create a switch for &ldquo;verbose&rdquo; mode. As before, we first document it using desc, followed by naming the switch with switch. This will create two options the user can use: </p>
 
 <ul>
-<li><code>todo —verbose # =&gt; global_options[:verbose] is true</code></li>
-<li><code>todo —no-verbose # =&gt; global_options[:verbose] is false</code></li>
+<li><code>todo &mdash;verbose # =&gt; global_options[:verbose] is true</code></li>
+<li><code>todo &mdash;no-verbose # =&gt; global_options[:verbose] is false</code></li>
 </ul>
       </td>
       <td class=code>
@@ -198,7 +198,7 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-15">&#182;</a>
         </div>
-        <p>Inside here, we can add switches and flags. Let&rsquo;s add a switch that sets the new task&rsquo;s priority. We do this the same was as we added the —verbose switch.</p>
+        <p>Inside here, we can add switches and flags. Let&rsquo;s add a switch that sets the new task&rsquo;s priority. We do this the same was as we added the &mdash;verbose switch.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="n">c</span><span class="o">.</span><span class="n">desc</span> <span class="s1">&#39;Make the new task the highest priority task&#39;</span>
