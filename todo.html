@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html;charset=utf-8">
-  <title>GLI: Annotated Source Demo</title>
+  <title>todo</title>
   <link rel="stylesheet" href="docco.css">
 </head>
 <body>
@@ -89,20 +89,10 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-7">&#182;</a>
         </div>
-        <p>We can specify our app&rsquo;s version here. <code>Claret::VERSION</code> is defined in <code>lib/todo/version.rb</code>, which is brought in by <code>require
-&lsquo;todo&rsquo;</code> above.</p>
+        <p>We can specify our app&rsquo;s version here. <code>Claret::VERSION</code> is defined in <code>lib/todo/version.rb</code>, which is brought in by require &lsquo;todo&rsquo; above.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">version</span> <span class="no">Claret</span><span class="o">::</span><span class="no">VERSION</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-7a'>
-      <td class=docs>
-        <p><strong>Note that if you are upgrading from GLI 2.5 or earlier, you must include this in your app to get the latest subcommand features.</strong></p>
-        <p>For GLI apps scaffolded from 2.6 or greater, this should be inserted for you</p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre><span class="n">subcommand_option_handling</span> <span class="ss">:normal</span></pre></div>
       </td>
     </tr>
     <tr id='section-8'>
@@ -110,8 +100,20 @@
         <div class="pilwrap">
           <a class="pilcrow" href="#section-8">&#182;</a>
         </div>
-        <p>We specify our own custom type conversion, from a string to a <code>Date</code>.  We&rsquo;ll see this in use
-a bit later.  This works exactly like it does with <code>OptionParser</code></p>
+        <p>Note that if you are upgrading from GLI 2.5 or earlier, you must include this in your app to get the latest subcommand features.</p>
+
+<p>For GLI apps scaffolded from 2.6 or greater, this should be inserted for you</p>
+      </td>
+      <td class=code>
+        <div class='highlight'><pre><span class="n">subcommand_option_handling</span> <span class="ss">:normal</span></pre></div>
+      </td>
+    </tr>
+    <tr id='section-9'>
+      <td class=docs>
+        <div class="pilwrap">
+          <a class="pilcrow" href="#section-9">&#182;</a>
+        </div>
+        <p>We specify our own custom type conversion, from a string to a Date. We&rsquo;ll see this in use a bit later. This works exactly like it does with OptionParser</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">accept</span><span class="p">(</span><span class="no">Date</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">string</span><span class="o">|</span>
@@ -125,22 +127,8 @@ a bit later.  This works exactly like it does with <code>OptionParser</code></p>
           <a class="pilcrow" href="#section-Global_Options">&#182;</a>
         </div>
         <h1>Global Options</h1>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre></pre></div>
-      </td>
-    </tr>
-    <tr id='section-10'>
-      <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-10">&#182;</a>
-        </div>
-        <p>A flag to override where the task list lives.  We start off, as in Rake, by providing a description of
-the flag first.  We follow that by naming the argument with <code>arg_name</code>.  This will show up in the help
-output as a reminder to the user of what the argument is.  We then name the default value
-for this argument via <code>default_value</code>.  This, too, will show up in the help <em>and</em> be
-available in <code>global_options</code> when the command executes.  Finally, we declare the flag
-and name it, giving it two different names, a short-form (<code>-t</code>) and a long-form (<code>&mdash;tasklist</code>)</p>
+
+<p>A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with arg<em>name. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via <code>default_value</code>. This, too, will show up in the help and be available in global</em>options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (<code>-t</code>) and a long-form (<code>—tasklist</code>)</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">desc</span> <span class="s1">&#39;Specify the file where the tasklist lives&#39;</span>
@@ -154,11 +142,12 @@ and name it, giving it two different names, a short-form (<code>-t</code>) and a
         <div class="pilwrap">
           <a class="pilcrow" href="#section-11">&#182;</a>
         </div>
-        <p>Now, create a switch for &ldquo;verbose&rdquo; mode.  As before, we first document it
-using <code>desc</code>, followed by naming the switch with <code>switch</code>.  This will create two 
-options the user can use:
-* <code>todo &mdash;verbose # =&gt; global_options[:verbose] is true
-*</code>todo &mdash;no-verbose # =&gt; global_options[:verbose] is false</p>
+        <p>Now, create a switch for &ldquo;verbose&rdquo; mode. As before, we first document it using desc, followed by naming the switch with switch. This will create two options the user can use: </p>
+
+<ul>
+<li><code>todo —verbose # =&gt; global_options[:verbose] is true</code></li>
+<li><code>todo —no-verbose # =&gt; global_options[:verbose] is false</code></li>
+</ul>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">desc</span> <span class="s1">&#39;Be verbose&#39;</span>
@@ -172,18 +161,13 @@ options the user can use:
         </div>
         <h1>Commands</h1>
 
-<p>Define a new command, &ldquo;add&rdquo;.  As with other things in GLI, we first document it using <code>desc</code>.  We then use <code>long_desc</code>
-to provide a more detailed explanation.  <code>desc</code> is used in the output of <code>todo help</code>
-while the <code>long_desc</code> is includeed in the output to <code>todo help add</code>.  Since <code>add</code>
-takes arguments, we use <code>arg_name</code> to give it a name.  This won&rsquo;t require the argument; it&rsquo;s
-merely for documentation.  Finally, we name the command using <code>command</code> and give it 
-a block, which will allow us to define command-specific options as well add code for the command.</p>
+<p>Define a new command, &ldquo;add&rdquo;. As with other things in GLI, we first document it using desc. We then use <code>long_desc</code> to provide a more detailed explanation. desc is used in the output of todo help while the <code>long_desc</code> is includeed in the output to todo help add. Since add takes arguments, we use <code>arg_name</code> to give it a name. This won&rsquo;t require the argument; it&rsquo;s merely for documentation. Finally, we name the command using command and give it a block, which will allow us to define command-specific options as well add code for the command.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">desc</span> <span class="s1">&#39;Add a new task to do&#39;</span>
-<span class="n">long_desc</span> <span class="o">&lt;&lt;</span><span class="no">EOS</span>
-<span class="sh">Add a new task to the list.  The task name can be specified with or without quotes</span>
-<span class="no">EOS</span>
+<span class="n">long_desc</span> <span class="sx">%{</span>
+<span class="sx">  Add a new task to the list.  The task name can be specified with or without quotes</span>
+<span class="sx">}</span>
 <span class="n">arg_name</span> <span class="s1">&#39;task name&#39;</span>
 <span class="n">command</span> <span class="ss">:add</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span></pre></div>
       </td>
@@ -193,8 +177,7 @@ a block, which will allow us to define command-specific options as well add code
         <div class="pilwrap">
           <a class="pilcrow" href="#section-13">&#182;</a>
         </div>
-        <p>Inside here, we can add switches and flags.  Let&rsquo;s add a switch 
-that sets the new task&rsquo;s priority.  We do this the same was as we added the <code>&mdash;verbose</code> switch.</p>
+        <p>Inside here, we can add switches and flags. Let&rsquo;s add a switch that sets the new task&rsquo;s priority. We do this the same was as we added the —verbose switch.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="n">c</span><span class="o">.</span><span class="n">desc</span> <span class="s1">&#39;Make the new task the highest priority task&#39;</span>
@@ -206,9 +189,7 @@ that sets the new task&rsquo;s priority.  We do this the same was as we added th
         <div class="pilwrap">
           <a class="pilcrow" href="#section-14">&#182;</a>
         </div>
-        <p>Let&rsquo;s add a &ldquo;due date&rdquo; flag.  For this one, use the alternative form that takes an options hash.
-We also want to coerce this into a <code>Date</code>, so we pass <code>Date</code> as the value for the
-<code>:type</code> option.  This also shows using a dynamic value for the default value.</p>
+        <p>Let&rsquo;s add a &ldquo;due date&rdquo; flag. For this one, use the alternative form that takes an options hash. We also want to coerce this into a <code>Date</code>, so we pass <code>Date</code> as the value for the <code>:type</code> option. This also shows using a dynamic value for the default value.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="n">c</span><span class="o">.</span><span class="n">flag</span> <span class="s1">&#39;due-date&#39;</span><span class="p">,</span> <span class="ss">:default_value</span> <span class="o">=&gt;</span> <span class="no">Date</span><span class="o">.</span><span class="n">today</span><span class="o">.</span><span class="n">to_s</span><span class="p">,</span> 
@@ -222,14 +203,9 @@ We also want to coerce this into a <code>Date</code>, so we pass <code>Date</cod
         <div class="pilwrap">
           <a class="pilcrow" href="#section-15">&#182;</a>
         </div>
-        <p>Now, we write the code for what happens when command is executed by the user.
-<code>action</code> takes a block containing this code.  It&rsquo;s given three arguments: the 
-global options as a Hash, the command-specific
-options as a Hash, and any unparsed options from the command-line.</p>
+        <p>Now, we write the code for what happens when command is executed by the user. action takes a block containing this code. It&rsquo;s given three arguments: the global options as a Hash, the command-specific options as a Hash, and any unparsed options from the command-line.</p>
 
-<p>Notice how our action block is very simple.  Think of this as a controller
-in your Rails app; don&rsquo;t put too much stuff in here.  We&rsquo;ll see where <code>$task_list</code>
-comes from in a bit.</p>
+<p>Notice how our action block is very simple. Think of this as a controller in your Rails app; don&rsquo;t put too much stuff in here. We&rsquo;ll see where $task_list comes from in a bit.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">global_options</span><span class="p">,</span><span class="n">options</span><span class="p">,</span><span class="n">args</span><span class="o">|</span>
@@ -243,10 +219,17 @@ comes from in a bit.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-Subcommands">&#182;</a>
         </div>
-        <h2>Subcommands</h2>
+        <h1>Subcommands</h1>
+
+<p>Let&rsquo;s create a command that takes sub commands. In our case, we want list to take a subcommand as to what to list, e.g. <code>todo list all</code> or <code>todo list wip</code>.</p>
       </td>
       <td class=code>
-        <div class='highlight'><pre></pre></div>
+        <div class='highlight'><pre><span class="n">desc</span> <span class="s1">&#39;List tasks&#39;</span>
+<span class="n">long_desc</span> <span class="sx">%{</span>
+<span class="sx">  List the tasks in your task list, possibly including completed tasks.  By default, this will list</span>
+<span class="sx">  all uncompleted tasks.</span>
+<span class="sx">}</span>
+<span class="n">command</span> <span class="o">[</span><span class="ss">:list</span><span class="p">,</span><span class="ss">:ls</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span></pre></div>
       </td>
     </tr>
     <tr id='section-17'>
@@ -254,26 +237,7 @@ comes from in a bit.</p>
         <div class="pilwrap">
           <a class="pilcrow" href="#section-17">&#182;</a>
         </div>
-        <p>Let&rsquo;s create a command that takes sub commands.  In our case, we want <code>list</code> to take a subcommand
-as to what to list, e.g. <code>todo list all</code> or <code>todo list wip</code>.</p>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre><span class="n">desc</span> <span class="s1">&#39;List tasks&#39;</span>
-<span class="n">long_desc</span> <span class="o">&lt;&lt;</span><span class="no">EOS</span>
-<span class="sh">List the tasks in your task list, possibly including completed tasks.  By default, this will list</span>
-<span class="sh">all uncompleted tasks.</span>
-<span class="no">EOS</span>
-<span class="n">command</span> <span class="o">[</span><span class="ss">:list</span><span class="p">,</span><span class="ss">:ls</span><span class="o">]</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span></pre></div>
-      </td>
-    </tr>
-    <tr id='section-18'>
-      <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-18">&#182;</a>
-        </div>
-        <p>Inside the command block, we can declare subcommands by just calling <code>command</code> again.  This
-works the same way it does normally and the command block is where you can define subcommand-specific
-options.</p>
+        <p>Inside the command block, we can declare subcommands by just calling command again. This works the same way it does normally and the command block is where you can define subcommand-specific options.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="n">c</span><span class="o">.</span><span class="n">desc</span> <span class="s1">&#39;List all tasks, including completed ones&#39;</span>
@@ -298,24 +262,22 @@ options.</p>
   <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-19'>
+    <tr id='section-18'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-19">&#182;</a>
+          <a class="pilcrow" href="#section-18">&#182;</a>
         </div>
-        <p>While we could declare an action block for the top-level command, we instead defer it to the
-&lsquo;tasks&rsquo; subcommand.  This means if the user does <code>todo list</code>, it will be the same
-as <code>todo list tasks</code>.</p>
+        <p>While we could declare an action block for the top-level command, we instead defer it to the &lsquo;tasks&rsquo; subcommand. This means if the user does <code>todo list</code>, it will be the same as <code>todo list tasks</code>.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre>  <span class="n">c</span><span class="o">.</span><span class="n">default_command</span> <span class="ss">:tasks</span>
 <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-20'>
+    <tr id='section-19'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-20">&#182;</a>
+          <a class="pilcrow" href="#section-19">&#182;</a>
         </div>
         <p>We do the same thing for some more commands</p>
       </td>
@@ -341,11 +303,11 @@ as <code>todo list tasks</code>.</p>
     <span class="k">end</span>
 
     <span class="n">desc</span> <span class="s1">&#39;Split a task into two or more subtasks&#39;</span>
-    <span class="n">long_desc</span> <span class="o">&lt;&lt;</span><span class="no">EOS</span>
-<span class="sh">Decomposes a task into more tasks, to make it easier to show progress.  The task names can be specified</span>
-<span class="sh">in two ways:  a comma delimited list, unquotes, or a series of quoted arguments.  The task you split</span>
-<span class="sh">will be removed and replaced with the new tasks</span>
-<span class="no">EOS</span>
+    <span class="n">long_desc</span> <span class="sx">%{</span>
+<span class="sx">Decomposes a task into more tasks, to make it easier to show progress.  The task names can be specified</span>
+<span class="sx">in two ways:  a comma delimited list, unquotes, or a series of quoted arguments.  The task you split</span>
+<span class="sx">will be removed and replaced with the new tasks</span>
+<span class="sx">}</span>
     <span class="n">arg_name</span> <span class="s1">&#39;task, task[, task]*&#39;</span>
     <span class="n">command</span> <span class="ss">:split</span> <span class="k">do</span> <span class="o">|</span><span class="n">c</span><span class="o">|</span>
       <span class="n">c</span><span class="o">.</span><span class="n">action</span> <span class="k">do</span> <span class="o">|</span><span class="n">global_options</span><span class="p">,</span><span class="n">options</span><span class="p">,</span><span class="n">args</span><span class="o">|</span>
@@ -362,20 +324,8 @@ as <code>todo list tasks</code>.</p>
           <a class="pilcrow" href="#section-Hooks">&#182;</a>
         </div>
         <h1>Hooks</h1>
-      </td>
-      <td class=code>
-        <div class='highlight'><pre></pre></div>
-      </td>
-    </tr>
-    <tr id='section-22'>
-      <td class=docs>
-        <div class="pilwrap">
-          <a class="pilcrow" href="#section-22">&#182;</a>
-        </div>
-        <p>Here, we can do any setup we need before each command is run.  We have access to the options and
-arguments, as well as the command, if we need it.
-We set up our task list here; since this is called before our command action block runs,
-it&rsquo;ll be ready and waiting.</p>
+
+<p>Here, we can do any setup we need before each command is run. We have access to the options and arguments, as well as the command, if we need it. We set up our task list here; since this is called before our command action block runs, it&rsquo;ll be ready and waiting.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">pre</span> <span class="k">do</span> <span class="o">|</span><span class="n">global</span><span class="p">,</span><span class="n">command</span><span class="p">,</span><span class="n">options</span><span class="p">,</span><span class="n">args</span><span class="o">|</span>
@@ -385,13 +335,12 @@ it&rsquo;ll be ready and waiting.</p>
 <span class="k">end</span></pre></div>
       </td>
     </tr>
-    <tr id='section-23'>
+    <tr id='section-21'>
       <td class=docs>
         <div class="pilwrap">
-          <a class="pilcrow" href="#section-23">&#182;</a>
+          <a class="pilcrow" href="#section-21">&#182;</a>
         </div>
-        <p>To run code <em>after</em> the command successfully completes, we can use
-the <code>post</code> hook.  In our case, we write out the possibly-updated tasklist.</p>
+        <p>To run code after the command successfully completes, we can use the post hook. In our case, we write out the possibly-updated tasklist.</p>
       </td>
       <td class=code>
         <div class='highlight'><pre><span class="n">post</span> <span class="k">do</span>
@@ -406,8 +355,7 @@ the <code>post</code> hook.  In our case, we write out the possibly-updated task
         </div>
         <h1>Run!</h1>
 
-<p>This kickstarts our application.  <code>run</code> returns the exit status requested by the app, so we
-exit with whatever is returned.</p>
+<p>This kickstarts our application. run returns the exit status requested by the app, so we exit with whatever is returned.</p>
 
       </td>
       <td class=code>

@@ -1,42 +1,185 @@
 #!/usr/bin/env ruby
-require 'gli'
-require 'hacer'
 
+# Setup
+# =====
+require 'rubygems'
+# First, require 'gli' so we have access to the DSL
+require 'gli'
+
+# Next, require our app's library for business logic
+require 'todo'
+require 'yaml'
+require 'date'
+
+# `GLI::App` brings in the DSL methods you'll need.
 include GLI::App
 
-program_desc 'A simple todo list'
+#We now describe our program; this will be show to users in the help output
+program_desc 'Manage a task list that can be easily decomposed into smaller tasks'
 
-desc ''
-flag [:t,:tasklist], :default_value => File.join(ENV['HOME'],'.todolist')
+# We can specify our app's version here. `Claret::VERSION` is defined in `lib/todo/version.rb`, which is brought in by require 'todo' above.
 
-pre do |global_options,command,options,args|
-  $todo_list = Hacer::Todolist.new(global_options[:tasklist])
+version Claret::VERSION
+# Note that if you are upgrading from GLI 2.5 or earlier, you must include this in your app to get the latest subcommand features.
+#
+# For GLI apps scaffolded from 2.6 or greater, this should be inserted for you
+
+subcommand_option_handling :normal
+
+# We specify our own custom type conversion, from a string to a Date. We'll see this in use a bit later. This works exactly like it does with OptionParser
+
+accept(Date) do |string|
+  Date.parse(string)
 end
 
-desc ''
+# Global Options
+# ==============
+# A flag to override where the task list lives. We start off, as in Rake, by providing a description of the flag first. We follow that by naming the argument with arg_name. This will show up in the help output as a reminder to the user of what the argument is. We then name the default value for this argument via `default_value`. This, too, will show up in the help and be available in global_options when the command executes. Finally, we declare the flag and name it, giving it two different names, a short-form (`-t`) and a long-form (`—tasklist`)
+
+desc 'Specify the file where the tasklist lives'
+arg_name 'path'
+default_value File.join(ENV['HOME'],'.todo.yml')
+flag [:t,:tasklist]
+
+# Now, create a switch for "verbose" mode. As before, we first document it using desc, followed by naming the switch with switch. This will create two options the user can use: 
+#
+# * `todo —verbose # => global_options[:verbose] is true`
+# * `todo —no-verbose # => global_options[:verbose] is false`
+#
+desc 'Be verbose'
+switch 'verbose'
+
+# Commands
+# ========
+#
+# Define a new command, "add". As with other things in GLI, we first document it using desc. We then use `long_desc` to provide a more detailed explanation. desc is used in the output of todo help while the `long_desc` is includeed in the output to todo help add. Since add takes arguments, we use `arg_name` to give it a name. This won't require the argument; it's merely for documentation. Finally, we name the command using command and give it a block, which will allow us to define command-specific options as well add code for the command.
+
+desc 'Add a new task to do'
+long_desc %{
+  Add a new task to the list.  The task name can be specified with or without quotes
+}
+arg_name 'task name'
 command :add do |c|
+
+# Inside here, we can add switches and flags. Let's add a switch that sets the new task's priority. We do this the same was as we added the —verbose switch.
+
+  c.desc 'Make the new task the highest priority task'
+  c.switch [:p,:priority]
+
+# Let's add a "due date" flag. For this one, use the alternative form that takes an options hash. We also want to coerce this into a `Date`, so we pass `Date` as the value for the `:type` option. This also shows using a dynamic value for the default value.
+
+  c.flag 'due-date', :default_value => Date.today.to_s, 
+                     :arg_name => 'date',
+                     :type => Date, 
+                     :desc => 'The date on which this task must be completed, in YYYY/MM/DD format'
+
+# Now, we write the code for what happens when command is executed by the user. action takes a block containing this code. It's given three arguments: the global options as a Hash, the command-specific options as a Hash, and any unparsed options from the command-line.
+#
+# Notice how our action block is very simple. Think of this as a controller in your Rails app; don't put too much stuff in here. We'll see where $task_list comes from in a bit.
+
   c.action do |global_options,options,args|
-    $todo_list.create(args)
+    $task_list << Claret::Task.new(args.join(' '))
   end
 end
 
-desc ''
-command :list do |c|
-  c.action do 
-    $todo_list.list.each do |todo|
-      printf("%5d - %s\n",todo.todo_id,todo.text)
+# Subcommands
+# ===========
+#
+# Let's create a command that takes sub commands. In our case, we want list to take a subcommand as to what to list, e.g. `todo list all` or `todo list wip`.
+
+desc 'List tasks'
+long_desc %{
+  List the tasks in your task list, possibly including completed tasks.  By default, this will list
+  all uncompleted tasks.
+}
+command [:list,:ls] do |c|
+
+# Inside the command block, we can declare subcommands by just calling command again. This works the same way it does normally and the command block is where you can define subcommand-specific options.
+
+  c.desc 'List all tasks, including completed ones'
+  c.command :all do |all|
+    all.action do 
+      Claret::TaskListTerminalSerializer.new(:all).write($task_list)
+    end
+  end
+
+  c.desc 'List only tasks in-progress'
+  c.command :wip do |wip|
+    wip.action do
+      Claret::TaskListTerminalSerializer.new(:wip).write($task_list)
+    end
+  end
+
+  c.desc 'List tasks that are not completed'
+  c.command [:tasks] do |tasks|
+    tasks.action do |global_options,options,args|
+      Claret::TaskListTerminalSerializer.new.write($task_list)
+    end
+  end
+
+# While we could declare an action block for the top-level command, we instead defer it to the 'tasks' subcommand. This means if the user does `todo list`, it will be the same as `todo list tasks`.
+
+  c.default_command :tasks
+end
+
+# We do the same thing for some more commands
+
+desc 'Complete, start, or split up tasks in your task list'
+arg_name 'task_id'
+command :task do |task_command|
+  task_command.instance_eval do 
+
+    desc 'Complete a task'
+    command :done do |c|
+      c.action do |global_options,options,args|
+        $task_list.find(args[0]).complete!
+      end
+    end
+
+    desc 'Start a task'
+    arg_name 'task_id'
+    command :start do |c|
+      c.action do |global_options,options,args|
+        $task_list.find(args[0]).start!
+      end
+    end
+
+    desc 'Split a task into two or more subtasks'
+    long_desc %{
+Decomposes a task into more tasks, to make it easier to show progress.  The task names can be specified
+in two ways:  a comma delimited list, unquotes, or a series of quoted arguments.  The task you split
+will be removed and replaced with the new tasks
+}
+    arg_name 'task, task[, task]*'
+    command :split do |c|
+      c.action do |global_options,options,args|
+        $task_list.split(args.shift,Claret::SmartTaskParser.new.parse(args))
+      end
     end
   end
 end
 
-desc ''
-command :done do |c|
-  c.action do |global_options,options,args|
-    id = args.shift.to_i
-    $todo_list.list.each do |todo|
-      $todo_list.complete(todo) if todo.todo_id == id
-    end
-  end
+# Hooks
+# =====
+#
+# Here, we can do any setup we need before each command is run. We have access to the options and arguments, as well as the command, if we need it. We set up our task list here; since this is called before our command action block runs, it'll be ready and waiting.
+
+pre do |global,command,options,args|
+  $task_list_serializer = Claret::TaskListYamlSerializer.new(global[:t])
+  $task_list = $task_list_serializer.read
+  true
 end
 
+# To run code after the command successfully completes, we can use the post hook. In our case, we write out the possibly-updated tasklist.
+
+post do
+  $task_list_serializer.write($task_list)
+end
+
+# Run!
+# ====
+#
+# This kickstarts our application. run returns the exit status requested by the app, so we exit with whatever is returned.
 exit run(ARGV)
+
+
