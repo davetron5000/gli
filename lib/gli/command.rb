@@ -19,7 +19,7 @@ module GLI
   #
   #       c.command :tasks do |t| # <- t is an instance of GLI::Command
   #         # this is a "subcommand" of list
-  #         
+  #
   #         t.action do |global,options,args|
   #           # do whatever list tasks should do
   #         end
@@ -31,7 +31,7 @@ module GLI
     include CommandSupport
 
     # Key in an options hash to find the parent's parsed options
-    PARENT = Object.new 
+    PARENT = Object.new
 
     # Create a new command.
     #
@@ -60,7 +60,7 @@ module GLI
       clear_nexts
     end
 
-    # Set the default command if this command has subcommands and the user doesn't 
+    # Set the default command if this command has subcommands and the user doesn't
     # provide a subcommand when invoking THIS command.  When nil, this will show an error and the help
     # for this command; when set, the command with this name will be executed.
     #
@@ -69,15 +69,15 @@ module GLI
       @default_command = command_name
     end
 
-    # Define the action to take when the user executes this command.  Every command should either define this 
+    # Define the action to take when the user executes this command.  Every command should either define this
     # action block, or have subcommands (or both).
     #
     # +block+:: A block of code to execute.  The block will be given 3 arguments:
     #           +global_options+:: A Hash of the _global_ options specified
     #                              by the user, with defaults set and config file values used (if using a config file, see
     #                              GLI::App#config_file)
-    #           +options+:: A Hash of the command-specific options specified by the 
-    #                       user, with defaults set and config file values used (if using a config file, see 
+    #           +options+:: A Hash of the command-specific options specified by the
+    #                       user, with defaults set and config file values used (if using a config file, see
     #                       GLI::App#config_file).
     #           +arguments+:: An Array of Strings representing the unparsed command line arguments
     #           The block's result value is not used; raise an exception or use GLI#exit_now! if you need an early exit based
@@ -124,12 +124,12 @@ module GLI
     #     > todo help list
     #     NAME
     #         list - List things
-    #     
+    #
     #     SYNOPSIS
-    #         todo [global options] list [command options] 
+    #         todo [global options] list [command options]
     #         todo [global options] list [command options]  tasks
     #         todo [global options] list [command options]  contexts
-    #     
+    #
     #     COMMANDS
     #         <default> - list both tasks and contexts
     #         tasks     - list tasks
@@ -142,7 +142,7 @@ module GLI
     # Returns true if this command has the given option defined
     def has_option?(option) #:nodoc:
       option = option.gsub(/^\-+/,'')
-      ((flags.values.map { |_| [_.name,_.aliases] }) + 
+      ((flags.values.map { |_| [_.name,_.aliases] }) +
        (switches.values.map { |_| [_.name,_.aliases] })).flatten.map(&:to_s).include?(option)
     end
 

@@ -98,7 +98,7 @@ module GLI
       end
 
       def error_handler
-        lambda { |message,extra_error_context| 
+        lambda { |message,extra_error_context|
           raise UnknownCommandArgument.new(message,extra_error_context)
         }
       end
