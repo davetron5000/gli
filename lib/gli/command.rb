@@ -30,6 +30,11 @@ module GLI
     include DSL
     include CommandSupport
 
+    # Commands you want to shell out directly to another program should set
+    # passthrough to true. Any arguments after the passthrough command are
+    # passed as arguments to the command on execution.
+    attr_accessor :passthrough
+
     # Key in an options hash to find the parent's parsed options
     PARENT = Object.new
 
@@ -85,6 +90,11 @@ module GLI
     #
     def action(&block)
       @action = block
+    end
+
+    # Read only accessor for the underlying command action.
+    def _action
+      @action
     end
 
     # Describes this commands action block when it *also* has subcommands.
