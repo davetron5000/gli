@@ -31,9 +31,9 @@ module GLI
     include CommandSupport
 
     # Commands you want to shell out directly to another program should set
-    # passthrough to true. Any arguments after the passthrough command are
-    # passed as arguments to the command on execution.
-    attr_accessor :passthrough
+    # skip_option_parsing to true. GLI will halt parsing arguments and options
+    # as soon as it hits a command with this flag set.
+    attr_accessor :skip_option_parsing
 
     # Key in an options hash to find the parent's parsed options
     PARENT = Object.new

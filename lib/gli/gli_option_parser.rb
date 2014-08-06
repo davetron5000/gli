@@ -109,12 +109,15 @@ module GLI
         arguments = nil
 
         loop do
-          # Call the action if the command we're handling has been set to passthrough.
-          if command.passthrough
+          # Call the action if the command wants to skip further option parsing.
+          if command.skip_option_parsing
             command.get_action.call
-            # We should almost never hit this, because we expect the command to
-            # do a Kernel#exec, which replaces the current process and passes
-            # the appropriate exit code back to the controlling pty.
+            # We should almost never hit the next line, because we expect the
+            # command to do a Kernel#exec, which replaces the current process
+            # and passes the appropriate exit code back to the controlling pty.
+            #
+            # Kernel#exec works inconsistently across different versions of
+            # Ruby, so we need a safeguard.
             #
             # In the case where a user doesn't call a Kernel#exec, exit cleanly
             # and immediately.
