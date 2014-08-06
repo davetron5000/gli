@@ -110,7 +110,7 @@ module GLI
 
         loop do
           # Call the action if the command we're handling has been set to passthrough.
-          command._action.call if command.passthrough
+          command.get_action.call if command.passthrough
 
           option_parser_factory       = OptionParserFactory.for_command(command,@accepts)
           option_block_parser         = CommandOptionBlockParser.new(option_parser_factory, self.error_handler)

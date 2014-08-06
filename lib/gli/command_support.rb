@@ -144,19 +144,19 @@ module GLI
       @default_command
     end
 
-  private
-
-    def send_declarations_to_parent?
-      app = topmost_ancestor.parent
-      app.nil? ? true : (app.subcommand_option_handling_strategy == :legacy)
-    end
-
     def get_action(arguments)
       if @action
         @action
       else
         generate_error_action(arguments)
       end
+    end
+
+  private
+
+    def send_declarations_to_parent?
+      app = topmost_ancestor.parent
+      app.nil? ? true : (app.subcommand_option_handling_strategy == :legacy)
     end
 
     def generate_error_action(arguments)

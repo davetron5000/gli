@@ -92,11 +92,6 @@ module GLI
       @action = block
     end
 
-    # Read only accessor for the underlying command action.
-    def _action
-      @action
-    end
-
     # Describes this commands action block when it *also* has subcommands.
     # In this case, the GLI::DSL#desc value is the general description of the commands
     # that this command groups, and the value for *this* method documents what
