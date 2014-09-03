@@ -83,7 +83,7 @@ class TC_testSubCommandParsing < Clean::Test::TestCase
     When :run_app_with_X_arguments, 0
     Then {
       with_clue {
-        assert_equal 0, @results[:nbargs]
+        assert_equal 0, @results[:number_of_args_give_to_action]
         assert_equal 0, @exit_code
       }
     }
@@ -91,33 +91,42 @@ class TC_testSubCommandParsing < Clean::Test::TestCase
 
   ix = -1
   [
-    [1, 1, false, 0, :not_enough],   [1, 1, false, 1, :success],
-    [1, 1, false, 2, :success],      [1, 1, false, 3, :too_many],
-    [1, 1, true, 0, :not_enough],    [1, 1, true, 1, :success],
-    [1, 1, true, 2, :success],       [1, 1, true, 3, :success],
-    [1, 1, true, 30, :success],      [0, 0, false, 0, :success],
-    [0, 0, false, 1, :too_many],     [0, 1, false, 1, :success],
-    [0, 1, false, 0, :success],      [1, 0, false, 1, :success],
-    [1, 0, false, 0, :not_enough],   [0, 0, true, 0, :success],
-    [0, 0, true, 10, :success]
-  ].each do |nb_required, nb_optional, has_multiple, nb_generated, status|
+    [1 , 1 , false , 0  , :not_enough] ,
+    [1 , 1 , false , 1  , :success]    ,
+    [1 , 1 , false , 2  , :success]    ,
+    [1 , 1 , false , 3  , :too_many]   ,
+    [1 , 1 , true  , 0  , :not_enough] ,
+    [1 , 1 , true  , 1  , :success]    ,
+    [1 , 1 , true  , 2  , :success]    ,
+    [1 , 1 , true  , 3  , :success]    ,
+    [1 , 1 , true  , 30 , :success]    ,
+    [0 , 0 , false , 0  , :success]    ,
+    [0 , 0 , false , 1  , :too_many]   ,
+    [0 , 1 , false , 1  , :success]    ,
+    [0 , 1 , false , 0  , :success]    ,
+    [1 , 0 , false , 1  , :success]    ,
+    [1 , 0 , false , 0  , :not_enough] ,
+    [0 , 0 , true  , 0  , :success]    ,
+    [0 , 0 , true  , 10 , :success]
+
+  ].each do |number_required, number_optional, has_multiple, number_generated, status|
     ix = ix + 1
-    test_that "in strict mode, number of arguments is validated -- #{ix}" do
-      Given :app_with_arguments, nb_required, nb_optional, has_multiple, :strict
-      When :run_app_with_X_arguments, nb_generated
+    test_that "in strict mode, with #{number_required} required, #{number_optional} optional, #{ has_multiple ? 'multiple' : 'not multiple' } and #{number_generated} generated, it should be #{status}" do
+      Given :app_with_arguments, number_required, number_optional, has_multiple, :strict
+      When :run_app_with_X_arguments, number_generated
       Then {
         with_clue {
           if status == :success then
-            assert_equal nb_generated, @results[:nbargs]
+            assert_equal number_generated, @results[:number_of_args_give_to_action]
             assert_equal 0, @exit_code
             assert !@fake_stderr.contained?(/Not enough arguments for command/)
             assert !@fake_stderr.contained?(/Too many arguments for command/)
           elsif status == :not_enough then
-            assert_equal nil, @results[:nbargs]
+            assert_equal nil, @results[:number_of_args_give_to_action]
             assert_equal 64, @exit_code
             assert @fake_stderr.contained?(/Not enough arguments for command/)
           elsif status == :too_many then
-            assert_equal nil, @results[:nbargs]
+            assert_equal nil, @results[:number_of_args_give_to_action]
             assert_equal 64, @exit_code
             assert @fake_stderr.contained?(/Too many arguments for command/)
           else
@@ -176,24 +185,24 @@ private
     end
   end
 
-  def app_with_arguments(nb_required_arguments, nb_optional_arguments, has_argument_multiple, arguments_handling_strategy = :loose)
+  def app_with_arguments(number_required_arguments, number_optional_arguments, has_argument_multiple, arguments_handling_strategy = :loose)
     @app.arguments arguments_handling_strategy
     @app.subcommand_option_handling :normal
 
-    nb_required_arguments.times { |i| @app.arg("needed#{i}") }
-    nb_optional_arguments.times { |i| @app.arg("optional#{i}", :optional) }
+    number_required_arguments.times { |i| @app.arg("needed#{i}") }
+    number_optional_arguments.times { |i| @app.arg("optional#{i}", :optional) }
     @app.arg :multiple, [:multiple, :optional] if has_argument_multiple
 
     @app.command :cmd do |c|
       c.action do |g,o,a|
         @results = {
-          :nbargs => a.size
+          :number_of_args_give_to_action => a.size
         }
       end
     end
   end
 
-  def run_app_with_X_arguments(nb_arguments)
-    @exit_code = @app.run [].tap{|args| args << "cmd"; nb_arguments.times {|i| args << "arg#{i}"}}
+  def run_app_with_X_arguments(number_arguments)
+    @exit_code = @app.run [].tap{|args| args << "cmd"; number_arguments.times {|i| args << "arg#{i}"}}
   end
 end
