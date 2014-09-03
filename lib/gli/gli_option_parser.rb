@@ -7,6 +7,9 @@ module GLI
       @accepts              = accepts
       @subcommand_option_handling_strategy = subcommand_option_handling_strategy
       @argument_handling_strategy = argument_handling_strategy
+      if @argument_handling_strategy == :strict && @subcommand_option_handling_strategy != :normal
+        raise ArgumentError, "To use strict argument handling, you must enable normal subcommand_option_handling, e.g. subcommand_option_handling :normal"
+      end
     end
 
     # Given the command-line argument array, returns an OptionParsingResult

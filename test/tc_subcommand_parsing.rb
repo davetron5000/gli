@@ -89,6 +89,18 @@ class TC_testSubCommandParsing < Clean::Test::TestCase
     }
   end
 
+  test_that "in strict mode, subcommand_option_handling must be normal" do
+    Given :app_with_arguments, 1, 1, false, :strict, :legacy
+    When :run_app_with_X_arguments, 1
+    Then {
+      with_clue {
+        assert_nil      @results[:number_of_args_give_to_action]
+        assert_equal 1, @exit_code
+        assert          @fake_stderr.contained?(/you must enable normal subcommand_option_handling/)
+      }
+    }
+  end
+
   ix = -1
   [
     [1 , 1 , false , 0  , :not_enough] ,
@@ -185,9 +197,9 @@ private
     end
   end
 
-  def app_with_arguments(number_required_arguments, number_optional_arguments, has_argument_multiple, arguments_handling_strategy = :loose)
+  def app_with_arguments(number_required_arguments, number_optional_arguments, has_argument_multiple, arguments_handling_strategy = :loose, subcommand_option_handling_strategy = :normal)
     @app.arguments arguments_handling_strategy
-    @app.subcommand_option_handling :normal
+    @app.subcommand_option_handling subcommand_option_handling_strategy
 
     number_required_arguments.times { |i| @app.arg("needed#{i}") }
     number_optional_arguments.times { |i| @app.arg("optional#{i}", :optional) }

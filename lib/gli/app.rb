@@ -291,9 +291,13 @@ module GLI
       @subcommand_option_handling_strategy = handling_strategy
     end
 
-    # How to handle argument validation. Either +:loose+ (which does not validate argument at all)
-    # or +:strict+ (which will validate the number of arguments).
-    # If nothing is specified, +:loose+ is assumed
+    # How to handle argument validation. 
+    #
+    # handling_strategy:: One of:
+    #                     +:loose+:: no argument validation.  Use of `arg` or `arg_name` is for documentation purposes only.  (Default)
+    #                     +:strict+:: arguments are validated according to their specification.  +action+ blocks may assume
+    #                                 the value of `arguments` matches the specification provided in `arg`.  Note that to use
+    #                                 this strategy, you must also be sure that +subcommand_option_handling+ is set.
     def arguments(handling_strategy)
       @argument_handling_strategy = handling_strategy
     end
