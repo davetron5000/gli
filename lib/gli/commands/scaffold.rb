@@ -284,7 +284,7 @@ program_desc 'Describe your application here'
 
 version #{project_name_as_module_name(project_name)}::VERSION
 
-# Use argument validation
+subcommand_option_handling :normal
 arguments :strict
 
 desc 'Describe some switch here'
