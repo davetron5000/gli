@@ -15,8 +15,8 @@ Feature: The todo app has a nice user interface
     error: Unknown command 'unknown'.  Use 'todo help' for a list of commands.
     """
 
-  Scenario Outline: Getting Help for todo in general
-    When I successfully run `todo <help>`
+  Scenario: Getting Help for todo in general
+    When I successfully run `todo help`
     Then the exit status should be 0
     Then the output should contain:
     """
@@ -52,9 +52,6 @@ Feature: The todo app has a nice user interface
         second        - 
         third         - 
     """
-    Examples:
-      | help      |
-      | help      |
 
   Scenario: Version display
     When I successfully run `todo --version`
@@ -178,6 +175,8 @@ Feature: The todo app has a nice user interface
     """
 
   Scenario Outline: Getting Help for a top level command of todo
+    # No idea why I have to do this again.
+    Given todo's bin directory is in my path
     When I successfully run `todo <help_invocation>`
     Then the output should contain:
     """

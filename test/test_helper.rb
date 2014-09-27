@@ -18,3 +18,4 @@ module TestHelper
 end
 
 Faker::Config.locale = :en
+I18n.enforce_available_locales = false

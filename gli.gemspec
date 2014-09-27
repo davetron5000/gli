@@ -25,9 +25,9 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('clean_test')
-  s.add_development_dependency('cucumber', '1.2.3')
-  s.add_development_dependency('gherkin', '<= 2.11.6')
-  s.add_development_dependency('aruba', '0.5.1') # 0.5.3 randomly breaks with "LaunchError: no such file or directory" and only sometimes.
+  s.add_development_dependency('cucumber')
+  s.add_development_dependency('gherkin')
+  s.add_development_dependency('aruba')
   s.add_development_dependency('sdoc')
   s.add_development_dependency('faker','1.0.0')
 end

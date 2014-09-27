@@ -24,6 +24,8 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
     """
 
   Scenario Outline: Getting Help for a top level command of todo
+    # No idea why I have to do this again.
+    Given todo's bin directory is in my path
     When I successfully run `todo <help_invocation>`
     Then the output should contain:
     """
