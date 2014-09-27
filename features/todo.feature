@@ -544,3 +544,8 @@ Feature: The todo app has a nice user interface
         todo [global options] second [argument]
     """
 
+  Scenario: Generate app documentation
+    When I run `todo _doc`
+    Then the exit status should be 0
+    And a file named "todo.rdoc" should exist
+    And the file "todo.rdoc" should contain "Lists all of your contexts, which are places you might be"

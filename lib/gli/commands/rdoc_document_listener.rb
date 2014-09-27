@@ -81,7 +81,7 @@ module GLI
 
       # Gives you a command in the current context and creates a new context of this command
       def command(name,aliases,desc,long_desc,arg_name,arg_options)
-        @io.puts "#{@nest}=== Command: <tt>#{([name] + aliases).join('|')} #{@arg_name_formatter.format(arg_name,arg_options)}</tt>"
+        @io.puts "#{@nest}=== Command: <tt>#{([name] + aliases).join('|')} #{@arg_name_formatter.format(arg_name,arg_options,[])}</tt>"
         @io.puts String(desc).strip
         @io.puts 
         @io.puts String(long_desc).strip
