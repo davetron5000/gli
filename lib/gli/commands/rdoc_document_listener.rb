@@ -62,7 +62,7 @@ module GLI
       def switch(name,aliases,desc,long_desc,negatable)
         if negatable
           name = "[no-]#{name}" if name.to_s.length > 1
-          aliases = aliases.map { |_|  _.to_s.length > 1 ? "[no-]#{_}" : _ } 
+          aliases = aliases.map { |_|  _.to_s.length > 1 ? "[no-]#{_}" : _ }
         end
         invocations = ([name] + aliases).map { |_| add_dashes(_) }.join('|')
         @io.puts "#{@nest}=== #{invocations}"
@@ -84,7 +84,7 @@ module GLI
       def command(name,aliases,desc,long_desc,arg_name,arg_options)
         @io.puts "#{@nest}=== Command: <tt>#{([name] + aliases).join('|')} #{@arg_name_formatter.format(arg_name,arg_options,[])}</tt>"
         @io.puts String(desc).strip
-        @io.puts 
+        @io.puts
         @io.puts String(long_desc).strip
         @nest = "#{@nest}="
       end
