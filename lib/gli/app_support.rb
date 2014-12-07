@@ -32,10 +32,6 @@ module GLI
       clear_nexts
     end
 
-    def exe_name
-      File.basename($0)
-    end
-
     # Get an array of commands, ordered by when they were declared
     def commands_declaration_order # :nodoc:
       @commands_declaration_order
