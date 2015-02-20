@@ -27,10 +27,11 @@ module GLI
 
         def sub_options_doc(sub_options)
           sub_options_doc = sub_options.map { |_,option| 
-            option.names_and_aliases.map { |name| 
+            doc = option.names_and_aliases.map { |name|
               CommandLineOption.name_as_string(name,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
             }.join('|')
-          }.map { |invocations| "[#{invocations}]" }.sort.join(' ').strip
+            option.required?? doc : "[#{doc}]"
+          }.sort.join(' ').strip
         end
 
       private
