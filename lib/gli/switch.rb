@@ -31,5 +31,9 @@ module GLI
     def negatable?
       @negatable
     end
+
+    def required?
+      false
+    end
   end
 end
