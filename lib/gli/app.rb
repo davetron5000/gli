@@ -30,12 +30,13 @@ module GLI
     #     # loads *.rb files from the user's home dir - great and an extension/plugin mechanism
     #     commands_from File.join(ENV["HOME"],".my_app","plugins")
     def commands_from(path)
+      b = GLI::App.send(:binding)
       if Pathname.new(path).absolute? and File.exists?(path)
-        load_commands(path)
+        load_commands(path,b)
       else
         $LOAD_PATH.each do |load_path|
           commands_path = File.join(load_path,path)
-          load_commands(commands_path)
+          load_commands(commands_path,b)
         end
       end
     end
@@ -302,14 +303,20 @@ module GLI
       @argument_handling_strategy = handling_strategy
     end
 
+    # Name of the application's exe, useful for generating help messages
+    def exe_name
+      File.basename($0)
+    end
+
     private
 
-    def load_commands(path)
+    def load_commands(path,b)
       if File.exists? path
         Dir.entries(path).sort.each do |entry|
           file = File.join(path,entry)
           if file =~ /\.rb$/
-            require file
+            eval(File.read(file),b)
+            #require file
           end
         end
       end

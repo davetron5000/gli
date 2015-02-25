@@ -8,11 +8,8 @@ require 'gli'
 require 'todo/version'
 
 
-if ENV['GLI1_COMPATIBILITY']
-include GLI
-else
-include GLI::App
-end
+module TodoApp
+extend GLI::App
 
 sort_help (ENV['TODO_SORT_HELP'] || 'alpha').to_sym
 wrap_help_text (ENV['TODO_WRAP_HELP_TEXT'] || 'to_terminal').to_sym
@@ -72,3 +69,4 @@ on_error do |exception|
 end
 
 exit run(ARGV)
+end
