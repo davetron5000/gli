@@ -2,7 +2,7 @@ module GLI
   # Parses the command-line options using an actual +OptionParser+
   class GLIOptionParser
     def initialize(commands,flags,switches,accepts,default_command = nil,subcommand_option_handling_strategy=:legacy,argument_handling_strategy=:loose)
-       command_finder       = CommandFinder.new(commands,default_command || "help")
+       command_finder       = CommandFinder.new(commands, :default_command => (default_command || :help))
       @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags)
       @accepts              = accepts
       @subcommand_option_handling_strategy = subcommand_option_handling_strategy
@@ -120,7 +120,7 @@ module GLI
           arguments = option_block_parser.parse!(arguments)
 
           parsed_command_options[command] = option_parser_factory.options_hash_with_defaults_set!
-          command_finder                  = CommandFinder.new(command.commands,command.get_default_command)
+          command_finder                  = CommandFinder.new(command.commands, :default_command => command.get_default_command)
           next_command_name               = arguments.shift
 
           verify_required_options!(command.flags, command, parsed_command_options[command])
@@ -193,7 +193,7 @@ module GLI
                        end
 
         default_command = command.get_default_command
-        finder = CommandFinder.new(command.commands,default_command.to_s)
+        finder = CommandFinder.new(command.commands, :default_command => default_command.to_s)
 
         begin
           results = [finder.find_command(command_name),arguments[1..-1]]

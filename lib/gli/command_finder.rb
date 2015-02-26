@@ -1,13 +1,20 @@
 module GLI
   class CommandFinder
-    # Initialize a finder on the given list of commands, using default_command as the default if none found
-    def initialize(commands,default_command)
-      @default_command = default_command
-      @names_to_commands = {}
-      commands.each do |command_name,command|
-        @names_to_commands[command_name.to_s] = command
+    attr_accessor :options
+    attr_accessor :names_to_commands
+
+    DEFAULT_OPTIONS = {
+      default_command: nil
+    }
+
+    def initialize(commands, options = {})
+      self.options = DEFAULT_OPTIONS.merge(options)
+      self.names_to_commands = {}
+
+      commands.each do |command_name, command|
+        names_to_commands[command_name.to_s] = command
         Array(command.aliases).each do |command_alias|
-          @names_to_commands[command_alias.to_s] = command
+          names_to_commands[command_alias.to_s] = command
         end
       end
     end
@@ -15,12 +22,12 @@ module GLI
     # Finds the command with the given name, allowing for partial matches.  Returns the command named by
     # the default command if no command with +name+ matched
     def find_command(name)
-      name ||= @default_command
+      name ||= options[:default_command]
 
       raise UnknownCommand.new("No command name given nor default available") if String(name).strip == ''
 
-      command_found = @names_to_commands.fetch(name.to_s) do |command_to_match|
-        find_command_by_partial_name(@names_to_commands, command_to_match)
+      command_found = names_to_commands.fetch(name.to_s) do |command_to_match|
+        find_command_by_partial_name(names_to_commands, command_to_match)
       end
       if Array(command_found).empty?
         raise UnknownCommand.new("Unknown command '#{name}'")

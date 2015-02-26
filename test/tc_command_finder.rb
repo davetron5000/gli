@@ -15,18 +15,18 @@ class TC_testCommandFinder < Clean::Test::TestCase
 
   def test_unknown_command_name
     assert_raise(GLI::UnknownCommand) do
-      GLI::CommandFinder.new(@app.commands, :status).find_command(:unfindable_command)
+      GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(:unfindable_command)
     end
   end
 
   def test_no_command_name_without_default
     assert_raise(GLI::UnknownCommand) do
-      GLI::CommandFinder.new(@app.commands, nil).find_command(nil)
+      GLI::CommandFinder.new(@app.commands).find_command(nil)
     end
   end
 
   def test_no_command_name_with_default
-    actual = GLI::CommandFinder.new(@app.commands, :status).find_command(nil)
+    actual = GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(nil)
     expected = @app.commands[:status]
 
     assert_equal(actual, expected)
@@ -35,12 +35,12 @@ class TC_testCommandFinder < Clean::Test::TestCase
   def test_ambigous_command
     expected_error_message = "Ambiguous command 'some'. It matches some_command,some_similar_command"
     assert_raise_with_message(GLI::AmbiguousCommand, expected_error_message) do
-      GLI::CommandFinder.new(@app.commands, :status).find_command(:some)
+      GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(:some)
     end
   end
 
   def test_partial_name_with_autocorrect_enabled
-    actual = GLI::CommandFinder.new(@app.commands, :status).find_command(:deploy)
+    actual = GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(:deploy)
     expected = @app.commands[:deployable]
 
     assert_equal(actual, expected)
