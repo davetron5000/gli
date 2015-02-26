@@ -22,11 +22,11 @@ module GLI
     # Finds the command with the given name, allowing for partial matches.  Returns the command named by
     # the default command if no command with +name+ matched
     def find_command(name)
-      name ||= options[:default_command]
+      name = String(name || options[:default_command]).strip
 
-      raise UnknownCommand.new("No command name given nor default available") if String(name).strip == ''
+      raise UnknownCommand.new("No command name given nor default available") if name == ''
 
-      command_found = names_to_commands.fetch(name.to_s) do |command_to_match|
+      command_found = names_to_commands.fetch(name) do |command_to_match|
         find_command_by_partial_name(names_to_commands, command_to_match)
       end
       if Array(command_found).empty?
