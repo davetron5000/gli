@@ -46,9 +46,10 @@ class TC_testCommandFinder < Clean::Test::TestCase
     assert_equal(actual, expected)
   end
 
-  # def test_partial_name_with_autocorrect_disabled
-    # assert_raise(GLI::UnknownCommand) do
-    #   try to find command via partial name
-    # end
-  # end
+  def test_partial_name_with_autocorrect_disabled
+    assert_raise(GLI::UnknownCommand) do
+      GLI::CommandFinder.new(@app.commands, :default_command => :status, :autocomplete => false)
+        .find_command(:deploy)
+    end
+  end
 end

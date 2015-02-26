@@ -3,7 +3,8 @@ module GLI
     attr_accessor :options
 
     DEFAULT_OPTIONS = {
-      default_command: nil
+      default_command: nil,
+      autocomplete: true
     }
 
     def initialize(commands, options = {})
@@ -16,7 +17,7 @@ module GLI
       raise UnknownCommand.new("No command name given nor default available") if name == ''
 
       command_found = commands_with_aliases.fetch(name) do |command_to_match|
-        find_command_by_partial_name(commands_with_aliases, command_to_match)
+        find_command_by_partial_name(commands_with_aliases, command_to_match) if options[:autocomplete]
       end
 
       if Array(command_found).empty?
