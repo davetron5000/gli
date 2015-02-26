@@ -1,24 +1,32 @@
 module GLI
   # Parses the command-line options using an actual +OptionParser+
   class GLIOptionParser
-    def initialize(commands,flags,switches,accepts,default_command = nil,subcommand_option_handling_strategy=:legacy,argument_handling_strategy=:loose)
-       command_finder       = CommandFinder.new(commands, :default_command => (default_command || :help))
+    attr_accessor :options
+
+    DEFAULT_OPTIONS = {
+      :default_command => nil,
+      :subcommand_option_handling_strategy => :legacy,
+      :argument_handling_strategy => :loose
+    }
+
+    def initialize(commands,flags,switches,accepts, options={})
+      self.options = DEFAULT_OPTIONS.merge(options)
+
+      command_finder       = CommandFinder.new(commands, :default_command => (options[:default_command] || :help))
       @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags)
       @accepts              = accepts
-      @subcommand_option_handling_strategy = subcommand_option_handling_strategy
-      @argument_handling_strategy = argument_handling_strategy
-      if @argument_handling_strategy == :strict && @subcommand_option_handling_strategy != :normal
+      if options[:argument_handling_strategy] == :strict && options[:subcommand_option_handling_strategy] != :normal
         raise ArgumentError, "To use strict argument handling, you must enable normal subcommand_option_handling, e.g. subcommand_option_handling :normal"
       end
     end
 
     # Given the command-line argument array, returns an OptionParsingResult
     def parse_options(args) # :nodoc:
-      option_parser_class = self.class.const_get("#{@subcommand_option_handling_strategy.to_s.capitalize}CommandOptionParser")
+      option_parser_class = self.class.const_get("#{options[:subcommand_option_handling_strategy].to_s.capitalize}CommandOptionParser")
       OptionParsingResult.new.tap { |parsing_result|
         parsing_result.arguments = args
         parsing_result = @global_option_parser.parse!(parsing_result)
-        option_parser_class.new(@accepts).parse!(parsing_result, @argument_handling_strategy)
+        option_parser_class.new(@accepts).parse!(parsing_result, options[:argument_handling_strategy])
       }
     end
 
@@ -101,7 +109,7 @@ module GLI
       end
 
       def error_handler
-        lambda { |message,extra_error_context| 
+        lambda { |message,extra_error_context|
           raise UnknownCommandArgument.new(message,extra_error_context)
         }
       end

@@ -68,9 +68,9 @@ module GLI
                                                 flags,
                                                 switches,
                                                 accepts,
-                                                @default_command,
-                                                self.subcommand_option_handling_strategy,
-                                                self.argument_handling_strategy)
+                                                :default_command => @default_command,
+                                                :subcommand_option_handling_strategy => subcommand_option_handling_strategy,
+                                                :argument_handling_strategy => argument_handling_strategy)
 
         parsing_result = gli_option_parser.parse_options(args)
         parsing_result.convert_to_openstruct! if @use_openstruct
