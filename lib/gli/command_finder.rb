@@ -17,7 +17,14 @@ module GLI
       raise UnknownCommand.new("No command name given nor default available") if name == ''
 
       command_found = commands_with_aliases.fetch(name) do |command_to_match|
-        find_command_by_partial_name(commands_with_aliases, command_to_match) if options[:autocomplete]
+        if options[:autocomplete]
+          found_match = find_command_by_partial_name(commands_with_aliases, command_to_match)
+          if found_match
+            puts "WARNING: You called a command named '#{name}', which does not exist."
+            puts "Continuing under the assumption that you meant '#{found_match.name}'..."
+          end
+          found_match
+        end
       end
 
       if Array(command_found).empty?
