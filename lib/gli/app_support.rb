@@ -26,6 +26,7 @@ module GLI
       @pre_block = false
       @post_block = false
       @default_command = :help
+      @autocomplete = false
       @around_block = nil
       @subcommand_option_handling_strategy = :legacy
       @argument_handling_strategy = :loose
@@ -69,6 +70,7 @@ module GLI
                                                 switches,
                                                 accepts,
                                                 :default_command => @default_command,
+                                                :autocomplete => autocomplete,
                                                 :subcommand_option_handling_strategy => subcommand_option_handling_strategy,
                                                 :argument_handling_strategy => argument_handling_strategy)
 
@@ -209,6 +211,10 @@ module GLI
 
     def subcommand_option_handling_strategy
       @subcommand_option_handling_strategy || :legacy
+    end
+
+    def autocomplete
+      @autocomplete.nil? ? true : @autocomplete
     end
 
   private

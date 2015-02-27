@@ -5,6 +5,7 @@ module GLI
 
     DEFAULT_OPTIONS = {
       :default_command => nil,
+      :autocomplete => true,
       :subcommand_option_handling_strategy => :legacy,
       :argument_handling_strategy => :loose
     }
@@ -12,7 +13,9 @@ module GLI
     def initialize(commands,flags,switches,accepts, options={})
       self.options = DEFAULT_OPTIONS.merge(options)
 
-      command_finder       = CommandFinder.new(commands, :default_command => (options[:default_command] || :help))
+      command_finder       = CommandFinder.new(commands,
+                                               :default_command => (options[:default_command] || :help),
+                                               :autocomplete => options[:autocomplete])
       @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags)
       @accepts              = accepts
       if options[:argument_handling_strategy] == :strict && options[:subcommand_option_handling_strategy] != :normal

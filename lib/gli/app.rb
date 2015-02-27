@@ -302,6 +302,16 @@ module GLI
       @argument_handling_strategy = handling_strategy
     end
 
+
+    # Enables/Disables command autocomplete, where partially spelled commands are automatically expanded to their full form
+    # ex: When enabled, executing 'shake' will execute 'shake_hand' (if no 'shake' command is defined)
+    #     When disabled, executing 'shake' will throw an UnknownCommand error
+    #
+    # +bool+:: Boolean value to enable or disable autocomplete, respectively. True by default.
+    def autocomplete_commands(bool)
+      @autocomplete = bool
+    end
+
     private
 
     def load_commands(path)
