@@ -33,8 +33,7 @@ class TC_testCommandFinder < Clean::Test::TestCase
   end
 
   def test_ambigous_command
-    expected_error_message = "Ambiguous command 'some'. It matches some_command,some_similar_command"
-    assert_raise_with_message(GLI::AmbiguousCommand, expected_error_message) do
+    assert_raise(GLI::AmbiguousCommand) do
       GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(:some)
     end
   end
