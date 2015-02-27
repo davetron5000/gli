@@ -19,19 +19,17 @@ module GLI
       command_found = commands_with_aliases.fetch(name) do |command_to_match|
         if options[:autocomplete]
           found_match = find_command_by_partial_name(commands_with_aliases, command_to_match)
-          if found_match
+          if found_match.kind_of? GLI::Command
             puts "WARNING: You called a command named '#{name}', which does not exist."
             puts "Continuing under the assumption that you meant '#{found_match.name}'..."
+          elsif found_match.kind_of?(Array) && !found_match.empty?
+            raise AmbiguousCommand.new("Ambiguous command '#{name}'. It matches #{found_match.sort.join(',')}")
           end
           found_match
         end
       end
 
-      if Array(command_found).empty?
-        raise UnknownCommand.new("Unknown command '#{name}'")
-      elsif command_found.kind_of? Array
-        raise AmbiguousCommand.new("Ambiguous command '#{name}'. It matches #{command_found.sort.join(',')}")
-      end
+      raise UnknownCommand.new("Unknown command '#{name}'") if Array(command_found).empty?
       command_found
     end
 
