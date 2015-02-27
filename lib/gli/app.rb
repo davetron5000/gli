@@ -304,12 +304,14 @@ module GLI
 
 
     # Enables/Disables command autocomplete, where partially spelled commands are automatically expanded to their full form
-    # ex: When enabled, executing 'shake' will execute 'shake_hand' (if no 'shake' command is defined)
-    #     When disabled, executing 'shake' will throw an UnknownCommand error
     #
-    # +bool+:: Boolean value to enable or disable autocomplete, respectively. True by default.
-    def autocomplete_commands(bool)
-      @autocomplete = bool
+    # Example:
+    # When enabled, executing 'shake' would execute 'shake_hand' (if no 'shake' command is defined).
+    # When disabled, executing 'shake' would throw an UnknownCommand error
+    #
+    # +boolean+:: Boolean value to enable or disable autocomplete, respectively. True by default.
+    def autocomplete_commands(boolean)
+      @autocomplete = boolean
     end
 
     private
