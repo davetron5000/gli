@@ -73,7 +73,12 @@ specific options, and then command arguments.</p>
             
               
               <li>
-                <a href="#method-i-around">around</a>
+                <a href="#method-i-around">around</a>,
+              </li>
+            
+              
+              <li>
+                <a href="#method-i-autocomplete_commands">autocomplete_commands</a>
               </li>
             
           </ul>
@@ -365,10 +370,22 @@ the converted value</p>
           
           
             <div class="description">
-              <p>How to handle argument validation. Either <code>:loose</code> (which does
-not validate argument at all) or <code>:strict</code> (which will validate
-the number of arguments). If nothing is specified, <code>:loose</code> is
-assumed</p>
+              <p>How to handle argument validation.</p>
+<dl class="rdoc-list note-list"><dt>handling_strategy
+<dd>
+<p>One of:</p>
+<dl class="rdoc-list note-list"><dt>:loose
+<dd>
+<p>no argument validation.  Use of `arg` or `arg_name` is for documentation
+purposes only.  (Default)</p>
+</dd><dt><code>:strict</code>
+<dd>
+<p>arguments are validated according to their specification. 
+<code>action</code> blocks may assume the value of `arguments` matches the
+specification provided in `arg`.  Note that to use this strategy, you must
+also be sure that <code>subcommand_option_handling</code> is set.</p>
+</dd></dl>
+</dd></dl>
             </div>
           
           
@@ -384,7 +401,7 @@ assumed</p>
                 
               </p>
               <div id="method-i-arguments_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 297</span>
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 301</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">arguments</span>(<span class="ruby-identifier">handling_strategy</span>)
   <span class="ruby-ivar">@argument_handling_strategy</span> = <span class="ruby-identifier">handling_strategy</span>
 <span class="ruby-keyword">end</span></pre>
@@ -459,6 +476,52 @@ command that should not have this hook fired</p>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">around</span>(&amp;<span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">||=</span> []
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a_proc</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-autocomplete_commands">
+            
+              <b>autocomplete_commands</b>(boolean)
+            
+            <a href="../../classes/GLI/App.html#method-i-autocomplete_commands" name="method-i-autocomplete_commands" class="permalink">Link</a>
+          </div>
+          
+          
+            <div class="description">
+              <p>Enables/Disables command autocomplete, where partially spelled commands are
+automatically expanded to their full form</p>
+
+<p>Example: When enabled, executing &#39;shake&#39; would execute
+&#39;shake_hand&#39; (if no &#39;shake&#39; command is defined). When
+disabled, executing &#39;shake&#39; would throw an <a
+href="UnknownCommand.html">UnknownCommand</a> error</p>
+<dl class="rdoc-list note-list"><dt><code>boolean</code>
+<dd>
+<p>Boolean value to enable or disable autocomplete, respectively. True by
+default.</p>
+</dd></dl>
+            </div>
+          
+          
+          
+          
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source: 
+                <a href="javascript:toggleSource('method-i-autocomplete_commands_source')" id="l_method-i-autocomplete_commands_source">show</a>
+                
+              </p>
+              <div id="method-i-autocomplete_commands_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/app.rb, line 313</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">autocomplete_commands</span>(<span class="ruby-identifier">boolean</span>)
+  <span class="ruby-ivar">@autocomplete</span> = <span class="ruby-identifier">boolean</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>

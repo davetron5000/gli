@@ -325,7 +325,7 @@ this command</p>
               <div id="method-i-command_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 83</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">aliases</span>,<span class="ruby-identifier">desc</span>,<span class="ruby-identifier">long_desc</span>,<span class="ruby-identifier">arg_name</span>,<span class="ruby-identifier">arg_options</span>)
-  <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{@nest}=== Command: &lt;tt&gt;#{([name] + aliases).join(&#39;|&#39;)} #{@arg_name_formatter.format(arg_name,arg_options)}&lt;/tt&gt;&quot;</span>
+  <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{@nest}=== Command: &lt;tt&gt;#{([name] + aliases).join(&#39;|&#39;)} #{@arg_name_formatter.format(arg_name,arg_options,[])}&lt;/tt&gt;&quot;</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-constant">String</span>(<span class="ruby-identifier">desc</span>).<span class="ruby-identifier">strip</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> 
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-constant">String</span>(<span class="ruby-identifier">long_desc</span>).<span class="ruby-identifier">strip</span>

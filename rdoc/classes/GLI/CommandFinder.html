@@ -93,8 +93,43 @@
     
 
     
+      <!-- Section constants -->
+      <div class="sectiontitle">Constants</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class="attr-name">DEFAULT_OPTIONS</td>
+            <td>=</td>
+            <td class="attr-value">{
+default_command: nil,
+autocomplete: true
+}</td>
+          </tr>
+          
+            <tr valign='top'>
+              <td>&nbsp;</td>
+              <td colspan="2" class="attr-desc"></td>
+            </tr>
+          
+        
+      </table>
+    
 
 
+    
+      <!-- Section attributes -->
+      <div class="sectiontitle">Attributes</div>
+      <table border='0' cellpadding='5'>
+        
+          <tr valign='top'>
+            <td class='attr-rw'>
+              [RW]
+            </td>
+            <td class='attr-name'>options</td>
+            <td class='attr-desc'></td>
+          </tr>
+        
+      </table>
     
 
 
@@ -105,15 +140,14 @@
         <div class="method">
           <div class="title method-title" id="method-c-new">
             
-              <b>new</b>(commands,default_command)
+              <b>new</b>(commands, options = {})
             
             <a href="../../classes/GLI/CommandFinder.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
           
           
             <div class="description">
-              <p>Initialize a finder on the given list of commands, using default_command as
-the default if none found</p>
+              
             </div>
           
           
@@ -129,16 +163,10 @@ the default if none found</p>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command_finder.rb, line 4</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">commands</span>,<span class="ruby-identifier">default_command</span>)
-  <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">default_command</span>
-  <span class="ruby-ivar">@names_to_commands</span> = {}
-  <span class="ruby-identifier">commands</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command_name</span>,<span class="ruby-identifier">command</span><span class="ruby-operator">|</span>
-    <span class="ruby-ivar">@names_to_commands</span>[<span class="ruby-identifier">command_name</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">command</span>
-    <span class="ruby-constant">Array</span>(<span class="ruby-identifier">command</span>.<span class="ruby-identifier">aliases</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command_alias</span><span class="ruby-operator">|</span>
-      <span class="ruby-ivar">@names_to_commands</span>[<span class="ruby-identifier">command_alias</span>.<span class="ruby-identifier">to_s</span>] = <span class="ruby-identifier">command</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
+                <pre><span class="ruby-comment"># File lib/gli/command_finder.rb, line 10</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">commands</span>, <span class="ruby-identifier">options</span> = {})
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">options</span> = <span class="ruby-constant">DEFAULT_OPTIONS</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">commands_with_aliases</span> = <span class="ruby-identifier">expand_with_aliases</span>(<span class="ruby-identifier">commands</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -157,9 +185,7 @@ the default if none found</p>
           
           
             <div class="description">
-              <p>Finds the command with the given name, allowing for partial matches. 
-Returns the command named by the default command if no command with
-<code>name</code> matched</p>
+              
             </div>
           
           
@@ -175,20 +201,27 @@ Returns the command named by the default command if no command with
                 
               </p>
               <div id="method-i-find_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command_finder.rb, line 17</span>
+                <pre><span class="ruby-comment"># File lib/gli/command_finder.rb, line 15</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">find_command</span>(<span class="ruby-identifier">name</span>)
-  <span class="ruby-identifier">name</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@default_command</span>
+  <span class="ruby-identifier">name</span> = <span class="ruby-constant">String</span>(<span class="ruby-identifier">name</span> <span class="ruby-operator">||</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:default_command</span>]).<span class="ruby-identifier">strip</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;No command name given nor default available&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
 
-  <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&quot;No command name given nor default available&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">String</span>(<span class="ruby-identifier">name</span>).<span class="ruby-identifier">strip</span> <span class="ruby-operator">==</span> <span class="ruby-string">&#39;&#39;</span>
+  <span class="ruby-identifier">command_found</span> = <span class="ruby-identifier">commands_with_aliases</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">name</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command_to_match</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">options</span>[<span class="ruby-value">:autocomplete</span>]
+      <span class="ruby-identifier">found_match</span> = <span class="ruby-identifier">find_command_by_partial_name</span>(<span class="ruby-identifier">commands_with_aliases</span>, <span class="ruby-identifier">command_to_match</span>)
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">found_match</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">GLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Command</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-string">&quot;GLI_DEBUG&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&#39;true&#39;</span>
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;Using &#39;#{name}&#39; as it&#39;s is short for #{found_match.name}.&quot;</span>
+          <span class="ruby-identifier">$stderr</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;Set autocomplete false for any command you don&#39;t want matched like this&quot;</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">found_match</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Array</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">found_match</span>.<span class="ruby-identifier">empty?</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">AmbiguousCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Ambiguous command &#39;#{name}&#39;. It matches #{found_match.sort.join(&#39;,&#39;)}&quot;</span>)
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">found_match</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
 
-  <span class="ruby-identifier">command_found</span> = <span class="ruby-ivar">@names_to_commands</span>.<span class="ruby-identifier">fetch</span>(<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">command_to_match</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">find_command_by_partial_name</span>(<span class="ruby-ivar">@names_to_commands</span>, <span class="ruby-identifier">command_to_match</span>)
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">if</span> <span class="ruby-constant">Array</span>(<span class="ruby-identifier">command_found</span>).<span class="ruby-identifier">empty?</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Unknown command &#39;#{name}&#39;&quot;</span>)
-  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">command_found</span>.<span class="ruby-identifier">kind_of?</span> <span class="ruby-constant">Array</span>
-    <span class="ruby-identifier">raise</span> <span class="ruby-constant">AmbiguousCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Ambiguous command &#39;#{name}&#39;. It matches #{command_found.sort.join(&#39;,&#39;)}&quot;</span>)
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">raise</span> <span class="ruby-constant">UnknownCommand</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;Unknown command &#39;#{name}&#39;&quot;</span>) <span class="ruby-keyword">if</span> <span class="ruby-constant">Array</span>(<span class="ruby-identifier">command_found</span>).<span class="ruby-identifier">empty?</span>
   <span class="ruby-identifier">command_found</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
