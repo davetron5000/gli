@@ -20,7 +20,7 @@ module GLI
         if options[:autocomplete]
           found_match = find_command_by_partial_name(commands_with_aliases, command_to_match)
           if found_match.kind_of? GLI::Command
-            if ENV["GLI_DEBUG"]
+            if ENV["GLI_DEBUG"] == 'true'
               $stderr.puts "Using '#{name}' as it's is short for #{found_match.name}."
               $stderr.puts "Set autocomplete false for any command you don't want matched like this"
             end
