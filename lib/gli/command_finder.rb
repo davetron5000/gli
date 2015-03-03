@@ -20,8 +20,10 @@ module GLI
         if options[:autocomplete]
           found_match = find_command_by_partial_name(commands_with_aliases, command_to_match)
           if found_match.kind_of? GLI::Command
-            puts "WARNING: You called a command named '#{name}', which does not exist."
-            puts "Continuing under the assumption that you meant '#{found_match.name}'..."
+            if ENV["GLI_DEBUG"]
+              $stderr.puts "Using '#{name}' as it's is short for #{found_match.name}."
+              $stderr.puts "Set autocomplete false for any command you don't want matched like this"
+            end
           elsif found_match.kind_of?(Array) && !found_match.empty?
             raise AmbiguousCommand.new("Ambiguous command '#{name}'. It matches #{found_match.sort.join(',')}")
           end
