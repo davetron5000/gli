@@ -3,8 +3,8 @@ module GLI
     attr_accessor :options
 
     DEFAULT_OPTIONS = {
-      default_command: nil,
-      autocomplete: true
+      :default_command => nil,
+      :autocomplete    => true
     }
 
     def initialize(commands, options = {})
