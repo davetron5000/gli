@@ -3,9 +3,11 @@ notifications:
     on_success: always
 script: 'bundle exec rake test features'
 rvm:
+  - 1.8
   - 1.9.3
   - 2.0.0
   - 2.1
+  - 2.2
 branches:
   only:
     - 'gli-2'
