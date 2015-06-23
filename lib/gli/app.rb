@@ -94,7 +94,7 @@ module GLI
       @skips_around = true
     end
 
-    # Sets that this app uses a config file as well as the name of the config file.  
+    # Sets that this app uses a config file as well as the name of the config file.
     #
     # +filename+:: A String representing the path to the file to use for the config file.  If it's an absolute
     #              path, this is treated as the path to the file.  If it's *not*, it's treated as relative to the user's home
@@ -152,7 +152,7 @@ module GLI
     # Define a block to run if an error occurs.
     # The block will receive any Exception that was caught.
     # It should evaluate to false to avoid the built-in error handling (which basically just
-    # prints out a message). GLI uses a variety of exceptions that you can use to find out what 
+    # prints out a message). GLI uses a variety of exceptions that you can use to find out what
     # errors might've occurred during command-line parsing:
     # * GLI::CustomExit
     # * GLI::UnknownCommandArgument
@@ -165,7 +165,7 @@ module GLI
 
     # Indicate the version of your application
     #
-    # +version+:: String containing the version of your application.  
+    # +version+:: String containing the version of your application.
     def version(version)
       @version = version
       desc 'Display the program version'
@@ -191,7 +191,7 @@ module GLI
     end
 
     # Configure a type conversion not already provided by the underlying OptionParser.
-    # This works more or less like the OptionParser version.
+    # This works more or less like the OptionParser version. It's global.
     #
     # object:: the class (or whatever) that triggers the type conversion
     # block:: the block that will be given the string argument and is expected
@@ -201,7 +201,7 @@ module GLI
     #
     #     accept(Hash) do |value|
     #       result = {}
-    #       value.split(/,/) do |pair|
+    #       value.split(/,/).each do |pair|
     #         k,v = pair.split(/:/)
     #         result[k] = v
     #       end
@@ -213,7 +213,7 @@ module GLI
       accepts[object] = block
     end
 
-    # Simpler means of exiting with a custom exit code.  This will 
+    # Simpler means of exiting with a custom exit code.  This will
     # raise a CustomExit with the given message and exit code, which will ultimatley
     # cause your application to exit with the given exit_code as its exit status
     # Use #help_now! if you want to show the help in addition to the error message
@@ -291,7 +291,7 @@ module GLI
       @subcommand_option_handling_strategy = handling_strategy
     end
 
-    # How to handle argument validation. 
+    # How to handle argument validation.
     #
     # handling_strategy:: One of:
     #                     +:loose+:: no argument validation.  Use of `arg` or `arg_name` is for documentation purposes only.  (Default)
