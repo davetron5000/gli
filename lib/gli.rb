@@ -24,8 +24,18 @@ require 'gli/commands/doc'
 
 module GLI
   include GLI::App
+  @@use_hyphenized_form = false
+
   def self.included(klass)
     warn "You should include GLI::App instead"
+  end
+
+  def self.hyphenized=(value)
+    @@use_hyphenized_form = value
+  end
+
+  def self.hyphenized?
+    @@use_hyphenized_form
   end
 
   def self.run(*args)

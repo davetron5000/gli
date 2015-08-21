@@ -113,6 +113,30 @@ class TC_testGLI < Clean::Test::TestCase
 
   end
 
+  def test_supports_hyphenized_options
+    @app.reset
+    @called = false
+
+    GLI.hyphenized = true
+
+    @app.flag :long_flag
+    @app.switch :long_switch
+    @app.command :foo do |c|
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    assert_equal 0, @app.run([]), "Expected exit status to be 0"
+    assert @fake_stdout.contained?(/--long-flag/), @fake_stdout.strings.inspect
+    assert @fake_stdout.contained?(/--\[no-\]long-switch/), @fake_stdout.strings.inspect
+    assert !@called
+
+    assert_equal 0, @app.run(['--long-flag=bar', '--long-switch', 'foo']), "Expected exit status to be 0"
+    assert @called
+
+    GLI.hyphenized = false
+  end
+
   def test_global_required_options_are_ignored_on_help
     @app.reset
     @called = false

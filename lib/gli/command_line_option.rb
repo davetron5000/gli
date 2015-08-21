@@ -22,6 +22,11 @@ module GLI
 
     def self.name_as_string(name,negatable=true)
       string = name.to_s
+
+      if GLI.hyphenized?
+        string.gsub!('_', '-')
+      end
+
       if string.length == 1 
         "-#{string}" 
       elsif negatable
