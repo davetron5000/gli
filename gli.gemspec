@@ -27,7 +27,7 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('clean_test')
   s.add_development_dependency('cucumber')
   s.add_development_dependency('gherkin')
-  s.add_development_dependency('aruba')
+  s.add_development_dependency('aruba', '0.5.1')
   s.add_development_dependency('sdoc')
   s.add_development_dependency('faker','1.0.0')
 end
