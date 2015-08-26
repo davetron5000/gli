@@ -284,7 +284,7 @@ module GLI
     # Returns a String of the error message to show the user
     # +ex+:: The exception we caught that launched the error handling routines
     def error_message(ex) #:nodoc:
-      "error: #{ex.message}"
+      "error: #{ex.message}\n#{ex.backtrace.join("\n")}"
     end
 
     def call_command(parsing_result)
