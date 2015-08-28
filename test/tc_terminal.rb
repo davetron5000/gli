@@ -73,6 +73,30 @@ class TC_testTerminal < Clean::Test::TestCase
     assert_equal [5678,1234],terminal.size
   end
 
+  def test_size_using_stty_but_returns_0
+    terminal = GLI::Terminal.new
+    terminal.make_unsafe!
+    GLI::Terminal.instance_eval do
+      def run_command(command)
+
+        if RUBY_PLATFORM == 'java'
+          return '0' if command == 'tput cols'
+          return '0' if command == 'tput lines'
+        else 
+          return '0 0' if command == 'stty size'
+          return '0 0' if command == 'stty'
+        end
+
+        raise "Unexpected command called: #{command} for #{RUBY_PLATFORM}"
+      end
+      def command_exists?(command); true; end
+      def jruby?; false; end
+      def solaris?; false; end
+    end
+    ENV['COLUMNS'] = 'foo'
+    assert_equal [80,24],terminal.size
+  end
+
   def test_size_using_default
     terminal = GLI::Terminal.new
     terminal.make_unsafe!
