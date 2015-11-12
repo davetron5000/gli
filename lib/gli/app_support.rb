@@ -201,7 +201,7 @@ module GLI
 
     def override_default(tokens,config)
       tokens.each do |name,token|
-        token.default_value=config[name] if config[name]
+        token.default_value=config[name] unless config[name].nil?
       end
     end
 

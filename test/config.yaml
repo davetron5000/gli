@@ -8,3 +8,4 @@ commands:
     :f: barfoo
 :f: foo
 :bleorgh: true
+:t: false

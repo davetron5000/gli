@@ -145,6 +145,8 @@ class TC_testGLI < Clean::Test::TestCase
     @app.flag :f
     @app.switch :s
     @app.flag :g
+    @app.default_value true
+    @app.switch :t
     called = false
     @app.command :command do |c|
       c.flag :f
@@ -159,6 +161,7 @@ class TC_testGLI < Clean::Test::TestCase
           assert !o[:f]
           assert !g[:s]
           assert o[:s]
+          assert !g[:t]
         rescue Exception => ex
           failure = ex
         end
