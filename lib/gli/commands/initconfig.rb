@@ -35,7 +35,8 @@ module GLI
   private
 
     def create_config(global_options,options,arguments)
-      config = Hash[global_options.map { |option_name,option_value|
+      config = Hash[(@app_switches.keys + @app_flags.keys).map { |option_name|
+        option_value = global_options[option_name]
         if option_value.kind_of?(String) && option_value.respond_to?(:force_encoding)
           [option_name,option_value.force_encoding("utf-8")]
         else

@@ -229,9 +229,9 @@ class TC_testGLI < Clean::Test::TestCase
     @app.reset
     @app.config_file(@config_file)
     @app.flag :f
-    @app.switch :s
+    @app.switch :s, :salias
     @app.switch :w
-    @app.flag :bigflag
+    @app.flag :bigflag, :bigalias
     @app.flag :biggestflag
     @app.command :foo do |c|
     end
@@ -249,7 +249,9 @@ class TC_testGLI < Clean::Test::TestCase
 
     assert_equal 'foo',written_config[:f]
     assert_equal 'bleorgh',written_config[:bigflag]
+    assert !written_config[:bigalias]
     assert written_config[:s]
+    assert !written_config[:salias]
     assert !written_config[:w]
     assert_nil written_config[:biggestflag]
     assert written_config[GLI::InitConfig::COMMANDS_KEY]
@@ -515,7 +517,7 @@ class TC_testGLI < Clean::Test::TestCase
     end
     @switch_value = nil
 
-    assert_raises(RuntimeError) do 
+    assert_raises(RuntimeError) do
       @app.command [:foo] do |c|
         c.switch :switch, :default_value => true, :negatable => false
       end
@@ -770,7 +772,7 @@ class TC_testGLI < Clean::Test::TestCase
     }
   end
 
-  def assert_switch_was_made(object,switch) 
+  def assert_switch_was_made(object,switch)
     lambda {
       assert object.switches[switch]
       assert_equal @description,object.switches[switch].description,"For switch #{switch}"
