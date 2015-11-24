@@ -30,7 +30,7 @@ end
 After do |scenario|
   ENV['RUBYLIB'] = ''
   todo_app_dir = File.join(TMP_PATH,'todo')
-  if File.exists? todo_app_dir
+  if File.exist? todo_app_dir
     FileUtils.rm_rf(todo_app_dir)
   end
   ENV['PATH'] = @original_path.join(File::PATH_SEPARATOR)

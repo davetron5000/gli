@@ -30,7 +30,7 @@ module GLI
     #     # loads *.rb files from the user's home dir - great and an extension/plugin mechanism
     #     commands_from File.join(ENV["HOME"],".my_app","plugins")
     def commands_from(path)
-      if Pathname.new(path).absolute? and File.exists?(path)
+      if Pathname.new(path).absolute? and File.exist?(path)
         load_commands(path)
       else
         $LOAD_PATH.each do |load_path|
@@ -317,7 +317,7 @@ module GLI
     private
 
     def load_commands(path)
-      if File.exists? path
+      if File.exist? path
         Dir.entries(path).sort.each do |entry|
           file = File.join(path,entry)
           if file =~ /\.rb$/
