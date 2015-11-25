@@ -43,7 +43,7 @@ module GLI
     #
     # +command+:: The command, as a String, to check for, without any path information.
     def self.command_exists?(command)
-      ENV['PATH'].split(File::PATH_SEPARATOR).any? {|dir| File.exists? File.join(dir, command) }
+      ENV['PATH'].split(File::PATH_SEPARATOR).any? {|dir| File.exist? File.join(dir, command) }
     end
 
     def command_exists?(command)

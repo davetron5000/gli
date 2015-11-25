@@ -13,6 +13,6 @@ end
 
 
 Given /^the file "(.*?)" doesn't exist$/ do |filename|
-  FileUtils.rm filename if File.exists?(filename)
+  FileUtils.rm filename if File.exist?(filename)
 end
 
