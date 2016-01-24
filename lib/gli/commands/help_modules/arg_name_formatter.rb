@@ -22,7 +22,7 @@ module GLI
               arg_desc = "[#{arg_desc}]"
             end
             if arg.multiple?
-              arg_desc = "#{arg_desc}[, #{arg_desc}]*"
+              arg_desc = "#{arg_desc}[ #{arg_desc}]*"
             end
             desc = desc + " " + arg_desc
           end
