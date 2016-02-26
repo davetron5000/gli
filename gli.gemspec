@@ -1,7 +1,7 @@
 # Make sure we get the gli that's local
 require File.join([File.dirname(__FILE__),'lib','gli','version.rb'])
 
-spec = Gem::Specification.new do |s| 
+spec = Gem::Specification.new do |s|
   s.name = 'gli'
   s.version = GLI::VERSION
   s.author = 'David Copeland'
@@ -24,6 +24,7 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 0.9.2.2')
   s.add_development_dependency('rdoc', '~> 3.11')
   s.add_development_dependency('rainbow', '~> 1.1.1')
+  s.add_development_dependency('minitest')
   s.add_development_dependency('clean_test')
   s.add_development_dependency('cucumber')
   s.add_development_dependency('gherkin')
@@ -31,4 +32,3 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('sdoc')
   s.add_development_dependency('faker','1.0.0')
 end
-
