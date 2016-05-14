@@ -52,6 +52,11 @@ module GLI
       if @mask
         "********"
       else
+        # This uses @default_value instead of the `default_value` method because
+        # this method is only used for display, and for flags that may be passed
+        # multiple times, we want to display whatever is set in the code as the
+        # the default, or the string "none" rather than displaying an empty
+        # array.
         @default_value
       end
     end

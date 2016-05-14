@@ -302,20 +302,20 @@ private
         unless omit_options
           flags.each do |(description,arg,flag_names)|
             desc description
-          arg_name arg
-          flag flag_names
+            arg_name arg
+            flag flag_names
           end
 
           switches.each do |(description,switch_names)|
             desc description
-          switch switch_names
+            switch switch_names
           end
         end
 
         commands.each do |(description,command_names)|
           desc description
-          command command_names do |c| 
-            c.action {} 
+          command command_names do |c|
+            c.action {}
           end
         end
       end
@@ -363,7 +363,7 @@ private
   def any_option
     ('a'..'z').to_a[@option_index].tap { @option_index += 1 }
   end
-  
+
   def any_long_option
     Faker::Lorem.words(10)[rand(10)]
   end
