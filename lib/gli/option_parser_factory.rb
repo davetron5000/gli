@@ -58,8 +58,15 @@ module GLI
       tokens.each do |ignore,token|
         opts.on(*token.arguments_for_option_parser) do |arg|
           token.names_and_aliases.each do |name|
-            options[name] = arg
-            options[name.to_sym] = arg
+            if token.kind_of?(Flag) && token.multiple?
+              options[name] ||= []
+              options[name.to_sym] ||= []
+              options[name] << arg
+              options[name.to_sym] << arg
+            else
+              options[name] = arg
+              options[name.to_sym] = arg
+            end
           end
         end
       end
