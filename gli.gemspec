@@ -22,7 +22,7 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.rubyforge_project = 'gli'
   s.add_development_dependency('rake', '~> 0.9.2.2')
-  s.add_development_dependency('rdoc', '~> 3.11')
+  s.add_development_dependency('rdoc')
   s.add_development_dependency('rainbow', '~> 1.1.1')
   s.add_development_dependency('clean_test')
   s.add_development_dependency('cucumber')
