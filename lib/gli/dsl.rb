@@ -75,6 +75,7 @@ module GLI
     #           +:arg_name+:: the arg name, instead of using #arg_name
     #           +:must_match+:: A regexp that the flag's value must match or an array of allowable values
     #           +:type+:: A Class (or object you passed to GLI::App#accept) to trigger type coversion
+    #           +:multiple+:: if true, flag may be used multiple times and values are stored in an array
     #
     # Example:
     #

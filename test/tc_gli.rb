@@ -717,6 +717,48 @@ class TC_testGLI < Clean::Test::TestCase
     assert_equal 'crud',@baz.value
   end
 
+  def test_that_flags_can_be_used_multiple_times
+    @app.reset
+    @app.flag :flag, :multiple => true
+    @app.command :foo do |c|
+      c.action do |options, _, _|
+        @flag = options[:flag]
+      end
+    end
+
+    assert_equal 0,@app.run(%w(--flag 1 --flag=2 --flag 3 foo)),@fake_stderr.to_s
+
+    assert_equal ['1','2','3'],@flag
+  end
+
+  def test_that_multiple_use_flags_are_empty_arrays_by_default
+    @app.reset
+    @app.flag :flag, :multiple => true
+    @app.command :foo do |c|
+      c.action do |options, _, _|
+        @flag = options[:flag]
+      end
+    end
+
+    assert_equal 0,@app.run(['foo']),@fake_stderr.to_s
+
+    assert_equal [],@flag
+  end
+
+  def test_that_multiple_use_flags_can_take_other_defaults
+    @app.reset
+    @app.flag :flag, :multiple => true, :default_value => ['1']
+    @app.command :foo do |c|
+      c.action do |options, _, _|
+        @flag = options[:flag]
+      end
+    end
+
+    assert_equal 0,@app.run(['foo']),@fake_stderr.to_s
+
+    assert_equal ['1'],@flag
+  end
+
   def test_that_we_mutate_ARGV_by_default
     @app.reset
     @app.flag :f
