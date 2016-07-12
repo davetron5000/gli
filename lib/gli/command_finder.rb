@@ -9,16 +9,16 @@ module GLI
 
     def initialize(commands, options = {})
       self.options = DEFAULT_OPTIONS.merge(options)
-      self.commands_with_aliases = expand_with_aliases(commands)
+      @commands_with_aliases = expand_with_aliases(commands)
     end
 
     def find_command(name)
       name = String(name || options[:default_command]).strip
       raise UnknownCommand.new("No command name given nor default available") if name == ''
 
-      command_found = commands_with_aliases.fetch(name) do |command_to_match|
+      command_found = @commands_with_aliases.fetch(name) do |command_to_match|
         if options[:autocomplete]
-          found_match = find_command_by_partial_name(commands_with_aliases, command_to_match)
+          found_match = find_command_by_partial_name(@commands_with_aliases, command_to_match)
           if found_match.kind_of? GLI::Command
             if ENV["GLI_DEBUG"] == 'true'
               $stderr.puts "Using '#{name}' as it's is short for #{found_match.name}."
@@ -36,7 +36,6 @@ module GLI
     end
 
   private
-    attr_accessor :commands_with_aliases
 
     def expand_with_aliases(commands)
       expanded = {}
