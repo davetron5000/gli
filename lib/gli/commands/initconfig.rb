@@ -1,4 +1,3 @@
-require 'gli'
 require 'gli/command'
 require 'yaml'
 require 'fileutils'
