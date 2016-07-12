@@ -122,8 +122,8 @@ module GLI
     end
 
     # Executes the command
-    def execute(global_options,options,arguments) 
-      get_action(arguments).call(global_options,options,arguments)
+    def execute(global_options,options,arguments)
+      get_action.call(global_options,options,arguments)
     end
 
     def topmost_ancestor
@@ -151,15 +151,15 @@ module GLI
       app.nil? ? true : (app.subcommand_option_handling_strategy == :legacy)
     end
 
-    def get_action(arguments)
+    def get_action
       if @action
         @action
       else
-        generate_error_action(arguments)
+        generate_error_action
       end
     end
 
-    def generate_error_action(arguments)
+    def generate_error_action
       lambda { |global_options,options,arguments|
         if am_subcommand?
           if arguments.size > 0
