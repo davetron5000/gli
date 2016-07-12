@@ -13,7 +13,7 @@ module GLI
 
         check_for_unknown_commands!(base,command_names)
 
-        @wrapped_commands = command_names.map { |name| self.class.find_command(base,name) }
+        @wrapped_commands = command_names.map { |command_name| self.class.find_command(base,command_name) }
       end
 
       def execute(global_options,options,arguments) #:nodoc:
