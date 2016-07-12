@@ -26,7 +26,7 @@ module GLI
       protected
 
         def sub_options_doc(sub_options)
-          sub_options_doc = sub_options.map { |_,option| 
+          sub_options.map { |_,option| 
             doc = option.names_and_aliases.map { |name|
               CommandLineOption.name_as_string(name,false) + (option.kind_of?(Flag) ? " #{option.argument_name }" : '')
             }.join('|')
@@ -89,7 +89,7 @@ module GLI
             synopsis = command_with_subcommand_usage(command,sub,default)
             synopses_command[synopsis] = sub
           end
-          synopses = synopses_command.keys.sort { |one,two|
+          synopses_command.keys.sort { |one,two|
             if synopses_command[one].name == command.get_default_command
               -1
             elsif synopses_command[two].name == command.get_default_command
