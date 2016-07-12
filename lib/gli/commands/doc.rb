@@ -142,7 +142,7 @@ module GLI
         FORMATS.fetch(format_name) { 
           begin
             return format_name.split(/::/).reduce(Kernel) { |context,part| context.const_get(part) }
-          rescue => ex
+          rescue
             raise IndexError,"Couldn't find formatter or class named #{format_name}"
           end
         }
