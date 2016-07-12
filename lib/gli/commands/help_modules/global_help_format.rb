@@ -11,7 +11,7 @@ module GLI
         end
 
         def format
-          program_desc = @app.program_desc
+          @program_desc = @app.program_desc
           program_long_desc = @app.program_long_desc
           if program_long_desc
             wrapper = @wrapper_class.new(Terminal.instance.size[0],4)
@@ -25,9 +25,9 @@ module GLI
           }, @wrapper_class)
           stringio = StringIO.new
           command_formatter.output(stringio)
-          commands = stringio.string
+          @commands = stringio.string
 
-          global_option_descriptions = OptionsFormatter.new(global_flags_and_switches,@sorter,@wrapper_class).format
+          @global_option_descriptions = OptionsFormatter.new(global_flags_and_switches,@sorter,@wrapper_class).format
 
           GLOBAL_HELP.result(binding)
         end
@@ -35,7 +35,7 @@ module GLI
       private
 
         GLOBAL_HELP = ERB.new(%q(NAME
-    <%= @app.exe_name %> - <%= program_desc %>
+    <%= @app.exe_name %> - <%= @program_desc %>
 <%= program_long_desc %>
 SYNOPSIS
     <%= usage_string %>
@@ -47,11 +47,11 @@ VERSION
 <% end %>
 <% unless global_flags_and_switches.empty? %>
 GLOBAL OPTIONS
-<%= global_option_descriptions %>
+<%= @global_option_descriptions %>
 
 <% end %>
 COMMANDS
-<%= commands %>),nil,'<>')
+<%= @commands %>),nil,'<>')
 
         def global_flags_and_switches
           @app.flags_declaration_order + @app.switches_declaration_order
