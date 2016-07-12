@@ -45,7 +45,7 @@ module GLI
             wrapped_text << current_graf  << "\n\n" << ' ' * @indent
             current_graf = ''
           end
-          wrapped_text.gsub(/[\n\s]*\Z/,'')
+          wrapped_text.gsub(/[\s]*\Z/,'')
         end
       end
     end
