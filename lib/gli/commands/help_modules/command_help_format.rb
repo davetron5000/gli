@@ -13,38 +13,38 @@ module GLI
         end
 
         def format
-          command_wrapper      = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
-          wrapper              = @wrapper_class.new(Terminal.instance.size[0],4)
+          @command_wrapper      = @wrapper_class.new(Terminal.instance.size[0],4 + @command.name.to_s.size + 3)
+          @wrapper              = @wrapper_class.new(Terminal.instance.size[0],4)
           
-          options_description  = OptionsFormatter.new(flags_and_switches(@command,@app),@sorter,@wrapper_class).format
-          commands_description = format_subcommands(@command)
+          @options_description  = OptionsFormatter.new(flags_and_switches(@command,@app),@sorter,@wrapper_class).format
+          @commands_description = format_subcommands(@command)
 
-          synopses = @synopsis_formatter.synopses_for_command(@command)
+          @synopses = @synopsis_formatter.synopses_for_command(@command)
           COMMAND_HELP.result(binding)
         end
 
       private
         COMMAND_HELP = ERB.new(%q(NAME
-    <%= @command.name %> - <%= command_wrapper.wrap(@command.description) %>
+    <%= @command.name %> - <%= @command_wrapper.wrap(@command.description) %>
 
 SYNOPSIS
-<% synopses.each do |s| %>
+<% @synopses.each do |s| %>
     <%= s %>
 <% end %>
 <% unless @command.long_description.nil? %>
 
 DESCRIPTION
-    <%= wrapper.wrap(@command.long_description) %> 
+    <%= @wrapper.wrap(@command.long_description) %> 
 <% end %>
-<% if options_description.strip.length != 0 %>
+<% if @options_description.strip.length != 0 %>
 
 COMMAND OPTIONS
-<%= options_description %>
+<%= @options_description %>
 <% end %>
 <% unless @command.commands.empty? %>
 
 COMMANDS
-<%= commands_description %>
+<%= @commands_description %>
 <% end %>),nil,'<>')
 
 
