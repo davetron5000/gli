@@ -45,7 +45,7 @@ module GLI
       def parse!(parsing_result)
         parsing_result.arguments      = GLIOptionBlockParser.new(@option_parser_factory,UnknownGlobalArgument).parse!(parsing_result.arguments)
         parsing_result.global_options = @option_parser_factory.options_hash_with_defaults_set!
-        command_name = if parsing_result.global_options[:help]
+        command_name = if parsing_result.global_options[:help] || parsing_result.global_options[:version]
                          "help"
                        else
                          parsing_result.arguments.shift
