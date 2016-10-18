@@ -4,6 +4,7 @@ require File.join([File.dirname(__FILE__),'lib','gli','version.rb'])
 spec = Gem::Specification.new do |s| 
   s.name = 'gli'
   s.version = GLI::VERSION
+  s.licenses = ['Apache-2.0']
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
