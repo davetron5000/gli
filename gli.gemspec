@@ -1,9 +1,10 @@
 # Make sure we get the gli that's local
 require File.join([File.dirname(__FILE__),'lib','gli','version.rb'])
 
-spec = Gem::Specification.new do |s| 
+spec = Gem::Specification.new do |s|
   s.name = 'gli'
   s.version = GLI::VERSION
+  s.licenses = ['Apache-2.0']
   s.author = 'David Copeland'
   s.email = 'davidcopeland@naildrivin5.com'
   s.homepage = 'http://davetron5000.github.com/gli'
@@ -22,13 +23,12 @@ spec = Gem::Specification.new do |s|
   s.bindir = 'bin'
   s.rubyforge_project = 'gli'
   s.add_development_dependency('rake', '~> 0.9.2.2')
-  s.add_development_dependency('rdoc')
-  s.add_development_dependency('rainbow', '~> 1.1.1')
-  s.add_development_dependency('clean_test')
-  s.add_development_dependency('cucumber')
-  s.add_development_dependency('gherkin')
+  s.add_development_dependency('rdoc', '~> 4.2')
+  s.add_development_dependency('rainbow', '~> 1.1', '~> 1.1.1')
+  s.add_development_dependency('clean_test', '~> 1.0')
+  s.add_development_dependency('cucumber', '~> 2.4')
+  s.add_development_dependency('gherkin', '~> 4.0')
   s.add_development_dependency('aruba', '0.5.1')
-  s.add_development_dependency('sdoc')
+  s.add_development_dependency('sdoc', '~> 0.4')
   s.add_development_dependency('faker','1.0.0')
 end
-
