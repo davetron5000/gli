@@ -21,6 +21,7 @@ require 'gli/commands/compound_command'
 require 'gli/commands/initconfig'
 require 'gli/commands/rdoc_document_listener'
 require 'gli/commands/doc'
+require 'gli/monkeypatches/with_indifferent_access'
 
 module GLI
   include GLI::App

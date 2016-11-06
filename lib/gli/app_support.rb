@@ -109,7 +109,7 @@ module GLI
       }
       if @config_file && File.exist?(@config_file)
         require 'yaml'
-        config.merge!(File.open(@config_file) { |file| YAML::load(file) })
+        config.merge!(File.open(@config_file) { |file| YAML::load(file).with_indifferent_access })
       end
       config
     end
@@ -185,7 +185,7 @@ module GLI
     def override_command_defaults(command_list,config)
       command_list.each do |command_name,command|
         next if command_name == :initconfig || command.nil?
-        command_config = (config['commands'] || {})[command_name] || {}
+        command_config = (config[GLI::InitConfig::COMMANDS_KEY] || {})[command_name] || {}
 
         if @subcommand_option_handling_strategy == :legacy
           override_default(command.topmost_ancestor.flags,command_config)
