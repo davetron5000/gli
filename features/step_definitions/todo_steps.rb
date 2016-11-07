@@ -28,7 +28,7 @@ end
 
 Then /^the config file should contain a section for each command and subcommand$/ do
   config = File.open(File.join(ENV['HOME'],'gli_test_todo.rc')) do |file|
-    YAML::load(file)
+    YAML::load(file).with_indifferent_access
   end
   expect(config.keys).to include(:flag)
   expect(config[:flag]).to eq('foo')

@@ -250,6 +250,8 @@ class TC_testGLI < Clean::Test::TestCase
     end
     @app.command :blah do |c|
     end
+    @app.switch :version
+    @app.switch :help
     @app.on_error do |ex|
       raise ex
     end
@@ -291,6 +293,11 @@ class TC_testGLI < Clean::Test::TestCase
     assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY][:subfoo]
     assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY][:subfoo][:absurd]
     assert_equal written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY][:subfoo][:absurd],true
+    # omit version and help global options
+    assert !written_config['version']
+    assert !written_config['help']
+    assert !written_config[:version]
+    assert !written_config[:help]
 
   end
 

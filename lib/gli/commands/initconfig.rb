@@ -35,7 +35,7 @@ module GLI
   private
 
     def create_config(global_options,options,arguments)
-      config = Hash[(@app_switches.keys + @app_flags.keys).map { |option_name|
+      config = Hash[(sanitized_global_option_names).map { |option_name|
         option_value = global_options[option_name]
         if option_value.kind_of?(String) && option_value.respond_to?(:force_encoding)
           [option_name.to_s,option_value.force_encoding("utf-8")]
@@ -55,6 +55,12 @@ module GLI
       File.open(@filename,'w', 0600) do |file|
         YAML.dump(config,file)
         puts "Configuration file '#{@filename}' written."
+      end
+    end
+
+    def sanitized_global_option_names
+      (@app_switches.keys + @app_flags.keys).select do |option_name|
+        option_name != :help && option_name != :version
       end
     end
 
