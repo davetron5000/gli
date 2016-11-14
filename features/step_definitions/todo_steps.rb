@@ -27,9 +27,8 @@ Given /^a clean home directory$/ do
 end
 
 Then /^the config file should contain a section for each command and subcommand$/ do
-  config = File.open(File.join(ENV['HOME'],'gli_test_todo.rc')) do |file|
-    YAML::load(file).with_indifferent_access
-  end
+  config_path = File.join(ENV['HOME'],'gli_test_todo.rc')
+  config = GLI::ConfigLoader.load(config_path)
   expect(config.keys).to include(:flag)
   expect(config[:flag]).to eq('foo')
   config[:flag].tap do |flag|

@@ -10,8 +10,8 @@ require 'fileutils'
 # Adds GLI's bin dir to our path
 ENV['PATH'] = "#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}#{File::PATH_SEPARATOR}#{ENV['PATH']}"
 GLI_LIB_PATH = File.expand_path(File.join(File.dirname(__FILE__),'..','..','lib'))
-# Adds in GLI's monkeypatch for indifferent hash access for features that verify config file behavior
-require "#{GLI_LIB_PATH}/gli/monkeypatches/with_indifferent_access"
+# Adds in GLI's ConfigLoader for indifferent hash access for features that verify config file behavior
+require "#{GLI_LIB_PATH}/gli/config_loader.rb"
 
 GLI_GEMSET = 'gli-testing'
 TMP_PATH = 'tmp/aruba'

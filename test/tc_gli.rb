@@ -261,7 +261,7 @@ class TC_testGLI < Clean::Test::TestCase
     # as written
     raw_written_config = File.open(@config_file) { |f| YAML::load(f) }
     # as loaded by gli in AppSupport#parse_config
-    written_config = raw_written_config.with_indifferent_access
+    written_config = GLI::ConfigLoader.load(@config_file)
 
     assert_equal 'foo',written_config[:f]
     # global config keys written out as strings, not symbols

@@ -108,8 +108,7 @@ module GLI
         'commands' => {},
       }
       if @config_file && File.exist?(@config_file)
-        require 'yaml'
-        config.merge!(File.open(@config_file) { |file| YAML::load(file).with_indifferent_access })
+        config.merge!(ConfigLoader.load(@config_file))
       end
       config
     end
