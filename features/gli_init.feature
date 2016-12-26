@@ -57,17 +57,17 @@ Feature: The scaffold GLI generates works
 
     SYNOPSIS
         todo [global options] command [command options] [arguments...]
-    
+
     VERSION
         0.0.1
-    
+
     GLOBAL OPTIONS
         -f, --flagname=The name of the argument - Describe some flag here (default:
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
         --version                               - Display the program version
-    
+
     COMMANDS
         add      - Describe add here
         complete - Describe complete here
@@ -83,17 +83,17 @@ Feature: The scaffold GLI generates works
 
     SYNOPSIS
         todo [global options] command [command options] [arguments...]
-    
+
     VERSION
         0.0.1
-    
+
     GLOBAL OPTIONS
         -f, --flagname=The name of the argument - Describe some flag here (default:
                                                   the default)
         --help                                  - Show this message
         -s, --[no-]switch                       - Describe some switch here
         --version                               - Display the program version
-    
+
     COMMANDS
         add      - Describe add here
         complete - Describe complete here
@@ -121,12 +121,8 @@ Feature: The scaffold GLI generates works
     When I run `rake test`
     Then the output should contain:
     """
-    .
-    """
-    And the output should contain:
-    """
 
-    1 tests, 1 assertions, 0 failures, 0 errors
+    1 tests, 1 assertions, 0 failures, 0 errors, 0 skips
     """
     Given todo's libs are no longer in my load path
     When I run `rake features`
@@ -191,7 +187,7 @@ Feature: The scaffold GLI generates works
      When I run `bin/todo foobar`
      Then the stderr should contain "error: Unknown command 'foobar'"
       And the exit status should not be 0
-     
+
   Scenario: Running commands using short form
     Given I successfully run `gli init todo add complete compute list`
       And I cd to "todo"
@@ -202,7 +198,7 @@ Feature: The scaffold GLI generates works
      Then the output should contain "list command ran"
      When I successfully run `bin/todo compl`
      Then the output should contain "complete command ran"
-     
+
   Scenario: Ambiguous commands give helpful output
     Given I successfully run `gli init todo add complete compute list`
       And I cd to "todo"
@@ -210,7 +206,7 @@ Feature: The scaffold GLI generates works
      When I run `bin/todo comp`
      Then the stderr should contain "Ambiguous command 'comp'. It matches complete,compute"
      And the exit status should not be 0
-     
+
   Scenario: Running generated command without bundler gives a helpful error message
     Given I successfully run `gli init todo add complete compute list`
       And I cd to "todo"
@@ -219,7 +215,7 @@ Feature: The scaffold GLI generates works
      Then the stderr should contain "In development, you need to use `bundle exec bin/todo` to run your app"
      And the stderr should contain "At install-time, RubyGems will make sure lib, etc. are in the load path"
      And the stderr should contain "Feel free to remove this message from bin/todo now"
-     
+
   Scenario: Running commands with a dash in the name
     Given I successfully run `gli init todo-app add complete compute list`
       And I cd to "todo-app"
