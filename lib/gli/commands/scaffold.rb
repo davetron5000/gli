@@ -55,7 +55,7 @@ module GLI
         file.puts <<EOS
 # Ensure we require the local version and not one we might have installed already
 require File.join([File.dirname(__FILE__),'lib','#{project_name}','version.rb'])
-spec = Gem::Specification.new do |s| 
+spec = Gem::Specification.new do |s|
   s.name = '#{project_name}'
   s.version = #{project_name_as_module_name(project_name)}::VERSION
   s.author = 'Your Name Here'
@@ -171,7 +171,7 @@ EOS
             test_file.puts <<EOS
 require 'test_helper'
 
-class DefaultTest < Test::Unit::TestCase
+class DefaultTest < Minitest::Test
 
   def setup
   end
@@ -188,14 +188,14 @@ EOS
           puts "Created #{root_dir}/#{project_name}/test/default_test.rb"
           File.open("#{root_dir}/#{project_name}/test/test_helper.rb",'w') do |test_file|
             test_file.puts <<EOS
-require 'test/unit'
+require 'minitest/autorun'
 
 # Add test libraries you want to use here, e.g. mocha
 
-class Test::Unit::TestCase
+class Minitest::Test
 
   # Add global extensions to the test case class here
-  
+
 end
 EOS
           end
@@ -314,7 +314,7 @@ command :#{command} do |c|
   c.action do |global_options,options,args|
 
     # Your command logic here
-     
+
     # If you have any errors, just raise them
     # raise "that command made no sense"
 
