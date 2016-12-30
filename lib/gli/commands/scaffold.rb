@@ -63,7 +63,7 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'http://your.website.com'
   s.platform = Gem::Platform::RUBY
   s.summary = 'A description of your project'
-  s.files = `git ls-files`.split("\n")
+  s.files = `git ls-files`.split("\\n")
   s.require_paths << 'lib'
   s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc','#{project_name}.rdoc']
