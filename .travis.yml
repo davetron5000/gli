@@ -3,9 +3,11 @@ notifications:
     on_success: always
 script: 'bundle exec rake test features'
 rvm:
-  - 2.1.8
-  - 2.2.4
-  - 2.3.0
+  - 2.1.10
+  - 2.2.6
+  - 2.3.3
+  - 2.4.0
+  - jruby-19mode
 branches:
   only:
     - 'gli-2'
