@@ -38,6 +38,14 @@ command [:list] do |c|
 
     tasks.desc 'list open tasks'
     tasks.command :open do |open|
+      open.desc "blah blah crud x whatever"
+      open.flag [:x], :must_match => Array
+
+      open.flag :flag
+
+      open.example "todo list tasks open --flag=blah", desc: "example number 1"
+      open.example "todo list tasks open -x foo"
+
       open.action do |global,options,args|
         puts "tasks open"
       end

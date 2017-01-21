@@ -139,7 +139,6 @@ Feature: The scaffold GLI generates works
     2 steps (2 passed)
     """
 
-    @wip
   Scenario Outline: Scaffold generates and respects flags to create ext dir and avoid test dir
     When I run `<command>`
     Then the exit status should be 0

@@ -45,6 +45,8 @@ module GLI
     #           +skips_post+:: if true, this command advertises that it doesn't want the post block called after it
     #           +skips_around+:: if true, this command advertises that it doesn't want the around block called
     #           +hide_commands_without_desc+:: if true and there isn't a description the command is not going to be shown in the help
+    #           +examples+:: An array of Hashes, where each hash must have the key +:example+ mapping to a string, and may optionally have the key +:desc+
+    #                        that documents that example.
     def initialize(options)
       super(options[:names],options[:description],options[:long_desc])
       @arguments_description = options[:arguments_name] || ''
@@ -57,7 +59,19 @@ module GLI
       @commands_declaration_order = []
       @flags_declaration_order = []
       @switches_declaration_order = []
+      @examples = options[:examples] || []
       clear_nexts
+    end
+
+    # Specify an example invocation.
+    #
+    # example_invocation:: test of a complete command-line invocation you want to show
+    # options:: refine the example:
+    #           +:desc+:: A description of the example to be shown with it (optional)
+    def example(example_invocation,options = {})
+      @examples << {
+        example: example_invocation
+      }.merge(options)
     end
 
     # Set the default command if this command has subcommands and the user doesn't 

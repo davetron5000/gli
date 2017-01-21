@@ -18,6 +18,7 @@ module GLI
           
           options_description  = OptionsFormatter.new(flags_and_switches(@command,@app),@sorter,@wrapper_class).format
           commands_description = format_subcommands(@command)
+          command_examples = format_examples(@command)
 
           synopses = @synopsis_formatter.synopses_for_command(@command)
           COMMAND_HELP.result(binding)
@@ -45,6 +46,13 @@ COMMAND OPTIONS
 
 COMMANDS
 <%= commands_description %>
+<% end %>
+<% unless @command.examples.empty? %>
+
+<%= @command.examples.size == 1 ? 'EXAMPLE' : 'EXAMPLES' %>
+
+
+<%= command_examples %>
 <% end %>),nil,'<>')
 
 
@@ -75,6 +83,16 @@ COMMANDS
           end
           formatter = ListFormatter.new(commands_array,@wrapper_class)
           StringIO.new.tap { |io| formatter.output(io) }.string
+        end
+
+        def format_examples(command)
+          command.examples.map {|example|
+            string = ""
+            if example[:desc]
+              string << "    # #{example[:desc]}\n"
+            end
+            string << "    #{example.fetch(:example)}\n"
+          }.join("\n")
         end
       end
     end
