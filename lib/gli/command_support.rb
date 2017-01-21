@@ -49,6 +49,11 @@ module GLI
       all_forms
     end
 
+    # Returns the array of examples
+    def examples
+      @examples
+    end
+
     # Get an array of commands, ordered by when they were declared
     def commands_declaration_order # :nodoc:
       @commands_declaration_order

@@ -211,6 +211,28 @@ Feature: The todo app has a nice user interface
       | list --help     |
       | --help list     |
 
+  Scenario: Getting Help for a leaf command of todo
+    Given todo's bin directory is in my path
+    When I successfully run `todo help list tasks open`
+    Then the output should contain:
+    """
+    NAME
+        open - list open tasks
+    
+    SYNOPSIS
+        todo [global options] list tasks open [command options] 
+    
+    COMMAND OPTIONS
+        --flag=arg - (default: none)
+        -x arg     - blah blah crud x whatever (default: none)
+
+    EXAMPLES
+
+        # example number 1
+        todo list tasks open --flag=blah
+
+        todo list tasks open -x foo
+    """
 
   Scenario: Getting Help for a top level command of todo with no command options
     When I successfully run `todo help chained`
@@ -315,7 +337,7 @@ Feature: The todo app has a nice user interface
 
     SYNOPSIS
         todo [global options] list tasks [command options] [task][, [task]]*
-        todo [global options] list tasks [command options] open
+        todo [global options] list tasks [command options] open [--flag arg] [-x arg]
 
     DESCRIPTION
         Lists all of your tasks that you have, in varying orders, and all that

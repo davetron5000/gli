@@ -75,13 +75,16 @@ Get a more detailed walkthrough on the {main site}[http://davetron5000.github.co
 
 Tests should be passing supported MRI Rubies (see +.travis.yml+ for specifics).
 
-Due to the vagaries of Travis, I can't keep the test suite running on unsupported Rubies, however GLI has been used on older ones, like:
+Due to the vagaries of Travis, I can't keep the test suite running on unsupported Rubies, but we currently support:
 
-* 1.8.7
-* 1.9.2
-* 1.9.3
-* Ruby Enterprise Edition 1.8.7
-* JRuby 
+* 2.1
+* 2.2
+* 2.3
+* 2.4
+* JRuby
+
+GLI likely works on older rubies, but the cost of keeping tests passing on those versions (which are now totally unsupported by Ruby core) is too high.
+
 
 == Documentation
 
