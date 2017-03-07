@@ -366,6 +366,57 @@ class TC_testCommand < Test::Unit::TestCase
     assert_equal expected_lines, total_lines, "Help message should maintain paragraphs, ignoring varying line lengths, multiple spaces and span #{expected_lines} lines, but spanned #{total_lines} lines"
   end
 
+  def test_paragraph_help_wrapping
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_para)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      lines = str.split("\n")
+      lines.each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i,
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+    total_lines = @fake_stdout.strings.inject(0) { |total, string| total + string.split("\n").size }
+    expected_lines = 9
+    assert_equal expected_lines, total_lines, "Help message should maintain paragraphs and span #{expected_lines} lines, but spanned #{total_lines} lines"
+  end
+
+  def test_paragraph_help_wrapping_multi_line
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_para_multi)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      lines = str.split("\n")
+      lines.each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i,
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+    total_lines = @fake_stdout.strings.inject(0) { |total, string| total + string.split("\n").size }
+    expected_lines = 9
+    assert_equal expected_lines, total_lines, "Help message should maintain paragraphs, ignoring multiple blank lines, and span #{expected_lines} lines, but spanned #{total_lines} lines"
+  end
+
+  def test_paragraph_wrapping_bounds
+    ENV['COLUMNS'] = '80'
+    ENV['LINES'] = '24'
+    args = %w(help test_para_bounds)
+    GLI.run(args)
+    @fake_stdout.strings.each do |str|
+      lines = str.split("\n")
+      lines.each do |line|
+        assert(line.size <= ENV['COLUMNS'].to_i,
+               "Help message should not exceed #{ENV['COLUMNS']} columns, but was #{line.size}")
+      end
+    end
+    total_lines = @fake_stdout.strings.inject(0) { |total, string| total + string.split("\n").size }
+    expected_lines = 18
+    assert_equal expected_lines, total_lines, "Help message should maintain paragraphs, ignoring varying line lengths, multiple spaces and span #{expected_lines} lines, but spanned #{total_lines} lines"
+  end
+
   def test_version
     GLI.command :foo, :bar do |c|; end
     GLI.command :ls, :list do |c|; end
