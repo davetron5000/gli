@@ -4,7 +4,7 @@ module GLI
     # about your app, so as to create documentation in whatever format you want
     class Doc < Command
       FORMATS = {
-        'rdoc' => GLI::Commands::RdocDocumentListener,
+        'rdoc' => GLI::Commands::RdocDocumentListener
       }
       # Create the Doc generator based on the GLI app passed in
       def initialize(app)
@@ -139,7 +139,7 @@ module GLI
     private
 
       def format_class(format_name)
-        FORMATS.fetch(format_name) { 
+        FORMATS.fetch(format_name) {
           begin
             return format_name.split(/::/).reduce(Kernel) { |context,part| context.const_get(part) }
           rescue => ex
@@ -168,8 +168,14 @@ module GLI
                         command.description,
                         command.long_description,
                         command.arguments_description]
-        if document_listener.method(:command).arity == 6
+        if document_listener.method(:command).arity >= 6
           command_args << command.arguments_options
+          if document_listener.method(:command).arity >= 7
+            command_args << command.arguments
+          end
+          if document_listener.method(:command).arity >= 8
+            command_args << command.examples
+          end
         end
         document_listener.command(*command_args)
       end
