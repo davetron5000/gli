@@ -35,7 +35,10 @@ module GLI
       else
         $LOAD_PATH.each do |load_path|
           commands_path = File.join(load_path,path)
-          load_commands(commands_path)
+          if File.exists?(commands_path)
+            load_commands(commands_path)
+            return
+          end
         end
       end
     end
