@@ -237,20 +237,36 @@ class TC_testGLI < Clean::Test::TestCase
     @app.flag :bigflag, :bigalias
     @app.flag :biggestflag
     @app.command :foo do |c|
+      c.default_value true
+      c.switch :fooswitch
+      c.command :subfoo do |s|
+        s.default_value true
+        s.switch :absurd
+      end
     end
     @app.command :bar do |c|
+      c.default_value 'yuck'
+      c.flag :barflag
     end
     @app.command :blah do |c|
     end
+    @app.switch :version
+    @app.switch :help
     @app.on_error do |ex|
       raise ex
     end
     @app.run(['-f','foo','-s','--bigflag=bleorgh','initconfig'])
     assert @fake_stdout.contained?(/written/), @fake_stdout.strings.inspect
 
-    written_config = File.open(@config_file) { |f| YAML::load(f) }
+    # as written
+    raw_written_config = File.open(@config_file) { |f| YAML::load(f) }
+    # as loaded by gli in AppSupport#parse_config
+    written_config = GLI::ConfigLoader.load(@config_file)
 
     assert_equal 'foo',written_config[:f]
+    # global config keys written out as strings, not symbols
+    assert_equal 'foo',raw_written_config['f']
+    assert !raw_written_config[:f]
     assert_equal 'bleorgh',written_config[:bigflag]
     assert !written_config[:bigalias]
     assert written_config[:s]
@@ -259,8 +275,29 @@ class TC_testGLI < Clean::Test::TestCase
     assert_nil written_config[:biggestflag]
     assert written_config[GLI::InitConfig::COMMANDS_KEY]
     assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo]
+    # command config keys written as strings, not symbols
+    assert written_config[GLI::InitConfig::COMMANDS_KEY]['foo']
+    assert !raw_written_config[GLI::InitConfig::COMMANDS_KEY][:foo]
+    assert raw_written_config[GLI::InitConfig::COMMANDS_KEY]['foo']
+    assert !raw_written_config[GLI::InitConfig::COMMANDS_KEY][:foo]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo][:fooswitch]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo]['fooswitch']
+    assert !raw_written_config[GLI::InitConfig::COMMANDS_KEY]['foo'][:fooswitch]
     assert written_config[GLI::InitConfig::COMMANDS_KEY][:bar]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:bar][:barflag]
+    # command config defaults are written
+    assert_equal written_config[GLI::InitConfig::COMMANDS_KEY][:bar][:barflag],'yuck'
     assert written_config[GLI::InitConfig::COMMANDS_KEY][:blah]
+    # subcommands
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY][:subfoo]
+    assert written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY][:subfoo][:absurd]
+    assert_equal written_config[GLI::InitConfig::COMMANDS_KEY][:foo][GLI::InitConfig::COMMANDS_KEY][:subfoo][:absurd],true
+    # omit version and help global options
+    assert !written_config['version']
+    assert !written_config['help']
+    assert !written_config[:version]
+    assert !written_config[:help]
 
   end
 

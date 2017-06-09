@@ -35,20 +35,18 @@ module GLI
   private
 
     def create_config(global_options,options,arguments)
-      config = Hash[(@app_switches.keys + @app_flags.keys).map { |option_name|
+      config = Hash[(sanitized_global_option_names).map { |option_name|
         option_value = global_options[option_name]
         if option_value.kind_of?(String) && option_value.respond_to?(:force_encoding)
-          [option_name,option_value.force_encoding("utf-8")]
+          [option_name.to_s,option_value.force_encoding("utf-8")]
         else
-          [option_name,option_value]
+          [option_name.to_s,option_value]
         end
       }]
       config[COMMANDS_KEY] = {}
       @app_commands.each do |name,command|
-        if (command != self) && (name != :rdoc) && (name != :help)
-          if command != self
-            config[COMMANDS_KEY][name.to_sym] = config_for_command(@app_commands,name.to_sym)
-          end
+        if (command != self) && (name != :rdoc) && (name != :help) && (name != :_doc)
+          config[COMMANDS_KEY][name.to_s] = config_for_command(@app_commands,name.to_sym)
         end
       end
 
@@ -60,14 +58,30 @@ module GLI
       end
     end
 
+    def sanitized_global_option_names
+      (@app_switches.keys + @app_flags.keys).select do |option_name|
+        option_name != :help && option_name != :version
+      end
+    end
+
     def config_for_command(commands,command_name)
+      command = commands[command_name]
+      options = command.switches.merge(command.flags)
       {}.tap do |hash|
+        (options.keys).map { |option_name|
+          option_value = options[option_name.to_sym].default_value
+          if option_value.kind_of?(String) && option_value.respond_to?(:force_encoding)
+            hash[option_name.to_s] = option_value.force_encoding("utf-8")
+          else
+            hash[option_name.to_s] = option_value
+          end
+        }
         subcommands = commands[command_name].commands
         subcommands.each do |name,subcommand|
           next unless name.kind_of? Symbol
           hash[COMMANDS_KEY] ||= {}
           puts "#{command_name}:#{name}"
-          hash[COMMANDS_KEY][name.to_sym] = config_for_command(subcommands,name)
+          hash[COMMANDS_KEY][name.to_s] = config_for_command(subcommands,name)
         end
       end
     end
