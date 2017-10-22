@@ -60,6 +60,13 @@ Feature: The todo app has a nice user interface
     todo version 0.0.1
     """
 
+  Scenario: --version flag displays version instead of executing command
+    When I successfully run `todo --version ls`
+    Then the output should contain:
+    """
+    todo version 0.0.1
+    """
+
   Scenario: Help completion mode
     When I successfully run `todo help -c`
     Then the output should contain:

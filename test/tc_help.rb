@@ -58,7 +58,7 @@ class TC_testHelp < Clean::Test::TestCase
     }
   end
 
-  test_that "the help command can be configured to skip things declaratively regardless of when it the object was created" do
+  test_that "the help command can be configured to skip things declaratively regardless of when the object was created" do
     Given {
       GLI::Commands::Help.skips_pre    = false
       GLI::Commands::Help.skips_post   = false
