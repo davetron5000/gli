@@ -40,8 +40,6 @@ class TC_testCommand < Clean::Test::TestCase
 
   def test_basic_command
     [false,true].each do |openstruct|
-    end
-    [true].each do |openstruct|
       create_app(openstruct)
       openstruct_message = openstruct ? ", with use_openstruct" : ""
       args_args = [%w(-g basic -v -c foo bar baz quux), %w(-g basic -v --configure=foo bar baz quux)]
@@ -59,6 +57,12 @@ class TC_testCommand < Clean::Test::TestCase
         assert(!@error_called,"Error block should not have been called for args #{args_orig}#{openstruct_message}")
       end
     end
+  end
+
+  def test_openstruct_with_nested_commands
+    create_app(true)
+    @app.run(["top","nested"])
+    assert(!@error_called,"Error block should not have been called: #{@exception_caught.inspect}")
   end
 
   def test_around_filter
@@ -459,9 +463,10 @@ class TC_testCommand < Clean::Test::TestCase
     @pre_called = false
     @post_called = false
     @error_called = false
+    @exception_caught = nil
     @app.pre { |g,c,o,a| @pre_called = true }
     @app.post { |g,c,o,a| @post_called = true }
-    @app.on_error { |g,c,o,a| @error_called = true }
+    @app.on_error { |exception| @error_called = true; @exception_caught = exception }
     @glob = nil
     @verbose = nil
     @glob_verbose = nil
@@ -502,6 +507,14 @@ class TC_testCommand < Clean::Test::TestCase
     EOS
     @app.command [:test_wrap] do |c|
       c.action {}
+    end
+
+    @app.desc "A top-level command"
+    @app.command [:top] do |c|
+      c.desc "A nested command"
+      c.command [:nested] do |nested|
+        nested.action {}
+      end
     end
   end
 

@@ -30,8 +30,16 @@ module GLI
     include DSL
     include CommandSupport
 
-    # Key in an options hash to find the parent's parsed options
-    PARENT = Object.new 
+    class ParentKey
+      def to_sym
+        "__parent__".to_sym
+      end
+    end
+
+    # Key in an options hash to find the parent's parsed options.  Note that if you are
+    # using openstruct, e.g. via `use_openstruct true` in your app setup, you will need
+    # to use the method `__parent__` to access parent parsed options.
+    PARENT = ParentKey.new
 
     # Create a new command.
     #
