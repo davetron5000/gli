@@ -25,9 +25,9 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rdoc', '~> 4.2')
   s.add_development_dependency('rainbow', '~> 1.1', '~> 1.1.1')
   s.add_development_dependency('clean_test', '~> 1.0')
-  s.add_development_dependency('cucumber', '~> 2.4')
-  s.add_development_dependency('gherkin', '~> 4.0')
-  s.add_development_dependency('aruba', '0.5.1')
+  s.add_development_dependency('cucumber', '~> 3.1.2')
+  s.add_development_dependency('gherkin', '~> 5.1.0')
+  s.add_development_dependency('aruba', '~> 0.7.4')
   s.add_development_dependency('sdoc', '~> 0.4')
-  s.add_development_dependency('faker','1.0.0')
+  s.add_development_dependency('faker','~> 1.9.1')
 end
