@@ -5,6 +5,7 @@ module GLI
     class RdocDocumentListener
 
       def initialize(global_options,options,arguments,app)
+        @app = app
         @io = File.new("#{app.exe_name}.rdoc",'w')
         @nest = ''
         @arg_name_formatter = GLI::Commands::HelpModules::ArgNameFormatter.new
