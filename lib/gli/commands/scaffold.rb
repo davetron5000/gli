@@ -44,7 +44,7 @@ module GLI
       puts "Created #{root_dir}/#{project_name}/README.rdoc"
       File.open("#{root_dir}/#{project_name}/#{project_name}.rdoc",'w') do |file|
         file << "= #{project_name}\n\n"
-        file << "Generate this with\n    #{project_name} rdoc\nAfter you have described your command line interface"
+        file << "Generate this with\n    #{project_name} _doc\nAfter you have described your command line interface"
       end
       puts "Created #{root_dir}/#{project_name}/#{project_name}.rdoc"
     end
