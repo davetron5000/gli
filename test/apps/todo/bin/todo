@@ -7,11 +7,11 @@ $: << File.expand_path(File.join(File.dirname(__FILE__),'..','lib'))
 require 'gli'
 require 'todo/version'
 
-
+class App
 if ENV['GLI1_COMPATIBILITY']
-include GLI
+extend GLI
 else
-include GLI::App
+extend GLI::App
 end
 
 sort_help (ENV['TODO_SORT_HELP'] || 'alpha').to_sym
@@ -70,5 +70,5 @@ on_error do |exception|
   # return false to skip default error handling
   true
 end
-
-exit run(ARGV)
+end
+exit App.run(ARGV)
