@@ -1,6 +1,6 @@
 # Ensure we require the local version and not one we might have installed already
 require File.join([File.dirname(__FILE__),'lib','todo','version.rb'])
-spec = Gem::Specification.new do |s| 
+spec = Gem::Specification.new do |s|
   s.name = 'todo'
   s.version = Todo::VERSION
   s.author = 'Your Name Here'
@@ -13,7 +13,6 @@ spec = Gem::Specification.new do |s|
 bin/todo
   )
   s.require_paths << 'lib'
-  s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc','todo.rdoc']
   s.rdoc_options << '--title' << 'todo' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'

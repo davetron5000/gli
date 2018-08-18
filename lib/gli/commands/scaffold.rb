@@ -55,7 +55,7 @@ module GLI
         file.puts <<EOS
 # Ensure we require the local version and not one we might have installed already
 require File.join([File.dirname(__FILE__),'lib','#{project_name}','version.rb'])
-spec = Gem::Specification.new do |s| 
+spec = Gem::Specification.new do |s|
   s.name = '#{project_name}'
   s.version = #{project_name_as_module_name(project_name)}::VERSION
   s.author = 'Your Name Here'
@@ -65,7 +65,6 @@ spec = Gem::Specification.new do |s|
   s.summary = 'A description of your project'
   s.files = `git ls-files`.split("\n")
   s.require_paths << 'lib'
-  s.has_rdoc = true
   s.extra_rdoc_files = ['README.rdoc','#{project_name}.rdoc']
   s.rdoc_options << '--title' << '#{project_name}' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
@@ -195,7 +194,7 @@ require 'test/unit'
 class Test::Unit::TestCase
 
   # Add global extensions to the test case class here
-  
+
 end
 EOS
           end
@@ -314,7 +313,7 @@ command :#{command} do |c|
   c.action do |global_options,options,args|
 
     # Your command logic here
-     
+
     # If you have any errors, just raise them
     # raise "that command made no sense"
 
