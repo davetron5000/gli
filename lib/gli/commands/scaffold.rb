@@ -44,7 +44,7 @@ module GLI
       puts "Created #{root_dir}/#{project_name}/README.rdoc"
       File.open("#{root_dir}/#{project_name}/#{project_name}.rdoc",'w') do |file|
         file << "= #{project_name}\n\n"
-        file << "Generate this with\n    #{project_name} rdoc\nAfter you have described your command line interface"
+        file << "Generate this with\n    #{project_name} _doc\nAfter you have described your command line interface"
       end
       puts "Created #{root_dir}/#{project_name}/#{project_name}.rdoc"
     end
@@ -277,85 +277,87 @@ rescue LoadError
   exit 64
 end
 
-include GLI::App
+class App
+  extend GLI::App
 
-program_desc 'Describe your application here'
+  program_desc 'Describe your application here'
 
-version #{project_name_as_module_name(project_name)}::VERSION
+  version #{project_name_as_module_name(project_name)}::VERSION
 
-subcommand_option_handling :normal
-arguments :strict
+  subcommand_option_handling :normal
+  arguments :strict
 
-desc 'Describe some switch here'
-switch [:s,:switch]
+  desc 'Describe some switch here'
+  switch [:s,:switch]
 
-desc 'Describe some flag here'
-default_value 'the default'
-arg_name 'The name of the argument'
-flag [:f,:flagname]
+  desc 'Describe some flag here'
+  default_value 'the default'
+  arg_name 'The name of the argument'
+  flag [:f,:flagname]
 EOS
             first = true
             commands.each do |command|
               file.puts <<EOS
 
-desc 'Describe #{command} here'
-arg_name 'Describe arguments to #{command} here'
+  desc 'Describe #{command} here'
+  arg_name 'Describe arguments to #{command} here'
 EOS
               if first
                 file.puts <<EOS
-command :#{command} do |c|
-  c.desc 'Describe a switch to #{command}'
-  c.switch :s
+  command :#{command} do |c|
+    c.desc 'Describe a switch to #{command}'
+    c.switch :s
 
-  c.desc 'Describe a flag to #{command}'
-  c.default_value 'default'
-  c.flag :f
-  c.action do |global_options,options,args|
+    c.desc 'Describe a flag to #{command}'
+    c.default_value 'default'
+    c.flag :f
+    c.action do |global_options,options,args|
 
-    # Your command logic here
+      # Your command logic here
 
-    # If you have any errors, just raise them
-    # raise "that command made no sense"
+      # If you have any errors, just raise them
+      # raise "that command made no sense"
 
-    puts "#{command} command ran"
+      puts "#{command} command ran"
+    end
   end
-end
 EOS
               else
                 file.puts <<EOS
-command :#{command} do |c|
-  c.action do |global_options,options,args|
-    puts "#{command} command ran"
+  command :#{command} do |c|
+    c.action do |global_options,options,args|
+      puts "#{command} command ran"
+    end
   end
-end
 EOS
               end
               first = false
             end
             file.puts <<EOS
 
-pre do |global,command,options,args|
-  # Pre logic here
-  # Return true to proceed; false to abort and not call the
-  # chosen command
-  # Use skips_pre before a command to skip this block
-  # on that command only
-  true
+  pre do |global,command,options,args|
+    # Pre logic here
+    # Return true to proceed; false to abort and not call the
+    # chosen command
+    # Use skips_pre before a command to skip this block
+    # on that command only
+    true
+  end
+
+  post do |global,command,options,args|
+    # Post logic here
+    # Use skips_post before a command to skip this
+    # block on that command only
+  end
+
+  on_error do |exception|
+    # Error logic here
+    # return false to skip default error handling
+    true
+  end
 end
 
-post do |global,command,options,args|
-  # Post logic here
-  # Use skips_post before a command to skip this
-  # block on that command only
-end
-
-on_error do |exception|
-  # Error logic here
-  # return false to skip default error handling
-  true
-end
-
-exit run(ARGV)
+exit App.run(ARGV)
 EOS
             puts "Created #{bin_file}"
           end
