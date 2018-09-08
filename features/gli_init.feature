@@ -47,8 +47,8 @@ Feature: The scaffold GLI generates works
        |todo/lib/todo/version.rb   |
        |todo/lib/todo.rb           |
        |todo/.rvmrc                |
-     And the file "todo/README.rdoc" should match ":include:todo.rdoc"
-     And the file "todo/todo.rdoc" should match "todo _doc"
+     And the file "todo/README.rdoc" should contain ":include:todo.rdoc"
+     And the file "todo/todo.rdoc" should contain "todo _doc"
     When I cd to "todo"
      And I make sure todo's lib dir is in my lib path
      And I run `bin/todo`
