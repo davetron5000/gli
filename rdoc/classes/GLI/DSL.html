@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::DSL</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -15,12 +15,12 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
-            <span class="type">Module</span> 
-            GLI::DSL 
+            <span class="type">Module</span>
+            GLI::DSL
             
         </h1>
         <ul class="files">
@@ -190,7 +190,7 @@ methods that apply only to command objects.</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-arg" name="method-i-arg" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Describes one of the arguments of the next command</p>
@@ -213,24 +213,26 @@ affect parsing, just the help output.  Values recognized are:</p>
 
 <p>Example:</p>
 
-<pre>arg :output
+<pre><code>arg :output
 arg :input, :multiple
-command :pack do ...</pre>
+command :pack do ...</code></pre>
 
 <p>Produces the synopsis:</p>
 
-<pre>app.rb [global options] pack output input[, input]*</pre>
+<pre><code>app.rb [global options] pack output input[, input]*</code></pre>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-arg_source')" id="l_method-i-arg_source">show</a>
                 
               </p>
@@ -252,7 +254,7 @@ command :pack do ...</pre>
             
             <a href="../../classes/GLI/DSL.html#method-i-arg_name" name="method-i-arg_name" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Describe the argument name of the next flag.  It&#39;s important to keep
@@ -276,24 +278,27 @@ affect parsing, just the help output.  Values recognized are:</p>
 
 <p>Example:</p>
 
-<pre>desc &#39;Set the filename&#39;
+<pre><code>desc &#39;Set the filename&#39;
 arg_name &#39;file_name&#39;
-flag [:f,:filename]</pre>
+flag [:f,:filename]
+</code></pre>
 
 <p>Produces:</p>
 
-<pre>-f, --filename=file_name      Set the filename</pre>
+<pre><code>-f, --filename=file_name      Set the filename</code></pre>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-arg_name_source')" id="l_method-i-arg_name_source">show</a>
                 
               </p>
@@ -315,15 +320,21 @@ flag [:f,:filename]</pre>
             
             <a href="../../classes/GLI/DSL.html#method-i-c" name="method-i-c" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
+            <div class="aka">
+              Alias for: <a href="DSL.html#method-i-command">command</a>
+            </div>
           
+
           
           </div>
         
@@ -334,7 +345,7 @@ flag [:f,:filename]</pre>
             
             <a href="../../classes/GLI/DSL.html#method-i-command" name="method-i-command" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Define a new command.  This can be done in a few ways, but the most common
@@ -362,47 +373,49 @@ as described above.</p>
 
 <h2 id="method-i-command-label-Examples">Examples</h2>
 
-<pre class="ruby"><span class="ruby-comment"># Make a command named list</span>
-<span class="ruby-identifier">command</span> :<span class="ruby-identifier">list</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-    <span class="ruby-comment"># your command code</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
+<pre><code># Make a command named list
+command :list do |c|
+  c.action do |global_options,options,args|
+    # your command code
+  end
+end
 
-<span class="ruby-comment"># Make a command named list, callable by ls as well</span>
-<span class="ruby-identifier">command</span> [:<span class="ruby-identifier">list</span>,:<span class="ruby-identifier">ls</span>] <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-    <span class="ruby-comment"># your command code</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
+# Make a command named list, callable by ls as well
+command [:list,:ls] do |c|
+  c.action do |global_options,options,args|
+    # your command code
+  end
+end
 
-<span class="ruby-comment"># Make a command named all, that calls list and list_contexts</span>
-<span class="ruby-identifier">command</span> :<span class="ruby-identifier">all</span> =<span class="ruby-operator">&gt;</span> [ :<span class="ruby-identifier">list</span>, :<span class="ruby-identifier">list_contexts</span> ]
+# Make a command named all, that calls list and list_contexts
+command :all =&gt; [ :list, :list_contexts ]
 
-<span class="ruby-comment"># Make a command named all, aliased as :a:, that calls list and list_contexts</span>
-<span class="ruby-identifier">command</span> [:<span class="ruby-identifier">all</span>,:<span class="ruby-identifier">a</span>] =<span class="ruby-operator">&gt;</span> [ :<span class="ruby-identifier">list</span>, :<span class="ruby-identifier">list_contexts</span> ]
-</pre>
+# Make a command named all, aliased as :a:, that calls list and list_contexts
+command [:all,:a] =&gt; [ :list, :list_contexts ]
+</code></pre>
             </div>
           
-          
+
           
             <div class="aka">
               Also aliased as: <a href="DSL.html#method-i-c">c</a>
             </div>
           
+
           
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-command_source')" id="l_method-i-command_source">show</a>
                 
               </p>
               <div id="method-i-command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 170</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(*<span class="ruby-identifier">names</span>)
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 171</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">command_options</span> = {
     <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_desc</span>,
     <span class="ruby-value">:arguments_name</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@next_arg_name</span>,
@@ -448,15 +461,21 @@ as described above.</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-d" name="method-i-d" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
+            <div class="aka">
+              Alias for: <a href="DSL.html#method-i-desc">desc</a>
+            </div>
           
+
           
           </div>
         
@@ -467,7 +486,7 @@ as described above.</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-default_value" name="method-i-default_value" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>set the default value of the next flag or switch</p>
@@ -483,15 +502,17 @@ form.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-default_value_source')" id="l_method-i-default_value_source">show</a>
                 
               </p>
@@ -510,7 +531,7 @@ form.</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-desc" name="method-i-desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Describe the next switch, flag, or command.  This should be a short,
@@ -521,19 +542,21 @@ one-line description</p>
 </dd></dl>
             </div>
           
-          
+
           
             <div class="aka">
               Also aliased as: <a href="DSL.html#method-i-d">d</a>
             </div>
           
+
           
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-desc_source')" id="l_method-i-desc_source">show</a>
                 
               </p>
@@ -552,15 +575,21 @@ one-line description</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-f" name="method-i-f" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
+            <div class="aka">
+              Alias for: <a href="DSL.html#method-i-flag">flag</a>
+            </div>
           
+
           
           </div>
         
@@ -571,7 +600,7 @@ one-line description</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-flag" name="method-i-flag" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Create a flag, which is a switch that takes an argument</p>
@@ -604,43 +633,48 @@ values</p>
 <p>A Class (or object you passed to <a
 href="App.html#method-i-accept">GLI::App#accept</a>) to trigger type
 coversion</p>
+</dd><dt><code>:multiple</code>
+<dd>
+<p>if true, flag may be used multiple times and values are stored in an array</p>
 </dd></dl>
 </dd></dl>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;Set the filename&#39;</span>
-<span class="ruby-identifier">flag</span> [:<span class="ruby-identifier">f</span>,:<span class="ruby-identifier">filename</span>,<span class="ruby-string">&#39;file-name&#39;</span>]
+<pre><code>desc &#39;Set the filename&#39;
+flag [:f,:filename,&#39;file-name&#39;]
 
-<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">ipaddress</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;IP Address&quot;</span>, :<span class="ruby-identifier">must_match</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-regexp">/\d+\.\d+\.\d+\.\d+/</span>
+flag :ipaddress, :desc =&gt; &quot;IP Address&quot;, :must_match =&gt; /\d+\.\d+\.\d+\.\d+/
 
-<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">names</span>, :<span class="ruby-identifier">desc</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;list of names&quot;</span>, :<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Array</span>
-</pre>
+flag :names, :desc =&gt; &quot;list of names&quot;, :type =&gt; Array
+</code></pre>
 
 <p>Produces:</p>
 
-<pre>-f, --filename, --file-name=arg     Set the filename</pre>
+<pre><code>-f, --filename, --file-name=arg     Set the filename</code></pre>
             </div>
           
-          
+
           
             <div class="aka">
               Also aliased as: <a href="DSL.html#method-i-f">f</a>
             </div>
           
+
           
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-flag_source')" id="l_method-i-flag_source">show</a>
                 
               </p>
               <div id="method-i-flag_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 91</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">flag</span>(*<span class="ruby-identifier">names</span>)
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">flag</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>
 
@@ -664,7 +698,7 @@ coversion</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-long_desc" name="method-i-long_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Provide a longer, more detailed description.  This will be reformatted and
@@ -676,15 +710,17 @@ following.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-long_desc_source')" id="l_method-i-long_desc_source">show</a>
                 
               </p>
@@ -703,15 +739,21 @@ following.</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-s" name="method-i-s" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
+            <div class="aka">
+              Alias for: <a href="DSL.html#method-i-switch">switch</a>
+            </div>
           
+
           
           </div>
         
@@ -722,7 +764,7 @@ following.</p>
             
             <a href="../../classes/GLI/DSL.html#method-i-switch" name="method-i-switch" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Create a switch, which is a command line flag that takes no arguments
@@ -751,25 +793,27 @@ switches default to off, or <code>false</code></p>
 </dd></dl>
             </div>
           
-          
+
           
             <div class="aka">
               Also aliased as: <a href="DSL.html#method-i-s">s</a>
             </div>
           
+
           
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-switch_source')" id="l_method-i-switch_source">show</a>
                 
               </p>
               <div id="method-i-switch_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 113</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(*<span class="ruby-identifier">names</span>)
+                <pre><span class="ruby-comment"># File lib/gli/dsl.rb, line 114</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">extract_options</span>(<span class="ruby-identifier">names</span>)
   <span class="ruby-identifier">names</span> = [<span class="ruby-identifier">names</span>].<span class="ruby-identifier">flatten</span>
 
@@ -789,4 +833,4 @@ switches default to off, or <code>false</code></p>
 
     </div>
   </body>
-</html>    
+</html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::Command</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -15,14 +15,14 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
-            <span class="type">Class</span> 
-            GLI::Command 
+            <span class="type">Class</span>
+            GLI::Command
             
-                <span class="parent">&lt; 
+                <span class="parent">&lt;
                     
                     CommandLineToken
                     
@@ -49,23 +49,23 @@ importantly <a href="Command.html#method-i-action">action</a>.</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-identifier">command</span> :<span class="ruby-identifier">list</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span> <span class="ruby-comment"># &lt;- c is an instance of GLI::Command</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;use long form&#39;</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">switch</span> :<span class="ruby-identifier">l</span>
+<pre><code>command :list do |c| # &lt;- c is an instance of GLI::Command
+  c.desc &#39;use long form&#39;
+  c.switch :l
 
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-    <span class="ruby-comment"># list things here</span>
-  <span class="ruby-keyword">end</span>
+  c.action do |global,options,args|
+    # list things here
+  end
 
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">command</span> :<span class="ruby-identifier">tasks</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-comment"># &lt;- t is an instance of GLI::Command</span>
-    <span class="ruby-comment"># this is a &quot;subcommand&quot; of list</span>
+  c.command :tasks do |t| # &lt;- t is an instance of GLI::Command
+    # this is a &quot;subcommand&quot; of list
 
-    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-      <span class="ruby-comment"># do whatever list tasks should do</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
-</pre>
+    t.action do |global,options,args|
+      # do whatever list tasks should do
+    end
+  end
+end
+</code></pre>
 
     </div>
   
@@ -78,6 +78,17 @@ importantly <a href="Command.html#method-i-action">action</a>.</p>
   
 
 
+  
+    <!-- Namespace -->
+    <div class="sectiontitle">Namespace</div>
+    <ul>
+      
+        <li>
+          <span class="type">CLASS</span>
+          <a href="Command/ParentKey.html">GLI::Command::ParentKey</a>
+        </li>
+      
+    </ul>
   
 
 
@@ -110,6 +121,18 @@ importantly <a href="Command.html#method-i-action">action</a>.</p>
               
               <li>
                 <a href="#method-i-default_desc">default_desc</a>
+              </li>
+            
+          </ul>
+        </dd>
+      
+        <dt>E</dt>
+        <dd>
+          <ul>
+            
+              
+              <li>
+                <a href="#method-i-example">example</a>
               </li>
             
           </ul>
@@ -173,12 +196,15 @@ importantly <a href="Command.html#method-i-action">action</a>.</p>
           <tr valign='top'>
             <td class="attr-name">PARENT</td>
             <td>=</td>
-            <td class="attr-value">Object.new</td>
+            <td class="attr-value">ParentKey.new</td>
           </tr>
           
             <tr valign='top'>
               <td>&nbsp;</td>
-              <td colspan="2" class="attr-desc"><p>Key in an options hash to find the parent&#39;s parsed options</p></td>
+              <td colspan="2" class="attr-desc"><p>Key in an options hash to find the parent&#39;s parsed options.  Note that
+if you are using openstruct, e.g. via `use_openstruct true` in your app
+setup, you will need to use the method `__parent__` to access parent parsed
+options.</p></td>
             </tr>
           
         
@@ -200,7 +226,7 @@ importantly <a href="Command.html#method-i-action">action</a>.</p>
             
             <a href="../../classes/GLI/Command.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Create a new command.</p>
@@ -239,24 +265,31 @@ called</p>
 <dd>
 <p>if true and there isn&#39;t a description the command is not going to be
 shown in the help</p>
+</dd><dt><code>examples</code>
+<dd>
+<p>An array of Hashes, where each hash must have the key <code>:example</code>
+mapping to a string, and may optionally have the key <code>:desc</code>
+that documents that example.</p>
 </dd></dl>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 48</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 58</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:names</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:description</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:long_desc</span>])
   <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_name</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span>
@@ -269,6 +302,7 @@ shown in the help</p>
   <span class="ruby-ivar">@commands_declaration_order</span> = []
   <span class="ruby-ivar">@flags_declaration_order</span> = []
   <span class="ruby-ivar">@switches_declaration_order</span> = []
+  <span class="ruby-ivar">@examples</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:examples</span>] <span class="ruby-operator">||</span> []
   <span class="ruby-identifier">clear_nexts</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -285,7 +319,7 @@ shown in the help</p>
             
             <a href="../../classes/GLI/Command.html#method-i-action" name="method-i-action" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Define the action to take when the user executes this command.  Every
@@ -315,21 +349,23 @@ early exit based on an error condition</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-action_source')" id="l_method-i-action_source">show</a>
                 
               </p>
               <div id="method-i-action_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 86</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">action</span>(&amp;<span class="ruby-identifier">block</span>)
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">action</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -344,7 +380,7 @@ early exit based on an error condition</p>
             
             <a href="../../classes/GLI/Command.html#method-i-default_command" name="method-i-default_command" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Set the default command if this command has subcommands and the user
@@ -358,20 +394,22 @@ default as a String or Symbol.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-default_command_source')" id="l_method-i-default_command_source">show</a>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 68</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 90</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command_name</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command_name</span>
 <span class="ruby-keyword">end</span></pre>
@@ -387,7 +425,7 @@ default as a String or Symbol.</p>
             
             <a href="../../classes/GLI/Command.html#method-i-default_desc" name="method-i-default_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Describes this commands action block when it <strong>also</strong> has
@@ -407,59 +445,110 @@ default.</p>
 
 <p>Example</p>
 
-<pre class="ruby"><span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;list things&#39;</span>
-<span class="ruby-identifier">command</span> :<span class="ruby-identifier">list</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">c</span><span class="ruby-operator">|</span>
+<pre><code>desc &#39;list things&#39;
+command :list do |c|
 
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;list tasks&#39;</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">command</span> :<span class="ruby-identifier">tasks</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
+  c.desc &#39;list tasks&#39;
+  c.command :tasks do |t|
+    t.action do |global,options,args|
+    end
+  end
 
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">desc</span> <span class="ruby-string">&#39;list contexts&#39;</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">command</span> :<span class="ruby-identifier">contexts</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">t</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-    <span class="ruby-keyword">end</span>
-  <span class="ruby-keyword">end</span>
+  c.desc &#39;list contexts&#39;
+  c.command :contexts do |t|
+    t.action do |global,options,args|
+    end
+  end
 
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">default_desc</span> <span class="ruby-string">&#39;list both tasks and contexts&#39;</span>
-  <span class="ruby-identifier">c</span>.<span class="ruby-identifier">action</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-    <span class="ruby-comment"># list everything</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
+  c.default_desc &#39;list both tasks and contexts&#39;
+  c.action do |global,options,args|
+    # list everything
+  end
+end
 
-<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">todo</span> <span class="ruby-identifier">help</span> <span class="ruby-identifier">list</span>
-<span class="ruby-constant">NAME</span>
-    <span class="ruby-identifier">list</span> <span class="ruby-operator">-</span> <span class="ruby-constant">List</span> <span class="ruby-identifier">things</span>
+&gt; todo help list
+NAME
+    list - List things
 
-<span class="ruby-constant">SYNOPSIS</span>
-    <span class="ruby-identifier">todo</span> [<span class="ruby-identifier">global</span> <span class="ruby-identifier">options</span>] <span class="ruby-identifier">list</span> [<span class="ruby-identifier">command</span> <span class="ruby-identifier">options</span>] 
-    <span class="ruby-identifier">todo</span> [<span class="ruby-identifier">global</span> <span class="ruby-identifier">options</span>] <span class="ruby-identifier">list</span> [<span class="ruby-identifier">command</span> <span class="ruby-identifier">options</span>]  <span class="ruby-identifier">tasks</span>
-    <span class="ruby-identifier">todo</span> [<span class="ruby-identifier">global</span> <span class="ruby-identifier">options</span>] <span class="ruby-identifier">list</span> [<span class="ruby-identifier">command</span> <span class="ruby-identifier">options</span>]  <span class="ruby-identifier">contexts</span>
+SYNOPSIS
+    todo [global options] list [command options] 
+    todo [global options] list [command options]  tasks
+    todo [global options] list [command options]  contexts
 
-<span class="ruby-constant">COMMANDS</span>
-    <span class="ruby-operator">&lt;</span><span class="ruby-identifier">default</span><span class="ruby-operator">&gt;</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">list</span> <span class="ruby-identifier">both</span> <span class="ruby-identifier">tasks</span> <span class="ruby-keyword">and</span> <span class="ruby-identifier">contexts</span>
-    <span class="ruby-identifier">tasks</span>     <span class="ruby-operator">-</span> <span class="ruby-identifier">list</span> <span class="ruby-identifier">tasks</span>
-    <span class="ruby-identifier">contexts</span>  <span class="ruby-operator">-</span> <span class="ruby-identifier">list</span> <span class="ruby-identifier">contexts</span>
-</pre>
+COMMANDS
+    &lt;default&gt; - list both tasks and contexts
+    tasks     - list tasks
+    contexts  - list contexts</code></pre>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-default_desc_source')" id="l_method-i-default_desc_source">show</a>
                 
               </p>
               <div id="method-i-default_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 138</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 160</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@default_desc</span> = <span class="ruby-identifier">desc</span>
+<span class="ruby-keyword">end</span></pre>
+              </div>
+            </div>
+            
+          </div>
+        
+        <div class="method">
+          <div class="title method-title" id="method-i-example">
+            
+              <b>example</b>(example_invocation,options = {})
+            
+            <a href="../../classes/GLI/Command.html#method-i-example" name="method-i-example" class="permalink">Link</a>
+          </div>
+
+          
+            <div class="description">
+              <p>Specify an example invocation.</p>
+<dl class="rdoc-list note-list"><dt>example_invocation
+<dd>
+<p>test of a complete command-line invocation you want to show</p>
+</dd><dt>options
+<dd>
+<p>refine the example:</p>
+<dl class="rdoc-list note-list"><dt><code>:desc</code>
+<dd>
+<p>A description of the example to be shown with it (optional)</p>
+</dd></dl>
+</dd></dl>
+            </div>
+          
+
+          
+
+          
+
+          
+            
+            <div class="sourcecode">
+              
+              <p class="source-link">
+                Source:
+                <a href="javascript:toggleSource('method-i-example_source')" id="l_method-i-example_source">show</a>
+                
+              </p>
+              <div id="method-i-example_source" class="dyn-source">
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 79</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">example</span>(<span class="ruby-identifier">example_invocation</span>,<span class="ruby-identifier">options</span> = {})
+  <span class="ruby-ivar">@examples</span> <span class="ruby-operator">&lt;&lt;</span> {
+    <span class="ruby-identifier">example</span><span class="ruby-operator">:</span> <span class="ruby-identifier">example_invocation</span>
+  }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -473,36 +562,38 @@ default.</p>
             
             <a href="../../classes/GLI/Command.html#method-i-name_for_help" name="method-i-name_for_help" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Returns full name for help command including parents</p>
 
 <p>Example</p>
 
-<pre class="ruby"><span class="ruby-identifier">command</span> :<span class="ruby-identifier">remote</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">t</span>.<span class="ruby-identifier">command</span> :<span class="ruby-identifier">add</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">global</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">args</span><span class="ruby-operator">|</span>
-  <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">end</span>
+<pre><code>command :remote do |t|
+  t.command :add do |global,options,args|
+  end
+end
 
-<span class="ruby-ivar">@add_command</span>.<span class="ruby-identifier">name_for_help</span> <span class="ruby-comment"># =&gt; [&quot;remote&quot;, &quot;add&quot;]</span>
-</pre>
+@add_command.name_for_help # =&gt; [&quot;remote&quot;, &quot;add&quot;]
+</code></pre>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-name_for_help_source')" id="l_method-i-name_for_help_source">show</a>
                 
               </p>
               <div id="method-i-name_for_help_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 160</span>
+                <pre><span class="ruby-comment"># File lib/gli/command.rb, line 182</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">name_for_help</span>
   <span class="ruby-identifier">name_array</span> = [<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>]
   <span class="ruby-identifier">command_parent</span> = <span class="ruby-identifier">parent</span>
@@ -520,4 +611,4 @@ default.</p>
 
     </div>
   </body>
-</html>    
+</html>

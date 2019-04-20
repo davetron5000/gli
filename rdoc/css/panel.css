@@ -12,8 +12,8 @@
         //zoom: 1;
     }
     
-    .panel_tree .results, 
-    .panel_results .tree 
+    .panel_tree .results,
+    .panel_results .tree
     {
         display: none;
     }
@@ -68,8 +68,16 @@
         }
         
     /* Header with search box (end) */
-    
-        
+
+    /* Results and tree (begin) */
+        .panel .result ul li a,
+        .panel .tree   ul li a
+        {
+            display: block;
+            text-decoration: none;
+        }
+    /* Results and tree (end) */
+
     /* Results (begin) */
         .panel .result
         {
@@ -97,23 +105,19 @@
 
         .panel .result ul li
         {
-            height: 46px;
-            -height: 50px;
-            //display: inline;
-            //width: 100%;
-            //zoom: 1;
             overflow: hidden;
             padding: 4px 10px 0 10px;
             cursor: pointer;
+            height: 46px;
         }
 
-        .panel .result ul li h1
+        .panel .result ul li a
         {
             font-size: 13px;
             font-weight: normal;
             color: #333;
-            margin-bottom: 2px;
             white-space: nowrap;
+            margin-bottom: 2px;
         }
 
         .panel .result ul li p
@@ -124,7 +128,7 @@
             white-space: nowrap;
         }
 
-        .panel .result ul li h1 i,
+        .panel .result ul li a i,
         .panel .result ul li p.snippet
         {
             color: #999;
@@ -140,13 +144,13 @@
             background: #3875D7;
         }
 
-        .panel .result ul li.current h1,
+        .panel .result ul li.current a,
         .panel .result ul li.current p
         {
             color: #DDD;
         }
 
-        .panel .result ul li.current h1 i,
+        .panel .result ul li.current a i,
         .panel .result ul li.current p.snippet
         {
             color: #AAA;
@@ -260,29 +264,25 @@
         .panel .tree ul
         {
             background: #EDF3FE url(../i/tree_bg.png);
-        }          
-        
-        .panel .tree li
+        }
+
+        .panel .tree ul li
         {
             cursor: pointer;
             overflow: hidden;
-            //height: 23px;
-            //display: inline;
-            //zoom: 1;
-            //width: 100%;
+            height: 23px;
+            line-height: 23px;
         }
-        
-        
-        .panel .tree li .content
+
+
+        .panel .tree ul li .content
         {
             padding-left: 18px;
-            padding-top: 5px;
-            height: 18px;
             overflow: hidden;
             position: relative;
         }
-        
-        .panel .tree li .icon
+
+        .panel .tree ul li .icon
         {
             width: 10px;
             height: 9px;
@@ -293,18 +293,17 @@
             top: 8px;
             cursor: default;
         }
-        
-        .panel .tree li.closed .icon
+
+        .panel .tree ul li.closed .icon
         {
             background-position: 0 0;
         }
-        
-        .panel .tree ul li h1
+
+        .panel .tree ul li a
         {
             font-size: 13px;
             font-weight: normal;
             color: #000;
-            margin-bottom: 2px;
             white-space: nowrap;
         }
 
@@ -315,8 +314,8 @@
             margin-bottom: 2px;
             white-space: nowrap;
         }
-        
-        .panel .tree ul li h1 i
+
+        .panel .tree ul li a i
         {
             color: #999;
             font-style: normal;
@@ -325,9 +324,9 @@
         .panel .tree ul li.empty
         {
             cursor: text;
-        }   
-        
-        .panel .tree ul li.empty h1,
+        }
+
+        .panel .tree ul li.empty a,
         .panel .tree ul li.empty p
         {
             color: #666;
@@ -349,7 +348,7 @@
             background-position: -10px 0;
         }
 
-        .panel .tree ul li.current h1
+        .panel .tree ul li.current a
         {
             color: #FFF;
         }
@@ -359,7 +358,7 @@
             color: #CCC;
         }
 
-        .panel .tree ul li.current.empty h1,
+        .panel .tree ul li.current.empty a,
         .panel .tree ul li.current.empty p
         {
             color: #999;

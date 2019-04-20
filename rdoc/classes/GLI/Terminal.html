@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::Terminal</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -15,14 +15,14 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
-            <span class="type">Class</span> 
-            GLI::Terminal 
+            <span class="type">Class</span>
+            GLI::Terminal
             
-                <span class="parent">&lt; 
+                <span class="parent">&lt;
                     
                     Object
                     
@@ -52,10 +52,10 @@ enough, since there&#39;s only one terminal in effect</p>
 
 <p>Example:</p>
 
-<pre class="ruby"><span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">instance</span>.<span class="ruby-identifier">size</span>[<span class="ruby-value">0</span>] <span class="ruby-comment"># =&gt; columns in the terminal</span>
-<span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">default_size</span> = [<span class="ruby-value">128</span>,<span class="ruby-value">24</span>] <span class="ruby-comment"># =&gt; change default when we can&#39;t figure it out</span>
-<span class="ruby-identifier">raise</span> <span class="ruby-string">&quot;no ls?!?!?&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">instance</span>.<span class="ruby-identifier">command_exists?</span>(<span class="ruby-string">&quot;ls&quot;</span>)
-</pre>
+<pre><code>Terminal.instance.size[0] # =&gt; columns in the terminal
+Terminal.default_size = [128,24] # =&gt; change default when we can&#39;t figure it out
+raise &quot;no ls?!?!?&quot; unless Terminal.instance.command_exists?(&quot;ls&quot;)
+</code></pre>
 
     </div>
   
@@ -203,7 +203,7 @@ lambda { Terminal.default_size },
             
             <a href="../../classes/GLI/Terminal.html#method-c-command_exists-3F" name="method-c-command_exists-3F" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Returns true if the given command exists on this system</p>
@@ -213,22 +213,24 @@ lambda { Terminal.default_size },
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-command_exists-3F_source')" id="l_method-c-command_exists-3F_source">show</a>
                 
               </p>
               <div id="method-c-command_exists-3F_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 45</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">command_exists?</span>(<span class="ruby-identifier">command</span>)
-  <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;PATH&#39;</span>].<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">PATH_SEPARATOR</span>).<span class="ruby-identifier">any?</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">command</span>) }
+  <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;PATH&#39;</span>].<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">PATH_SEPARATOR</span>).<span class="ruby-identifier">any?</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">command</span>) }
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
@@ -242,7 +244,7 @@ lambda { Terminal.default_size },
             
             <a href="../../classes/GLI/Terminal.html#method-c-default_size" name="method-c-default_size" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Get the default size of the terminal when we can&#39;t figure it out</p>
@@ -250,15 +252,17 @@ lambda { Terminal.default_size },
 <p>Returns an array of int [cols,rows]</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-default_size_source')" id="l_method-c-default_size_source">show</a>
                 
               </p>
@@ -279,7 +283,7 @@ lambda { Terminal.default_size },
             
             <a href="../../classes/GLI/Terminal.html#method-c-default_size-3D" name="method-c-default_size-3D" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Set the default size of the terminal to use when we can&#39;t figure it out</p>
@@ -289,15 +293,17 @@ lambda { Terminal.default_size },
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-default_size-3D_source')" id="l_method-c-default_size-3D_source">show</a>
                 
               </p>
@@ -318,21 +324,23 @@ lambda { Terminal.default_size },
             
             <a href="../../classes/GLI/Terminal.html#method-c-instance" name="method-c-instance" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Provide access to the shared instance.</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-instance_source')" id="l_method-c-instance_source">show</a>
                 
               </p>
@@ -353,21 +361,23 @@ lambda { Terminal.default_size },
             
             <a href="../../classes/GLI/Terminal.html#method-i-command_exists-3F" name="method-i-command_exists-3F" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-command_exists-3F_source')" id="l_method-i-command_exists-3F_source">show</a>
                 
               </p>
@@ -388,7 +398,7 @@ lambda { Terminal.default_size },
             
             <a href="../../classes/GLI/Terminal.html#method-i-size" name="method-i-size" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Get the size of the current terminal. Ripped from <a
@@ -398,22 +408,28 @@ href="https://github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb">hirb</a></
 height</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-size_source')" id="l_method-i-size_source">show</a>
                 
               </p>
               <div id="method-i-size_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 80</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">size</span>
-  <span class="ruby-constant">SIZE_DETERMINERS</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span>(<span class="ruby-identifier">predicate</span>,<span class="ruby-identifier">ignore</span>)<span class="ruby-operator">|</span> <span class="ruby-identifier">predicate</span>.<span class="ruby-identifier">call</span> }.<span class="ruby-identifier">first</span>[<span class="ruby-number">1</span>].<span class="ruby-identifier">call</span>
+  <span class="ruby-constant">SIZE_DETERMINERS</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">predicate</span>, <span class="ruby-identifier">get_size</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">predicate</span>.<span class="ruby-identifier">call</span>
+    <span class="ruby-identifier">size</span> = <span class="ruby-identifier">get_size</span>.<span class="ruby-identifier">call</span>
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">size</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>]
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-identifier">ex</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@unsafe</span>
   <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">default_size</span>
@@ -426,4 +442,4 @@ height</p>
 
     </div>
   </body>
-</html>    
+</html>

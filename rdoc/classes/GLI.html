@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
@@ -15,15 +15,17 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
-            <span class="type">Module</span> 
-            GLI 
+            <span class="type">Module</span>
+            GLI
             
         </h1>
         <ul class="files">
+            
+            <li><a href="../files/lib/gli_rb.html">lib/gli.rb</a></li>
             
             <li><a href="../files/lib/gli/app_rb.html">lib/gli/app.rb</a></li>
             
@@ -62,8 +64,6 @@
             <li><a href="../files/lib/gli/terminal_rb.html">lib/gli/terminal.rb</a></li>
             
             <li><a href="../files/lib/gli/version_rb.html">lib/gli/version.rb</a></li>
-            
-            <li><a href="../files/lib/gli_rb.html">lib/gli.rb</a></li>
             
         </ul>
     </div>
@@ -267,7 +267,7 @@
           <tr valign='top'>
             <td class="attr-name">VERSION</td>
             <td>=</td>
-            <td class="attr-value">&#39;2.13.0&#39;</td>
+            <td class="attr-value">&#39;2.18.0&#39;</td>
           </tr>
           
             <tr valign='top'>
@@ -294,26 +294,28 @@
             
             <a href="../classes/GLI.html#method-c-included" name="method-c-included" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-included_source')" id="l_method-c-included_source">show</a>
                 
               </p>
               <div id="method-c-included_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli.rb, line 27</span>
+                <pre><span class="ruby-comment"># File lib/gli.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">included</span>(<span class="ruby-identifier">klass</span>)
   <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;You should include GLI::App instead&quot;</span>
 <span class="ruby-keyword">end</span></pre>
@@ -329,27 +331,29 @@
             
             <a href="../classes/GLI.html#method-c-run" name="method-c-run" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-run_source')" id="l_method-c-run_source">show</a>
                 
               </p>
               <div id="method-c-run_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli.rb, line 31</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">run</span>(*<span class="ruby-identifier">args</span>)
+                <pre><span class="ruby-comment"># File lib/gli.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">run</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;GLI.run no longer works for GLI-2, you must just call `run(ARGV)&#39; instead&quot;</span>
   <span class="ruby-identifier">warn</span> <span class="ruby-string">&quot;either fix your app, or use the latest GLI in the 1.x family&quot;</span>
   <span class="ruby-number">1</span>
@@ -362,4 +366,4 @@
 
     </div>
   </body>
-</html>    
+</html>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::App</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
@@ -15,12 +15,12 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
-            <span class="type">Module</span> 
-            GLI::App 
+            <span class="type">Module</span>
+            GLI::App
             
         </h1>
         <ul class="files">
@@ -309,11 +309,12 @@ specific options, and then command arguments.</p>
             
             <a href="../../classes/GLI/App.html#method-i-accept" name="method-i-accept" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Configure a type conversion not already provided by the underlying
-OptionParser. This works more or less like the OptionParser version.</p>
+OptionParser. This works more or less like the OptionParser version.
+It&#39;s global.</p>
 <dl class="rdoc-list note-list"><dt>object
 <dd>
 <p>the class (or whatever) that triggers the type conversion</p>
@@ -325,34 +326,36 @@ the converted value</p>
 
 <p>Example</p>
 
-<pre class="ruby"><span class="ruby-identifier">accept</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
-  <span class="ruby-identifier">result</span> = {}
-  <span class="ruby-identifier">value</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/,/</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">pair</span><span class="ruby-operator">|</span>
-    <span class="ruby-identifier">k</span>,<span class="ruby-identifier">v</span> = <span class="ruby-identifier">pair</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp">/:/</span>)
-    <span class="ruby-identifier">result</span>[<span class="ruby-identifier">k</span>] = <span class="ruby-identifier">v</span>
-  <span class="ruby-keyword">end</span>
-  <span class="ruby-identifier">result</span>
-<span class="ruby-keyword">end</span>
+<pre><code>accept(Hash) do |value|
+  result = {}
+  value.split(/,/).each do |pair|
+    k,v = pair.split(/:/)
+    result[k] = v
+  end
+  result
+end
 
-<span class="ruby-identifier">flag</span> :<span class="ruby-identifier">properties</span>, :<span class="ruby-identifier">type</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-constant">Hash</span>
-</pre>
+flag :properties, :type =&gt; Hash
+</code></pre>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-accept_source')" id="l_method-i-accept_source">show</a>
                 
               </p>
               <div id="method-i-accept_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 212</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">accept</span>(<span class="ruby-identifier">object</span>,&amp;<span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">accept</span>(<span class="ruby-identifier">object</span>,<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">accepts</span>[<span class="ruby-identifier">object</span>] = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -367,7 +370,7 @@ the converted value</p>
             
             <a href="../../classes/GLI/App.html#method-i-arguments" name="method-i-arguments" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>How to handle argument validation.</p>
@@ -388,15 +391,17 @@ also be sure that <code>subcommand_option_handling</code> is set.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-arguments_source')" id="l_method-i-arguments_source">show</a>
                 
               </p>
@@ -417,7 +422,7 @@ also be sure that <code>subcommand_option_handling</code> is set.</p>
             
             <a href="../../classes/GLI/App.html#method-i-around" name="method-i-around" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>This inverts the pre/post concept.  This is useful when you have a global
@@ -459,21 +464,23 @@ around, followed by the <a href="App.html#method-i-post">post</a>.</p>
 command that should not have this hook fired</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-around_source')" id="l_method-i-around_source">show</a>
                 
               </p>
               <div id="method-i-around_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 147</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">around</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">around</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">||=</span> []
   <span class="ruby-ivar">@around_blocks</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
@@ -489,7 +496,7 @@ command that should not have this hook fired</p>
             
             <a href="../../classes/GLI/App.html#method-i-autocomplete_commands" name="method-i-autocomplete_commands" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Enables/Disables command autocomplete, where partially spelled commands are
@@ -506,15 +513,17 @@ default.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-autocomplete_commands_source')" id="l_method-i-autocomplete_commands_source">show</a>
                 
               </p>
@@ -535,7 +544,7 @@ default.</p>
             
             <a href="../../classes/GLI/App.html#method-i-commands_from" name="method-i-commands_from" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Loads ruby files in the load path that start with <code>path</code>, which
@@ -552,31 +561,34 @@ If not, it is interpretted as relative to somewhere in the
 <code>LOAD_PATH</code>.</p>
 </dd></dl>
 
-<h2 id="method-i-commands_from-label-Example%3A">Example:</h2>
+<h2 id="method-i-commands_from-label-Example-3A">Example:</h2>
 
-<pre># loads *.rb from your app&#39;s install - great for decomposing your bin file
+<pre><code># loads *.rb from your app&#39;s install - great for decomposing your bin file
 commands_from &quot;my_app/commands&quot;
 
 # loads *.rb files from the user&#39;s home dir - great and an extension/plugin mechanism
-commands_from File.join(ENV[&quot;HOME&quot;],&quot;.my_app&quot;,&quot;plugins&quot;)</pre>
+commands_from File.join(ENV[&quot;HOME&quot;],&quot;.my_app&quot;,&quot;plugins&quot;)
+</code></pre>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-commands_from_source')" id="l_method-i-commands_from_source">show</a>
                 
               </p>
               <div id="method-i-commands_from_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 32</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">commands_from</span>(<span class="ruby-identifier">path</span>)
-  <span class="ruby-keyword">if</span> <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>).<span class="ruby-identifier">absolute?</span> <span class="ruby-keyword">and</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">path</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-constant">Pathname</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">path</span>).<span class="ruby-identifier">absolute?</span> <span class="ruby-keyword">and</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span>(<span class="ruby-identifier">path</span>)
     <span class="ruby-identifier">load_commands</span>(<span class="ruby-identifier">path</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">$LOAD_PATH</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">load_path</span><span class="ruby-operator">|</span>
@@ -597,7 +609,7 @@ commands_from File.join(ENV[&quot;HOME&quot;],&quot;.my_app&quot;,&quot;plugins&
             
             <a href="../../classes/GLI/App.html#method-i-config_file" name="method-i-config_file" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Sets that this app uses a config file as well as the name of the config
@@ -612,15 +624,17 @@ user&#39;s home directory as produced by
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-config_file_source')" id="l_method-i-config_file_source">show</a>
                 
               </p>
@@ -648,7 +662,7 @@ user&#39;s home directory as produced by
             
             <a href="../../classes/GLI/App.html#method-i-default_command" name="method-i-default_command" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Sets a default command to run when none is specified on the command line. 
@@ -662,15 +676,17 @@ the command name and likely fail.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-default_command_source')" id="l_method-i-default_command_source">show</a>
                 
               </p>
@@ -691,10 +707,10 @@ the command name and likely fail.</p>
             
             <a href="../../classes/GLI/App.html#method-i-exit_now-21" name="method-i-exit_now-21" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
-              <p>Simpler means of exiting with a custom exit code.  This will  raise a <a
+              <p>Simpler means of exiting with a custom exit code.  This will raise a <a
 href="CustomExit.html">CustomExit</a> with the given message and exit code,
 which will ultimatley cause your application to exit with the given
 exit_code as its exit status Use <a
@@ -709,15 +725,17 @@ help in addition to the error message</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-exit_now-21_source')" id="l_method-i-exit_now-21_source">show</a>
                 
               </p>
@@ -738,7 +756,7 @@ help in addition to the error message</p>
             
             <a href="../../classes/GLI/App.html#method-i-help_now-21" name="method-i-help_now-21" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Exit now, showing the user help for the command they executed.  Use <a
@@ -751,15 +769,17 @@ just simply show help</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-help_now-21_source')" id="l_method-i-help_now-21_source">show</a>
                 
               </p>
@@ -784,7 +804,7 @@ just simply show help</p>
             
             <a href="../../classes/GLI/App.html#method-i-hide_commands_without_desc" name="method-i-hide_commands_without_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Provide a flag to choose whether to hide or not from the help the
@@ -796,15 +816,17 @@ the help.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-hide_commands_without_desc_source')" id="l_method-i-hide_commands_without_desc_source">show</a>
                 
               </p>
@@ -828,14 +850,14 @@ the help.</p>
             
             <a href="../../classes/GLI/App.html#method-i-on_error" name="method-i-on_error" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Define a block to run if an error occurs. The block will receive any
 Exception that was caught. It should evaluate to false to avoid the
 built-in error handling (which basically just prints out a message). <a
 href="../GLI.html">GLI</a> uses a variety of exceptions that you can use to
-find out what  errors might&#39;ve occurred during command-line parsing:</p>
+find out what errors might&#39;ve occurred during command-line parsing:</p>
 <ul><li>
 <p><a href="CustomExit.html">GLI::CustomExit</a></p>
 </li><li>
@@ -849,21 +871,23 @@ find out what  errors might&#39;ve occurred during command-line parsing:</p>
 </li></ul>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-on_error_source')" id="l_method-i-on_error_source">show</a>
                 
               </p>
               <div id="method-i-on_error_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 162</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">on_error</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">on_error</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@error_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -878,7 +902,7 @@ find out what  errors might&#39;ve occurred during command-line parsing:</p>
             
             <a href="../../classes/GLI/App.html#method-i-post" name="method-i-post" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Define a block to run after the command was executed, <strong>only if there
@@ -886,21 +910,23 @@ was not an error</strong>. The block will receive the
 global-options,command,options, and arguments</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-post_source')" id="l_method-i-post_source">show</a>
                 
               </p>
               <div id="method-i-post_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 126</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">post</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@post_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -915,7 +941,7 @@ global-options,command,options, and arguments</p>
             
             <a href="../../classes/GLI/App.html#method-i-pre" name="method-i-pre" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Define a block to run after command line arguments are parsed but before
@@ -926,21 +952,23 @@ true, the program will proceed; otherwise the program will end immediately
 and exit nonzero</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-pre_source')" id="l_method-i-pre_source">show</a>
                 
               </p>
               <div id="method-i-pre_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/app.rb, line 119</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pre</span>(&amp;<span class="ruby-identifier">a_proc</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">pre</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">a_proc</span>)
   <span class="ruby-ivar">@pre_block</span> = <span class="ruby-identifier">a_proc</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -955,7 +983,7 @@ and exit nonzero</p>
             
             <a href="../../classes/GLI/App.html#method-i-preserve_argv" name="method-i-preserve_argv" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>By default, <a href="../GLI.html">GLI</a> mutates the argument passed to
@@ -965,15 +993,17 @@ might want to refer to the entire command-line via <code>ARGV</code> and
 thus not want it mutated.</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-preserve_argv_source')" id="l_method-i-preserve_argv_source">show</a>
                 
               </p>
@@ -994,7 +1024,7 @@ thus not want it mutated.</p>
             
             <a href="../../classes/GLI/App.html#method-i-program_desc" name="method-i-program_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Describe the overall application/programm.  This should be a one-sentence
@@ -1005,15 +1035,17 @@ summary of what your program does that will appear in the help output.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-program_desc_source')" id="l_method-i-program_desc_source">show</a>
                 
               </p>
@@ -1037,7 +1069,7 @@ summary of what your program does that will appear in the help output.</p>
             
             <a href="../../classes/GLI/App.html#method-i-program_long_desc" name="method-i-program_long_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Provide a longer description of the program.  This can be as long as
@@ -1049,15 +1081,17 @@ help output.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-program_long_desc_source')" id="l_method-i-program_long_desc_source">show</a>
                 
               </p>
@@ -1081,7 +1115,7 @@ help output.</p>
             
             <a href="../../classes/GLI/App.html#method-i-skips_around" name="method-i-skips_around" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Use this if the following command should not have the around block
@@ -1089,15 +1123,17 @@ executed. By default, the around block is executed, but for commands that
 might not want the setup to happen, this can be handy</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-skips_around_source')" id="l_method-i-skips_around_source">show</a>
                 
               </p>
@@ -1118,7 +1154,7 @@ might not want the setup to happen, this can be handy</p>
             
             <a href="../../classes/GLI/App.html#method-i-skips_post" name="method-i-skips_post" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Use this if the following command should not have the post block executed.
@@ -1126,15 +1162,17 @@ By default, the post block is executed after each command. Using this will
 avoid that behavior for the following command</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-skips_post_source')" id="l_method-i-skips_post_source">show</a>
                 
               </p>
@@ -1155,7 +1193,7 @@ avoid that behavior for the following command</p>
             
             <a href="../../classes/GLI/App.html#method-i-skips_pre" name="method-i-skips_pre" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Use this if the following command should not have the pre block executed.
@@ -1164,15 +1202,17 @@ aborting the call.  Using this will avoid that behavior for the following
 command</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-skips_pre_source')" id="l_method-i-skips_pre_source">show</a>
                 
               </p>
@@ -1193,7 +1233,7 @@ command</p>
             
             <a href="../../classes/GLI/App.html#method-i-sort_help" name="method-i-sort_help" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Control how commands and options are sorted in help output.  By default,
@@ -1211,15 +1251,17 @@ they are sorted alphabetically.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-sort_help_source')" id="l_method-i-sort_help_source">show</a>
                 
               </p>
@@ -1240,7 +1282,7 @@ they are sorted alphabetically.</p>
             
             <a href="../../classes/GLI/App.html#method-i-subcommand_option_handling" name="method-i-subcommand_option_handling" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>How to handle subcommand options.  In general, you want to set this to
@@ -1253,15 +1295,17 @@ particular command share a namespace for options, making it impossible for
 two subcommands to have options of the same name.</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-subcommand_option_handling_source')" id="l_method-i-subcommand_option_handling_source">show</a>
                 
               </p>
@@ -1282,7 +1326,7 @@ two subcommands to have options of the same name.</p>
             
             <a href="../../classes/GLI/App.html#method-i-synopsis_format" name="method-i-synopsis_format" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Control how the SYNOPSIS is formatted.</p>
@@ -1303,15 +1347,17 @@ options and showing them in the SYNOPSIS makes things more confusing</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-synopsis_format_source')" id="l_method-i-synopsis_format_source">show</a>
                 
               </p>
@@ -1332,7 +1378,7 @@ options and showing them in the SYNOPSIS makes things more confusing</p>
             
             <a href="../../classes/GLI/App.html#method-i-use_openstruct" name="method-i-use_openstruct" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Call this with <code>true</code> will cause the <code>global_options</code>
@@ -1346,15 +1392,17 @@ methods.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-use_openstruct_source')" id="l_method-i-use_openstruct_source">show</a>
                 
               </p>
@@ -1375,7 +1423,7 @@ methods.</p>
             
             <a href="../../classes/GLI/App.html#method-i-version" name="method-i-version" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Indicate the version of your application</p>
@@ -1385,15 +1433,17 @@ methods.</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-version_source')" id="l_method-i-version_source">show</a>
                 
               </p>
@@ -1416,7 +1466,7 @@ methods.</p>
             
             <a href="../../classes/GLI/App.html#method-i-wrap_help_text" name="method-i-wrap_help_text" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Set how help text is wrapped.</p>
@@ -1443,15 +1493,17 @@ otherwise don&#39;t wrap (like <code>:one_line</code>)</p>
 </dd></dl>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-wrap_help_text_source')" id="l_method-i-wrap_help_text_source">show</a>
                 
               </p>
@@ -1468,4 +1520,4 @@ otherwise don&#39;t wrap (like <code>:one_line</code>)</p>
 
     </div>
   </body>
-</html>    
+</html>

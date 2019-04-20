@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>GLI::Commands::RdocDocumentListener</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../../css/github.css" type="text/css" media="screen" />
@@ -15,14 +15,14 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
-            <span class="type">Class</span> 
-            GLI::Commands::RdocDocumentListener 
+            <span class="type">Class</span>
+            GLI::Commands::RdocDocumentListener
             
-                <span class="parent">&lt; 
+                <span class="parent">&lt;
                     
                     Object
                     
@@ -230,27 +230,30 @@
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-c-new" name="method-c-new" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-c-new_source')" id="l_method-c-new_source">show</a>
                 
               </p>
               <div id="method-c-new_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 7</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">global_options</span>,<span class="ruby-identifier">options</span>,<span class="ruby-identifier">arguments</span>,<span class="ruby-identifier">app</span>)
+  <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
   <span class="ruby-ivar">@io</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">new</span>(<span class="ruby-node">&quot;#{app.exe_name}.rdoc&quot;</span>,<span class="ruby-string">&#39;w&#39;</span>)
   <span class="ruby-ivar">@nest</span> = <span class="ruby-string">&#39;&#39;</span>
   <span class="ruby-ivar">@arg_name_formatter</span> = <span class="ruby-constant">GLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Commands</span><span class="ruby-operator">::</span><span class="ruby-constant">HelpModules</span><span class="ruby-operator">::</span><span class="ruby-constant">ArgNameFormatter</span>.<span class="ruby-identifier">new</span>
@@ -269,26 +272,28 @@
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-beginning" name="method-i-beginning" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-beginning_source')" id="l_method-i-beginning_source">show</a>
                 
               </p>
               <div id="method-i-beginning_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 13</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 14</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">beginning</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -303,27 +308,29 @@
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-command" name="method-i-command" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Gives you a command in the current context and creates a new context of
 this command</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-command_source')" id="l_method-i-command_source">show</a>
                 
               </p>
               <div id="method-i-command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 83</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">aliases</span>,<span class="ruby-identifier">desc</span>,<span class="ruby-identifier">long_desc</span>,<span class="ruby-identifier">arg_name</span>,<span class="ruby-identifier">arg_options</span>)
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{@nest}=== Command: &lt;tt&gt;#{([name] + aliases).join(&#39;|&#39;)} #{@arg_name_formatter.format(arg_name,arg_options,[])}&lt;/tt&gt;&quot;</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-constant">String</span>(<span class="ruby-identifier">desc</span>).<span class="ruby-identifier">strip</span>
@@ -343,26 +350,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-commands" name="method-i-commands" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-commands_source')" id="l_method-i-commands_source">show</a>
                 
               </p>
               <div id="method-i-commands_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 77</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">commands</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;#{@nest}=== Commands&quot;</span>
   <span class="ruby-ivar">@nest</span> = <span class="ruby-node">&quot;#{@nest}=&quot;</span>
@@ -379,26 +388,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-default_command" name="method-i-default_command" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Gives you the name of the current command in the current context</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-default_command_source')" id="l_method-i-default_command_source">show</a>
                 
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 97</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 98</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;[Default Command] #{name}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">nil?</span>
 <span class="ruby-keyword">end</span></pre>
@@ -414,26 +425,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-end_command" name="method-i-end_command" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
-              <p>Ends a command, and "pops" you back up one context</p>
+              <p>Ends a command, and “pops” you back up one context</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-end_command_source')" id="l_method-i-end_command_source">show</a>
                 
               </p>
               <div id="method-i-end_command_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 92</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 93</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_command</span>(<span class="ruby-identifier">name</span>)
   <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/=$/</span>,<span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -449,26 +462,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-end_commands" name="method-i-end_commands" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-end_commands_source')" id="l_method-i-end_commands_source">show</a>
                 
               </p>
               <div id="method-i-end_commands_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 101</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 102</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_commands</span>
   <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">gsub!</span>(<span class="ruby-regexp">/=$/</span>,<span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -484,26 +499,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-end_options" name="method-i-end_options" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-end_options_source')" id="l_method-i-end_options_source">show</a>
                 
               </p>
               <div id="method-i-end_options_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 74</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 75</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">end_options</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -518,26 +535,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-ending" name="method-i-ending" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Called when processing has completed</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-ending_source')" id="l_method-i-ending_source">show</a>
                 
               </p>
               <div id="method-i-ending_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 17</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 18</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">ending</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">close</span>
 <span class="ruby-keyword">end</span></pre>
@@ -553,26 +572,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-flag" name="method-i-flag" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Gives you a flag in the current context</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-flag_source')" id="l_method-i-flag_source">show</a>
                 
               </p>
               <div id="method-i-flag_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 47</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 48</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">flag</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">aliases</span>,<span class="ruby-identifier">desc</span>,<span class="ruby-identifier">long_desc</span>,<span class="ruby-identifier">default_value</span>,<span class="ruby-identifier">arg_name</span>,<span class="ruby-identifier">must_match</span>,<span class="ruby-identifier">type</span>)
   <span class="ruby-identifier">invocations</span> = ([<span class="ruby-identifier">name</span>] <span class="ruby-operator">+</span> <span class="ruby-constant">Array</span>(<span class="ruby-identifier">aliases</span>)).<span class="ruby-identifier">map</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">_</span><span class="ruby-operator">|</span> <span class="ruby-identifier">add_dashes</span>(<span class="ruby-identifier">_</span>) }.<span class="ruby-identifier">join</span>(<span class="ruby-string">&#39;|&#39;</span>)
   <span class="ruby-identifier">usage</span> = <span class="ruby-node">&quot;#{invocations} #{arg_name || &#39;arg&#39;}&quot;</span>
@@ -597,26 +618,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-options" name="method-i-options" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-options_source')" id="l_method-i-options_source">show</a>
                 
               </p>
               <div id="method-i-options_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 38</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 39</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">options</span>
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@nest</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-number">0</span>
     <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-string">&quot;=== Global Options&quot;</span>
@@ -636,26 +659,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-program_desc" name="method-i-program_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Gives you the program description</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-program_desc_source')" id="l_method-i-program_desc_source">show</a>
                 
               </p>
               <div id="method-i-program_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 22</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 23</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;== #{@app.exe_name} - #{desc}&quot;</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span>
@@ -672,26 +697,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-program_long_desc" name="method-i-program_long_desc" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-program_long_desc_source')" id="l_method-i-program_long_desc_source">show</a>
                 
               </p>
               <div id="method-i-program_long_desc_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 27</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">program_long_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-identifier">desc</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span>
@@ -708,26 +735,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-switch" name="method-i-switch" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Gives you a switch in the current context</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-switch_source')" id="l_method-i-switch_source">show</a>
                 
               </p>
               <div id="method-i-switch_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 61</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 62</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">switch</span>(<span class="ruby-identifier">name</span>,<span class="ruby-identifier">aliases</span>,<span class="ruby-identifier">desc</span>,<span class="ruby-identifier">long_desc</span>,<span class="ruby-identifier">negatable</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">negatable</span>
     <span class="ruby-identifier">name</span> = <span class="ruby-node">&quot;[no-]#{name}&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">&gt;</span> <span class="ruby-number">1</span>
@@ -752,26 +781,28 @@ this command</p>
             
             <a href="../../../classes/GLI/Commands/RdocDocumentListener.html#method-i-version" name="method-i-version" class="permalink">Link</a>
           </div>
-          
+
           
             <div class="description">
               <p>Gives you the program version</p>
             </div>
           
+
           
+
           
-          
+
           
             
             <div class="sourcecode">
               
               <p class="source-link">
-                Source: 
+                Source:
                 <a href="javascript:toggleSource('method-i-version_source')" id="l_method-i-version_source">show</a>
                 
               </p>
               <div id="method-i-version_source" class="dyn-source">
-                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 33</span>
+                <pre><span class="ruby-comment"># File lib/gli/commands/rdoc_document_listener.rb, line 34</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">version</span>(<span class="ruby-identifier">version</span>)
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span> <span class="ruby-node">&quot;v#{version}&quot;</span>
   <span class="ruby-ivar">@io</span>.<span class="ruby-identifier">puts</span>
@@ -784,4 +815,4 @@ this command</p>
 
     </div>
   </body>
-</html>    
+</html>

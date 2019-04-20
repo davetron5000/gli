@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
     <title>README.rdoc</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=ASCII-8BIT" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
@@ -15,7 +15,7 @@
 
 </head>
 
-<body>     
+<body>
     <div class="banner">
         
         <h1>
@@ -23,7 +23,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: 2014-08-25 14:09:58 -0400</li>
+            <li>Last modified: 2019-04-20 11:47:54 -0400</li>
         </ul>
     </div>
 
@@ -52,18 +52,20 @@ without restricting you in any way from the power of
 </li></ul>
 
 <p><a href="https://travis-ci.org/davetron5000/gli"><img
-src="https://secure.travis-ci.org/davetron5000/gli.png?branch=gli-2"
+src="https://secure.travis-ci.org/davetron5000/gli.svg?branch=gli-2"
 alt="Build Status" /></a></p>
 
 <h2 id="label-Use">Use</h2>
 
 <p>Install if you need to:</p>
 
-<pre>gem install gli</pre>
+<pre><code>gem install gli
+</code></pre>
 
 <p>The simplest way to get started is to create a scaffold project</p>
 
-<pre>gli init todo list add complete</pre>
+<pre><code>gli init todo list add complete
+</code></pre>
 
 <p>This will create a basic scaffold project in <code>./todo</code> with:</p>
 <ul><li>
@@ -88,7 +90,7 @@ development-time dependencies</p>
 
 <p>Now, you are ready to go:</p>
 
-<pre>&gt; cd todo
+<pre><code>&gt; cd todo
 &gt; bundle exec bin/todo help
 NAME
     todo - Describe your application here
@@ -119,7 +121,7 @@ SYNOPSIS
 
 COMMAND OPTIONS
     -f arg - Describe a flag to list (default: default)
-    -s     - Describe a switch to list</pre>
+    -s     - Describe a switch to list</code></pre>
 
 <p>All you need to do is fill in the documentation and your code; the help
 system, command-line parsing and many other awesome features are all
@@ -130,27 +132,26 @@ href="http://davetron5000.github.com/gli">main site</a></p>
 
 <h2 id="label-Supported+Platforms">Supported Platforms</h2>
 
-<p>Known to work on</p>
+<p>Tests should be passing supported MRI Rubies (see <code>.travis.yml</code>
+for specifics).</p>
+
+<p>Due to the vagaries of Travis, I can&#39;t keep the test suite running on
+unsupported Rubies, but we currently support:</p>
 <ul><li>
-<p>1.8.7</p>
+<p>2.1</p>
 </li><li>
-<p>1.9.2</p>
+<p>2.2</p>
 </li><li>
-<p>1.9.3</p>
+<p>2.3</p>
 </li><li>
-<p>2.0.0</p>
+<p>2.4</p>
 </li><li>
-<p>2.1.0</p>
-</li><li>
-<p>Ruby Enterprise Edition 1.8.7</p>
-</li><li>
-<p>Rubinius 1.0.1</p>
-</li><li>
-<p>JRuby 1.6.4</p>
+<p>JRuby</p>
 </li></ul>
 
-<p>If you&#39;re interested in other versions of Ruby, let me know, and
-I&#39;ll add them to my test suite</p>
+<p><a href="../classes/GLI.html">GLI</a> likely works on older rubies, but the
+cost of keeping tests passing on those versions (which are now totally
+unsupported by Ruby core) is too high.</p>
 
 <h2 id="label-Documentation">Documentation</h2>
 
@@ -169,7 +170,7 @@ Recommend starting with <a href="../classes/GLI/DSL.html">GLI::DSL</a> or
 com)</p>
 </dd><dt>Copyright
 <dd>
-<p>Copyright (c) 2010 by Dave Copeland</p>
+<p>Copyright © 2010 by Dave Copeland</p>
 </dd><dt>License
 <dd>
 <p>Distributes under the Apache License, see LICENSE.txt in the source distro</p>
@@ -202,11 +203,11 @@ com)</p>
 
 <h2 id="label-gli+-+create+scaffolding+for+a+GLI-powered+application">gli - create scaffolding for a GLI-powered application</h2>
 
-<p>v2.12.1</p>
+<p>v2.17.1</p>
 
 <h3 id="label-Global+Options">Global Options</h3>
 
-<h3 id="label--r%7C--root+arg">-r|--root arg</h3>
+<h3 id="label-r-7C--root+arg">-r|–root arg</h3>
 
 <p>Root dir of project</p>
 <dl class="rdoc-list label-list"><dt>Default Value
@@ -215,27 +216,70 @@ com)</p>
 </dd></dl>
 
 <p>This is the directory where the project&#39;&#39;s directory will be made,
-so if you  specify a project name &#39;&#39;foo&#39;&#39; and the root dir
-of &#39;&#39;.&#39;&#39;, the directory  &#39;&#39;./foo&#39;&#39; will be
-created&#39;</p>
+so if you</p>
 
-<h3 id="label---help">--help</h3>
+<pre><code>specify a project name &#39;&#39;foo&#39;&#39; and the root dir of &#39;&#39;.&#39;&#39;, the directory
+&#39;&#39;./foo&#39;&#39; will be created&#39;</code></pre>
+
+<h3 id="label--help">–help</h3>
 
 <p>Show this message</p>
 
-<h3 id="label--n">-n</h3>
+<h3 id="label-n">-n</h3>
 
 <p>Dry run; dont change the disk</p>
 
-<h3 id="label--v">-v</h3>
+<h3 id="label-v">-v</h3>
 
 <p>Be verbose</p>
 
-<h3 id="label---version">--version</h3>
+<h3 id="label--version">–version</h3>
 
 <p>Display the program version</p>
 
 <h3 id="label-Commands">Commands</h3>
+
+<h4 id="label-Command-3A+help++command">Command: <code>help  command</code></h4>
+
+<p>Shows a list of commands or help for one command</p>
+
+<p>Gets help for the application or its commands. Can also list the commands
+in a way helpful to creating a bash-style completion function</p>
+
+<h5 id="label-Options">Options</h5>
+
+<h5 id="label-c">-c</h5>
+
+<p>List commands one per line, to assist with shell completion</p>
+
+<h4 id="label-Command-3A+init-7Cscaffold++project_name+-5Bcommand_name-5D-5B-2C+-5Bcommand_name-5D-5D-2A">Command: <code>init|scaffold  project_name [command_name][, [command_name]]*</code></h4>
+
+<p>Create a new GLI-based project</p>
+
+<p>This will create a scaffold command line project that uses <a
+href="../classes/GLI.html">GLI</a></p>
+
+<pre><code>for command line processing.  Specifically, this will create
+an executable ready to go, as well as a lib and test directory, all
+inside the directory named for your project</code></pre>
+
+<h5 id="label-Options">Options</h5>
+
+<h5 id="label-e-7C--ext">-<a href="no-">e|–</a>ext</h5>
+
+<p>Create an ext dir</p>
+
+<h5 id="label---5Bno--5Dforce">–[no-]force</h5>
+
+<p>Overwrite/ignore existing files and directories</p>
+
+<h5 id="label--notest">–notest</h5>
+
+<p>Do not create a test or features dir</p>
+
+<h5 id="label---5Bno--5Drvmrc">–[no-]rvmrc</h5>
+
+<p>Create an .rvmrc based on your current RVM setup</p>
 
     </div>
   
