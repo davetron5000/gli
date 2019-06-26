@@ -78,6 +78,31 @@ class TC_testSubCommandParsing < Clean::Test::TestCase
     }
   end
 
+  test_that "in loose mode with autocomplete false, it doesn't autocorrect a sub command" do
+    Given :app_with_subcommand_storing_results, :normal, false, :loose
+    When {
+      @app.run(%w(-f global command -f flag -s subcomm  -f subflag))
+    }
+    Then {
+      with_clue {
+        assert_equal "command",@results[:command_name]
+      }
+    }
+  end
+
+  test_that "in strict mode with autocomplete false, it doesn't autocorrect a sub command" do
+    Given :app_with_subcommand_storing_results, :normal, false, :strict
+    When {
+      @app.run(%w(-f global command -f flag -s subcomm  -f subflag))
+    }
+    Then {
+      with_clue {
+        assert_equal nil,@results[:command_name]
+        assert       @fake_stderr.contained?(/error: Too many arguments for command/)
+      }
+    }
+  end
+
   test_that "in loose mode, argument validation is ignored" do
     Given :app_with_arguments, 1, 1, false, :loose
     When :run_app_with_X_arguments, 0
@@ -158,6 +183,41 @@ private
     PP.pp "\nSTDOUT---\n#{@fake_stdout.to_s}", dump
     @original_stdout.puts dump
     raise
+  end
+
+  def app_with_subcommand_storing_results(subcommand_option_handling_strategy, autocomplete, arguments_handling_strategy)
+    @app.subcommand_option_handling subcommand_option_handling_strategy
+    @app.autocomplete_commands autocomplete
+    @app.arguments arguments_handling_strategy
+    @app.flag ['f','flag']
+    @app.switch ['s','switch']
+
+    @app.command "command" do |c|
+      c.flag ['f','flag']
+      c.switch ['s','switch']
+      c.action do |global,options,args|
+        @results = {
+          :command_name => "command",
+          :global_options => global,
+          :command_options => options,
+          :args => args
+        }
+      end
+
+      c.command "subcommand" do |subcommand|
+        subcommand.flag ['f','flag']
+        subcommand.flag ['foo']
+        subcommand.switch ['s','switch']
+        subcommand.action do |global,options,args|
+          @results = {
+            :command_name => "subcommand",
+            :global_options => global,
+            :command_options => options,
+            :args => args
+          }
+        end
+      end
+    end
   end
 
   def app_with_subcommands_storing_results(subcommand_option_handling_strategy = :legacy)
