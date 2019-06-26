@@ -29,7 +29,7 @@ module GLI
       OptionParsingResult.new.tap { |parsing_result|
         parsing_result.arguments = args
         parsing_result = @global_option_parser.parse!(parsing_result)
-        option_parser_class.new(@accepts).parse!(parsing_result, options[:argument_handling_strategy])
+        option_parser_class.new(@accepts).parse!(parsing_result, options[:argument_handling_strategy], options[:autocomplete])
       }
     end
 
@@ -117,7 +117,7 @@ module GLI
         }
       end
 
-      def parse!(parsing_result,argument_handling_strategy)
+      def parse!(parsing_result,argument_handling_strategy,autocomplete)
         parsed_command_options = {}
         command = parsing_result.command
         arguments = nil
@@ -131,7 +131,7 @@ module GLI
           arguments = option_block_parser.parse!(arguments)
 
           parsed_command_options[command] = option_parser_factory.options_hash_with_defaults_set!
-          command_finder                  = CommandFinder.new(command.commands, :default_command => command.get_default_command)
+          command_finder                  = CommandFinder.new(command.commands, :default_command => command.get_default_command, :autocomplete => autocomplete)
           next_command_name               = arguments.shift
 
           verify_required_options!(command.flags, command, parsed_command_options[command])
@@ -178,7 +178,7 @@ module GLI
     end
 
     class LegacyCommandOptionParser < NormalCommandOptionParser
-      def parse!(parsing_result,argument_handling_strategy)
+      def parse!(parsing_result,argument_handling_strategy,autocomplete)
         command                     = parsing_result.command
         option_parser_factory       = OptionParserFactory.for_command(command,@accepts)
         option_block_parser         = LegacyCommandOptionBlockParser.new(option_parser_factory, self.error_handler)
@@ -187,7 +187,7 @@ module GLI
         parsing_result.arguments       = option_block_parser.parse!(parsing_result.arguments)
         parsing_result.command_options = option_parser_factory.options_hash_with_defaults_set!
 
-        subcommand,args                = find_subcommand(command,parsing_result.arguments)
+        subcommand,args                = find_subcommand(command,parsing_result.arguments,autocomplete)
         parsing_result.command         = subcommand
         parsing_result.arguments       = args
         verify_required_options!(command.flags, parsing_result.command, parsing_result.command_options)
@@ -195,7 +195,7 @@ module GLI
 
     private
 
-      def find_subcommand(command,arguments)
+      def find_subcommand(command,arguments,autocomplete)
         arguments = Array(arguments)
         command_name = if arguments.empty?
                          nil
@@ -204,15 +204,15 @@ module GLI
                        end
 
         default_command = command.get_default_command
-        finder = CommandFinder.new(command.commands, :default_command => default_command.to_s)
+        finder = CommandFinder.new(command.commands, :default_command => default_command.to_s, :autocomplete => autocomplete)
 
         begin
           results = [finder.find_command(command_name),arguments[1..-1]]
-          find_subcommand(results[0],results[1])
+          find_subcommand(results[0],results[1],autocomplete)
         rescue UnknownCommand, AmbiguousCommand
           begin
             results = [finder.find_command(default_command.to_s),arguments]
-            find_subcommand(results[0],results[1])
+            find_subcommand(results[0],results[1],autocomplete)
           rescue UnknownCommand, AmbiguousCommand
             [command,arguments]
           end
