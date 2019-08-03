@@ -31,6 +31,7 @@ module GLI
           end
           puts "Created #{rvmrc}"
         end
+        init_git(root_dir, project_name)
       end
     end
 
@@ -367,6 +368,14 @@ EOS
         return false
       end
       true
+    end
+
+    def self.init_git(root_dir, project_name)
+      project_dir = "#{root_dir}/#{project_name}"
+
+      unless system("git", "init", "--quiet", project_dir)
+        puts "There was a problem initializing Git. Your gemspec may not work until you have done a successful `git init`"
+      end
     end
 
     def self.mkdirs(dirs,force,dry_run)
