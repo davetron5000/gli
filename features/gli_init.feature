@@ -35,6 +35,7 @@ Feature: The scaffold GLI generates works
        |todo/bin  |
        |todo/test |
        |todo/lib  |
+       |todo/.git |
      And the following files should exist:
        |todo/bin/todo              |
        |todo/README.rdoc           |
