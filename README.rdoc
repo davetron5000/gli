@@ -1,10 +1,6 @@
-= Git-Like Interface Command Line Parser
+= GLI, the Git-Like Interface Command Line Parser
 
-GLI is the best way to make a "command-suite" command-line application, e.g. one like <tt>git</tt> (for the best way to make a
-simpler command-line application, check out methadone[http://www.github.com/davetron5000/methadone]).
-
-GLI allows you to make a polished, easy-to-maintain command-line application without a lot
-of syntax, but without restricting you in any way from the power of +OptionParser+.
+GLI allows you to create command-line app in Ruby that behaves like <tt>git</tt> in that it takes subcommands to perform a series of complex action, e.g. <tt>git remote add</tt>.
 
 * {Overview}[http://davetron5000.github.com/gli]
 * {Source on Github}[http://github.com/davetron5000/gli]
@@ -12,15 +8,39 @@ of syntax, but without restricting you in any way from the power of +OptionParse
 
 {<img src="https://secure.travis-ci.org/davetron5000/gli.svg?branch=gli-2" alt="Build Status" />}[https://travis-ci.org/davetron5000/gli]
 
+== What Problem does GLI Solve?
+
+Creating a command-line app that uses subcommands, each of which might accept different command-line options, is somewhat difficult with Ruby's built-in <tt>OptionParser</tt>.  GLI provides an API that wraps <tt>OptionParser</tt> so that you can create a subcommand-based command-line app with minimal boilerplate. This API also produces complete documentation for your command-line app.
+
+== Why is GLI's solution different from others?
+
+There are other RubyGems that allow you to create a command-line app that takes subcommands.  These solutions are often quite limited (e.g. they don't allow deeply nested subcommand structures or sophisticated command-line options per subcommand), or require more code that we think is needed. Some solutions make it difficult or impossible to properly document your command-line  app.
+
+== What you need to know to use GLI
+
+You should know Ruby, and have a basic understanding of how the UNIX command line works: standard input, standard output, standard error, and exit codes.
+
 == Use
 
 Install if you need to:
 
     gem install gli
 
+You can validate you have installed it correctly by running <tt>gli help</tt>. You should see formatted help output.
+
+If you are using GLI in another application, add it to your <tt>Gemfile</tt>:
+
+    gem "gli"
+
+You can test your install via Bundler by running <tt>bundle exec gli help</tt>. This should produce formatted help output from GLI.
+
+== Getting Started
+
 The simplest way to get started is to create a scaffold project
 
     gli init todo list add complete
+
+(note if you installed via Bundler you will need to execute <tt>bundle exec gli init todo list add complete</tt>)
 
 This will create a basic scaffold project in <tt>./todo</tt> with:
 
