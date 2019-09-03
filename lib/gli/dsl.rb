@@ -50,7 +50,7 @@ module GLI
     #     command :pack do ...
     #
     # Produces the synopsis:
-    #     app.rb [global options] pack output input[, input]*
+    #     app.rb [global options] pack output input...
     def arg(name, options=[])
       @next_arguments ||= []
       @next_arguments << Argument.new(name, Array(options).flatten)

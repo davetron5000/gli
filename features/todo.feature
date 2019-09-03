@@ -191,7 +191,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task]...
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -261,7 +261,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task]...
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -286,7 +286,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task]...
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -319,7 +319,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task][, [task]]*
+        todo [global options] list [command options] [tasks] [--flag arg] [-x arg] [task]...
         todo [global options] list [command options] contexts [--otherflag arg] [-b] [-f|--foobar]
 
     DESCRIPTION
@@ -343,7 +343,7 @@ Feature: The todo app has a nice user interface
         tasks - List tasks
 
     SYNOPSIS
-        todo [global options] list tasks [command options] [task][, [task]]*
+        todo [global options] list tasks [command options] [task]...
         todo [global options] list tasks [command options] open [--flag arg] [-x arg]
 
     DESCRIPTION
@@ -370,9 +370,9 @@ Feature: The todo app has a nice user interface
         todo [global options] create 
         todo [global options] create contexts [context_name]
         todo [global options] create relation_1-1 first second [name]
-        todo [global options] create relation_1-n first second[, second]* [name]
-        todo [global options] create relation_n-1 first[, first]* second [name]
-        todo [global options] create tasks task_name[, task_name]*
+        todo [global options] create relation_1-n first second... [name]
+        todo [global options] create relation_n-1 first... second [name]
+        todo [global options] create tasks task_name...
 
     COMMANDS
         <default>    - Makes a new task
@@ -530,7 +530,7 @@ Feature: The todo app has a nice user interface
         list - List things, such as tasks or contexts
 
     SYNOPSIS
-        todo [global options] list [command options] [tasks] [subcommand options] [task][, [task]]*
+        todo [global options] list [command options] [tasks] [subcommand options] [task]...
         todo [global options] list [command options] contexts [subcommand options]
 
     DESCRIPTION
