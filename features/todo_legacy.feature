@@ -92,7 +92,7 @@ Feature: The todo app is backwards compatible with legacy subcommand parsing
     SYNOPSIS
         todo [global options] create 
         todo [global options] create contexts [context_name]
-        todo [global options] create tasks task_name[, task_name]*
+        todo [global options] create tasks task_name...
 
     COMMANDS
         <default> - Makes a new task

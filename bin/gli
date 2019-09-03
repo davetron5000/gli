@@ -36,7 +36,7 @@ long_desc <<EOS
 EOS
   arg :project_name
   arg :command_name, [:optional, :multiple]
-  arg_name "project_name [command_name][, [command_name]]*"
+  arg_name "project_name [command_name]..."
   command [:init,:scaffold] do |c|
 
     c.switch :e,:ext, :desc => 'Create an ext dir'

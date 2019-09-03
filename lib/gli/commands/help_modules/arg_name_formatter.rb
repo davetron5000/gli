@@ -22,7 +22,7 @@ module GLI
               arg_desc = "[#{arg_desc}]"
             end
             if arg.multiple?
-              arg_desc = "#{arg_desc}[, #{arg_desc}]*"
+              arg_desc = "#{arg_desc}..."
             end
             desc = desc + " " + arg_desc
           end
@@ -37,7 +37,7 @@ module GLI
             desc = "[#{desc}]"
           end
           if arguments_options.include? :multiple
-            desc = "#{desc}[, #{desc}]*"
+            desc = "#{desc}..."
           end
           " " + desc
         end
