@@ -8,6 +8,7 @@ Feature: The scaffold GLI generates works
       And GLI's libs are in my path
       And my terminal size is "80x24"
 
+  @slow-command
   Scenario: Scaffold generates and things look good
     When I run `gli init --rvmrc todo add complete list`
     Then the exit status should be 0
