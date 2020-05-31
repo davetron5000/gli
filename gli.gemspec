@@ -20,7 +20,6 @@ spec = Gem::Specification.new do |s|
   s.extra_rdoc_files = ['README.rdoc', 'gli.rdoc']
   s.rdoc_options << '--title' << 'Git Like Interface' << '--main' << 'README.rdoc'
   s.bindir = 'bin'
-  s.rubyforge_project = 'gli'
   s.add_development_dependency('rake', '~> 0.9.2.2')
   s.add_development_dependency('rdoc', '~> 4.2')
   s.add_development_dependency('rainbow', '~> 1.1', '~> 1.1.1')
