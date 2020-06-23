@@ -166,14 +166,10 @@ module GLI
 
     def generate_error_action(arguments)
       lambda { |global_options,options,arguments|
-        if am_subcommand?
-          if arguments.size > 0
-            raise UnknownCommand,"Unknown command '#{arguments[0]}'"
-          else
-            raise BadCommandLine,"Command '#{name}' requires a subcommand"
-          end
-        elsif have_subcommands?
+        if have_subcommands?
           raise BadCommandLine,"Command '#{name}' requires a subcommand #{self.commands.keys.join(',')}"
+        elsif am_subcommand? && arguments.size > 0
+          raise UnknownCommand,"Unknown command '#{arguments[0]}'"
         else
           raise "Command '#{name}' has no action block"
         end
