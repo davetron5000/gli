@@ -72,8 +72,8 @@ spec = Gem::Specification.new do |s|
   s.executables << '#{project_name}'
   s.add_development_dependency('rake')
   s.add_development_dependency('rdoc')
-  s.add_development_dependency('aruba')
-  s.add_runtime_dependency('gli','#{GLI::VERSION}')
+  s.add_development_dependency('minitest')
+  s.add_runtime_dependency('gli','~> #{GLI::VERSION}')
 end
 EOS
       end
@@ -114,12 +114,6 @@ require 'rubygems'
 require 'rubygems/package_task'
 require 'rdoc/task'
 EOS
-        if create_test_dir
-          file.puts <<EOS
-require 'cucumber'
-require 'cucumber/rake/task'
-EOS
-        end
         file.puts <<EOS
 Rake::RDocTask.new do |rd|
   rd.main = "README.rdoc"
@@ -134,44 +128,19 @@ end
 EOS
         if create_test_dir
           file.puts <<EOS
-CUKE_RESULTS = 'results.html'
-CLEAN << CUKE_RESULTS
-desc 'Run features'
-Cucumber::Rake::Task.new(:features) do |t|
-  opts = "features --format html -o \#{CUKE_RESULTS} --format progress -x"
-  opts += " --tags \#{ENV['TAGS']}" if ENV['TAGS']
-  t.cucumber_opts =  opts
-  t.fork = false
-end
-
-desc 'Run features tagged as work-in-progress (@wip)'
-Cucumber::Rake::Task.new('features:wip') do |t|
-  tag_opts = ' --tags ~@pending'
-  tag_opts = ' --tags @wip'
-  t.cucumber_opts = "features --format html -o \#{CUKE_RESULTS} --format pretty -x -s\#{tag_opts}"
-  t.fork = false
-end
-
-task :cucumber => :features
-task 'cucumber:wip' => 'features:wip'
-task :wip => 'features:wip'
-EOS
-        end
-        if create_test_dir
-          file.puts <<EOS
 require 'rake/testtask'
 Rake::TestTask.new do |t|
   t.libs << "test"
   t.test_files = FileList['test/*_test.rb']
 end
 
-task :default => [:test,:features]
+task :default => :test
 EOS
           File.open("#{root_dir}/#{project_name}/test/default_test.rb",'w') do |test_file|
             test_file.puts <<EOS
-require 'test_helper'
+require_relative "test_helper"
 
-class DefaultTest < Test::Unit::TestCase
+class DefaultTest < Minitest::Test
 
   def setup
   end
@@ -188,15 +157,10 @@ EOS
           puts "Created #{root_dir}/#{project_name}/test/default_test.rb"
           File.open("#{root_dir}/#{project_name}/test/test_helper.rb",'w') do |test_file|
             test_file.puts <<EOS
-require 'test/unit'
+require "minitest/autorun"
 
 # Add test libraries you want to use here, e.g. mocha
-
-class Test::Unit::TestCase
-
-  # Add global extensions to the test case class here
-
-end
+# Add helper classes or methods here, too
 EOS
           end
           puts "Created #{root_dir}/#{project_name}/test/test_helper.rb"
@@ -210,54 +174,6 @@ EOS
         bundler_file.puts "gemspec"
       end
       puts "Created #{root_dir}/#{project_name}/Gemfile"
-      if create_test_dir
-        features_dir = File.join(root_dir,project_name,'features')
-        FileUtils.mkdir features_dir
-        FileUtils.mkdir File.join(features_dir,"step_definitions")
-        FileUtils.mkdir File.join(features_dir,"support")
-        File.open(File.join(features_dir,"#{project_name}.feature"),'w') do |file|
-          file.puts <<EOS
-Feature: My bootstrapped app kinda works
-  In order to get going on coding my awesome app
-  I want to have aruba and cucumber setup
-  So I don't have to do it myself
-
-  Scenario: App just runs
-    When I get help for "#{project_name}"
-    Then the exit status should be 0
-EOS
-        end
-        File.open(File.join(features_dir,"step_definitions","#{project_name}_steps.rb"),'w') do |file|
-          file.puts <<EOS
-When /^I get help for "([^"]*)"$/ do |app_name|
-  @app_name = app_name
-  step %(I run `\#{app_name} help`)
-end
-
-# Add more step definitions here
-EOS
-        end
-        File.open(File.join(features_dir,"support","env.rb"),'w') do |file|
-          file.puts <<EOS
-require 'aruba/cucumber'
-
-ENV['PATH'] = "\#{File.expand_path(File.dirname(__FILE__) + '/../../bin')}\#{File::PATH_SEPARATOR}\#{ENV['PATH']}"
-LIB_DIR = File.join(File.expand_path(File.dirname(__FILE__)),'..','..','lib')
-
-Before do
-  # Using "announce" causes massive warnings on 1.9.2
-  @puts = true
-  @original_rubylib = ENV['RUBYLIB']
-  ENV['RUBYLIB'] = LIB_DIR + File::PATH_SEPARATOR + ENV['RUBYLIB'].to_s
-end
-
-After do
-  ENV['RUBYLIB'] = @original_rubylib
-end
-EOS
-        end
-        puts "Created #{features_dir}"
-      end
     end
 
     def self.mk_binfile(root_dir,create_ext_dir,force,dry_run,project_name,commands)

@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative "test_helper"
 
-class TC_testOptions < Clean::Test::TestCase
+class OptiosnTest < MiniTest::Test
   include TestHelper
 
   def test_by_method
@@ -10,7 +10,7 @@ class TC_testOptions < Clean::Test::TestCase
     assert_equal 'verbose', o[:name]
     assert_equal 'verbose', o['name']
   end
-  
+
   def test_by_string
     o = GLI::Options.new
     o['name'] = 'verbose'
@@ -18,7 +18,7 @@ class TC_testOptions < Clean::Test::TestCase
     assert_equal 'verbose', o[:name]
     assert_equal 'verbose', o['name']
   end
-  
+
   def test_by_symbol
     o = GLI::Options.new
     o[:name] = 'verbose'

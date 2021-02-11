@@ -1,18 +1,7 @@
-# 1.9 adds realpath to resolve symlinks; 1.8 doesn't
-# have this method, so we add it so we get resolved symlinks
-# and compatibility
-unless File.respond_to? :realpath
-  class File
-    def self.realpath path
-      return realpath(File.readlink(path)) if symlink?(path)
-      path
-    end
-  end
-end
+require_relative "test_helper"
+require_relative "support/fake_std_out"
 
-require 'test_helper'
-
-class TC_testGLI < Clean::Test::TestCase
+class GLITest < MiniTest::Test
   include TestHelper
 
   def setup
@@ -24,7 +13,7 @@ class TC_testGLI < Clean::Test::TestCase
     $stderr = @fake_stderr
     @app = CLIApp.new
 
-    @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/new_config.yaml')
+    @config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/support/new_config.yml')
     @gli_debug = ENV['GLI_DEBUG']
     @app.error_device=@fake_stderr
     ENV.delete('GLI_DEBUG')
@@ -141,7 +130,7 @@ class TC_testGLI < Clean::Test::TestCase
   def test_init_from_config
     failure = nil
     @app.reset
-    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
+    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/support/gli_test_config.yml'))
     @app.flag :f
     @app.switch :s
     @app.flag :g
@@ -175,7 +164,7 @@ class TC_testGLI < Clean::Test::TestCase
   def test_command_line_overrides_config
     failure = nil
     @app.reset
-    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml'))
+    @app.config_file(File.expand_path(File.dirname(File.realpath(__FILE__)) + '/support/gli_test_config.yml'))
     @app.flag :f
     @app.switch :s
     @app.flag :g
@@ -207,7 +196,7 @@ class TC_testGLI < Clean::Test::TestCase
   end
 
   def test_no_overwrite_config
-    config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/config.yaml')
+    config_file = File.expand_path(File.dirname(File.realpath(__FILE__)) + '/support/gli_test_config.yml')
     config_file_contents = File.read(config_file)
     @app.reset
     @app.config_file(config_file)
@@ -680,7 +669,11 @@ class TC_testGLI < Clean::Test::TestCase
       end
     end
 
-    assert_nothing_raised(GLI::CustomExit) { @app.run(['multiply', '--help']) }
+    begin
+      @app.run(['multiply', '--help'])
+    rescue GLI::CustomExit
+      assert false, "Expected no exception"
+    end
   end
 
   class ConvertMe
@@ -810,38 +803,26 @@ class TC_testGLI < Clean::Test::TestCase
     do_test_switch_create_compact(object)
   end
 
-  def some_descriptions
-    lambda {
-      @description = 'this is a description'
-      @long_description = 'this is a very long description'
-    }
-  end
-
-  def assert_switch_was_made(object,switch)
-    lambda {
-      assert object.switches[switch]
-      assert_equal @description,object.switches[switch].description,"For switch #{switch}"
-      assert_equal @long_description,object.switches[switch].long_description,"For switch #{switch}"
-      assert(object.usage != nil) if object.respond_to? :usage
-    }
-  end
-
   def do_test_switch_create_classic(object)
-    Given some_descriptions
-    When {
-      object.desc @description
-      object.long_desc @long_description
-      object.switch :f
-    }
-    Then assert_switch_was_made(object,:f)
+    @description = 'this is a description'
+    @long_description = 'this is a very long description'
+    object.desc @description
+    object.long_desc @long_description
+    object.switch :f
+    assert object.switches[:f]
+    assert_equal @description,object.switches[:f].description,"For switch #{:f}"
+    assert_equal @long_description,object.switches[:f].long_description,"For switch #{:f}"
+    assert(object.usage != nil) if object.respond_to? :usage
   end
 
   def do_test_switch_create_compact(object)
-    Given some_descriptions
-    When {
-      object.switch :g, :desc => @description, :long_desc => @long_description
-    }
-    Then assert_switch_was_made(object,:g)
+    @description = 'this is a description'
+    @long_description = 'this is a very long description'
+    object.switch :g, :desc => @description, :long_desc => @long_description
+    assert object.switches[:g]
+    assert_equal @description,object.switches[:g].description,"For switch #{:g}"
+    assert_equal @long_description,object.switches[:g].long_description,"For switch #{:g}"
+    assert(object.usage != nil) if object.respond_to? :usage
   end
 
   def do_test_switch_create_twice(object)

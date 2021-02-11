@@ -1,7 +1,7 @@
-require 'test_helper'
-require 'tempfile'
+require_relative "test_helper"
+require_relative "support/fake_std_out"
 
-class TC_testCommand < Clean::Test::TestCase
+class CommandTest < MiniTest::Test
   include TestHelper
   def setup
     @fake_stdout = FakeStdOut.new
@@ -436,7 +436,7 @@ class TC_testCommand < Clean::Test::TestCase
   private
 
   def assert_contained(output,regexp)
-    assert_not_nil output.contained?(regexp),
+    refute_nil output.contained?(regexp),
       "Expected output to contain #{regexp.inspect}, output was:\n#{output}"
   end
 

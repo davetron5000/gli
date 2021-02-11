@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative "test_helper"
 
-class TC_testHelp < Clean::Test::TestCase
+class HelpTest < MiniTest::Test
   include TestHelper
 
   def setup
@@ -24,86 +24,61 @@ class TC_testHelp < Clean::Test::TestCase
     include GLI::App
   end
 
-  test_that "the help command is configured properly when created" do
-    Given {
-      app = TestApp.new
-      app.subcommand_option_handling :normal
-      @command = GLI::Commands::Help.new(app,@output,@error)
-    }
-    Then {
-      assert_equal   'help',@command.name.to_s
-      assert_nil     @command.aliases
-      assert_equal   'command',@command.arguments_description
-      assert_not_nil @command.description
-      assert_not_nil @command.long_description
-      assert         @command.skips_pre
-      assert         @command.skips_post
-      assert         @command.skips_around
-    }
+  def test_help_command_configured_properly_when_created
+    app = TestApp.new
+    app.subcommand_option_handling :normal
+    @command = GLI::Commands::Help.new(app,@output,@error)
+    assert_equal   'help',@command.name.to_s
+    assert_nil     @command.aliases
+    assert_equal   'command',@command.arguments_description
+    refute_nil @command.description
+    refute_nil @command.long_description
+    assert         @command.skips_pre
+    assert         @command.skips_post
+    assert         @command.skips_around
   end
 
-  test_that "the help command can be configured to skip things declaratively" do
-    Given {
+  def test_the_help_command_can_be_configured_to_skip_things_declaratively
       app = TestApp.new
       app.subcommand_option_handling :normal
       @command = GLI::Commands::Help.new(app,@output,@error)
       GLI::Commands::Help.skips_pre    = false
       GLI::Commands::Help.skips_post   = false
       GLI::Commands::Help.skips_around = false
-    }
-    Then {
       assert !@command.skips_pre
       assert !@command.skips_post
       assert !@command.skips_around
-    }
   end
 
-  test_that "the help command can be configured to skip things declaratively regardless of when the object was created" do
-    Given {
+  def test_the_help_command_can_be_configured_to_skip_things_declaratively_regardless_of_when_the_object_was_created
       GLI::Commands::Help.skips_pre    = false
       GLI::Commands::Help.skips_post   = false
       GLI::Commands::Help.skips_around = false
       app = TestApp.new
       app.subcommand_option_handling :normal
       @command = GLI::Commands::Help.new(app,@output,@error)
-    }
-    Then {
       assert !@command.skips_pre
       assert !@command.skips_post
       assert !@command.skips_around
-    }
   end
 
-  test_that "invoking help with no arguments results in listing all commands and global options" do
-    Given a_GLI_app
-    And {
+  def test_invoking_help_with_no_arguments_results_in_listing_all_commands_and_global_options
+    setup_GLI_app
       @command = GLI::Commands::Help.new(@app,@output,@error)
-    }
-    When {
       @command.execute({},{},[])
-    }
-    Then {
       assert_top_level_help_output
-    }
   end
 
-  test_that "invoking help with a command that doesn't exist shows an error" do
-    Given a_GLI_app
-    And {
+  def test_invoking_help_with_a_command_that_doesnt_exist_shows_an_error
+    setup_GLI_app
       @command = GLI::Commands::Help.new(@app,@output,@error)
       @unknown_command_name = any_command_name
-    }
-    When {
       @command.execute({},{},[@unknown_command_name])
-    }
-    Then {
       assert_error_contained(/error: Unknown command '#{@unknown_command_name}'./)
-    }
   end
 
-  test_that "invoking help with a known command shows help for that command" do
-    Given a_GLI_app
-    And {
+  def test_invoking_help_with_a_known_command_shows_help_for_that_command
+    setup_GLI_app
       @command_name = cm = any_command_name
       @desc         = d  = any_desc
       @long_desc    = ld = any_desc
@@ -127,11 +102,7 @@ class TC_testHelp < Clean::Test::TestCase
         end
       end
       @command = GLI::Commands::Help.new(@app,@output,@error)
-    }
-    When {
       @command.execute({},{},[@command_name])
-    }
-    Then {
       assert_output_contained(@command_name,"Name of the command")
       assert_output_contained(@desc,"Short description")
       assert_output_contained(@long_desc,"Long description")
@@ -139,27 +110,19 @@ class TC_testHelp < Clean::Test::TestCase
       assert_output_contained(@switch_desc,"switch description")
       assert_output_contained("-" + @flag,"command flag")
       assert_output_contained(@flag_desc,"flag description")
-    }
   end
 
-  test_that 'invoking help for an app with no global options omits [global options] from the usage string' do
-    Given a_GLI_app(:no_options)
-    And {
+  def test_invoking_help_with_no_global_options_omits_the_global_options_placeholder_from_usage
+    setup_GLI_app(:no_options)
       @command = GLI::Commands::Help.new(@app,@output,@error)
-    }
-    When {
       @command.execute({},{},[])
-    }
-    Then {
       refute_output_contained(/\[global options\] command \[command options\] \[arguments\.\.\.\]/)
       refute_output_contained('GLOBAL OPTIONS')
       assert_output_contained(/command \[command options\] \[arguments\.\.\.\]/)
-    }
   end
 
-  test_that "invoking help with a known command when no global options are present omits [global options] from the usage string" do
-    Given a_GLI_app(:no_options)
-    And {
+  def test_invoking_help_with_a_known_command_when_no_global_options_are_present_omits_placeholder_from_the_usage_string
+    setup_GLI_app(:no_options)
       @command_name = cm = any_command_name
       @desc         = d  = any_desc
       @long_desc    = ld = any_desc
@@ -183,20 +146,14 @@ class TC_testHelp < Clean::Test::TestCase
         end
       end
       @command = GLI::Commands::Help.new(@app,@output,@error)
-    }
-    When {
       @command.execute({},{},[@command_name])
-    }
-    Then {
       refute_output_contained(/\[global options\]/)
       assert_output_contained(/\[command options\]/)
       assert_output_contained('COMMAND OPTIONS')
-    }
   end
 
-  test_that "invoking help with a known command when no global options nor command options are present omits [global options] and [command options] from the usage string" do
-    Given a_GLI_app(:no_options)
-    And {
+  def test_omits_both_placeholders_when_no_options_present
+    setup_GLI_app(:no_options)
       @command_name = cm = any_command_name
       @desc         = d  = any_desc
       @long_desc    = ld = any_desc
@@ -209,20 +166,14 @@ class TC_testHelp < Clean::Test::TestCase
         end
       end
       @command = GLI::Commands::Help.new(@app,@output,@error)
-    }
-    When {
       @command.execute({},{},[@command_name])
-    }
-    Then {
       refute_output_contained(/\[global options\]/)
       refute_output_contained(/\[command options\]/)
       refute_output_contained('COMMAND OPTIONS')
-    }
   end
 
-  test_that "invoking help with a known command that has no command options omits [command options] from the usage string" do
-    Given a_GLI_app
-    And {
+  def test_no_command_options_omits_command_options_placeholder
+    setup_GLI_app
       @command_name = cm = any_command_name
       @desc         = d  = any_desc
       @long_desc    = ld = any_desc
@@ -235,19 +186,13 @@ class TC_testHelp < Clean::Test::TestCase
         end
       end
       @command = GLI::Commands::Help.new(@app,@output,@error)
-    }
-    When {
       @command.execute({},{},[@command_name])
-    }
-    Then {
       assert_output_contained(/\[global options\]/)
       refute_output_contained(/\[command options\]/)
       refute_output_contained('COMMAND OPTIONS')
-    }
   end
 
-  test_that "omitting default_description doesn't blow up" do
-    Given {
+  def test_omitting_default_description_doesnt_blow_up
       app = TestApp.new
       app.instance_eval do
         subcommand_option_handling :normal
@@ -266,23 +211,20 @@ class TC_testHelp < Clean::Test::TestCase
         end
       end
       @command = GLI::Commands::Help.new(app,@output,@error)
-    }
-    When {
-      @code = lambda { @command.execute({},{},['top']) }
-    }
-    Then {
-      assert_nothing_raised(&@code)
-    }
+      begin
+        @command.execute({},{},['top'])
+      rescue => ex
+        assert false, "Expected no exception, got: #{ex.message}"
+      end
   end
 
 private
 
-  def a_GLI_app(omit_options=false)
-    lambda {
+  def setup_GLI_app(omit_options=false)
       @program_description = program_description = any_desc
       @flags = flags = [
-        [any_desc.strip,any_arg_name,[any_option]],
-        [any_desc.strip,any_arg_name,[any_option,any_long_option]],
+        [any_desc.strip,:foo,[any_option]],
+        [any_desc.strip,:bar,[any_option,any_long_option]],
       ]
       @switches = switches = [
         [any_desc.strip,[any_option]],
@@ -319,7 +261,6 @@ private
           end
         end
       end
-    }
   end
 
   def assert_top_level_help_output
@@ -357,7 +298,7 @@ private
 
   def refute_output_contained(string_or_regexp,desc='')
     string_or_regexp = /#{string_or_regexp}/ if string_or_regexp.kind_of?(String)
-    assert_no_match string_or_regexp,@output.string,desc
+    refute_match string_or_regexp,@output.string,desc
   end
 
   def any_option
@@ -365,21 +306,21 @@ private
   end
 
   def any_long_option
-    Faker::Lorem.words(10)[rand(10)]
-  end
-
-  def any_arg_name
-    any_string :max => 20
+    ["foo","bar","blah"].sample
   end
 
   def any_desc
-    Faker::Lorem.words(10).join(' ')[0..30].gsub(/\s*$/,'')
+    [
+      "This command does some stuff",
+      "Do things and whatnot",
+      "Behold the power of this command"
+    ].sample
   end
 
   def any_command_name
-    command_name = Faker::Lorem.words(10)[rand(10)]
+    command_name = ["new","edit","delete","create","update"].sample
     while @command_names_used.include?(command_name)
-      command_name = Faker::Lorem.words(10)[rand(10)]
+      command_name = ["new","edit","delete","create","update"].sample
     end
     @command_names_used << command_name
     command_name

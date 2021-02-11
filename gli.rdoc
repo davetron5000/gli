@@ -1,6 +1,6 @@
 == gli - create scaffolding for a GLI-powered application
 
-v2.17.1
+v2.19.2
 
 === Global Options
 === -r|--root arg
@@ -43,7 +43,7 @@ List commands one per line, to assist with shell completion
 
 
 
-==== Command: <tt>init|scaffold  project_name [command_name][, [command_name]]*</tt>
+==== Command: <tt>init|scaffold  project_name [command_name]...</tt>
 Create a new GLI-based project
 
 This will create a scaffold command line project that uses GLI

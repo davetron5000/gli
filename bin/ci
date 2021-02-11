@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+export RUBYOPT='-W0'
+echo "[bin/ci] Running unit tests"
+bin/rake test:unit
+
+echo "[bin/ci] Running integration tests"
+bin/rake test:integration
