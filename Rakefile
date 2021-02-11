@@ -3,8 +3,8 @@ require 'bundler'
 require 'rake/clean'
 require 'rake/testtask'
 require 'rdoc/task'
-require 'cucumber'
-require 'cucumber/rake/task'
+#require 'cucumber'
+#require 'cucumber/rake/task'
 
 include Rake::DSL
 
@@ -83,18 +83,18 @@ end
 
 CUKE_RESULTS = 'results.html'
 CLEAN << CUKE_RESULTS
-Cucumber::Rake::Task.new(:features) do |t|
-  opts = "features --format html -o #{CUKE_RESULTS} --format progress -x"
-  opts += " --tags #{ENV['TAGS']}" if ENV['TAGS']
-  t.cucumber_opts =  opts
-  t.fork = false
-end
-Cucumber::Rake::Task.new('features:wip') do |t|
-  tag_opts = ' --tags ~@pending'
-  tag_opts = ' --tags @wip'
-  t.cucumber_opts = "features --format html -o #{CUKE_RESULTS} --format pretty -x -s#{tag_opts}"
-  t.fork = false
-end
+#Cucumber::Rake::Task.new(:features) do |t|
+#  opts = "features --format html -o #{CUKE_RESULTS} --format progress -x"
+#  opts += " --tags #{ENV['TAGS']}" if ENV['TAGS']
+#  t.cucumber_opts =  opts
+#  t.fork = false
+#end
+#Cucumber::Rake::Task.new('features:wip') do |t|
+#  tag_opts = ' --tags ~@pending'
+#  tag_opts = ' --tags @wip'
+#  t.cucumber_opts = "features --format html -o #{CUKE_RESULTS} --format pretty -x -s#{tag_opts}"
+#  t.fork = false
+#end
 
 begin
   require 'rcov/rcovtask'
