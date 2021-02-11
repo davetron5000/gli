@@ -51,7 +51,7 @@ GLOBAL OPTIONS
 
 <% end %>
 COMMANDS
-<%= commands %>),nil,'<>')
+<%= commands %>))
 
         def global_flags_and_switches
           @app.flags_declaration_order + @app.switches_declaration_order

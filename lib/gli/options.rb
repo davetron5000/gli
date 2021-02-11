@@ -7,12 +7,12 @@ module GLI
 
     # Return the value of an attribute
     def[](k)
-      @table[k.to_sym]
+      self.send(k.to_sym)
     end
 
     # Set the value of an attribute
     def[]=(k, v)
-      @table[k.to_sym] = v
+      self.send("#{k.to_sym}=",v)
     end
 
     def map(&block)

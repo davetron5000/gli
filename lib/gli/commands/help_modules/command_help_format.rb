@@ -53,7 +53,7 @@ COMMANDS
 
 
 <%= command_examples %>
-<% end %>),nil,'<>')
+<% end %>))
 
 
         def flags_and_switches(command,app)
