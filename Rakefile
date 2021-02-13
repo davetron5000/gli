@@ -3,8 +3,6 @@ require 'bundler'
 require 'rake/clean'
 require 'rake/testtask'
 require 'rdoc/task'
-require 'cucumber'
-require 'cucumber/rake/task'
 
 include Rake::DSL
 
@@ -75,48 +73,28 @@ end
 
 Bundler::GemHelper.install_tasks
 
-desc 'run unit tests'
-Rake::TestTask.new do |t|
+desc "run unit tests"
+Rake::TestTask.new("test:unit") do |t|
   t.libs << "test"
-  t.test_files = FileList['test/init_simplecov.rb','test/tc_*.rb']
+  t.libs << "lib"
+  t.test_files = FileList["test/unit/**/*_test.rb"]
 end
 
-CUKE_RESULTS = 'results.html'
-CLEAN << CUKE_RESULTS
-Cucumber::Rake::Task.new(:features) do |t|
-  opts = "features --format html -o #{CUKE_RESULTS} --format progress -x"
-  opts += " --tags #{ENV['TAGS']}" if ENV['TAGS']
-  t.cucumber_opts =  opts
-  t.fork = false
+desc "run integration tests"
+Rake::TestTask.new("test:integration") do |t|
+  t.libs << "test"
+  explicitly_named_files = ARGV[1..-1]
+  if explicitly_named_files.empty?
+    t.test_files = FileList["test/integration/**/*_test.rb"]
+  else
+    t.test_files = explicitly_named_files
+  end
 end
-Cucumber::Rake::Task.new('features:wip') do |t|
-  tag_opts = ' --tags ~@pending'
-  tag_opts = ' --tags @wip'
-  t.cucumber_opts = "features --format html -o #{CUKE_RESULTS} --format pretty -x -s#{tag_opts}"
-  t.fork = false
-end
+
 
 begin
-  require 'rcov/rcovtask'
-  task :clobber_coverage do
-    rm_rf "coverage"
-  end
-
-  desc 'Measures test coverage'
-  task :coverage => :rcov do
-    puts "coverage/index.html contains what you need"
-  end
-
-  Rcov::RcovTask.new do |t|
-    t.libs << 'lib'
-    t.test_files = FileList['test/tc_*.rb']
-  end
+  require 'simplecov'
 rescue LoadError
-  begin
-    require 'simplecov'
-  rescue LoadError
-    $stderr.puts "neither rcov nor simplecov are installed; you won't be able to check code coverage"
-  end
 end
 
 desc 'Publish rdoc on github pages and push to github'

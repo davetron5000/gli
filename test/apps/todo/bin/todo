@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # These would not be in a real GLI app; we do this so we can easily run this on the command line
-$: << File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','lib'))
+$: << File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','..','lib'))
 $: << File.expand_path(File.join(File.dirname(__FILE__),'..','lib'))
 
 require 'gli'

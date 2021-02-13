@@ -1,5 +1,4 @@
-require 'test_helper'
-require 'pp'
+require_relative "test_helper"
 
 class String
   def blank?
@@ -19,7 +18,7 @@ class Object
   end
 end
 
-class TC_testDoc < Clean::Test::TestCase
+class DocTest < MiniTest::Test
   include TestHelper
 
   class TestApp
@@ -112,42 +111,30 @@ class TC_testDoc < Clean::Test::TestCase
     @@counter = -1 # we pre-increment so this makes 0 first
   end
 
-  test_that "a GLI app with documentation gets the callbacks for each element" do
-    Given :the_test_app
-    And :the_expected_output
-    And {
-      @documenter = GLI::Commands::Doc.new(@app)
-      @listener = TestListener.new
-    }
-    When {
-      @documenter.document(@listener)
-    }
-    Then {
-      lines_expected = @string.split(/\n/)
-      lines_got = @listener.to_s.split(/\n/)
-      lines_expected.zip(lines_got).each_with_index do |(expected,got),index|
-        assert_equal expected,got,"At index #{index}"
-      end
-    }
+  def test_app_without_docs_gets_callbacks_for_each_element
+    setup_test_app
+    construct_expected_output
+    @documenter = GLI::Commands::Doc.new(@app)
+    @listener = TestListener.new
+    @documenter.document(@listener)
+    lines_expected = @string.split(/\n/)
+    lines_got = @listener.to_s.split(/\n/)
+    lines_expected.zip(lines_got).each_with_index do |(expected,got),index|
+      assert_equal expected,got,"At index #{index}"
+    end
   end
 
-  test_that "the doc command works as a GLI command" do
-    Given :the_test_app
-    And :the_expected_output
-    And {
-      @documenter = GLI::Commands::Doc.new(@app)
-      @listener = TestListener.new
-    }
-    When {
-      @documenter.execute({},{:format => "TC_testDoc::TestListener"},[])
-    }
-    Then {
-      lines_expected = @string.split(/\n/)
-      lines_got = TestListener.last.to_s.split(/\n/)
-      lines_expected.zip(lines_got).each_with_index do |(expected,got),index|
-        assert_equal expected,got,"At index #{index}"
-      end
-    }
+  def test_doc_command_works_as_GLI_command
+    setup_test_app
+    construct_expected_output
+    @documenter = GLI::Commands::Doc.new(@app)
+    @listener = TestListener.new
+    @documenter.execute({},{:format => "DocTest::TestListener"},[])
+    lines_expected = @string.split(/\n/)
+    lines_got = TestListener.last.to_s.split(/\n/)
+    lines_expected.zip(lines_got).each_with_index do |(expected,got),index|
+      assert_equal expected,got,"At index #{index}"
+    end
   end
 
 private
@@ -158,36 +145,36 @@ private
     @@counter
   end
 
-  def the_test_app
+  def setup_test_app
     @app = TestApp.new
     @app.instance_eval do
       program_desc "program desc"
       program_long_desc "program long desc"
       version "1.3.4"
 
-      TC_testDoc.flag_with_everything_specified(self)
-      TC_testDoc.flag_with_everything_omitted(self)
-      TC_testDoc.switch_with_everything_specified(self)
-      TC_testDoc.switch_with_everything_omitted(self)
+      DocTest.flag_with_everything_specified(self)
+      DocTest.flag_with_everything_omitted(self)
+      DocTest.switch_with_everything_specified(self)
+      DocTest.switch_with_everything_omitted(self)
 
       desc      "command desc"
       long_desc "command long desc"
       arg_name  "cmd_arg_name"
       command [:command1,:com1] do |c|
-        TC_testDoc.flag_with_everything_specified(c)
-        TC_testDoc.flag_with_everything_omitted(c)
-        TC_testDoc.switch_with_everything_specified(c)
-        TC_testDoc.switch_with_everything_omitted(c)
+        DocTest.flag_with_everything_specified(c)
+        DocTest.flag_with_everything_omitted(c)
+        DocTest.switch_with_everything_specified(c)
+        DocTest.switch_with_everything_omitted(c)
 
         c.desc      "subcommand desc"
         c.long_desc "subcommand long desc"
         c.arg_name  "subcmd_arg_name"
         c.action { |g,o,a| }
         c.command [:sub,:subcommand] do |sub|
-          TC_testDoc.flag_with_everything_specified(sub,:subflag)
-          TC_testDoc.flag_with_everything_omitted(sub,:subflag2)
-          TC_testDoc.switch_with_everything_specified(sub,:subswitch)
-          TC_testDoc.switch_with_everything_omitted(sub,:subswitch2)
+          DocTest.flag_with_everything_specified(sub,:subflag)
+          DocTest.flag_with_everything_omitted(sub,:subflag2)
+          DocTest.switch_with_everything_specified(sub,:subswitch)
+          DocTest.switch_with_everything_omitted(sub,:subswitch2)
           sub.action { |g,o,a| }
         end
         c.command [:default] do |sub|
@@ -227,7 +214,7 @@ private
   def self.switch_with_everything_omitted(on,name=[:S,:switch2])
     on.switch name
   end
-  def the_expected_output
+  def construct_expected_output
     # Oh yeah.  Creating a string representing the structure of the calls.
     @string =<<EOS
 BEGIN

@@ -46,7 +46,6 @@ This will create a basic scaffold project in <tt>./todo</tt> with:
 
 * executable in <tt>./todo/bin/todo</tt>.  This file demonstrates most of what you need to describe your command line interface.
 * an empty test in <tt>./todo/test/default_test.rb</tt> that can bootstrap your tests
-* an empty feature in <tt>./todo/features/todo.feature</tt> that can bootstrap testing your CLI via Aruba.
 * a gemspec shell
 * a README shell
 * Rakefile that can generate RDoc, package your Gem and run tests
@@ -93,18 +92,9 @@ Get a more detailed walkthrough on the {main site}[http://davetron5000.github.co
 
 == Supported Platforms
 
-Tests should be passing supported MRI Rubies (see +.travis.yml+ for specifics).
+See `.circleci/config.yml` for the supported rubies, but general we're running tests on the all MRI rubies receiving support, which tends to be the most recent four versions.
 
-Due to the vagaries of Travis, I can't keep the test suite running on unsupported Rubies, but we currently support:
-
-* 2.1
-* 2.2
-* 2.3
-* 2.4
-* JRuby
-
-GLI likely works on older rubies, but the cost of keeping tests passing on those versions (which are now totally unsupported by Ruby core) is too high.
-
+GLI should work on older Rubies and JRuby, but it's too much work to keep tests passing for those.
 
 == Documentation
 

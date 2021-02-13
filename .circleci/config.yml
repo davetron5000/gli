@@ -1,0 +1,28 @@
+version: 2.1
+orbs:
+  # See https://circleci.com/developer/orbs/orb/circleci/ruby
+  ruby: circleci/ruby@1.1.2
+jobs:                # keyword
+  test:              # my name for the job
+    parameters:      # keyword
+      ruby-version:  # my parameter name
+        type: string # type is a keyword
+    docker:          # keyword
+      - image: cimg/base:stable
+    steps:                                       # keyword
+      - checkout                                 # magic name
+      - ruby/install:                            # ruby/ is from the orb name, install is a command in that orb
+          version: << parameters.ruby-version >> # magic nonsense for param subst (version param to the command)
+      - run:
+          command: "bin/setup"
+      - run:
+          command: "bin/ci"
+workflows:              # keyword
+  all-rubies:           # my name for the workflow
+    jobs:               # keyword
+      - test:           # my name for the job
+          matrix:       # keyword
+            parameters: # keyword
+              # All rubies being maintained per this page:
+              # https://www.ruby-lang.org/en/downloads/branches/
+              ruby-version: [ "2.5", "2.6", "2.7", "3.0" ]

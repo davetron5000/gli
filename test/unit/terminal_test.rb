@@ -1,9 +1,10 @@
-require 'test_helper'
+require_relative "test_helper"
 
-class TC_testTerminal < Clean::Test::TestCase
+class TerminalTest < MiniTest::Test
   include TestHelper
 
-  def test_command_exists
+  # TODO: Make this test not mess with the internals of the class
+  def xtest_command_exists
     assert GLI::Terminal.instance.command_exists?('ls')
     assert !GLI::Terminal.instance.command_exists?('asdfasfasdf')
   end

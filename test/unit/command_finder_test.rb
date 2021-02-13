@@ -1,6 +1,6 @@
-require 'test_helper'
+require_relative "test_helper"
 
-class TC_testCommandFinder < Clean::Test::TestCase
+class CommandFinderTest < MiniTest::Test
   include TestHelper
 
   def setup
@@ -14,13 +14,13 @@ class TC_testCommandFinder < Clean::Test::TestCase
   end
 
   def test_unknown_command_name
-    assert_raise(GLI::UnknownCommand) do
+    assert_raises(GLI::UnknownCommand) do
       GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(:unfindable_command)
     end
   end
 
   def test_no_command_name_without_default
-    assert_raise(GLI::UnknownCommand) do
+    assert_raises(GLI::UnknownCommand) do
       GLI::CommandFinder.new(@app.commands).find_command(nil)
     end
   end
@@ -33,7 +33,7 @@ class TC_testCommandFinder < Clean::Test::TestCase
   end
 
   def test_ambigous_command
-    assert_raise(GLI::AmbiguousCommand) do
+    assert_raises(GLI::AmbiguousCommand) do
       GLI::CommandFinder.new(@app.commands, :default_command => :status).find_command(:some)
     end
   end
@@ -46,7 +46,7 @@ class TC_testCommandFinder < Clean::Test::TestCase
   end
 
   def test_partial_name_with_autocorrect_disabled
-    assert_raise(GLI::UnknownCommand) do
+    assert_raises(GLI::UnknownCommand) do
       GLI::CommandFinder.new(@app.commands, :default_command => :status, :autocomplete => false)
         .find_command(:deploy)
     end
