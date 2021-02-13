@@ -84,7 +84,7 @@ desc "run integration tests"
 Rake::TestTask.new("test:integration") do |t|
   t.libs << "test"
   explicitly_named_files = ARGV[1..-1]
-  if explicitly_named_files.empty?
+  if Array(explicitly_named_files).size == 0
     t.test_files = FileList["test/integration/**/*_test.rb"]
   else
     t.test_files = explicitly_named_files
