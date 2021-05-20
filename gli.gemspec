@@ -22,9 +22,9 @@ spec = Gem::Specification.new do |s|
   s.bindir      = "exe"
   s.executables = "gli"
 
-  s.add_development_dependency("rake", "~> 0.9.2.2")
-  s.add_development_dependency("rdoc", "~> 4.2")
+  s.add_development_dependency("rake")
+  s.add_development_dependency("rdoc")
   s.add_development_dependency("rainbow", "~> 1.1", "~> 1.1.1")
-  s.add_development_dependency("sdoc", "~> 0.4")
+  s.add_development_dependency("sdoc")
   s.add_development_dependency("minitest")
 end
