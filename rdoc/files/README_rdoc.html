@@ -1,15 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>README.rdoc</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../css/github.css" type="text/css" media="screen" />
 <script src="../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
@@ -23,7 +21,7 @@
         </h1>
         <ul class="files">
             <li>README.rdoc</li>
-            <li>Last modified: 2019-04-20 11:47:54 -0400</li>
+            <li>Last modified: 2021-05-19 20:40:05 -0400</li>
         </ul>
     </div>
 
@@ -32,28 +30,30 @@
   
     <div class="description">
       
-<h1 id="label-Git-Like+Interface+Command+Line+Parser">Git-Like Interface Command Line Parser</h1>
+<h1 id="label-GLI-2C+the+Git-Like+Interface+Command+Line+Parser"><a href="../classes/GLI.html"><code>GLI</code></a>, the Git-Like Interface Command Line Parser</h1>
 
-<p><a href="../classes/GLI.html">GLI</a> is the best way to make a
-“command-suite” command-line application, e.g. one like <code>git</code>
-(for the best way to make a simpler command-line application, check out <a
-href="http://www.github.com/davetron5000/methadone">methadone</a>).</p>
-
-<p><a href="../classes/GLI.html">GLI</a> allows you to make a polished,
-easy-to-maintain command-line application without a lot of syntax, but
-without restricting you in any way from the power of
-<code>OptionParser</code>.</p>
+<p><a href="../classes/GLI.html"><code>GLI</code></a> allows you to create command-line app in Ruby that behaves like <code>git</code> in that it takes subcommands to perform a series of complex action, e.g. <code>git remote add</code>.</p>
 <ul><li>
-<p><a href="http://davetron5000.github.com/gli">Overview</a></p>
+<p><a href="http://davetron5000.github.io/gli">Overview</a></p>
 </li><li>
 <p><a href="http://github.com/davetron5000/gli">Source on Github</a></p>
 </li><li>
-<p><a href="http://davetron5000.github.com/gli/rdoc/index.html">RDoc</a></p>
+<p><a href="http://davetron5000.github.io/gli/rdoc/index.html">RDoc</a></p>
 </li></ul>
 
-<p><a href="https://travis-ci.org/davetron5000/gli"><img
-src="https://secure.travis-ci.org/davetron5000/gli.svg?branch=gli-2"
-alt="Build Status" /></a></p>
+<p><a href="https://travis-ci.org/davetron5000/gli"><img src="https://secure.travis-ci.org/davetron5000/gli.svg?branch=gli-2" alt="Build Status" /></a></p>
+
+<h2 id="label-What+Problem+does+GLI+Solve-3F">What Problem does <a href="../classes/GLI.html"><code>GLI</code></a> Solve?</h2>
+
+<p>Creating a command-line app that uses subcommands, each of which might accept different command-line options, is somewhat difficult with Ruby&#39;s built-in <code>OptionParser</code>.  <a href="../classes/GLI.html"><code>GLI</code></a> provides an API that wraps <code>OptionParser</code> so that you can create a subcommand-based command-line app with minimal boilerplate. This API also produces complete documentation for your command-line app.</p>
+
+<h2 id="label-Why+is+GLI-27s+solution+different+from+others-3F">Why is GLI&#39;s solution different from others?</h2>
+
+<p>There are other RubyGems that allow you to create a command-line app that takes subcommands.  These solutions are often quite limited (e.g. they don&#39;t allow deeply nested subcommand structures or sophisticated command-line options per subcommand), or require more code that we think is needed. Some solutions make it difficult or impossible to properly document your command-line  app.</p>
+
+<h2 id="label-What+you+need+to+know+to+use+GLI">What you need to know to use <a href="../classes/GLI.html"><code>GLI</code></a></h2>
+
+<p>You should know Ruby, and have a basic understanding of how the UNIX command line works: standard input, standard output, standard error, and exit codes.</p>
 
 <h2 id="label-Use">Use</h2>
 
@@ -62,21 +62,29 @@ alt="Build Status" /></a></p>
 <pre><code>gem install gli
 </code></pre>
 
+<p>You can validate you have installed it correctly by running <code>gli help</code>. You should see formatted help output.</p>
+
+<p>If you are using <a href="../classes/GLI.html"><code>GLI</code></a> in another application, add it to your <code>Gemfile</code>:</p>
+
+<pre><code>gem &quot;gli&quot;
+</code></pre>
+
+<p>You can test your install via Bundler by running <code>bundle exec gli help</code>. This should produce formatted help output from <a href="../classes/GLI.html"><code>GLI</code></a>.</p>
+
+<h2 id="label-Getting+Started">Getting Started</h2>
+
 <p>The simplest way to get started is to create a scaffold project</p>
 
 <pre><code>gli init todo list add complete
 </code></pre>
 
+<p>(note if you installed via Bundler you will need to execute <code>bundle exec gli init todo list add complete</code>)</p>
+
 <p>This will create a basic scaffold project in <code>./todo</code> with:</p>
 <ul><li>
-<p>executable in <code>./todo/bin/todo</code>.  This file demonstrates most of
-what you need to describe your command line interface.</p>
+<p>executable in <code>./todo/bin/todo</code>.  This file demonstrates most of what you need to describe your command line interface.</p>
 </li><li>
-<p>an empty test in <code>./todo/test/default_test.rb</code> that can
-bootstrap your tests</p>
-</li><li>
-<p>an empty feature in <code>./todo/features/todo.feature</code> that can
-bootstrap testing your CLI via Aruba.</p>
+<p>an empty test in <code>./todo/test/default_test.rb</code> that can bootstrap your tests</p>
 </li><li>
 <p>a gemspec shell</p>
 </li><li>
@@ -84,8 +92,7 @@ bootstrap testing your CLI via Aruba.</p>
 </li><li>
 <p>Rakefile that can generate RDoc, package your Gem and run tests</p>
 </li><li>
-<p>A <code>Gemfile</code> suitable for use with Bundler to manage
-development-time dependencies</p>
+<p>A <code>Gemfile</code> suitable for use with Bundler to manage development-time dependencies</p>
 </li></ul>
 
 <p>Now, you are ready to go:</p>
@@ -121,53 +128,29 @@ SYNOPSIS
 
 COMMAND OPTIONS
     -f arg - Describe a flag to list (default: default)
-    -s     - Describe a switch to list</code></pre>
+    -s     - Describe a switch to list
+</code></pre>
 
-<p>All you need to do is fill in the documentation and your code; the help
-system, command-line parsing and many other awesome features are all
-handled for you.</p>
+<p>All you need to do is fill in the documentation and your code; the help system, command-line parsing and many other awesome features are all handled for you.</p>
 
-<p>Get a more detailed walkthrough on the <a
-href="http://davetron5000.github.com/gli">main site</a></p>
+<p>Get a more detailed walkthrough on the <a href="http://davetron5000.github.io/gli">main site</a></p>
 
 <h2 id="label-Supported+Platforms">Supported Platforms</h2>
 
-<p>Tests should be passing supported MRI Rubies (see <code>.travis.yml</code>
-for specifics).</p>
+<p>See `.circleci/config.yml` for the supported rubies, but general we&#39;re running tests on the all MRI rubies receiving support, which tends to be the most recent four versions.</p>
 
-<p>Due to the vagaries of Travis, I can&#39;t keep the test suite running on
-unsupported Rubies, but we currently support:</p>
-<ul><li>
-<p>2.1</p>
-</li><li>
-<p>2.2</p>
-</li><li>
-<p>2.3</p>
-</li><li>
-<p>2.4</p>
-</li><li>
-<p>JRuby</p>
-</li></ul>
-
-<p><a href="../classes/GLI.html">GLI</a> likely works on older rubies, but the
-cost of keeping tests passing on those versions (which are now totally
-unsupported by Ruby core) is too high.</p>
+<p><a href="../classes/GLI.html"><code>GLI</code></a> should work on older Rubies and JRuby, but it&#39;s too much work to keep tests passing for those.</p>
 
 <h2 id="label-Documentation">Documentation</h2>
 
-<p>Extensive documentation is <a
-href="https://github.com/davetron5000/gli/wiki">available at the wiki</a>.</p>
+<p>Extensive documentation is <a href="https://github.com/davetron5000/gli/wiki">available at the wiki</a>.</p>
 
-<p>API Documentation is available <a
-href="http://davetron5000.github.com/gli/rdoc/index.html">here</a>. 
-Recommend starting with <a href="../classes/GLI/DSL.html">GLI::DSL</a> or
-<a href="../classes/GLI/App.html">GLI::App</a>.</p>
+<p>API Documentation is available <a href="http://davetron5000.github.io/gli/rdoc/index.html">here</a>.  Recommend starting with <a href="../classes/GLI/DSL.html"><code>GLI::DSL</code></a> or <a href="../classes/GLI/App.html"><code>GLI::App</code></a>.</p>
 
 <h2 id="label-Credits">Credits</h2>
 <dl class="rdoc-list note-list"><dt>Author
 <dd>
-<p>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot
-com)</p>
+<p>Dave Copeland (<a href="mailto:davetron5000">davetron5000</a> at g mail dot com)</p>
 </dd><dt>Copyright
 <dd>
 <p>Copyright © 2010 by Dave Copeland</p>
@@ -177,7 +160,7 @@ com)</p>
 </dd></dl>
 
 <h2 id="label-Links">Links</h2>
-<ul><li><dl class="rdoc-list label-list"><dt><a href="http://davetron5000.github.com/gli">davetron5000.github.com/gli</a>
+<ul><li><dl class="rdoc-list label-list"><dt><a href="http://davetron5000.github.io/gli">davetron5000.github.io/gli</a>
 <dd><ul><li>
 <p>RubyDoc</p>
 </li></ul>
@@ -203,7 +186,7 @@ com)</p>
 
 <h2 id="label-gli+-+create+scaffolding+for+a+GLI-powered+application">gli - create scaffolding for a GLI-powered application</h2>
 
-<p>v2.17.1</p>
+<p>v2.19.2</p>
 
 <h3 id="label-Global+Options">Global Options</h3>
 
@@ -215,11 +198,11 @@ com)</p>
 <p>.</p>
 </dd></dl>
 
-<p>This is the directory where the project&#39;&#39;s directory will be made,
-so if you</p>
+<p>This is the directory where the project&#39;&#39;s directory will be made, so if you</p>
 
 <pre><code>specify a project name &#39;&#39;foo&#39;&#39; and the root dir of &#39;&#39;.&#39;&#39;, the directory
-&#39;&#39;./foo&#39;&#39; will be created&#39;</code></pre>
+&#39;&#39;./foo&#39;&#39; will be created&#39;
+</code></pre>
 
 <h3 id="label--help">–help</h3>
 
@@ -243,8 +226,7 @@ so if you</p>
 
 <p>Shows a list of commands or help for one command</p>
 
-<p>Gets help for the application or its commands. Can also list the commands
-in a way helpful to creating a bash-style completion function</p>
+<p>Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function</p>
 
 <h5 id="label-Options">Options</h5>
 
@@ -252,16 +234,16 @@ in a way helpful to creating a bash-style completion function</p>
 
 <p>List commands one per line, to assist with shell completion</p>
 
-<h4 id="label-Command-3A+init-7Cscaffold++project_name+-5Bcommand_name-5D-5B-2C+-5Bcommand_name-5D-5D-2A">Command: <code>init|scaffold  project_name [command_name][, [command_name]]*</code></h4>
+<h4 id="label-Command-3A+init-7Cscaffold++project_name+-5Bcommand_name-5D...">Command: <code>init|scaffold  project_name [command_name]...</code></h4>
 
 <p>Create a new GLI-based project</p>
 
-<p>This will create a scaffold command line project that uses <a
-href="../classes/GLI.html">GLI</a></p>
+<p>This will create a scaffold command line project that uses <a href="../classes/GLI.html"><code>GLI</code></a></p>
 
 <pre><code>for command line processing.  Specifically, this will create
 an executable ready to go, as well as a lib and test directory, all
-inside the directory named for your project</code></pre>
+inside the directory named for your project
+</code></pre>
 
 <h5 id="label-Options">Options</h5>
 
@@ -314,7 +296,11 @@ inside the directory named for your project</code></pre>
 
 
     <!-- Methods -->
-              </div>
+    
+    
+    
+  
+</div>
 
     </div>
   </body>

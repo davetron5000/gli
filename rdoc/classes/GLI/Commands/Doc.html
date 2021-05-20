@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>GLI::Commands::Doc</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../../css/github.css" type="text/css" media="screen" />
 <script src="../../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
+
+    <meta property="og:title" value="GLI::Commands::Doc">
+
+  
+    
+    <meta name="description" content="Takes a DocListener which will be called with all of the meta-data and documentation about your app, so as to create documentation in whatever format you want.">
+    <meta property="og:description" content="Takes a DocListener which will be called with all of the meta-data and documentation about your app, so as to create documentation in whatever format you want.">
+  
+
+    <meta name="keywords" content="GLI::Commands::Doc class">
+  
+    <meta name="keywords" content="new, nodoc, document">
+  
 </head>
 
 <body>
@@ -40,9 +51,7 @@
   
     <div class="description">
       
-<p>Takes a DocListener which will be called with all of the meta-data and
-documentation about your app, so as to create documentation in whatever
-format you want</p>
+<p>Takes a DocListener which will be called with all of the meta-data and documentation about your app, so as to create documentation in whatever format you want</p>
 
     </div>
   
@@ -156,8 +165,7 @@ format you want</p>
 
           
             <div class="description">
-              <p>Create the <a href="Doc.html">Doc</a> generator based on the <a
-href="../../GLI.html">GLI</a> app passed in</p>
+              <p>Create the <a href="Doc.html"><code>Doc</code></a> generator based on the <a href="../../GLI.html"><code>GLI</code></a> app passed in</p>
             </div>
           
 
@@ -176,11 +184,11 @@ href="../../GLI.html">GLI</a> app passed in</p>
               </p>
               <div id="method-c-new_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 10</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">app</span>)
-  <span class="ruby-keyword">super</span>(<span class="ruby-value">:names</span>       =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;_doc&quot;</span>,
-        <span class="ruby-value">:description</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Generate documentation of your application&#39;s UI&quot;</span>,
-        <span class="ruby-value">:long_desc</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-string">&quot;Introspects your application&#39;s UI meta-data to generate documentation in a variety of formats.  This is intended to be extensible via the DocumentListener interface, so that you can provide your own documentation formats without them being a part of GLI&quot;</span>,
-        <span class="ruby-value">:skips_pre</span>   =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_post</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_around</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:hidden</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">app</span>)
+  <span class="ruby-keyword">super</span>(<span class="ruby-value">:names</span>       <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;_doc&quot;</span>,
+        <span class="ruby-value">:description</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;Generate documentation of your application&#39;s UI&quot;</span>,
+        <span class="ruby-value">:long_desc</span>   <span class="ruby-operator">=&gt;</span> <span class="ruby-string">&quot;Introspects your application&#39;s UI meta-data to generate documentation in a variety of formats.  This is intended to be extensible via the DocumentListener interface, so that you can provide your own documentation formats without them being a part of GLI&quot;</span>,
+        <span class="ruby-value">:skips_pre</span>   <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_post</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:skips_around</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>, <span class="ruby-value">:hidden</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-keyword">true</span>)
 
   <span class="ruby-ivar">@app</span> = <span class="ruby-identifier">app</span>
   <span class="ruby-ivar">@parent</span> = <span class="ruby-ivar">@app</span>
@@ -199,7 +207,9 @@ href="../../GLI.html">GLI</a> app passed in</p>
             </div>
             
           </div>
-                  
+        
+      
+    
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -231,7 +241,7 @@ href="../../GLI.html">GLI</a> app passed in</p>
               </p>
               <div id="method-i-document_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 35</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">document</span>(<span class="ruby-identifier">document_listener</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">document</span>(<span class="ruby-identifier">document_listener</span>)
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">beginning</span>
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">program_desc</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_desc</span>.<span class="ruby-identifier">nil?</span>
   <span class="ruby-identifier">document_listener</span>.<span class="ruby-identifier">program_long_desc</span>(<span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_long_desc</span>) <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@app</span>.<span class="ruby-identifier">program_long_desc</span>.<span class="ruby-identifier">nil?</span>
@@ -284,14 +294,18 @@ href="../../GLI.html">GLI</a> app passed in</p>
               </p>
               <div id="method-i-nodoc_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/commands/doc.rb, line 30</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">nodoc</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">nodoc</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-                    </div>
+        
+      
+    
+  
+</div>
 
     </div>
   </body>

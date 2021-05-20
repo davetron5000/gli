@@ -1,18 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>GLI::CommandOptionBlockParser</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
 <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
+
+    <meta property="og:title" value="GLI::CommandOptionBlockParser">
+
+  
+
+    <meta name="keywords" content="GLI::CommandOptionBlockParser class">
+  
+    <meta name="keywords" content="command=, break_on_non_option?, do_parse">
+  
 </head>
 
 <body>
@@ -111,7 +118,8 @@
 
 
     <!-- Methods -->
-        
+    
+    
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -143,14 +151,15 @@
               </p>
               <div id="method-i-command-3D_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 54</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command=</span>(<span class="ruby-identifier">command_being_parsed</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">command=</span>(<span class="ruby-identifier">command_being_parsed</span>)
   <span class="ruby-ivar">@extra_error_context</span> = <span class="ruby-identifier">command_being_parsed</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-              
+        
+      
       <div class="sectiontitle">Instance Protected methods</div>
       
         <div class="method">
@@ -182,7 +191,7 @@
               </p>
               <div id="method-i-break_on_non_option-3F_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 60</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">break_on_non_option?</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">break_on_non_option?</span>
   <span class="ruby-keyword">true</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -219,7 +228,7 @@
               </p>
               <div id="method-i-do_parse_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 64</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">do_parse</span>(<span class="ruby-identifier">args</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">do_parse</span>(<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">unknown_options</span> = []
   <span class="ruby-ivar">@option_parser_factory</span>.<span class="ruby-identifier">option_parser</span>.<span class="ruby-identifier">order!</span>(<span class="ruby-identifier">args</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">non_option</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">unknown_options</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">non_option</span>
@@ -234,7 +243,11 @@
             </div>
             
           </div>
-                    </div>
+        
+      
+    
+  
+</div>
 
     </div>
   </body>

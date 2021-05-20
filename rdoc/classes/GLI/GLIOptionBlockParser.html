@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>GLI::GLIOptionBlockParser</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
 <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
+
+    <meta property="og:title" value="GLI::GLIOptionBlockParser">
+
+  
+    
+    <meta name="description" content="An “option block” is a set of parseable options, starting from the beginning of the argument list, stopping with the first unknown command-line element.">
+    <meta property="og:description" content="An “option block” is a set of parseable options, starting from the beginning of the argument list, stopping with the first unknown command-line element.">
+  
+
+    <meta name="keywords" content="GLI::GLIOptionBlockParser class">
+  
+    <meta name="keywords" content="new, parse!, do_parse">
+  
 </head>
 
 <body>
@@ -40,9 +51,7 @@
   
     <div class="description">
       
-<p>An “option block” is a set of parseable options, starting from the
-beginning of the argument list, stopping with the first unknown
-command-line element. This class handles parsing that block</p>
+<p>An “option block” is a set of parseable options, starting from the beginning of the argument list, stopping with the first unknown command-line element. This class handles parsing that block</p>
 
     </div>
   
@@ -132,12 +141,10 @@ command-line element. This class handles parsing that block</p>
 
           
             <div class="description">
-              <p>Create the parser using the given <code>OptionParser</code> instance and
-exception handling strategy.</p>
+              <p>Create the parser using the given <code>OptionParser</code> instance and exception handling strategy.</p>
 <dl class="rdoc-list note-list"><dt>option_parser_factory
 <dd>
-<p>An <code>OptionParserFactory</code> instance, configured to parse wherever
-you are on the command line</p>
+<p>An <code>OptionParserFactory</code> instance, configured to parse wherever you are on the command line</p>
 </dd><dt>exception_klass_or_block
 <dd>
 <p>means of handling exceptions from <code>OptionParser</code>.  One of:</p>
@@ -167,7 +174,7 @@ you are on the command line</p>
               </p>
               <div id="method-c-new_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 14</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">option_parser_factory</span>,<span class="ruby-identifier">exception_klass_or_block</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">option_parser_factory</span>,<span class="ruby-identifier">exception_klass_or_block</span>)
   <span class="ruby-ivar">@option_parser_factory</span> = <span class="ruby-identifier">option_parser_factory</span>
   <span class="ruby-ivar">@extra_error_context</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@exception_handler</span> = <span class="ruby-keyword">if</span> <span class="ruby-identifier">exception_klass_or_block</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Class</span>)
@@ -182,7 +189,9 @@ you are on the command line</p>
             </div>
             
           </div>
-                  
+        
+      
+    
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -195,9 +204,7 @@ you are on the command line</p>
 
           
             <div class="description">
-              <p>Parse the given argument list, returning the unparsed arguments and options
-hash of parsed arguments. Exceptions from <code>OptionParser</code> are
-given to the handler configured in the constructor</p>
+              <p>Parse the given argument list, returning the unparsed arguments and options hash of parsed arguments. Exceptions from <code>OptionParser</code> are given to the handler configured in the constructor</p>
 <dl class="rdoc-list note-list"><dt>args
 <dd>
 <p>argument list.  This will be mutated</p>
@@ -222,18 +229,19 @@ given to the handler configured in the constructor</p>
               </p>
               <div id="method-i-parse-21_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 32</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">parse!</span>(<span class="ruby-identifier">args</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">parse!</span>(<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">do_parse</span>(<span class="ruby-identifier">args</span>)
-<span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidOption</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidOption</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">ex</span>
   <span class="ruby-ivar">@exception_handler</span>.<span class="ruby-identifier">call</span>(<span class="ruby-node">&quot;Unknown option #{ex.args.join(&#39; &#39;)}&quot;</span>,<span class="ruby-ivar">@extra_error_context</span>)
-<span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidArgument</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">OptionParser</span><span class="ruby-operator">::</span><span class="ruby-constant">InvalidArgument</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">ex</span>
   <span class="ruby-ivar">@exception_handler</span>.<span class="ruby-identifier">call</span>(<span class="ruby-node">&quot;#{ex.reason}: #{ex.args.join(&#39; &#39;)}&quot;</span>,<span class="ruby-ivar">@extra_error_context</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-              
+        
+      
       <div class="sectiontitle">Instance Protected methods</div>
       
         <div class="method">
@@ -265,7 +273,7 @@ given to the handler configured in the constructor</p>
               </p>
               <div id="method-i-do_parse_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/gli_option_block_parser.rb, line 42</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">do_parse</span>(<span class="ruby-identifier">args</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">do_parse</span>(<span class="ruby-identifier">args</span>)
   <span class="ruby-identifier">first_non_option</span> = <span class="ruby-keyword">nil</span>
   <span class="ruby-ivar">@option_parser_factory</span>.<span class="ruby-identifier">option_parser</span>.<span class="ruby-identifier">order!</span>(<span class="ruby-identifier">args</span>) <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">non_option</span><span class="ruby-operator">|</span>
     <span class="ruby-identifier">first_non_option</span> = <span class="ruby-identifier">non_option</span>
@@ -277,7 +285,11 @@ given to the handler configured in the constructor</p>
             </div>
             
           </div>
-                    </div>
+        
+      
+    
+  
+</div>
 
     </div>
   </body>

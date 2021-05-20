@@ -245,10 +245,10 @@ Searchdoc.Panel.prototype = $.extend({}, Searchdoc.Navigation, new function() {
         html += '</a>';
         html += '<p>';
         if (typeof badge != 'undefined') {
-            html += '<span class="badge badge_' + (badge % 6 + 1) + '">' + escapeHTML(this.data.badges[badge] || 'unknown') + '</span>';
+            html += '<span class="badge badge_' + (badge % 6 + 1) + '">' + stripHTML(this.data.badges[badge] || 'unknown') + '</span>';
         }
         html += hlt(result.namespace) + '</p>';
-        if (result.snippet) html += '<p class="snippet">' + escapeHTML(result.snippet.replace(/^<p>/, '')) + '</p>';
+        if (result.snippet) html += '<p class="snippet">' + stripHTML(result.snippet.replace(/^<p>/, '')) + '</p>';
         li.innerHTML = html;
         jQuery.data(li, 'path', result.path);
         return li;
@@ -262,6 +262,25 @@ Searchdoc.Panel.prototype = $.extend({}, Searchdoc.Navigation, new function() {
         return html.replace(/[&<>]/g, function(c) {
             return '&#' + c.charCodeAt(0) + ';';
         });
+    }
+
+    function stripHTML(html) {
+        var in_tag = false;
+        var output = "";
+
+        for (var i = 0; i < html.length; i++) {
+            if (html[i] == '<'){
+                in_tag = true;
+            } else if (html[i] == '>') {
+                in_tag = false;
+                i++;
+            }
+
+            if (!in_tag && i < html.length)
+                output += html[i];
+        }
+
+        return output;
     }
 
 });

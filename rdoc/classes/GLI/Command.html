@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>GLI::Command</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
 <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
+
+    <meta property="og:title" value="GLI::Command">
+
+  
+    
+    <meta name="description" content="A command to be run, in context of global flags and switches.  You are given an instance of this class to the block you use for GLI::DSL#command.">
+    <meta property="og:description" content="A command to be run, in context of global flags and switches.  You are given an instance of this class to the block you use for GLI::DSL#command.">
+  
+
+    <meta name="keywords" content="GLI::Command class">
+  
+    <meta name="keywords" content="new, example, default_command, action, default_desc, name_for_help">
+  
 </head>
 
 <body>
@@ -40,12 +51,7 @@
   
     <div class="description">
       
-<p>A command to be run, in context of global flags and switches.  You are
-given an instance of this class to the block you use for <a
-href="DSL.html#method-i-command">GLI::DSL#command</a>.  This class mixes in
-<a href="DSL.html">GLI::DSL</a> so all of those methods are available to
-describe the command, in addition to the methods documented here, most
-importantly <a href="Command.html#method-i-action">action</a>.</p>
+<p>A command to be run, in context of global flags and switches.  You are given an instance of this class to the block you use for <a href="DSL.html#method-i-command"><code>GLI::DSL#command</code></a>.  This class mixes in <a href="DSL.html"><code>GLI::DSL</code></a> so all of those methods are available to describe the command, in addition to the methods documented here, most importantly <a href="Command.html#method-i-action"><code>action</code></a>.</p>
 
 <p>Example:</p>
 
@@ -201,10 +207,7 @@ end
           
             <tr valign='top'>
               <td>&nbsp;</td>
-              <td colspan="2" class="attr-desc"><p>Key in an options hash to find the parent&#39;s parsed options.  Note that
-if you are using openstruct, e.g. via `use_openstruct true` in your app
-setup, you will need to use the method `__parent__` to access parent parsed
-options.</p></td>
+              <td colspan="2" class="attr-desc"><p>Key in an options hash to find the parent&#39;s parsed options.  Note that if you are using openstruct, e.g. via `use_openstruct true` in your app setup, you will need to use the method `__parent__` to access parent parsed options.</p></td>
             </tr>
           
         
@@ -233,43 +236,33 @@ options.</p></td>
 <dl class="rdoc-list note-list"><dt>options
 <dd>
 <p>Keys should be:</p>
-<dl class="rdoc-list note-list"><dt>names
+<dl class="rdoc-list note-list"><dt><code>names</code>
 <dd>
-<p>A String, Symbol, or Array of String or Symbol that represents the name(s)
-of this command (required).</p>
+<p>A String, Symbol, or Array of String or Symbol that represents the name(s) of this command (required).</p>
 </dd><dt><code>description</code>
 <dd>
 <p>short description of this command as a String</p>
 </dd><dt><code>arguments_name</code>
 <dd>
-<p>description of the arguments as a String, or nil if this command
-doesn&#39;t take arguments</p>
+<p>description of the arguments as a String, or nil if this command doesn&#39;t take arguments</p>
 </dd><dt><code>long_desc</code>
 <dd>
-<p>a longer description of the command, possibly with multiple lines.  A
-double line-break is treated as a paragraph break.  No other formatting is
-respected, though inner whitespace is maintained.</p>
+<p>a longer description of the command, possibly with multiple lines.  A double line-break is treated as a paragraph break.  No other formatting is respected, though inner whitespace is maintained.</p>
 </dd><dt><code>skips_pre</code>
 <dd>
-<p>if true, this command advertises that it doesn&#39;t want the pre block
-called first</p>
+<p>if true, this command advertises that it doesn&#39;t want the pre block called first</p>
 </dd><dt><code>skips_post</code>
 <dd>
-<p>if true, this command advertises that it doesn&#39;t want the post block
-called after it</p>
+<p>if true, this command advertises that it doesn&#39;t want the post block called after it</p>
 </dd><dt><code>skips_around</code>
 <dd>
-<p>if true, this command advertises that it doesn&#39;t want the around block
-called</p>
+<p>if true, this command advertises that it doesn&#39;t want the around block called</p>
 </dd><dt><code>hide_commands_without_desc</code>
 <dd>
-<p>if true and there isn&#39;t a description the command is not going to be
-shown in the help</p>
+<p>if true and there isn&#39;t a description the command is not going to be shown in the help</p>
 </dd><dt><code>examples</code>
 <dd>
-<p>An array of Hashes, where each hash must have the key <code>:example</code>
-mapping to a string, and may optionally have the key <code>:desc</code>
-that documents that example.</p>
+<p>An array of Hashes, where each hash must have the key <code>:example</code> mapping to a string, and may optionally have the key <code>:desc</code> that documents that example.</p>
 </dd></dl>
 </dd></dl>
             </div>
@@ -290,7 +283,7 @@ that documents that example.</p>
               </p>
               <div id="method-c-new_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/command.rb, line 58</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">options</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">options</span>)
   <span class="ruby-keyword">super</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:names</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:description</span>],<span class="ruby-identifier">options</span>[<span class="ruby-value">:long_desc</span>])
   <span class="ruby-ivar">@arguments_description</span> = <span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_name</span>] <span class="ruby-operator">||</span> <span class="ruby-string">&#39;&#39;</span>
   <span class="ruby-ivar">@arguments_options</span> = <span class="ruby-constant">Array</span>(<span class="ruby-identifier">options</span>[<span class="ruby-value">:arguments_options</span>]).<span class="ruby-identifier">flatten</span>
@@ -309,7 +302,9 @@ that documents that example.</p>
             </div>
             
           </div>
-                  
+        
+      
+    
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -322,30 +317,22 @@ that documents that example.</p>
 
           
             <div class="description">
-              <p>Define the action to take when the user executes this command.  Every
-command should either define this  action block, or have subcommands (or
-both).</p>
+              <p>Define the action to take when the user executes this command.  Every command should either define this  action block, or have subcommands (or both).</p>
 <dl class="rdoc-list note-list"><dt><code>block</code>
 <dd>
 <p>A block of code to execute.  The block will be given 3 arguments:</p>
 <dl class="rdoc-list note-list"><dt><code>global_options</code>
 <dd>
-<p>A Hash of the <em>global</em> options specified by the user, with defaults
-set and config file values used (if using a config file, see <a
-href="App.html#method-i-config_file">GLI::App#config_file</a>)</p>
+<p>A Hash of the <em>global</em> options specified by the user, with defaults set and config file values used (if using a config file, see <a href="App.html#method-i-config_file"><code>GLI::App#config_file</code></a>)</p>
 </dd><dt><code>options</code>
 <dd>
-<p>A Hash of the command-specific options specified by the  user, with
-defaults set and config file values used (if using a config file, see  <a
-href="App.html#method-i-config_file">GLI::App#config_file</a>).</p>
+<p>A Hash of the command-specific options specified by the  user, with defaults set and config file values used (if using a config file, see  <a href="App.html#method-i-config_file"><code>GLI::App#config_file</code></a>).</p>
 </dd><dt><code>arguments</code>
 <dd>
 <p>An Array of Strings representing the unparsed command line arguments</p>
 </dd></dl>
 
-<p>The block&#39;s result value is not used; raise an exception or use <a
-href="App.html#method-i-exit_now-21">GLI::App#exit_now!</a> if you need an
-early exit based on an error condition</p>
+<p>The block&#39;s result value is not used; raise an exception or use <a href="App.html#method-i-exit_now-21"><code>GLI#exit_now!</code></a> if you need an early exit based on an error condition</p>
 </dd></dl>
             </div>
           
@@ -365,7 +352,7 @@ early exit based on an error condition</p>
               </p>
               <div id="method-i-action_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/command.rb, line 108</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">action</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">action</span>(<span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-ivar">@action</span> = <span class="ruby-identifier">block</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -383,14 +370,10 @@ early exit based on an error condition</p>
 
           
             <div class="description">
-              <p>Set the default command if this command has subcommands and the user
-doesn&#39;t  provide a subcommand when invoking THIS command.  When nil,
-this will show an error and the help for this command; when set, the
-command with this name will be executed.</p>
+              <p>Set the default command if this command has subcommands and the user doesn&#39;t  provide a subcommand when invoking THIS command.  When nil, this will show an error and the help for this command; when set, the command with this name will be executed.</p>
 <dl class="rdoc-list note-list"><dt><code>command_name</code>
 <dd>
-<p>The primary name of the subcommand of this command that should be run by
-default as a String or Symbol.</p>
+<p>The primary name of the subcommand of this command that should be run by default as a String or Symbol.</p>
 </dd></dl>
             </div>
           
@@ -410,7 +393,7 @@ default as a String or Symbol.</p>
               </p>
               <div id="method-i-default_command_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/command.rb, line 90</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_command</span>(<span class="ruby-identifier">command_name</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default_command</span>(<span class="ruby-identifier">command_name</span>)
   <span class="ruby-ivar">@default_command</span> = <span class="ruby-identifier">command_name</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -428,16 +411,9 @@ default as a String or Symbol.</p>
 
           
             <div class="description">
-              <p>Describes this commands action block when it <strong>also</strong> has
-subcommands. In this case, the <a
-href="DSL.html#method-i-desc">GLI::DSL#desc</a> value is the general
-description of the commands that this command groups, and the value for
-<strong>this</strong> method documents what will happen if you omit a
-subcommand.</p>
+              <p>Describes this commands action block when it <strong>also</strong> has subcommands. In this case, the <a href="DSL.html#method-i-desc"><code>GLI::DSL#desc</code></a> value is the general description of the commands that this command groups, and the value for <strong>this</strong> method documents what will happen if you omit a subcommand.</p>
 
-<p>Note that if you omit the action block and specify a subcommand, that
-subcommand&#39;s description will be used to describe what happens by
-default.</p>
+<p>Note that if you omit the action block and specify a subcommand, that subcommand&#39;s description will be used to describe what happens by default.</p>
 <dl class="rdoc-list note-list"><dt>desc
 <dd>
 <p>the description of what this command&#39;s action block does.</p>
@@ -478,7 +454,8 @@ SYNOPSIS
 COMMANDS
     &lt;default&gt; - list both tasks and contexts
     tasks     - list tasks
-    contexts  - list contexts</code></pre>
+    contexts  - list contexts
+</code></pre>
             </div>
           
 
@@ -497,7 +474,7 @@ COMMANDS
               </p>
               <div id="method-i-default_desc_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/command.rb, line 160</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">default_desc</span>(<span class="ruby-identifier">desc</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">default_desc</span>(<span class="ruby-identifier">desc</span>)
   <span class="ruby-ivar">@default_desc</span> = <span class="ruby-identifier">desc</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -545,9 +522,9 @@ COMMANDS
               </p>
               <div id="method-i-example_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/command.rb, line 79</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">example</span>(<span class="ruby-identifier">example_invocation</span>,<span class="ruby-identifier">options</span> = {})
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">example</span>(<span class="ruby-identifier">example_invocation</span>,<span class="ruby-identifier">options</span> = {})
   <span class="ruby-ivar">@examples</span> <span class="ruby-operator">&lt;&lt;</span> {
-    <span class="ruby-identifier">example</span><span class="ruby-operator">:</span> <span class="ruby-identifier">example_invocation</span>
+    <span class="ruby-value">example:</span> <span class="ruby-identifier">example_invocation</span>
   }.<span class="ruby-identifier">merge</span>(<span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -594,7 +571,7 @@ end
               </p>
               <div id="method-i-name_for_help_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/command.rb, line 182</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">name_for_help</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">name_for_help</span>
   <span class="ruby-identifier">name_array</span> = [<span class="ruby-identifier">name</span>.<span class="ruby-identifier">to_s</span>]
   <span class="ruby-identifier">command_parent</span> = <span class="ruby-identifier">parent</span>
   <span class="ruby-keyword">while</span>(<span class="ruby-identifier">command_parent</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">GLI</span><span class="ruby-operator">::</span><span class="ruby-constant">Command</span>)) <span class="ruby-keyword">do</span>
@@ -607,7 +584,11 @@ end
             </div>
             
           </div>
-                    </div>
+        
+      
+    
+  
+</div>
 
     </div>
   </body>

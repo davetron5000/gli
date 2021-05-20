@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>GLI::Terminal</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
 <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
+
+    <meta property="og:title" value="GLI::Terminal">
+
+  
+    
+    <meta name="description" content="Class to encapsulate stuff about the terminal. This is useful to application developers as a canonical means to get information about the user&#39;s current terminal configuraiton.">
+    <meta property="og:description" content="Class to encapsulate stuff about the terminal. This is useful to application developers as a canonical means to get information about the user&#39;s current terminal configuraiton.">
+  
+
+    <meta name="keywords" content="GLI::Terminal class">
+  
+    <meta name="keywords" content="default_size, default_size=, instance, command_exists?, command_exists?, size">
+  
 </head>
 
 <body>
@@ -40,15 +51,9 @@
   
     <div class="description">
       
-<p>Class to encapsulate stuff about the terminal. This is useful to
-application developers as a canonical means to get information about the
-user&#39;s current terminal configuraiton. <a href="../GLI.html">GLI</a>
-uses this to determine the number of columns to use when printing to the
-screen.</p>
+<p>Class to encapsulate stuff about the terminal. This is useful to application developers as a canonical means to get information about the user&#39;s current terminal configuraiton. <a href="../GLI.html"><code>GLI</code></a> uses this to determine the number of columns to use when printing to the screen.</p>
 
-<p>To access it, use <a href="Terminal.html#method-c-instance">::instance</a>.
-This is a singleton mostly to facilitate testing, but it seems reasonable
-enough, since there&#39;s only one terminal in effect</p>
+<p>To access it, use <a href="Terminal.html#method-c-instance"><code>Terminal.instance</code></a>.  This is a singleton mostly to facilitate testing, but it seems reasonable enough, since there&#39;s only one terminal in effect</p>
 
 <p>Example:</p>
 
@@ -207,7 +212,7 @@ lambda { Terminal.default_size },
           
             <div class="description">
               <p>Returns true if the given command exists on this system</p>
-<dl class="rdoc-list note-list"><dt>command
+<dl class="rdoc-list note-list"><dt><code>command</code>
 <dd>
 <p>The command, as a String, to check for, without any path information.</p>
 </dd></dl>
@@ -229,7 +234,7 @@ lambda { Terminal.default_size },
               </p>
               <div id="method-c-command_exists-3F_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 45</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">command_exists?</span>(<span class="ruby-identifier">command</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">command_exists?</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-constant">ENV</span>[<span class="ruby-string">&#39;PATH&#39;</span>].<span class="ruby-identifier">split</span>(<span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">PATH_SEPARATOR</span>).<span class="ruby-identifier">any?</span> {<span class="ruby-operator">|</span><span class="ruby-identifier">dir</span><span class="ruby-operator">|</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">exist?</span> <span class="ruby-constant">File</span>.<span class="ruby-identifier">join</span>(<span class="ruby-identifier">dir</span>, <span class="ruby-identifier">command</span>) }
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -268,7 +273,7 @@ lambda { Terminal.default_size },
               </p>
               <div id="method-c-default_size_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 22</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">default_size</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">default_size</span>
   <span class="ruby-identifier">@@default_size</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -287,7 +292,7 @@ lambda { Terminal.default_size },
           
             <div class="description">
               <p>Set the default size of the terminal to use when we can&#39;t figure it out</p>
-<dl class="rdoc-list note-list"><dt>size
+<dl class="rdoc-list note-list"><dt><code>size</code>
 <dd>
 <p>array of two int [cols,rows]</p>
 </dd></dl>
@@ -309,7 +314,7 @@ lambda { Terminal.default_size },
               </p>
               <div id="method-c-default_size-3D_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 29</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">default_size=</span>(<span class="ruby-identifier">size</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">default_size=</span>(<span class="ruby-identifier">size</span>)
   <span class="ruby-identifier">@@default_size</span> = <span class="ruby-identifier">size</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -346,12 +351,14 @@ lambda { Terminal.default_size },
               </p>
               <div id="method-c-instance_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 34</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">self</span>.<span class="ruby-identifier">instance</span>; <span class="ruby-identifier">@@instance</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">new</span>; <span class="ruby-keyword">end</span></pre>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier ruby-title">instance</span>; <span class="ruby-identifier">@@instance</span> <span class="ruby-operator">||=</span> <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">new</span>; <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-                  
+        
+      
+    
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -383,7 +390,7 @@ lambda { Terminal.default_size },
               </p>
               <div id="method-i-command_exists-3F_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 49</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">command_exists?</span>(<span class="ruby-identifier">command</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">command_exists?</span>(<span class="ruby-identifier">command</span>)
   <span class="ruby-keyword">self</span>.<span class="ruby-identifier">class</span>.<span class="ruby-identifier">command_exists?</span>(<span class="ruby-identifier">command</span>)
 <span class="ruby-keyword">end</span></pre>
               </div>
@@ -401,11 +408,9 @@ lambda { Terminal.default_size },
 
           
             <div class="description">
-              <p>Get the size of the current terminal. Ripped from <a
-href="https://github.com/cldwalker/hirb/blob/master/lib/hirb/util.rb">hirb</a></p>
+              <p>Get the size of the current terminal. Ripped from <a href="https://github_com/cldwalker/hirb/blob/master/lib/hirb/util_rb.html">hirb</a></p>
 
-<p>Returns an Array of size two Ints representing the terminal width and
-height</p>
+<p>Returns an Array of size two Ints representing the terminal width and height</p>
             </div>
           
 
@@ -424,13 +429,13 @@ height</p>
               </p>
               <div id="method-i-size_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/terminal.rb, line 80</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">size</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">size</span>
   <span class="ruby-constant">SIZE_DETERMINERS</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">predicate</span>, <span class="ruby-identifier">get_size</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">next</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">predicate</span>.<span class="ruby-identifier">call</span>
     <span class="ruby-identifier">size</span> = <span class="ruby-identifier">get_size</span>.<span class="ruby-identifier">call</span>
-    <span class="ruby-keyword">return</span> <span class="ruby-identifier">size</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> [<span class="ruby-number">0</span>, <span class="ruby-number">0</span>]
+    <span class="ruby-keyword">return</span> <span class="ruby-identifier">size</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> [<span class="ruby-value">0</span>, <span class="ruby-value">0</span>]
   <span class="ruby-keyword">end</span>
-<span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">ex</span>
+<span class="ruby-keyword">rescue</span> <span class="ruby-constant">Exception</span> <span class="ruby-operator">=&gt;</span> <span class="ruby-identifier">ex</span>
   <span class="ruby-identifier">raise</span> <span class="ruby-identifier">ex</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@unsafe</span>
   <span class="ruby-constant">Terminal</span>.<span class="ruby-identifier">default_size</span>
 <span class="ruby-keyword">end</span></pre>
@@ -438,7 +443,11 @@ height</p>
             </div>
             
           </div>
-                    </div>
+        
+      
+    
+  
+</div>
 
     </div>
   </body>

@@ -326,3 +326,13 @@ font-size: 16px;
 .ruby-number {
   color: #40A070;
 }
+
+@keyframes highlight {
+  from { background-color: yellow; }
+  to { background-color: white; }
+}
+
+.highlight {
+  animation-name: highlight;
+  animation-duration: 1s;
+}

@@ -1,18 +1,29 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <title>GLI::RequestHelp</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="../../css/reset.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="../../css/github.css" type="text/css" media="screen" />
 <script src="../../js/jquery-1.3.2.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../js/jquery-effect.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/main.js" type="text/javascript" charset="utf-8"></script>
 <script src="../../js/highlight.pack.js" type="text/javascript" charset="utf-8"></script>
 
+
+    <meta property="og:title" value="GLI::RequestHelp">
+
+  
+    
+    <meta name="description" content="Hack to request help from within a command Will not be rethrown when GLI_DEBUG is ON.">
+    <meta property="og:description" content="Hack to request help from within a command Will not be rethrown when GLI_DEBUG is ON.">
+  
+
+    <meta name="keywords" content="GLI::RequestHelp class">
+  
+    <meta name="keywords" content="exit_code, new">
+  
 </head>
 
 <body>
@@ -40,8 +51,7 @@
   
     <div class="description">
       
-<p>Hack to request help from within a command Will <strong>not</strong> be
-rethrown when GLI_DEBUG is ON</p>
+<p>Hack to request help from within a command Will <strong>not</strong> be rethrown when GLI_DEBUG is ON</p>
 
     </div>
   
@@ -166,14 +176,16 @@ rethrown when GLI_DEBUG is ON</p>
               </p>
               <div id="method-c-new_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 18</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">initialize</span>(<span class="ruby-identifier">command_in_context</span>)
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">initialize</span>(<span class="ruby-identifier">command_in_context</span>)
   <span class="ruby-ivar">@command_in_context</span> = <span class="ruby-identifier">command_in_context</span>
 <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-                  
+        
+      
+    
       <div class="sectiontitle">Instance Public methods</div>
       
         <div class="method">
@@ -205,12 +217,16 @@ rethrown when GLI_DEBUG is ON</p>
               </p>
               <div id="method-i-exit_code_source" class="dyn-source">
                 <pre><span class="ruby-comment"># File lib/gli/exceptions.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword ruby-title">exit_code</span>; <span class="ruby-number">0</span>; <span class="ruby-keyword">end</span></pre>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier ruby-title">exit_code</span>; <span class="ruby-value">0</span>; <span class="ruby-keyword">end</span></pre>
               </div>
             </div>
             
           </div>
-                    </div>
+        
+      
+    
+  
+</div>
 
     </div>
   </body>

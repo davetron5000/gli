@@ -11,7 +11,13 @@ function toggleSource(id) {
 window.highlight = function(url) {
   var hash = url.match(/#([^#]+)$/);
   if (hash) {
-    $('a[name=' + hash[1] + ']').parent().effect('highlight', {}, 'slow');
+    var parent = document.querySelector('a[name=' + hash[1] + ']').parentElement;
+
+    parent.classList.add('highlight');
+
+    setTimeout(function() {
+      parent.classList.remove('highlight');
+    }, 1000);
   }
 };
 
