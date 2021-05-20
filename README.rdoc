@@ -2,9 +2,9 @@
 
 GLI allows you to create command-line app in Ruby that behaves like <tt>git</tt> in that it takes subcommands to perform a series of complex action, e.g. <tt>git remote add</tt>.
 
-* {Overview}[http://davetron5000.github.com/gli]
+* {Overview}[http://davetron5000.github.io/gli]
 * {Source on Github}[http://github.com/davetron5000/gli]
-* RDoc[http://davetron5000.github.com/gli/rdoc/index.html]
+* RDoc[http://davetron5000.github.io/gli/rdoc/index.html]
 
 {<img src="https://secure.travis-ci.org/davetron5000/gli.svg?branch=gli-2" alt="Build Status" />}[https://travis-ci.org/davetron5000/gli]
 
@@ -88,7 +88,7 @@ Now, you are ready to go:
 
 All you need to do is fill in the documentation and your code; the help system, command-line parsing and many other awesome features are all handled for you.
 
-Get a more detailed walkthrough on the {main site}[http://davetron5000.github.com/gli]
+Get a more detailed walkthrough on the {main site}[http://davetron5000.github.io/gli]
 
 == Supported Platforms
 
@@ -100,7 +100,7 @@ GLI should work on older Rubies and JRuby, but it's too much work to keep tests 
 
 Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].
 
-API Documentation is available {here}[http://davetron5000.github.com/gli/rdoc/index.html].  Recommend starting with GLI::DSL or GLI::App.
+API Documentation is available {here}[http://davetron5000.github.io/gli/rdoc/index.html].  Recommend starting with GLI::DSL or GLI::App.
 
 == Credits
 
@@ -110,7 +110,7 @@ License:: Distributes under the Apache License, see LICENSE.txt in the source di
 
 == Links
 
-* [http://davetron5000.github.com/gli] - RubyDoc
+* [http://davetron5000.github.io/gli] - RubyDoc
 * [http://www.github.com/davetron5000/gli] - Source on GitHub
 * [http://www.github.com/davetron5000/gli/wiki] - Documentation Wiki
 * [http://www.github.com/davetron5000/gli/wiki/Changelog] - Changelog
