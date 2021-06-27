@@ -77,12 +77,18 @@ desc "run unit tests"
 Rake::TestTask.new("test:unit") do |t|
   t.libs << "test"
   t.libs << "lib"
+  ENV["RUBYOPT"].split(/\s/).each do |opt|
+    t.ruby_opts << opt
+  end
   t.test_files = FileList["test/unit/**/*_test.rb"]
 end
 
 desc "run integration tests"
 Rake::TestTask.new("test:integration") do |t|
   t.libs << "test"
+  ENV["RUBYOPT"].split(/\s/).each do |opt|
+    t.ruby_opts << opt
+  end
   explicitly_named_files = ARGV[1..-1]
   if Array(explicitly_named_files).size == 0
     t.test_files = FileList["test/integration/**/*_test.rb"]
