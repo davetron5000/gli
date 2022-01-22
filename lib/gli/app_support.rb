@@ -15,6 +15,7 @@ module GLI
       switches.clear
       flags.clear
       @commands = nil
+      @command_missing_block = nil
       @commands_declaration_order = []
       @flags_declaration_order = []
       @switches_declaration_order = []
@@ -72,7 +73,8 @@ module GLI
                                                 :default_command => @default_command,
                                                 :autocomplete => autocomplete,
                                                 :subcommand_option_handling_strategy => subcommand_option_handling_strategy,
-                                                :argument_handling_strategy => argument_handling_strategy)
+                                                :argument_handling_strategy => argument_handling_strategy,
+                                                :command_missing_block => @command_missing_block)
 
         parsing_result = gli_option_parser.parse_options(args)
         parsing_result.convert_to_openstruct! if @use_openstruct

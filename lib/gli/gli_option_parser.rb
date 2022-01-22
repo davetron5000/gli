@@ -16,7 +16,7 @@ module GLI
       command_finder       = CommandFinder.new(commands,
                                                :default_command => (options[:default_command] || :help),
                                                :autocomplete => options[:autocomplete])
-      @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags)
+      @global_option_parser = GlobalOptionParser.new(OptionParserFactory.new(flags,switches,accepts),command_finder,flags, :command_missing_block => options[:command_missing_block])
       @accepts              = accepts
       if options[:argument_handling_strategy] == :strict && options[:subcommand_option_handling_strategy] != :normal
         raise ArgumentError, "To use strict argument handling, you must enable normal subcommand_option_handling, e.g. subcommand_option_handling :normal"
@@ -36,10 +36,11 @@ module GLI
   private
 
     class GlobalOptionParser
-      def initialize(option_parser_factory,command_finder,flags)
+      def initialize(option_parser_factory,command_finder,flags,options={})
         @option_parser_factory = option_parser_factory
         @command_finder        = command_finder
         @flags                 = flags
+        @options               = options
       end
 
       def parse!(parsing_result)
@@ -50,7 +51,16 @@ module GLI
                        else
                          parsing_result.arguments.shift
                        end
-        parsing_result.command        = @command_finder.find_command(command_name)
+        parsing_result.command        = begin
+          @command_finder.find_command(command_name)
+        rescue UnknownCommand => e
+          if @options[:command_missing_block]
+            command = @options[:command_missing_block].call(command_name.to_sym, parsing_result.global_options)
+            raise e unless command
+            command
+          end
+        end
+
         unless command_name == 'help'
           verify_required_options!(@flags, parsing_result.command, parsing_result.global_options)
         end
@@ -143,7 +153,7 @@ module GLI
             break
           rescue UnknownCommand
             arguments.unshift(next_command_name)
-            # Although command finder could certainy know if it should use
+            # Although command finder could certainly know if it should use
             # the default command, it has no way to put the "unknown command"
             # back into the argument stack.  UGH.
             unless command.get_default_command.nil?

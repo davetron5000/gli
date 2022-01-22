@@ -204,6 +204,10 @@ module GLI
     end
     alias :c :command
 
+    def command_missing(&block)
+      @command_missing_block = block
+    end
+
     def flags_declaration_order # :nodoc:
       @flags_declaration_order ||= []
     end
