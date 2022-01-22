@@ -201,6 +201,7 @@ module GLI
       end
       clear_nexts
       @next_arguments = []
+      command
     end
     alias :c :command
 

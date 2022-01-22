@@ -783,6 +783,36 @@ class GLITest < MiniTest::Test
     assert_equal %w(-f some_flag foo bar blah),argv
   end
 
+  def test_missing_command
+    @called = false
+    @app.command_missing do |command_name, global_options|
+      @app.command command_name do |c|
+        c.action do
+          @called = true
+        end
+      end
+    end
+
+    assert_equal 0, @app.run(['foobar']),"Expected exit status to be 0"
+    assert @called,"Expected missing command to be called"
+  end
+
+  def test_missing_command_not_handled
+    @app.command_missing do |command_name, global_options|
+      # do nothing, i.e. don't handle the command
+    end
+
+    assert_equal 64,@app.run(['foobar']),"Expected exit status to be 64"
+  end
+
+  def test_missing_command_returns_non_command_object
+    @app.command_missing do |command_name, global_options|
+      true
+    end
+
+    assert_equal 64,@app.run(['foobar']),"Expected exit status to be 64"
+  end
+
   private
 
   def do_test_flag_create(object)

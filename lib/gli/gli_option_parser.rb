@@ -54,11 +54,16 @@ module GLI
         parsing_result.command        = begin
           @command_finder.find_command(command_name)
         rescue UnknownCommand => e
-          if @options[:command_missing_block]
-            command = @options[:command_missing_block].call(command_name.to_sym, parsing_result.global_options)
-            raise e unless command
-            command
+          raise e unless @options[:command_missing_block]
+          command = @options[:command_missing_block].call(command_name.to_sym,parsing_result.global_options)
+          if command
+            unless command.is_a?(Command)
+              raise UnknownCommand.new("Expected the `command_missing` block to return a GLI::Command object, got a #{command.class.name} instead.")
+            end
+          else
+            raise e
           end
+          command
         end
 
         unless command_name == 'help'
