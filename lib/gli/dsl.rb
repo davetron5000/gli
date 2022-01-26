@@ -201,8 +201,13 @@ module GLI
       end
       clear_nexts
       @next_arguments = []
+      command
     end
     alias :c :command
+
+    def command_missing(&block)
+      @command_missing_block = block
+    end
 
     def flags_declaration_order # :nodoc:
       @flags_declaration_order ||= []
