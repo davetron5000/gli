@@ -16,7 +16,7 @@ jobs:                # keyword
       - run:
           command: "bin/setup"
       - run:
-          command: "bin/ci"
+          command: "bin/ci none"
 workflows:              # keyword
   all-rubies:           # my name for the workflow
     jobs:               # keyword
