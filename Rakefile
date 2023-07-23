@@ -106,5 +106,5 @@ end
 desc 'Publish rdoc on github pages and push to github'
 task :publish_rdoc => [:rdoc,:publish]
 
-task :default => ["test:unit", "test:integraton"]
+task :default => ["test:unit", "test:integration"]
 
