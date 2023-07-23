@@ -25,4 +25,4 @@ workflows:              # keyword
             parameters: # keyword
               # All rubies being maintained per this page:
               # https://www.ruby-lang.org/en/downloads/branches/
-              ruby-version: [ "2.5", "2.6", "2.7", "3.0" ]
+              ruby-version: [ "3.0", "3.1", "3.2" ]
