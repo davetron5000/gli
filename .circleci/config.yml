@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   # See https://circleci.com/developer/orbs/orb/circleci/ruby
-  ruby: circleci/ruby@1.4.0
+  ruby: circleci/ruby@2.0.1
 jobs:                # keyword
   test:              # my name for the job
     parameters:      # keyword
