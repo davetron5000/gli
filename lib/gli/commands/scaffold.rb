@@ -70,9 +70,9 @@ spec = Gem::Specification.new do |s|
   s.rdoc_options << '--title' << '#{project_name}' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
   s.executables << '#{project_name}'
-  s.add_development_dependency('rake','~> 0.9.2')
-  s.add_development_dependency('rdoc', '~> 4.3')
-  s.add_development_dependency('minitest', '~> 5.14')
+  s.add_development_dependency('rake')
+  s.add_development_dependency('rdoc')
+  s.add_development_dependency('minitest')
   s.add_runtime_dependency('gli','~> #{GLI::VERSION}')
 end
 EOS
