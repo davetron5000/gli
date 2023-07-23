@@ -36,7 +36,7 @@ class GLIPoweredAppTest < MiniTest::Test
 
   def test_doc_generation
     out, err, status = run_app("_doc", return_err_and_status: true)
-    assert File.exists?("todo.rdoc")
+    assert File.exist?("todo.rdoc")
   end
 
 private
