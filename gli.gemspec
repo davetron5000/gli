@@ -26,5 +26,5 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency("rdoc")
   s.add_development_dependency("rainbow", "~> 1.1", "~> 1.1.1")
   s.add_development_dependency("sdoc")
-  s.add_development_dependency("minitest")
+  s.add_development_dependency("minitest", "~> 5")
 end

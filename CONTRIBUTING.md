@@ -4,6 +4,8 @@ Contributions are welcome as long as they are part of my vision for GLI (or can 
 2. Create a branch off of main
 3. Make your changes:
    * Please include tests and watch out for reek and roodi; i.e. keep your code clean
+   * Note that you need to enable MT_COMPAT=true in your environment if you are invoking specs directly. 
+     This is already handled in the rake test tasks.
    * If you make changes to the gli executable or the scaffolding, please update the cucumber features
    * Please rubydoc any new methods and update the rubydoc to methods you change in the following format:
 ```ruby

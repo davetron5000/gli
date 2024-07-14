@@ -73,8 +73,15 @@ end
 
 Bundler::GemHelper.install_tasks
 
+namespace "test" do
+  desc "We need to turn on minitest compatibility mode so that `MiniTest` still works - the new constant is ``Minitest``"
+  task "minitest_compat" do
+    ENV["MT_COMPAT"] = "1"
+  end
+end
+
 desc "run unit tests"
-Rake::TestTask.new("test:unit") do |t|
+Rake::TestTask.new("test:unit" => "test:minitest_compat") do |t|
   t.libs << "test"
   t.libs << "lib"
   ENV["RUBYOPT"].split(/\s/).each do |opt|
@@ -84,7 +91,7 @@ Rake::TestTask.new("test:unit") do |t|
 end
 
 desc "run integration tests"
-Rake::TestTask.new("test:integration") do |t|
+Rake::TestTask.new("test:integration" => "test:minitest_compat") do |t|
   t.libs << "test"
   ENV["RUBYOPT"].split(/\s/).each do |opt|
     t.ruby_opts << opt
