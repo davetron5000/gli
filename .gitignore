@@ -11,3 +11,4 @@ results.html
 .DS_Store
 Session.vim
 scaffold_test
+dx/docker-compose.local.env

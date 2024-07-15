@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+
+. "${SCRIPT_DIR}/dx.sh.lib"
+
+require_command "docker"
+
+usage_on_help "Execute a command inside the app's container. Use enviornment variable SERVICE_NAME to execute inside another service" "command" "${@}"
+ensure_docker_compose_env
+
+CMD=$*
+
+if [ -z "$CMD" ]; then
+  log "😐" "You should specify a command to run e.g. $0 ls -l"
+  echo
+  usage
+fi
+
+SERVICE="${SERVICE_NAME:-${DEFAULT_SERVICE}}"
+log "🚂" "Running '$CMD' inside container with service name '${SERVICE}'"
+docker compose -f docker-compose.dx.yaml -p "${PROJECT_NAME}" --env-file "${ENV_FILE}" exec "${SERVICE}" "${@}"
+
+# vim: ft=bash

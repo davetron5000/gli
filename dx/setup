@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+
+. "${SCRIPT_DIR}/dx.sh.lib"
+require_command "docker"
+require_command "ruby"
+
+usage_on_help "Initialize your development environment" "command" "${@}"
+
+if [ -e "${LOCAL_ENV_FILE}" ]; then
+  fatal "You're already set up. Delete ${LOCAL_ENV_FILE_RELATIVE} and start over if you want to reset"
+fi
+
+while [ -z "${DOCKER_DEFAULT_PLATFORM}" ]; do
+  if ! command -v ruby > /dev/null 2>&1 ; then
+    PLATFORM_GUESS=""
+  else
+    PLATFORM_GUESS=$(docker version -f json | ruby -rjson -e "x = JSON.parse(STDIN.read)['Server']; puts x['Os'] + '/' + x['Arch']")
+  fi
+
+
+  user_input "💾" "Enter your 'Docker Platform' or type 'help' to get help on choosing" "${PLATFORM_GUESS}"
+  DOCKER_DEFAULT_PLATFORM="${INPUT}"
+  if [ "${DOCKER_DEFAULT_PLATFORM}" = "help" ]; then
+    log
+    log "ℹ️ " "Should be in format «os»/«arch» or «os»/«arch»/«variant»"
+    log
+    log "🪟" "If you are on an Intel or AMD chip, you most likely want linux/amd64"
+    log "🍎" "If you are on Apple Silicon, you most likely want linux/arm64/v8"
+    log "🤷" "Otherwise, prepare yourself:"
+    log
+    log "🕵️" "To figure this out you need to choose an os and an arch that match the list here:"
+    log "🌎" "https://go.dev/doc/install/source#environment"
+    log "🔎" "(search for GOOS on that page)"
+    log
+    log "😢" "For the variant, you are pretty much on your own, sorry"
+    log
+    DOCKER_DEFAULT_PLATFORM=""
+  fi
+done
+
+log "😷" "Creating ${LOCAL_ENV_FILE_RELATIVE}"
+echo "# This is specific to your computer and should not be checked in" > "${LOCAL_ENV_FILE}"
+{
+  echo "# If you have copied these from another computer, you may want"
+  echo "# to delete this file and re-run bin/set"
+  echo "DOCKER_DEFAULT_PLATFORM=${DOCKER_DEFAULT_PLATFORM}"
+  echo
+} >> "${LOCAL_ENV_FILE}"
+
+ensure_docker_compose_env
+
+log "🎉" "You are all set up. Try dx/build or dx/start"
+# vim: ft=bash

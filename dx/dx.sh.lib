@@ -1,0 +1,39 @@
+# shellcheck shell=bash
+
+. "${SCRIPT_DIR}/setupkit.sh.lib"
+
+require_command "realpath"
+require_command "cat"
+
+ENV_FILE=$(realpath "${SCRIPT_DIR}")/docker-compose.env
+BASE_ENV_FILE=$(realpath "${SCRIPT_DIR}")/docker-compose.base.env
+LOCAL_ENV_FILE=$(realpath "${SCRIPT_DIR}")/docker-compose.local.env
+
+DOT_DOT=$(realpath "${SCRIPT_DIR}/..")/
+ENV_FILE_RELATIVE=${ENV_FILE//"${DOT_DOT}"/}
+BASE_ENV_FILE_RELATIVE=${BASE_ENV_FILE//"${DOT_DOT}"/}
+LOCAL_ENV_FILE_RELATIVE=${LOCAL_ENV_FILE//"${DOT_DOT}"/}
+
+ensure_docker_compose_env() {
+  if [ ! -e "${ENV_FILE}" ]; then
+    if [ ! -e "${LOCAL_ENV_FILE}" ]; then
+      fatal "Looks like you have not set up yet. Please run dx/setup"
+    else
+      log "🗄" "Creating ${ENV_FILE_RELATIVE} from ${LOCAL_ENV_FILE_RELATIVE} and ${BASE_ENV_FILE_RELATIVE}"
+      echo "# This is generated - do not edit" > "${ENV_FILE}"
+      {
+        echo "#"
+        echo "# To make changes for the project, edit ${BASE_ENV_FILE_RELATIVE}"
+        echo "# To make changes for your computer, edit ${LOCAL_ENV_FILE_RELATIVE}"
+        echo "# Delete this file after changing either of those"
+        echo "#"
+        echo ""
+        cat "${BASE_ENV_FILE}"
+        grep -v ^# "${LOCAL_ENV_FILE}"
+      } >> "${ENV_FILE}"
+    fi
+  fi
+  # shellcheck disable=SC1090
+  . "${ENV_FILE}"
+}
+# vim: ft=bash
