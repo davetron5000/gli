@@ -80,6 +80,9 @@ Rake::TestTask.new("test:unit") do |t|
   ENV["RUBYOPT"].split(/\s/).each do |opt|
     t.ruby_opts << opt
   end
+  if t.ruby_opts.none? { |x| x =~ /^\-W/ }
+    t.ruby_opts << "-W0"
+  end
   t.test_files = FileList["test/unit/**/*_test.rb"]
 end
 
@@ -88,6 +91,9 @@ Rake::TestTask.new("test:integration") do |t|
   t.libs << "test"
   ENV["RUBYOPT"].split(/\s/).each do |opt|
     t.ruby_opts << opt
+  end
+  if t.ruby_opts.none? { |x| x =~ /^\-W/ }
+    t.ruby_opts << "-W0"
   end
   explicitly_named_files = ARGV[1..-1]
   if Array(explicitly_named_files).size == 0
