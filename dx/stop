@@ -6,14 +6,18 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
 
 . "${SCRIPT_DIR}/dx.sh.lib"
 require_command "docker"
+load_docker_compose_env
 
-usage_on_help "Stops all services, the container in which to run your app and removes any volumes" "" "${@}"
-ensure_docker_compose_env
+usage_on_help "Stops all services, the container in which to run your app and removes any volumes" "" "" "" "${@}"
 
-log "🚀" "Starting docker-compose.dx.yml"
+log "🚀" "Stopping docker-compose.dx.yml"
 
-log "🚉" "Exporting DOCKER_DEFAULT_PLATFORM as '${DOCKER_DEFAULT_PLATFORM}'"
-export DOCKER_DEFAULT_PLATFORM
-docker compose -f docker-compose.dx.yml -p "${PROJECT_NAME}" --env-file "${ENV_FILE}" down -v
+docker \
+  compose \
+    --file docker-compose.dx.yml \
+    --project-name "${PROJECT_NAME}" \
+    --env-file "${ENV_FILE}" \
+  down \
+    --volumes
 
 # vim: ft=bash

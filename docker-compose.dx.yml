@@ -1,11 +1,8 @@
+# THIS IS GENERATED - DO NOT EDIT
+
 services:
-  app:
-    image: ${IMAGE}
-    build:
-      context: "./"
-      dockerfile: "Dockerfile.dx"
-    platform: ${DOCKER_DEFAULT_PLATFORM}
-    pull_policy: "missing"
+  gli-3.1:
+    image: davetron5000/gli-dev:ruby-3.1
     init: true
     volumes:
       - type: bind
@@ -14,4 +11,23 @@ services:
         consistency: "consistent"
     entrypoint: /root/show-help-in-app-container-then-wait.sh
     working_dir: /root/work
-
+  gli-3.2:
+    image: davetron5000/gli-dev:ruby-3.2
+    init: true
+    volumes:
+      - type: bind
+        source: "./"
+        target: "/root/work"
+        consistency: "consistent"
+    entrypoint: /root/show-help-in-app-container-then-wait.sh
+    working_dir: /root/work
+  gli-3.3:
+    image: davetron5000/gli-dev:ruby-3.3
+    init: true
+    volumes:
+      - type: bind
+        source: "./"
+        target: "/root/work"
+        consistency: "consistent"
+    entrypoint: /root/show-help-in-app-container-then-wait.sh
+    working_dir: /root/work

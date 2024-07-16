@@ -16,32 +16,59 @@ log() {
   if [ -z "${NO_EMOJI}" ]; then
     echo "[ ${0} ] ${*}"
   else
+    # if remainder is empty that means no emoji was passed
     if [ -z "$remainder" ]; then
       echo "[ ${0} ] ${*}"
-    else
+    else # emoji was passed, but we ignore it
       echo "[ ${0} ] ${remainder}"
     fi
   fi
 }
 
+debug() {
+  message=$1
+  if [ -z "${DOCKBOX_DEBUG}" ]; then
+    return
+  fi
+  log "🐛" "${message}"
+}
+
 usage() {
-  echo "usage: ${0} [-h] ${extra_usage}"
-  if [ -n "$1" ]; then
+  description=$1
+  arg_names=$2
+  pre_hook=$3
+  post_hook=$4
+  echo "usage: ${0} [-h] ${arg_names}"
+  if [ -n "${description}" ]; then
     echo
     echo "DESCRIPTION"
     echo "    ${description}"
+  fi
+  if [ -n "${pre_hook}" ] || [ -n "${post_hook}" ]; then
+    echo
+    echo "HOOKS"
+    if [ -n "${pre_hook}" ]; then
+      echo "    ${pre_hook} - if present, called before the main action"
+    fi
+    if [ -n "${post_hook}" ]; then
+      echo "    ${post_hook} - if present, called after the main action"
+    fi
   fi
   exit 0
 }
 
 usage_on_help() {
   description=$1
-  extra_usage=$2
-  cli_args=( "${@:3}" ) 
+  arg_names=$2
+  pre_hook=$3
+  post_hook=$4
+  # These are the args passed to the invocation so this
+  # function can determine if the user requested help
+  cli_args=( "${@:5}" ) 
 
   for arg in "${cli_args[@]}"; do
     if [ "${arg}" = "-h" ] || [ "${arg}" = "--help" ]; then
-      usage "${description}"
+      usage "${description}" "${arg_names}" "${pre_hook}" "${post_hook}"
     fi
   done
 }
@@ -71,7 +98,7 @@ user_input() {
   if [ -z "${prompt}" ]; then
     prompt=$(log "${emoji}" "Value: ")
     if [ -n "${default}" ]; then
-      prompt=$(log "${emoji}" "Value (or hit return to use '${default}): ")
+      prompt=$(log "${emoji}" "Value (or hit return to use '${default}'): ")
     fi
   fi
 

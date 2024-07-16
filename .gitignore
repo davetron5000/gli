@@ -12,3 +12,6 @@ results.html
 Session.vim
 scaffold_test
 dx/docker-compose.local.env
+docker-compose.dx.yml
+.tool-versions
+.ruby-version
