@@ -35,7 +35,7 @@ log "✨" "Creating docker-compose.dx.yml"
 compose_file="docker-compose.dx.yml"
 log "🗑️" "Deleting previous ${compose_file}"
 
-rm "${compose_file}"
+rm -f "${compose_file}"
 echo "# THIS IS GENERATED - DO NOT EDIT" > "${compose_file}"
 echo "" >> "${compose_file}"
 echo "services:" >> "${compose_file}"
@@ -54,7 +54,7 @@ for ruby_version in ${RUBY_VERSIONS[@]}; do
   echo "    entrypoint: /root/show-help-in-app-container-then-wait.sh" >> "${compose_file}"
   echo "    working_dir: /root/work" >> "${compose_file}"
 done
-log "🎼" "${compose_file} is noq created"
+log "🎼" "${compose_file} is now created"
 log "🔄" "You can run dx/start to start it up, though you may need to stop it first with Ctrl-C"
 
 # vim: ft=bash

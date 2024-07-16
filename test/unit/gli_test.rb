@@ -81,6 +81,25 @@ class GLITest < Minitest::Test
 
   end
 
+  def test_command_options_accepting_multiple_values_can_be_required
+    @app.reset
+    @called = false
+    @app.command :foo do |c|
+      c.flag :flag, :required => true, :multiple => true
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
+    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert !@called
+
+    assert_equal 0, @app.run(['foo','--flag=bar']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
+    assert @called
+
+  end
+
   def test_global_options_can_be_required
     @app.reset
     @called = false
@@ -98,6 +117,25 @@ class GLITest < Minitest::Test
     assert !@called
 
     assert_equal 0, @app.run(['--flag=bar','--other_flag=blah','foo']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
+    assert @called
+
+  end
+
+  def test_global_options_accepting_multiple_can_be_required
+    @app.reset
+    @called = false
+    @app.flag :flag, :required => true, :multiple => true
+    @app.command :foo do |c|
+      c.action do |global, options, arguments|
+        @called = true
+      end
+    end
+    assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
+    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert !@called
+
+    assert_equal 0, @app.run(['--flag=bar','foo']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
     assert @called
 
   end
@@ -160,6 +198,7 @@ class GLITest < Minitest::Test
     assert called
     raise failure if !failure.nil?
   end
+
 
   def test_command_line_overrides_config
     failure = nil

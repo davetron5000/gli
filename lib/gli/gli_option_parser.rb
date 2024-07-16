@@ -109,9 +109,10 @@ module GLI
       def verify_required_options!(flags, command, options)
         missing_required_options = flags.values.
           select(&:required?).
-          reject { |option|
-            options[option.name] != nil
-        }
+          select { |option|
+            options[option.name] == nil ||
+            ( options[option.name].kind_of?(Array) && options[option.name].empty? )
+          }
         unless missing_required_options.empty?
           missing_required_options.sort!
           raise MissingRequiredArgumentsException.new(missing_required_options.map { |option|
