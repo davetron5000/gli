@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class CompoundCommandFinderTest < MiniTest::Test
+class CompoundCommandFinderTest < Minitest::Test
   include TestHelper
 
   def test_exception_for_missing_commands

@@ -1,7 +1,7 @@
 require_relative "test_helper"
 require_relative "support/fake_std_out"
 
-class SubcommandsTest < MiniTest::Test
+class SubcommandsTest < Minitest::Test
   include TestHelper
 
   def setup

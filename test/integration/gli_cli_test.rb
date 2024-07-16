@@ -1,7 +1,7 @@
 require_relative "test_helper"
 require "open3"
 
-class GLICLITest < MiniTest::Test
+class GLICLITest < Minitest::Test
   include TestHelper
 
   class AppHelp < GLICLITest

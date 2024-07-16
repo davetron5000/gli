@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class TerminalTest < MiniTest::Test
+class TerminalTest < Minitest::Test
   include TestHelper
 
   # TODO: Make this test not mess with the internals of the class

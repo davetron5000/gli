@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class TerminalTest < MiniTest::Test
+class TerminalTest < Minitest::Test
   include TestHelper
 
   def test_handles_nil

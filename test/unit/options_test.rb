@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class OptiosnTest < MiniTest::Test
+class OptiosnTest < Minitest::Test
   include TestHelper
 
   def test_by_method

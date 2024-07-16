@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class CommandFinderTest < MiniTest::Test
+class CommandFinderTest < Minitest::Test
   include TestHelper
 
   def setup

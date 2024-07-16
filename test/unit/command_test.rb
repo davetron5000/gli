@@ -1,7 +1,7 @@
 require_relative "test_helper"
 require_relative "support/fake_std_out"
 
-class CommandTest < MiniTest::Test
+class CommandTest < Minitest::Test
   include TestHelper
   def setup
     @fake_stdout = FakeStdOut.new
