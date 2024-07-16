@@ -121,7 +121,7 @@ Rake::RDocTask.new do |rd|
   rd.title = 'Your application title'
 end
 
-spec = eval(File.read('#{project_name}.gemspec'))
+spec = Gem::Specification.load("#{project_name}.gemspec")
 
 Gem::PackageTask.new(spec) do |pkg|
 end

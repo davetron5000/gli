@@ -1,7 +1,7 @@
 require_relative "test_helper"
 require "open3"
 
-class GLIPoweredAppTest < MiniTest::Test
+class GLIPoweredAppTest < Minitest::Test
   include TestHelper
 
   def teardown

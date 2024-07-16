@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class FlagTest < MiniTest::Test
+class FlagTest < Minitest::Test
   include TestHelper
 
   def test_basics_simple

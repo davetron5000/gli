@@ -1,7 +1,7 @@
 require_relative "test_helper"
 require "open3"
 
-class ScaffoldCommandTest < MiniTest::Test
+class ScaffoldCommandTest < Minitest::Test
   include TestHelper
 
   def test_scaffolded_app_has_reasonable_setup

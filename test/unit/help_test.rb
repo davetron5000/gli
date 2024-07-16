@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class HelpTest < MiniTest::Test
+class HelpTest < Minitest::Test
   include TestHelper
 
   def setup

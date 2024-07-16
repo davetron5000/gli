@@ -1,6 +1,6 @@
 require_relative "test_helper"
 
-class SwitchTest < MiniTest::Test
+class SwitchTest < Minitest::Test
   include TestHelper
 
   def test_basics_simple

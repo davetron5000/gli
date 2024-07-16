@@ -92,15 +92,19 @@ Get a more detailed walkthrough on the {main site}[http://davetron5000.github.io
 
 == Supported Platforms
 
-See `.circleci/config.yml` for the supported rubies, but general we're running tests on the all MRI rubies receiving support, which tends to be the most recent four versions.
+See `dx/docker-compose.env` and the variable `RUBY_VERSIONS` for the versions that are supported.  This should generally track with the supported version of Ruby from Ruby's maintainers.
 
-GLI should work on older Rubies and JRuby, but it's too much work to keep tests passing for those.
+That said, GLI should generally work on other Rubies as it doesn't have any runtime dependencies and there are no plans to use more modern features of Ruby in the codebase.
 
 == Documentation
 
 Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].
 
 API Documentation is available {here}[http://davetron5000.github.io/gli/rdoc/index.html].  Recommend starting with GLI::DSL or GLI::App.
+
+== Developing
+
+See `CONTRIBUTING.md`
 
 == Credits
 

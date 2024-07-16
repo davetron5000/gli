@@ -18,7 +18,7 @@ class Object
   end
 end
 
-class DocTest < MiniTest::Test
+class DocTest < Minitest::Test
   include TestHelper
 
   class TestApp
