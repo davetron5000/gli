@@ -1,29 +1,17 @@
 #!/bin/bash
 
 set -e
-if [ -z $1 ]; then
-  echo "[bin/ci] Running with default warnings"
-  export RUBYOPT=
-else
-  if [ $1 == 'warnings' ]; then
-    echo "[bin/ci] Running with all warnings on"
-    export RUBYOPT=-w
-  else
-    if [ $1 == 'none' ]; then
-      echo "[bin/ci] Running with all warnings off"
-      export RUBYOPT='-W0'
-    else
-      echo "[bin/ci] '$1' is not a supported option"
-      echo "[bin/ci] usage: $0          # run with default warnings"
-      echo "[bin/ci] usage: $0 warnings # run with all warnings"
-      echo "[bin/ci] usage: $0 none     # run with warnings disabled"
-      exit 1
-    fi
-  fi
-fi
 
-echo "[bin/ci] Running unit tests"
-bin/rake test:unit
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+DX_DIR="${SCRIPT_DIR}/../dx"
 
-echo "[bin/ci] Running integration tests"
-bin/rake test:integration
+. "${DX_DIR}/docker-compose.env"
+. "${DX_DIR}/setupkit.sh.lib"
+
+for ruby_version in ${RUBY_VERSIONS[@]}; do
+  log "Setting up for Ruby version '${ruby_version}'"
+  dx/exec -v ${ruby_version} bin/setup
+  log "Running tests for Ruby version '${ruby_version}'"
+  dx/exec -v ${ruby_version} bin/rake
+done
+

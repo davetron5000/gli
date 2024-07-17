@@ -53,6 +53,9 @@ checked-out files, the other containers will have access as well.
 2. `inside-docker-container> bin/setup # installs all gems`
 3. `inside-docker-container> bin/rake  # runs all tests`
 
+You can also try using `bin/ci` on your computer (not inside a Docker container), which will run tests across the entire build
+matrix.
+
 #### If You Want To Use Your Local Computer
 
 In theory, GLI can be worked on using RVM, RBEnv, asdf, or whatever other way you want to manage Ruby.  You can create a
