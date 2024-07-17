@@ -12,6 +12,15 @@ spec = Gem::Specification.new do |s|
   s.summary = "Build command-suite CLI apps that are awesome."
   s.description = "Build command-suite CLI apps that are awesome.  Bootstrap your app, add commands, options and documentation while maintaining a well-tested idiomatic command-line app"
 
+  s.metadata = {
+    'bug_tracker_uri'   => 'https://github.com/davetron5000/gli/issues',
+    'changelog_uri'     => 'https://github.com/davetron5000/gli/releases',
+    'documentation_uri' => 'http://davetron5000.github.io/gli/rdoc/index.html',
+    'homepage_uri'      => 'https://davetron5000.github.com/gli/',
+    'source_code_uri'   => 'https://github.com/davetron5000/gli/',
+    'wiki_url'          => 'https://github.com/davetron5000/gli/wiki',
+  }
+
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths = ["lib"]
