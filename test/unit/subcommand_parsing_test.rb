@@ -78,8 +78,8 @@ class SubcommandParsingTest < Minitest::Test
     setup_app_with_subcommand_storing_results :normal, false, :strict
     @app.run(%w(-f global command -f flag -s subcomm  -f subflag))
     with_clue {
+      assert       @fake_stderr.contained?(/expected no arguments, but received 3/)
       assert_equal nil,@results[:command_name]
-      assert       @fake_stderr.contained?(/error: Too many arguments for command/)
     }
   end
 
@@ -123,8 +123,8 @@ class SubcommandParsingTest < Minitest::Test
       with_clue {
         assert_equal number_generated, @results[:number_of_args_give_to_action]
         assert_equal 0, @exit_code
-        assert !@fake_stderr.contained?(/Not enough arguments for command/)
-        assert !@fake_stderr.contained?(/Too many arguments for command/)
+        assert !@fake_stderr.contained?(/expected at least/)
+        assert !@fake_stderr.contained?(/expected only/)
       }
     end
   end
@@ -144,11 +144,15 @@ class SubcommandParsingTest < Minitest::Test
         if status == :not_enough then
           assert_nil @results[:number_of_args_give_to_action]
           assert_equal 64, @exit_code
-          assert @fake_stderr.contained?(/Not enough arguments for command/)
+          assert @fake_stderr.contained?(/expected at least #{number_required} arguments, but was given only #{number_generated}/)
         elsif status == :too_many then
           assert_nil @results[:number_of_args_give_to_action]
           assert_equal 64, @exit_code
-          assert @fake_stderr.contained?(/Too many arguments for command/)
+          if number_required == 0
+            assert @fake_stderr.contained?(/expected no arguments, but received #{number_generated}/)
+          else
+            assert @fake_stderr.contained?(/expected only #{number_required + number_optional} arguments, but received #{number_generated}/)
+          end
         else
           assert false
         end

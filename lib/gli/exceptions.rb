@@ -59,14 +59,45 @@ module GLI
     end
   end
 
-  class MissingRequiredArgumentsException < BadCommandLine
+  class BadCommandOptionsOrArguments < BadCommandLine
     # The command for which the argument was unknown
     attr_reader :command_in_context
-    # +message+:: the error message to show the user
-    # +command+:: the command we were using to parse command-specific options
     def initialize(message,command)
       super(message)
       @command_in_context = command
+    end
+  end
+
+  class MissingRequiredArgumentsException < BadCommandOptionsOrArguments
+    # +message+:: the error message to show the user
+    # +command+:: the command we were using to parse command-specific options
+    def initialize(message,command)
+      super(message,command)
+    end
+  end
+
+  class TooFewArgumentsException < MissingRequiredArgumentsException
+    def initialize(command,num_arguments_received,min_number_of_arguments)
+      message = "#{command.name} expected at least #{min_number_of_arguments} arguments, but was given only #{num_arguments_received}"
+      super(message,command)
+    end
+  end
+  class TooManyArgumentsException < MissingRequiredArgumentsException
+    def initialize(command,num_arguments_received,max_number_of_arguments)
+      message = if max_number_of_arguments == 0
+                  "#{command.name} expected no arguments, but received #{num_arguments_received}"
+                else
+                  "#{command.name} expected only #{max_number_of_arguments} arguments, but received #{num_arguments_received}"
+                end
+      super(message,command)
+    end
+  end
+
+  class MissingRequiredOptionsException < BadCommandOptionsOrArguments
+    def initialize(command,missing_required_options)
+      message = "#{command.name} requires these options: "
+      required_options = missing_required_options.sort.map(&:name).join(", ")
+      super(message + required_options,command)
     end
   end
 

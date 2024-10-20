@@ -71,9 +71,8 @@ class GLITest < Minitest::Test
       end
     end
     assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
-    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
-    assert  @fake_stderr.contained?(/other_flag is required/), @fake_stderr.strings.inspect
-    assert  @fake_stderr.contained?(/flag is required, other_flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/requires these options.*flag/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/requires these options.*other_flag/), @fake_stderr.strings.inspect
     assert !@called
 
     assert_equal 0, @app.run(['foo','--flag=bar','--other_flag=blah']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
@@ -91,8 +90,7 @@ class GLITest < Minitest::Test
       end
     end
     assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
-    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
-    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/requires these options.*flag/), @fake_stderr.strings.inspect
     assert !@called
 
     assert_equal 0, @app.run(['foo','--flag=bar']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
@@ -111,9 +109,8 @@ class GLITest < Minitest::Test
       end
     end
     assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
-    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
-    assert  @fake_stderr.contained?(/other_flag is required/), @fake_stderr.strings.inspect
-    assert  @fake_stderr.contained?(/flag is required, other_flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/requires these options.*flag/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/requires these options.*other_flag/), @fake_stderr.strings.inspect
     assert !@called
 
     assert_equal 0, @app.run(['--flag=bar','--other_flag=blah','foo']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"
@@ -131,8 +128,7 @@ class GLITest < Minitest::Test
       end
     end
     assert_equal 64, @app.run(['foo']), "Expected exit status to be 64"
-    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
-    assert  @fake_stderr.contained?(/flag is required/), @fake_stderr.strings.inspect
+    assert  @fake_stderr.contained?(/requires these options.*flag/), @fake_stderr.strings.inspect
     assert !@called
 
     assert_equal 0, @app.run(['--flag=bar','foo']), "Expected exit status to be 0 #{@fake_stderr.strings.join(',')}"

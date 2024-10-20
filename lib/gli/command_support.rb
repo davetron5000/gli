@@ -127,7 +127,7 @@ module GLI
     end
 
     # Executes the command
-    def execute(global_options,options,arguments) 
+    def execute(global_options,options,arguments)
       get_action(arguments).call(global_options,options,arguments)
     end
 
