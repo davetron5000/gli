@@ -44,11 +44,9 @@ SYNOPSIS
 VERSION
     <%= @app.version_string %>
 
-<% end %>
-<% unless global_flags_and_switches.empty? %>
+<% end %><% unless global_flags_and_switches.empty? %>
 GLOBAL OPTIONS
 <%= global_option_descriptions %>
-
 <% end %>
 COMMANDS
 <%= commands %>))

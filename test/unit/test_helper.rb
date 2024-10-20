@@ -1,5 +1,6 @@
 require "minitest/autorun"
 require "gli"
+require "pp"
 
 module TestHelper
   class CLIApp
