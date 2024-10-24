@@ -69,28 +69,22 @@ module GLI
   end
 
   class MissingRequiredArgumentsException < BadCommandOptionsOrArguments
-    # +message+:: the error message to show the user
-    # +command+:: the command we were using to parse command-specific options
-    def initialize(message,command)
-      super(message,command)
-    end
-  end
+    attr_reader :num_arguments_received, :range_arguments_accepted
+    def initialize(command,num_arguments_received,range_arguments_accepted)
 
-  class TooFewArgumentsException < MissingRequiredArgumentsException
-    def initialize(command,num_arguments_received,min_number_of_arguments)
-      message = "#{command.name} expected at least #{min_number_of_arguments} arguments, but was given only #{num_arguments_received}"
-      super(message,command)
-    end
-  end
-  class TooManyArgumentsException < MissingRequiredArgumentsException
-    def initialize(command,num_arguments_received,max_number_of_arguments)
-      message = if max_number_of_arguments == 0
-                  "#{command.name} expected no arguments, but received #{num_arguments_received}"
+      @num_arguments_received   = num_arguments_received
+      @range_arguments_accepted = range_arguments_accepted
+
+      message = if @num_arguments_received < @range_arguments_accepted.min
+                  "#{command.name} expected at least #{@range_arguments_accepted.min} arguments, but was given only #{@num_arguments_received}"
+                elsif @range_arguments_accepted.min == 0
+                  "#{command.name} expected no arguments, but received #{@num_arguments_received}"
                 else
-                  "#{command.name} expected only #{max_number_of_arguments} arguments, but received #{num_arguments_received}"
+                  "#{command.name} expected only #{@range_arguments_accepted.max} arguments, but received #{@num_arguments_received}"
                 end
       super(message,command)
     end
+
   end
 
   class MissingRequiredOptionsException < BadCommandOptionsOrArguments

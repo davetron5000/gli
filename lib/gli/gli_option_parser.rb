@@ -98,12 +98,13 @@ module GLI
         end
 
         # Now validate the number of arguments
-        if arguments.size < min_number_of_arguments
-          raise TooFewArgumentsException.new(command,arguments.size,min_number_of_arguments)
+        num_arguments_range = min_number_of_arguments..max_number_of_arguments
+        if !num_arguments_range.cover?(arguments.size)
+          raise MissingRequiredArgumentsException.new(command,arguments.size,num_arguments_range)
         end
-        if arguments.size > max_number_of_arguments
-          raise TooManyArgumentsException.new(command,arguments.size,max_number_of_arguments)
-        end
+        #if arguments.size > max_number_of_arguments
+        #  raise TooManyArgumentsException.new(command,arguments.size,max_number_of_arguments)
+        #end
       end
 
       def verify_required_options!(flags, command, options)
