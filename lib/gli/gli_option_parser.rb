@@ -98,12 +98,13 @@ module GLI
         end
 
         # Now validate the number of arguments
-        if arguments.size < min_number_of_arguments
-          raise MissingRequiredArgumentsException.new("Not enough arguments for command", command)
+        num_arguments_range = min_number_of_arguments..max_number_of_arguments
+        if !num_arguments_range.cover?(arguments.size)
+          raise MissingRequiredArgumentsException.new(command,arguments.size,num_arguments_range)
         end
-        if arguments.size > max_number_of_arguments
-          raise MissingRequiredArgumentsException.new("Too many arguments for command", command)
-        end
+        #if arguments.size > max_number_of_arguments
+        #  raise TooManyArgumentsException.new(command,arguments.size,max_number_of_arguments)
+        #end
       end
 
       def verify_required_options!(flags, command, options)
@@ -114,10 +115,7 @@ module GLI
             ( options[option.name].kind_of?(Array) && options[option.name].empty? )
           }
         unless missing_required_options.empty?
-          missing_required_options.sort!
-          raise MissingRequiredArgumentsException.new(missing_required_options.map { |option|
-            "#{option.name} is required"
-          }.join(', '), command)
+          raise MissingRequiredOptionsException.new(command,missing_required_options)
         end
       end
     end

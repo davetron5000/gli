@@ -31,26 +31,18 @@ module GLI
 SYNOPSIS
 <% synopses.each do |s| %>
     <%= s %>
-<% end %>
-<% unless @command.long_description.nil? %>
+<% end %><% unless @command.long_description.nil? %>
 
 DESCRIPTION
     <%= wrapper.wrap(@command.long_description) %> 
-<% end %>
-<% if options_description.strip.length != 0 %>
-
+<% end %><% if options_description.strip.length != 0 %>
 COMMAND OPTIONS
 <%= options_description %>
-<% end %>
-<% unless @command.commands.empty? %>
-
+<% end %><% unless @command.commands.empty? %>
 COMMANDS
 <%= commands_description %>
-<% end %>
-<% unless @command.examples.empty? %>
-
+<% end %><% unless @command.examples.empty? %>
 <%= @command.examples.size == 1 ? 'EXAMPLE' : 'EXAMPLES' %>
-
 
 <%= command_examples %>
 <% end %>))

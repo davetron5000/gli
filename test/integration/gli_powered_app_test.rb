@@ -29,7 +29,7 @@ class GLIPoweredAppTest < Minitest::Test
 
   def test_missing_args_exits_nonzero
     out, err, status = run_app("list", expect_failure: true, return_err_and_status: true)
-    assert_match /required_flag is required, required_flag2 is required/,err
+    assert_match /list requires these options: required_flag, required_flag2/,err
     assert_equal 64, status.exitstatus
     assert_match /COMMAND OPTIONS/, out
   end
