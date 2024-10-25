@@ -102,9 +102,6 @@ module GLI
         if !num_arguments_range.cover?(arguments.size)
           raise MissingRequiredArgumentsException.new(command,arguments.size,num_arguments_range)
         end
-        #if arguments.size > max_number_of_arguments
-        #  raise TooManyArgumentsException.new(command,arguments.size,max_number_of_arguments)
-        #end
       end
 
       def verify_required_options!(flags, command, options)
