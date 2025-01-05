@@ -37,6 +37,7 @@ log "🗑️" "Deleting previous ${compose_file}"
 
 rm -f "${compose_file}"
 echo "# THIS IS GENERATED - DO NOT EDIT" > "${compose_file}"
+echo "# To make changes see dx/build or dx/docker-compose.env" >> "${compose_file}"
 echo "" >> "${compose_file}"
 echo "services:" >> "${compose_file}"
 
