@@ -31,6 +31,8 @@ spec = Gem::Specification.new do |s|
   s.bindir      = "exe"
   s.executables = "gli"
 
+  s.add_dependency("ostruct")
+
   s.add_development_dependency("rake")
   s.add_development_dependency("rdoc")
   s.add_development_dependency("rainbow", "~> 1.1", "~> 1.1.1")
