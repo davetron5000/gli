@@ -16,7 +16,7 @@ spec = Gem::Specification.new do |s|
     'bug_tracker_uri'   => 'https://github.com/davetron5000/gli/issues',
     'changelog_uri'     => 'https://github.com/davetron5000/gli/releases',
     'documentation_uri' => 'https://davetron5000.github.io/gli/rdoc/index.html',
-    'homepage_uri'      => 'https://davetron5000.github.com/gli/',
+    'homepage_uri'      => 'https://davetron5000.github.io/gli/',
     'source_code_uri'   => 'https://github.com/davetron5000/gli/',
     'wiki_url'          => 'https://github.com/davetron5000/gli/wiki',
   }
