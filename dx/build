@@ -9,7 +9,17 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
 require_command "docker"
 load_docker_compose_env
 
+user_uid=$(id -u)
+user_gid=$(id -g)
+
 usage_on_help "Builds the Docker image based on the Dockerfile" "" "build.pre" "build.post" "${@}"
+
+if [ ! -f "${SCRIPT_DIR}/bash_customizations.local" ] ; then
+  log "'${SCRIPT_DIR}/bash_customizations.local}' doesn't exist. Creating it"
+  echo "# Add per-developer customizations here - this won't be checked in" > "${SCRIPT_DIR}/bash_customizations.local"
+else
+  log "'${SCRIPT_DIR}/bash_customizations.local}' exists"
+fi
 
 for ruby_version in ${RUBY_VERSIONS[@]}; do
   dockerfile="Dockerfile.dx"
@@ -21,6 +31,8 @@ for ruby_version in ${RUBY_VERSIONS[@]}; do
 
   docker build \
     --file "${dockerfile}" \
+    --build-arg="user_gid=${user_gid}" \
+    --build-arg="user_uid=${user_uid}" \
     --build-arg="RUBY_VERSION=${ruby_version}" \
     --tag "${docker_image_name}" \
     ./
@@ -50,10 +62,10 @@ for ruby_version in ${RUBY_VERSIONS[@]}; do
   echo "    volumes:" >> "${compose_file}"
   echo "      - type: bind" >> "${compose_file}"
   echo "        source: \"./\"" >> "${compose_file}"
-  echo "        target: \"/root/work\"" >> "${compose_file}"
+  echo "        target: \"/home/appuser/work\"" >> "${compose_file}"
   echo "        consistency: \"consistent\"" >> "${compose_file}"
-  echo "    entrypoint: /root/show-help-in-app-container-then-wait.sh" >> "${compose_file}"
-  echo "    working_dir: /root/work" >> "${compose_file}"
+  echo "    entrypoint: /home/appuser/show-help-in-app-container-then-wait.sh" >> "${compose_file}"
+  echo "    working_dir: /home/appuser/work" >> "${compose_file}"
 done
 log "🎼" "${compose_file} is now created"
 log "🔄" "You can run dx/start to start it up, though you may need to stop it first with Ctrl-C"

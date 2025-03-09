@@ -1,0 +1,6 @@
+# Anything in here will customize the docker env for all users.
+# For developer-specific customizations, modify bash_customizations.local
+
+# Add GEM_HOME to the path. See Dockerfile.dx for why this is needed.
+export PATH=${PATH}:${GEM_HOME}/bin
+
