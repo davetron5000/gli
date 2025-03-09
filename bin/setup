@@ -3,7 +3,7 @@
 set -e
 if [ Gemfile.lock -ot gli.gemspec ] ; then
   echo "[ bin/setup ] gli.gemspec has been modified - deleting Gemfile.lock"
-  rm Gemfile.lock
+  rm -f Gemfile.lock
   bundle install
 else
   echo "[ bin/setup ] checking bundle and updating as necessary"

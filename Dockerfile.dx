@@ -1,27 +1,44 @@
-ARG RUBY_VERSION
+# This has a default only because Docker produces a warning if its omitted.
+# This Dockerfile SHOULD be used with --build-arg
+ARG RUBY_VERSION=3.4
 FROM ruby:${RUBY_VERSION}
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -y update
 
-
-# dx.snippet.start=templates/snippets/bundler/latest__bundler.dockerfile-snippet
 # Based on documentation at https://guides.rubygems.org/command-reference/#gem-update
 # based on the vendor's documentation
 RUN echo "gem: --no-document" >> ~/.gemrc && \
     gem update --system && \
     gem install bundler
 
-# dx.snippet.end=templates/snippets/bundler/latest__bundler.dockerfile-snippet
-
-
-# dx.snippet.start=templates/snippets/vim/bullseye_vim.dockerfile-snippet
 # Based on documentation at https://packages.debian.org/search?keywords=vim
 # based on the vendor's documentation
-ENV EDITOR=vim
-RUN apt-get install -y vim && \
-    echo "set -o vi" >> /root/.bashrc
-# dx.snippet.end=templates/snippets/vim/bullseye_vim.dockerfile-snippet
+RUN apt-get install -y vim
+
+ARG user_uid=10001
+ARG user_gid=10002
+
+# Setup a non-root user
+# - create the group
+# - create the user and put them in that group
+# - Copy and setup bash customization scripts
+RUN groupadd --gid ${user_gid} appgroup && \
+    useradd --uid ${user_uid} --gid appgroup --create-home --home-dir /home/appuser appuser && \
+    echo ". ~/.bash_customizations" >> /home/appuser/.bashrc && \
+    echo ". ~/.bash_customizations.local" >> /home/appuser/.bashrc
+
+COPY --chown=appuser:appgroup dx/show-help-in-app-container-then-wait.sh /home/appuser
+COPY --chown=appuser:appgroup dx/bash_customizations /home/appuser/.bash_customizations
+COPY --chown=appuser:appgroup dx/bash_customizations.local /home/appuser/.bash_customizations.local
+
+USER appuser:appgroup
+
+# Setup a place to install gems locally. See bash_customizations for
+# where this is used in the PATH. Setting PATH here seems fraught:
+# https://stackoverflow.com/questions/27093612/in-a-dockerfile-how-to-update-path-environment-variable
+RUN mkdir -p /home/appuser/local-gems/gem-home
+ENV GEM_HOME=/home/appuser/local-gems/gem-home
 
 # This entrypoint produces a nice help message and waits around for you to do
 # something with the container.
